@@ -1,0 +1,25 @@
+﻿[Delete] Paste this code as high in the <head> of the page as possible: [/Delete]
+
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-53HHP9F');</script>
+<!-- End Google Tag Manager -->
+
+
+
+[Delete] Additionally, paste this code immediately after the opening <body> tag:[Delete]
+
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-53HHP9F"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
+
+
+
+P.S: There is a react-gtag bundler I once saw but can't remember it's name.
+Please, hope you're not bundling it before wednesday, I am still working on a DataLayer you will add at the same time [to the site]. Hope that won't be inconvenient. 
+P.P.S: We will meet again for the dataLayer variables once I see the final work and speak with GM on other deliverables.

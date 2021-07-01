@@ -1,0 +1,88 @@
+*{
+  font-family: 'Rubik';
+}
+
+.v-input__slot{
+  background: transparent !important;
+  border-radius: 0 !important;
+}
+
+.v-btn{
+  border-radius: 0 !important;
+  text-transform: capitalize !important;
+  &:hover::before{
+    background: transparent !important;
+  }
+  &:hover::after{
+    background: transparent !important;
+  }
+}
+
+.nav-btn-small{
+  &:hover::before {
+    background: transparent !important;
+  }
+  &.v-btn--active{
+    background: transparent !important;
+    &:hover::before{
+      background: transparent !important;
+    }
+  }
+
+}
+
+.h-200{
+  height: 200px !important;
+}
+.h-350{
+  height: 350px !important;
+}
+
+// ----- PAGE TRANSITION ----- //
+.default-enter-active,
+.default-leave-active {
+  transition-property: opacity;
+  transition-timing-function: ease-in-out;
+  transition-duration: 500ms;
+}
+.default-enter,
+.default-leave-to {
+  opacity: 0;
+}
+// ----- PAGE TRANSITION ENDS HERE ----- //
+
+
+//stickNav
+.paxo-nav--sticky {
+  position: fixed;
+  background-color: white;
+  height: 80px;
+  top: 0;
+  box-shadow: 0 0px 22px rgba(0, 0, 0, 0.1) !important;
+  animation: slideInDown 420ms cubic-bezier(0.165, 0.84, 0.44, 1) !important;
+  animation-duration: 420ms !important;
+  animation-timing-function: cubic-bezier(0.165, 0.84, 0.44, 1) !important;
+  animation-delay: 0s !important;
+  animation-iteration-count: 1 !important;
+  animation-direction: normal !important;
+  animation-fill-mode: none !important;
+  animation-play-state: running !important;
+  animation-name: slideInDown !important;
+}
+
+@keyframes slideInDown {
+  from {
+    top: -100px;
+  }
+  to {
+    top: 0;
+  }
+}
+@keyframes slideInUp {
+  from {
+    bottom: -100px;
+  }
+  to {
+    bottom: 0;
+  }
+}
