@@ -95,11 +95,11 @@
                 >
                 <p class="ml-5 sale-price">&#8358;{{ price | formatPrice }}</p>
               </div>
-              <p>
+              <!-- <p>
                 Sold by: <span class="font-weight-bold"> {{ brand }}</span>
-              </p>
+              </p> -->
               <p>{{ short_description }}</p>
-              <div v-html="description"></div>
+              <!-- <div v-html="description || ''"></div> -->
               <v-divider></v-divider>
               <v-row class="my-3" justify="end" align="end">
                 <v-col md="3">
@@ -125,8 +125,14 @@
                     class="accent font-weight-bold"
                     >Buy Now</v-btn
                   >
-                  <v-btn icon><v-icon>ri-heart-line</v-icon></v-btn>
-                  <v-btn icon><v-icon>ri-exchange-funds-line</v-icon></v-btn>
+                  <v-tooltip bottom>
+                    <template v-slot:activator="{ on, attrs }">
+                      <v-btn v-bind="attrs"
+                  v-on="on" icon><v-icon>ri-heart-line</v-icon></v-btn>
+                    </template>
+                    <span>Add to Wishlist</span>
+                  </v-tooltip>
+                  <!-- <v-btn icon><v-icon>ri-exchange-funds-line</v-icon></v-btn> -->
                 </v-col>
               </v-row>
               <v-divider></v-divider>

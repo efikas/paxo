@@ -181,7 +181,7 @@
         </nuxt-link>
 
         <v-spacer />
-        <nuxt-link class="nav-btn-small hidden-sm-and-down mx-3" to="/dashboard"
+        <nuxt-link class="nav-btn-small hidden-sm-and-down mx-3" to="/paxo-reward"
           >Paxo Reward</nuxt-link
         >
         <nuxt-link class="nav-btn-small hidden-sm-and-down mx-3" to="/stories"
@@ -608,6 +608,40 @@
             <p>Call us 24/7</p>
             <h3 class="primary--text">234 813 150 2944</h3>
             <p class="mb-12">12 Christopher Avenue, Ilupeju, Lagos, Nigeria.</p>
+
+          </v-col>
+          <v-col md="3" sm="3" cols="6">
+            <h4>Quick Links</h4>
+            <nuxt-link to="/paxo-rewards">
+              <p>Paxo Rewards</p>
+            </nuxt-link>
+            <nuxt-link to="/stories">
+              <p>Blog</p>
+            </nuxt-link>
+            <nuxt-link to="/login">
+              <p>Sign In</p>
+            </nuxt-link>
+            <nuxt-link to="/register">
+              <p>Sign Up</p>
+            </nuxt-link>
+            <nuxt-link to="/privacy-policy">
+              <p>Privacy Policy</p>
+
+            </nuxt-link>
+            <nuxt-link to="/terms-condition">
+            <p>Terms & Conditions</p>
+
+            </nuxt-link>
+            <!-- <p>FAQs</p> -->
+          </v-col>
+          <v-col md="3" sm="3" cols="6">
+            <h4>Company</h4>
+            <!-- <p>About Us</p> -->
+            <!-- <p>Affiliate</p> -->
+            <!-- <p>Career</p> -->
+            <nuxt-link to="/contact-us">
+            <p>Contact Us</p>
+            <h4 class="mt-8">Socials</h4>
             <v-btn icon href="https://facebook.com/paxobeauty" target="_blank">
               <v-icon color="white">ri-facebook-fill</v-icon>
             </v-btn>
@@ -624,31 +658,8 @@
             <v-btn icon>
               <v-icon>ri-youtube-fill</v-icon>
             </v-btn>
-          </v-col>
-          <v-col md="3" sm="3" cols="6">
-            <h4>Quick Links</h4>
-            <nuxt-link to="/paxo-rewards">
-              <p>Paxo Rewards</p>
+
             </nuxt-link>
-            <nuxt-link to="/stories">
-              <p>Blog</p>
-            </nuxt-link>
-            <nuxt-link to="/login">
-              <p>Sign In</p>
-            </nuxt-link>
-            <nuxt-link to="/register">
-              <p>Sign Up</p>
-            </nuxt-link>
-            <p>Policy</p>
-            <p>Terms & Conditions</p>
-            <!-- <p>FAQs</p> -->
-          </v-col>
-          <v-col md="3" sm="3" cols="6">
-            <h4>Company</h4>
-            <p>About Us</p>
-            <p>Affiliate</p>
-            <p>Career</p>
-            <p>Contact</p>
           </v-col>
           <v-col md="2" sm="3" cols="6">
             <h4>Business</h4>

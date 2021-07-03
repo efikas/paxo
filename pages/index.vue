@@ -134,9 +134,13 @@
       </v-row>
     </div> -->
 
-    <div class="pa-6 mt-12 top-products-container" :class="{'px-6':$vuetify.breakpoint.mdAndUp,'px-4':$vuetify.breakpoint.smAndDown}">
+    <div class="pa-6 mt-12 top-products-container" id="top-products" :class="{'px-6':$vuetify.breakpoint.mdAndUp,'px-4':$vuetify.breakpoint.smAndDown}">
       <p class="deal-text">Top Products</p>
-      <div class="top-products">
+      <div class="top-products" style="display: relative;">
+    <div class="d-flex justify-space-between" style="display: fixed; margin-top: 150px; width: 100vw;">
+      <v-btn icon @click="scrollRight()"><v-icon>arrow_back</v-icon> </v-btn>
+      <v-btn icon @click="scrollLeft()"><v-icon>arrow_forward</v-icon> </v-btn>
+    </div>
         <v-card
           width="200"
           flat
@@ -296,6 +300,14 @@ export default {
 
   },
   methods: {
+     scrollLeft() {
+      var elmnt = document.getElementById('top-products')
+      elmnt.scrollLeft += 300
+    },
+    scrollRight() {
+      var elmnt = document.getElementById('top-products')
+      elmnt.scrollLeft -= 300
+    },
     async getTopCategories() {
       await this.$store.dispatch('category/top').then((response) => {
         this.categories = response.data
