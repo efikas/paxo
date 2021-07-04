@@ -134,7 +134,7 @@
           <v-icon size="18">smartphone</v-icon>
           DOWNLOAD APP</v-btn
         > -->
-  <p>
+  <p class="hidden-sm-and-down">
 
     DOWNLOAD:&emsp; <a style="color: #333;" href="https://play.google.com/store/apps/details?id=com.paxo.shop" target="_blank">IOS</a> &emsp; <a style="color: #333;" href="https://apps.apple.com/ng/app/paxo-beauty/id1534936621" target="_blank">ANDROID</a>
   </p>
@@ -526,7 +526,7 @@
             >
           </v-col>
           <v-col cols="3">
-            <v-btn class="nav-btn font-weight-medium px-3" to="#" block text>
+            <v-btn  class="nav-btn font-weight-medium px-3" to="/paxo-reward" block text>
               Offers</v-btn
             >
           </v-col>
@@ -739,6 +739,16 @@ export default {
           title: 'Skin Expert',
           to: '/skin-expert',
         },
+        {
+          icon: 'trending_up',
+          title: 'Track Order',
+          to: '/track-order',
+        },
+        {
+          icon: 'contact_support',
+          title: 'Contact Us',
+          to: '/contact-us',
+        },
       ],
     }
   },
@@ -778,12 +788,13 @@ export default {
     async getbrands() {
       await this.$store.dispatch('brand/all').then((response) => {
         this.brands = response.data
-        this.pageloading = false
+        // this.pageloading = false
       })
     },
     async getSections() {
       await this.$store.dispatch('section/all').then((response) => {
         this.sections = response.data
+         this.pageloading = false
       })
     },
     getApp() {

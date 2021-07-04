@@ -6,12 +6,12 @@
           badge
         }}</v-chip> -->
         <nuxt-link :to="'/single-product?product_id=' + product_id">
-          <img :src="image" width="100%" alt="" />
+          <img :src="image"  width="100%" height="200"  alt="" />
         </nuxt-link>
         <v-expand-transition>
           <v-card
             flat
-            v-if="hover"
+
             class="py-2 text-center white transition-slow-in-slow-out white--text"
             style="margin-top: -40px; width: 100%"
           >
@@ -63,7 +63,7 @@
           </nuxt-link>
         </div>
         <v-rating
-          v-if="!hover"
+          
           dense
           small
           color="orange"
@@ -76,7 +76,7 @@
       <v-card class="pa-6">
         <v-row>
           <v-col md="5">
-            <img :src="image" width="100%" alt="" />
+            <img :src="image"  width="100%"  alt="" />
           </v-col>
           <v-col md="7">
             <div class="product-details">
@@ -125,13 +125,13 @@
                     class="accent font-weight-bold"
                     >Buy Now</v-btn
                   >
-                  <v-tooltip bottom>
+                  <!-- <v-tooltip bottom>
                     <template v-slot:activator="{ on, attrs }">
                       <v-btn v-bind="attrs"
                   v-on="on" icon><v-icon>ri-heart-line</v-icon></v-btn>
                     </template>
                     <span>Add to Wishlist</span>
-                  </v-tooltip>
+                  </v-tooltip> -->
                   <!-- <v-btn icon><v-icon>ri-exchange-funds-line</v-icon></v-btn> -->
                 </v-col>
               </v-row>

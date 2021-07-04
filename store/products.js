@@ -117,6 +117,17 @@ export const actions = {
 
     return data
   },
+  async addreview({ commit }, {product_id, email, name, content}) {
+    let token = JSON.parse(window.localStorage.getItem('paxo')).auth.token
+    const data = await this.$axios.$post('/review/store', {product_id, email, name, content}, {
+      headers: {
+        Authorization: 'Bearer ' + token,
+
+      },
+    })
+
+    return data
+  },
   async update({ commit }, formData) {
     let token = JSON.parse(window.localStorage.getItem('paxo')).auth.token
     const data = await this.$axios.$post(
@@ -161,6 +172,11 @@ export const actions = {
     return data
   },
 
+  async relatedproduct({}, { id }) {
+    const data = await this.$axios.$get('/products/related/' + id)
+    return data
+  },
+
   async delete({}, { id }) {
     let token = JSON.parse(window.localStorage.getItem('paxo')).auth.token
     const data = await this.$axios.$delete('/admin/products/delete/' + id, {
@@ -181,7 +197,7 @@ export const actions = {
       {
         order_number
       },
-      
+
     )
 
     return data

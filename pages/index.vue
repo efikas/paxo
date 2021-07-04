@@ -71,11 +71,11 @@
       <v-col md="6" cols="3" class="text-right py-0 ma-0">
         <v-btn class="primary" text to="/offers" small>View All</v-btn>
       </v-col>
-      <v-col md="12" class="py-0 ma-0">
+      <!-- <v-col md="12" class="py-0 ma-0">
         <v-divider></v-divider>
-      </v-col>
+      </v-col> -->
     </v-row>
-    <v-row :class="{'px-8':$vuetify.breakpoint.mdAndUp,'px-4':$vuetify.breakpoint.smAndDown}">
+    <!-- <v-row :class="{'px-8':$vuetify.breakpoint.mdAndUp,'px-4':$vuetify.breakpoint.smAndDown}">
       <v-col
         md="2"
         sm="4"
@@ -102,45 +102,15 @@
           :product_id="i.id"
         />
       </v-col>
-    </v-row>
+    </v-row> -->
 
-    <!-- <div class="features-box pa-6 mt-7">
-      <v-row>
-        <v-col>
-          <v-icon size="50" color="primary">ri-rocket-line</v-icon>
-          <p class="feature-title">Free Delivery</p>
-          <p class="feature-description">For all orders over $99</p>
-        </v-col>
-        <v-col>
-          <v-icon size="50" color="primary">ri-refresh-line</v-icon>
-          <p class="feature-title">90 Days Return</p>
-          <p class="feature-description">If goods have problems</p>
-        </v-col>
-        <v-col>
-          <v-icon size="50" color="primary">ri-bank-card-line</v-icon>
-          <p class="feature-title">Secure Payment</p>
-          <p class="feature-description">100% secure payment</p>
-        </v-col>
-        <v-col>
-          <v-icon size="50" color="primary">ri-wechat-line</v-icon>
-          <p class="feature-title">24/7 Support</p>
-          <p class="feature-description">Dedicated support</p>
-        </v-col>
-        <v-col>
-          <v-icon size="50" color="primary">ri-gift-line</v-icon>
-          <p class="feature-title">Gift Service</p>
-          <p class="feature-description">Support gift service</p>
-        </v-col>
-      </v-row>
-    </div> -->
-
-    <div class="pa-6 mt-12 top-products-container" id="top-products" :class="{'px-6':$vuetify.breakpoint.mdAndUp,'px-4':$vuetify.breakpoint.smAndDown}">
-      <p class="deal-text">Top Products</p>
-      <div class="top-products" style="display: relative;">
-    <div class="d-flex justify-space-between" style="display: fixed; margin-top: 150px; width: 100vw;">
-      <v-btn icon @click="scrollRight()"><v-icon>arrow_back</v-icon> </v-btn>
-      <v-btn icon @click="scrollLeft()"><v-icon>arrow_forward</v-icon> </v-btn>
+   <div class="d-flex justify-space-between" style="position: absolute; margin-top: 200px; z-index: 1; width: 100vw;">
+      <v-btn class="primary" dark icon @click="scrollRightDeal()"><v-icon>arrow_back</v-icon> </v-btn>
+      <v-btn icon class="primary" dark @click="scrollLeftDeal()"><v-icon>arrow_forward</v-icon> </v-btn>
     </div>
+    <div class="pa-6 mt-12 top-products-container"  :class="{'px-6':$vuetify.breakpoint.mdAndUp,'px-4':$vuetify.breakpoint.smAndDown}">
+      <!-- <p class="deal-text">Top Products</p> -->
+      <div class="top-products" id="dealday" style="position: relative;">
         <v-card
           width="200"
           flat
@@ -154,6 +124,43 @@
         <div
           class="mx-4 product"
           v-for="(i, index) in products.slice(0, 10)"
+          :key="index"
+        >
+          <product-display
+            :vendor="i.brand ? i.brand.name : null"
+            :product_name="i.name"
+            rating="5"
+            :price="i.price"
+            :image="i.avatar"
+            :badge="i.stock_status"
+            :description="i.description"
+            :short_description="i.short_description"
+            :product_object="i"
+            :product_id="i.id"
+          />
+        </div>
+      </div>
+    </div>
+    <div class="d-flex justify-space-between" style="position: absolute; margin-top: 200px; z-index: 1; width: 100vw;">
+      <v-btn class="primary" dark icon @click="scrollRight()"><v-icon>arrow_back</v-icon> </v-btn>
+      <v-btn icon class="primary" dark @click="scrollLeft()"><v-icon>arrow_forward</v-icon> </v-btn>
+    </div>
+    <div class="pa-6 mt-12 top-products-container"  :class="{'px-6':$vuetify.breakpoint.mdAndUp,'px-4':$vuetify.breakpoint.smAndDown}">
+      <p class="deal-text">Top Products</p>
+      <div class="top-products" id="topproducts" style="position: relative;">
+        <v-card
+          width="200"
+          flat
+          class="mx-4 product"
+          v-for="i in 15"
+          :key="i"
+          v-if="topproducts.length == 0"
+        >
+          <v-skeleton-loader type="card"> </v-skeleton-loader>
+        </v-card>
+        <div
+          class="mx-4 product"
+          v-for="(i, index) in topproducts"
           :key="index"
         >
           <product-display
@@ -301,12 +308,20 @@ export default {
   },
   methods: {
      scrollLeft() {
-      var elmnt = document.getElementById('top-products')
-      elmnt.scrollLeft += 300
+      var elmnt = document.getElementById('topproducts')
+      elmnt.scrollLeft += 700
     },
     scrollRight() {
-      var elmnt = document.getElementById('top-products')
-      elmnt.scrollLeft -= 300
+      var elmnt = document.getElementById('topproducts')
+      elmnt.scrollLeft -= 700
+    },
+    scrollLeftDeal() {
+      var elmnt = document.getElementById('dealday')
+      elmnt.scrollLeft += 700
+    },
+    scrollRightDeal() {
+      var elmnt = document.getElementById('dealday')
+      elmnt.scrollLeft -= 700
     },
     async getTopCategories() {
       await this.$store.dispatch('category/top').then((response) => {
@@ -343,6 +358,15 @@ export default {
         this.length = response.data.last_page
       })
     },
+    // async getTopProducts() {
+    //   const data = {
+    //     page: this.page,
+    //   }
+    //   await this.$store.dispatch('products/topproducts', data).then((response) => {
+    //     this.products = response.data.data
+    //     this.length = response.data.last_page
+    //   })
+    // },
     async getTopProducts() {
       await this.$store.dispatch('products/topproducts').then((response) => {
         this.topproducts = response.data

@@ -51,6 +51,7 @@
             outlined
           >
           </v-select> -->
+
           <v-text-field
             outlined
             dense
@@ -99,6 +100,12 @@
             v-model="form.short_description"
             label="Short Description"
           ></v-text-field>
+          <v-textarea outlined v-model="form.how_to_use" required :rules="[v => !!v || 'This field is required']" label="How to Use">
+
+          </v-textarea>
+          <v-textarea outlined v-model="form.ingridient"  label="Ingredients">
+
+          </v-textarea>
           <client-only placeholder="loading...">
             <ckeditor-nuxt v-model="form.description" :config="editorConfig" />
           </client-only>
@@ -195,6 +202,8 @@ export default {
       formData.append('name', this.form.product_name)
       formData.append('brand_id', this.form.brand_id)
       formData.append('description', this.form.description)
+      formData.append('how_to_use', this.form.description)
+      formData.append('ingridient', this.form.description)
       formData.append('weight', this.form.weight)
       formData.append('short_description', this.form.short_description)
       formData.append('regular_price', this.form.regular_price)

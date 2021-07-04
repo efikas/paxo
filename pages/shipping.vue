@@ -282,44 +282,45 @@ export default {
           dataLayer.push({
             event: 'purchase',
             ecommerce: {
-              transaction_id: this.reference, // Transaction ID. Required
+              transaction_id: response.data.order.order_number, // Transaction ID. Required
               affiliation: 'Online Store', // default value is Online Store
               value: this.order.order_balance, // Total transaction value (does not include tax and shipping)
               tax: '0.00',
-              shipping: '1000.00',
-              coupon: 'SUMMER_SALE',
-              payment_method: 'card', // either 'card' or 'wallet'
-              shipping_zone: 'SE', // geo-zone shipped to
-              shipping_location: 'Lagos', // state being shipped to
+              shipping: this.user.deliveryfee,
+              coupon: this.code,
+              payment_method: this.paymentoption == '1' ? 'wallet' : 'card', // either 'card' or 'wallet'
+              shipping_zone: 'SW', // geo-zone shipped to
+              shipping_location: this.user.state, // state being shipped to
               shipping_tier: 'Local pickup', // see details below
-              account_type: 'Retailer',
+              account_type: this.user.role == 'user' || this.user.role == 'staff' ? 'RETAILER' : 'WHOLESALER',
               customer_type: 'returning', // Add a code to tell whether this is a new customer or returning.
               gift_item: 'YES', // This is boolean
               currency: 'NGN', // This value is constant
-              items: [
-                {
-                  // List of productFieldObjects.
-                  item_name: 'KINDII diapers', // Name or ID is required.
-                  item_id: '12345', // ID of individual item
-                  price: '5500.00',
-                  item_brand: 'KINDII',
-                  item_category: 'babys',
-                  item_category2: 'new born', // Need to set a maximum number of categories for the entire store
-                  quantity: 1,
-                  discount: '', // leave empty
-                  coupon: '', // leave empty string.
-                },
-                {
-                  item_name: 'Tea tree face mask',
-                  item_id: '67890',
-                  price: '1000',
-                  item_brand: 'Tea Tree',
-                  item_category: 'Shirts',
-                  quantity: 1,
-                  discount: '', // leave empty
-                  coupon: '', // leave empty.
-                },
-              ], //expand this array if more product exists (make this expand based on number of items ordered)
+              // items: [
+              //   {
+              //     // List of productFieldObjects.
+              //     item_name: 'KINDII diapers', // Name or ID is required.
+              //     item_id: '12345', // ID of individual item
+              //     price: '5500.00',
+              //     item_brand: 'KINDII',
+              //     item_category: 'babys',
+              //     item_category2: 'new born', // Need to set a maximum number of categories for the entire store
+              //     quantity: 1,
+              //     discount: '', // leave empty
+              //     coupon: '', // leave empty string.
+              //   },
+              //   {
+              //     item_name: 'Tea tree face mask',
+              //     item_id: '67890',
+              //     price: '1000',
+              //     item_brand: 'Tea Tree',
+              //     item_category: 'Shirts',
+              //     quantity: 1,
+              //     discount: '', // leave empty
+              //     coupon: '', // leave empty.
+              //   },
+              // ], //expand this array if more product exists (make this expand based on number of items ordered)
+              items: this.StoreCart
             },
           })
         })

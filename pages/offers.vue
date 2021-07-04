@@ -2,7 +2,7 @@
   <div>
     <!-- <home-page-slider class="hidden-sm-and-down"></home-page-slider> -->
     <v-row class="mt-4" :class="{ 'px-4': $vuetify.breakpoint.smAndDown }">
-      <v-col md="3" class="hidden-sm-and-down">
+      <v-col md="2" class="hidden-sm-and-down">
         <div class="category pa-4">
           <h4 class="mb-6">CATEGORIES</h4>
 
@@ -27,7 +27,7 @@
           {{ range }}
         </div>
       </v-col>
-      <v-col md="9">
+      <v-col md="10">
         <!-- <h1 class="font-weight-medium">{{products.length > 0 ? products[0].category.name : 'No Products Found'}}</h1> -->
         <v-divider></v-divider>
         <v-row class="mt-8">

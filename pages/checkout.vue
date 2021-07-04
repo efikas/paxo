@@ -122,10 +122,10 @@
               </v-select>
             </v-col>
           </v-row>
-          <v-checkbox
+          <!-- <v-checkbox
             class="my-0"
             label="Save this information for next time"
-          ></v-checkbox>
+          ></v-checkbox> -->
           <v-row>
             <v-col>
               <nuxt-link to="shopping-cart">
