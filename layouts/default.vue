@@ -412,7 +412,7 @@
                 <v-divider></v-divider>
               </v-col>
             </v-row>
-            <div class="d-flex flex-column pa-10">
+            <!-- <div class="d-flex flex-column pa-10">
               <nuxt-link
                 v-for="j in orderedBrands"
                 :key="j.id"
@@ -426,7 +426,7 @@
                   {{ j.name }}
                 </p></nuxt-link
               >
-            </div>
+            </div> -->
           </v-list>
         </v-menu>
         <v-menu
