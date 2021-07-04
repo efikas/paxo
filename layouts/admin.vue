@@ -88,6 +88,11 @@ export default {
           to: '/admin/users',
         },
         {
+          icon: 'ri-user-line',
+          title: 'Staff',
+          to: '/admin/staff',
+        },
+        {
           icon: 'ri-flag-line',
           title: 'Banners',
           to: '/admin/banners',

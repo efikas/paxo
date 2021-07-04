@@ -34,9 +34,33 @@ export const actions = {
 
     return data
   },
+  async changerole({ commit }, { id, role }) {
+    let token = JSON.parse(window.localStorage.getItem('paxo')).auth.token
+    const data = await this.$axios.$post(
+      '/admin/change-role/' + id,
+      { role },
+      {
+        headers: {
+          Authorization: 'Bearer ' + token,
+        },
+      }
+    )
+
+    return data
+  },
   async all({}, { page }) {
     let token = JSON.parse(window.localStorage.getItem('paxo')).auth.token
     const data = await this.$axios.$get('/admin/users?page=' + page, {
+      headers: {
+        Authorization: 'Bearer ' + token,
+      },
+    })
+    return data
+  },
+
+  async allstaff({}, { page }) {
+    let token = JSON.parse(window.localStorage.getItem('paxo')).auth.token
+    const data = await this.$axios.$get('/admin/staff?page=' + page, {
       headers: {
         Authorization: 'Bearer ' + token,
       },
@@ -53,9 +77,9 @@ export const actions = {
     return data
   },
 
-  async delete({}, { id }) {
+  async deletestaff({}, { id }) {
     let token = JSON.parse(window.localStorage.getItem('paxo')).auth.token
-    const data = await this.$axios.$delete('/admin/blog/delete/' + id, {
+    const data = await this.$axios.$delete('/admin/staff/delete/' + id, {
       headers: {
         Authorization: 'Bearer ' + token,
       },

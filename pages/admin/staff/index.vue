@@ -1,7 +1,7 @@
 <template>
   <v-container fluid>
     <v-card class="pa-8">
-      <h2>Users</h2>
+      <h2>Staff</h2>
       <v-text-field
         outlined
         v-model="search"
@@ -15,7 +15,7 @@
       <v-data-table
         :search="search"
         :items-per-page="15"
-        :items="users"
+        :items="staff"
         :headers="headers"
       >
         <template v-slot:item.fullname="{ item }">
@@ -42,7 +42,7 @@
             </template>
 
             <v-list dense width="200px" class="py-0">
-              <v-list-item
+              <!-- <v-list-item
                 dense
                 @click="changeRole(item.id, 'user')"
                 class="py-0 my-0"
@@ -50,15 +50,15 @@
                 <v-list-item-content class="py-0 my-0">
                   <v-list-item-title>Change Role to User </v-list-item-title>
                 </v-list-item-content>
-              </v-list-item>
+              </v-list-item> -->
 
-              <v-list-item dense @click="changeRole(item.id, 'wholesaler')">
+              <!-- <v-list-item dense @click="changeRole(item.id, 'wholesaler')">
                 <v-list-item-content>
                   <v-list-item-title
                     >Change Role to Wholesaler
                   </v-list-item-title>
                 </v-list-item-content>
-              </v-list-item>
+              </v-list-item> -->
 
               <v-list-item dense @click="changeRole(item.id, 'staff')">
                 <v-list-item-content>
@@ -73,12 +73,13 @@
               </v-list-item>
             </v-list>
           </v-menu>
+          <v-btn icon @click="deleteUser(item.id)"  ><v-icon color="error">ri-delete-bin-line</v-icon></v-btn>
         </template>
       </v-data-table>
       <v-pagination
         v-model="page"
         :length="length"
-        @input="getUsers()"
+        @input="getstaff()"
       ></v-pagination>
     </v-card>
   </v-container>
@@ -89,7 +90,7 @@ export default {
   data() {
     return {
       search: '',
-      users: [],
+      staff: [],
       page: 1,
       length: 1,
       headers: [
@@ -99,23 +100,23 @@ export default {
         { text: 'Phone', value: 'mobile' },
         { text: 'Gender', value: 'gender' },
         { text: 'Role', value: 'role' },
-        { text: 'Points', value: 'points' },
-        { text: 'Balance', value: 'balance' },
+        // { text: 'Points', value: 'points' },
+        // { text: 'Balance', value: 'balance' },
         { text: 'Join Date', value: 'created_at' },
         { text: 'Action', value: 'action' },
       ],
     }
   },
   mounted() {
-    this.getUsers()
+    this.getstaff()
   },
   methods: {
-    async getUsers() {
+    async getstaff() {
       const data = {
         page: this.page,
       }
-      await this.$store.dispatch('users/all', data).then((response) => {
-        this.users = response.data
+      await this.$store.dispatch('users/allstaff', data).then((response) => {
+        this.staff = response.data
         this.length = response.data.last_page
       })
     },
@@ -125,8 +126,22 @@ export default {
         role,
       }
       await this.$store.dispatch('users/changerole', data).then((response) => {
-       this.getUsers()
+       this.getstaff()
       })
+    },
+    async deleteUser(id) {
+      const data = {
+        id: id,
+      }
+      confirm(
+        'Are you sure you want to delete this user account?'
+      ) &&
+        (await this.$store
+          .dispatch('users/deletestaff', data)
+          .then((response) => {
+            this.$toast.success(response.message)
+            this.getstaff()
+          }))
     },
   },
 }

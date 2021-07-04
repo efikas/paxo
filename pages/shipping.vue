@@ -333,6 +333,7 @@ export default {
         shipping_id: this.user.shipping_id,
         address: this.user.address,
         country: 'Nigeria',
+        device: 'web',
         email: this.user.email,
         phone: this.user.mobile,
         city: this.user.city,

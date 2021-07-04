@@ -26,6 +26,7 @@
     "moment": "^2.29.1",
     "nuxt": "^2.14.6",
     "remixicon": "^2.5.0",
+    "v-clipboard": "^2.2.3",
     "vue-apexcharts": "^1.6.1",
     "vue-lodash": "^2.1.2",
     "vue-paystack": "^2.0.4",

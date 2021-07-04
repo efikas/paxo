@@ -105,14 +105,14 @@ export const actions = {
   },
 
   async skinexpert({ commit }, { skin_type, route, head_type }) {
-    let token = JSON.parse(window.localStorage.getItem('paxo')).auth.token
+    // let token = JSON.parse(window.localStorage.getItem('paxo')).auth.token
     const data = await this.$axios.$get(
-      `user/recommendations/${skin_type}/${route}/${head_type}`,
-      {
-        headers: {
-          Authorization: 'Bearer ' + token,
-        },
-      }
+      `/recommendations/${skin_type}/${route}/${head_type}`,
+      // {
+      //   headers: {
+      //     Authorization: 'Bearer ' + token,
+      //   },
+      // }
     )
 
     return data
@@ -168,6 +168,15 @@ export const actions = {
   async resendotp() {
     let token = JSON.parse(window.localStorage.getItem('paxo')).auth.token
     const data = await this.$axios.$get('/auth/resend/otp', {
+      headers: {
+        Authorization: 'Bearer ' + token,
+      },
+    })
+    return data
+  },
+  async resendemail() {
+    let token = JSON.parse(window.localStorage.getItem('paxo')).auth.token
+    const data = await this.$axios.$get('/email/resend', {
       headers: {
         Authorization: 'Bearer ' + token,
       },
@@ -268,10 +277,10 @@ export const actions = {
     return data
   },
 
-  async becomewholesaler({ commit }, {}) {
+  async becomewholesaler({ commit }) {
     let token = JSON.parse(window.localStorage.getItem('paxo')).auth.token
     const data = await this.$axios.$post(
-      '/fund_user_wallet/transfer',
+      '/user/settings/switch-wholesaler',
       {},
       {
         headers: {
@@ -282,10 +291,10 @@ export const actions = {
     return data
   },
 
-  async becomeaffiliate({ commit }, {}) {
+  async becomeaffiliate({ commit }) {
     let token = JSON.parse(window.localStorage.getItem('paxo')).auth.token
     const data = await this.$axios.$post(
-      '/fund_user_wallet/transfer',
+      '/user/settings/activate-affiliate',
       {},
       {
         headers: {

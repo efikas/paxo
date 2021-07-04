@@ -192,6 +192,11 @@
           class="nav-btn-small hidden-sm-and-down mx-3"
           >Skin Expert</nuxt-link
         >
+        <nuxt-link
+          to="/track-order"
+          class="nav-btn-small hidden-sm-and-down mx-3"
+          >Track Order</nuxt-link
+        >
 
         <div v-if="!isAuthenticated" class="hidden-sm-and-down">
           <nuxt-link to="/login" class="nav-btn-small mx-3">Sign in</nuxt-link>
@@ -352,7 +357,7 @@
         <v-menu
           open-on-hover
           bottom
-          offset-y
+          offset-y :close-on-content-click="false"
           origin="top left"
           open-delay="500"
           max-width="100vw"
@@ -407,7 +412,7 @@
                 <v-divider></v-divider>
               </v-col>
             </v-row>
-            <!-- <div class="d-flex flex-column pa-10">
+            <div class="d-flex flex-column pa-10">
               <nuxt-link
                 v-for="j in orderedBrands"
                 :key="j.id"
@@ -421,7 +426,7 @@
                   {{ j.name }}
                 </p></nuxt-link
               >
-            </div> -->
+            </div>
           </v-list>
         </v-menu>
         <v-menu
@@ -728,6 +733,7 @@ export default {
           title: 'Sign Up',
           to: '/register',
         },
+
         {
           icon: 'medication',
           title: 'Skin Expert',

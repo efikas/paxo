@@ -134,7 +134,7 @@ export default {
       form: {
         password: '',
         role: 'user',
-        referred_by: '',
+        referred_by: this.$route.query.ref || '',
         referral_id: ''
       },
     }
@@ -145,6 +145,7 @@ export default {
       this.loading = true
       this.form.first_name = this.form.full_name.split(' ').slice(0, -1).join(' ') ,
       this.form.last_name = this.form.full_name.split(' ').slice(-1).join(' '),
+          console.log(this.form)
       await this.$store
         .dispatch('auth/register', this.form)
         .then((response) => {

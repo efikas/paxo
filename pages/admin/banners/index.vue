@@ -78,7 +78,7 @@
               :src="imagesrc"
               height="200"
             >
-              <h5 v-if="!imagesrc">Tap to change product Image</h5>
+              <h5 v-if="!imagesrc">Tap to change upload Image</h5>
             </v-img>
           </v-card>
           <v-file-input

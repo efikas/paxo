@@ -27,18 +27,63 @@
       <v-col md="8">
         <h2>Become an Affiliate</h2>
         <v-divider></v-divider>
-        <p class="mt-12">Being an Affiliate on PAXO means you access to buying discounted products on the platform.</p>
-        <p>However, there are conditions to be met in order to start enjoying this benefit.</p>
-        <ol>
-          <li>Lorem ipsum dorem lit itsoriem et londoner.</li>
-          <li>Lorem ipsum dorem lit itsoriem et londoner.</li>
-          <li>Lorem ipsum dorem lit itsoriem et londoner.</li>
-          <li>Lorem ipsum dorem lit itsoriem et londoner.</li>
-          <li>Lorem ipsum dorem lit itsoriem et londoner.</li>
-        </ol>
-        <p class="mt-8">Ready to become an affiliate? Click the button below.</p>
+        <p class="mt-8">
+          Being an Affiliate on PAXO means you can earn whenever people you
+          refer make purchases on the Paxo platform.
+        </p>
+        <p>
+          However, there are conditions to be met in order to start enjoying
+          this benefit.
+        </p>
+        <h3 class="mt-6 primary--text">
+          Referral/Affiliate Logic for points (Web App)
+        </h3>
 
-        <v-btn class="primary" large text :loading="loading" @click="becomeAffiliate()">Become an Affiliate</v-btn>
+        <p>
+          For every time you refer someone, you get the 4% off there initial and
+          ONLY initial order.
+        </p>
+
+        <!-- <h3 class="primary--text">Purchase/Reward logic for points (Web App)</h3>
+    <p>Same as above but with 5% instead of 4%</p>
+
+    <h3 class="primary--text">Referral/Affiliate Logic for points (Mobile App)</h3>
+    <p>Same as above but with 5% instead of 4%</p> -->
+
+        <div v-if="user.isAffiliate">
+          <p>Your Referral Link:</p>
+          <!-- <p>{{domain + '/register?ref='+user.referer_id}}</p>
+ -->
+          <v-text-field
+            outlined
+            :value="domain + '/register?ref=' + user.referer_id"
+          >
+            <template #append>
+              <v-btn
+                color="primary"
+                @click="copyLink()"
+                type="submit"
+                value="Subscribe" style="margin-top: -8px;"
+              >
+                Copy
+              </v-btn>
+            </template>
+          </v-text-field>
+        </div>
+        <div v-else>
+          <p class="mt-8">
+            Ready to become an affiliate? Click the button below.
+          </p>
+
+          <v-btn
+            class="primary"
+            large
+            text
+            :loading="loading"
+            @click="becomeAffiliate()"
+            >Become an Affiliate</v-btn
+          >
+        </div>
       </v-col>
     </v-row>
   </v-container>
@@ -49,6 +94,7 @@ export default {
   data() {
     return {
       loading: false,
+      domain: window.location.host,
       menus: [
         {
           icon: 'ri-user-line',
@@ -93,18 +139,24 @@ export default {
     ...mapGetters('auth', ['user']),
   },
   methods: {
-    async becomeAffiliate(){
-
+    copyLink() {
+      this.$clipboard(this.domain + '/register?ref=' + this.user.referer_id)
+      this.$toast.success('Referral Link Copied', 'Success')
+    },
+    async becomeAffiliate() {
       this.loading = true
-      await this.$store.dispatch('auth/becomeaffiliate').then(response => {
-        this.$toast.success(response.message)
-        this.loading = false
-      }).catch(error => {
-        this.$toast.error(error.response.data.message)
-        this.loading = false
-      })
-    }
-  }
+      await this.$store
+        .dispatch('auth/becomeaffiliate')
+        .then((response) => {
+          this.$toast.success(response.message)
+          this.loading = false
+        })
+        .catch((error) => {
+          this.$toast.error(error.response.data.message)
+          this.loading = false
+        })
+    },
+  },
 }
 </script>
 <style lang="scss" scoped>

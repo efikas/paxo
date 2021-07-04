@@ -171,9 +171,25 @@ export const actions = {
     return data
   },
 
+  async trackorder(
+    { commit },
+    { order_number }
+  ) {
+
+    const data = await this.$axios.$post(
+      '/track-order',
+      {
+        order_number
+      },
+      
+    )
+
+    return data
+  },
+
   async makeorder(
     { commit },
-    { shipping_id, address, city, set_paid, product,email, phone, use_wallet, total, country }
+    { shipping_id, address, city, set_paid, product,email, phone, use_wallet, total, country, device }
   ) {
     let token = JSON.parse(window.localStorage.getItem('paxo')).auth.token
     const data = await this.$axios.$post(
@@ -185,7 +201,7 @@ export const actions = {
         set_paid,
         product,email,phone,
         use_wallet,
-        total, country
+        total, country, device
       },
       {
         headers: {

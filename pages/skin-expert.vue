@@ -16,7 +16,7 @@
            <img src="../static/assets/Skin Expert.jpg" width="100%" alt="">
             <v-btn
               class="primary mt-3"
-              @click="isAuthenticated ? (e1 = 2) : (loginDialog = true)"
+              @click="e1 = 2"
               text
               x-large
               >Start Now</v-btn

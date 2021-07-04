@@ -9,13 +9,13 @@
     <p>
       Paxo Rewards is Paxo Beauty's loyalty program. It is the way we ensure
       that you get the most out of your shopping experience, across our stores
-      as well as on our app. Members will earn Glow Points on every purchase
+      as well as on our app. Members will earn Paxo Points on every purchase
       they make with us. These points can be redeemed against future purchases.
       Members will also get access to exclusive deals and offers!
     </p>
 
     <p>
-      The beauty of Glow Rewards is that it is an entirely card-less program.
+      The beauty of Paxo Rewards is that it is an entirely card-less program.
       Your mobile number is your single point of identification.
     </p>
     <h2 class="primary--text">Purchase/Reward logic for points (Web App)</h2>
@@ -43,24 +43,24 @@
 
     <h3 class="primary--text">Referral/Affiliate Logic for points (Mobile App)</h3>
     <p>Same as above but with 5% instead of 4%</p>
-    <h3 class="primary--text">Wholesalers Logic</h3>
+
     <h4 class="primary--text">Wholesale Plan</h4>
     <p>
-      As a wholesaler, the minimum purchase is 25,000 with a 30 days grace to
-      buy at any price, after 30 days you have to re-activate again with 25,000
+      As a wholesaler, the minimum purchase is &#8358;25,000 with a 30 days grace to
+      buy at any price, after 30 days you have to re-activate again with &#8358;25,000
       to have access to another 30 days to shop at any price.
     </p>
     <p>
       <b> Example </b>
     </p>
     <p>
-      Mrs Johnson's initial order must be =>25,000 but has the ability to buy
-      5,000 within the month to replace an item but once a new month begins she
-      has to buy => N25,000.
+      Mrs Johnson's initial order must be =>&#8358;25,000 but has the ability to buy
+      &#8358;5,000 within the month to replace an item but once a new month begins she
+      has to buy => &#8358;25,000.
     </p>
     <h4 class="primary--text">Wholesale Reward System</h4>
     <p>
-      there should be a reward system for our wholesalers at the end of every
+      There is a reward system for our wholesalers at the end of every
       year, wholesalers are categorized into Gold, Silver, and Bronze
     </p>
     <v-simple-table style="border: 1px solid #ddd;" class="mb-4">
@@ -79,12 +79,12 @@
         </tr>
       </tbody>
     </v-simple-table>
-    <p>
+    <!-- <p>
       on Wholesalers dashboard, we show what level they are at present, based on
       what they have bought so far in the year and the next level they are
       headed,a link at the top of the dashboard to show a breakdown of the
       reward system as the table above
-    </p>
+    </p> -->
     <p>
       For the <b>bronze</b> category if a customer is able to buy 25k monthly it
       would meet up with 300k at the end of the year.
@@ -94,7 +94,7 @@
       get to the target.
     </p>
     <p>For the <b>Gold</b> category, if the wholesaler buys 85k monthly he/she should get to the target.</p>
-    <p>the customer at the end of the year is given 10% back to the wallet</p>
+
   </v-container>
 </template>
 
