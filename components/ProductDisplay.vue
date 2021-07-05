@@ -44,7 +44,7 @@
                   v-bind="attrs"
                   v-on="on"
                   @click="
-                    isAuthenticated ? addToWishList() : $router.push('/login')
+                    isAuthenticated ? addToWishList() : loginDialog = true
                   "
                   ><v-icon small>ri-heart-line</v-icon></v-btn
                 >
@@ -63,7 +63,7 @@
           </nuxt-link>
         </div>
         <v-rating
-          
+
           dense
           small
           color="orange"
@@ -141,6 +141,45 @@
         </v-row>
       </v-card>
     </v-dialog>
+     <v-dialog v-model="loginDialog" width="450px">
+      <v-card class="pa-8">
+        <h2 class="text-center mb-8">Login to Continue</h2>
+        <v-divider></v-divider>
+        <v-form lazy-validation v-model="valid" ref="login">
+          <v-text-field
+            v-model="form.email"
+            outlined
+            @keypress.native.enter="$refs.login.validate() ? login() : null"
+            required
+            :rules="emailRules"
+            placeholder="Username or email"
+          ></v-text-field>
+          <v-text-field
+            type="password"
+            v-model="form.password"
+            @keypress.native.enter="$refs.login.validate() ? login() : null"
+            required
+            :rules="passwordRules"
+            placeholder="Please enter your password"
+            outlined
+          ></v-text-field>
+          <v-checkbox label="Remember me" class="my-0"></v-checkbox>
+          <v-btn
+            block
+            :loading="loading"
+            @click="$refs.login.validate() ? login() : null"
+            large
+            text
+            class="primary mb-4"
+            >Login</v-btn
+          >
+          <div class="text-center">
+            No account yet? <nuxt-link to="/register">Register here</nuxt-link
+            ><br />
+          </div>
+        </v-form>
+      </v-card>
+    </v-dialog>
   </div>
 </template>
 <script>
@@ -163,12 +202,32 @@ export default {
     return {
       dialog: false,
       quantity: 1,
+      form: {},
+      valid: true,
+      loginDialog: false,
+      loading: false,
     }
   },
   computed: {
     ...mapGetters('auth', ['isAuthenticated']),
   },
   methods: {
+    async login() {
+      this.loading = true
+      await this.$store
+        .dispatch('auth/login', this.form)
+        .then((response) => {
+          // this.$toast.success(response.message)
+          this.loading = false
+          this.loginDialog = false
+
+          this.e1 = 2
+        })
+        .catch((error) => {
+          this.$toast.error(error.response.data.message)
+          this.loading = false
+        })
+    },
     increaseQuantity() {
       this.quantity += 1
     },

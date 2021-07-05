@@ -374,7 +374,7 @@
             flat
             style="width: 100vw"
             min-height="400px"
-            max-height="450px"
+            max-height="auto"
             class="py-0 elevation-0"
           >
             <v-row>
