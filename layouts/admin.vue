@@ -3,6 +3,7 @@
     <v-app-bar class="white" app>
       <h3>Hi {{user.first_name}}!</h3>
       <v-spacer></v-spacer>
+      <v-chip color="secondary" class="mx-3">{{user.role | capitalize}}</v-chip>
       <v-avatar>
         <img src="../static/assets/avatar.jpg" alt="">
       </v-avatar>

@@ -103,6 +103,7 @@ export default {
       headers: [
         { text: 'S/N', value: 'sn' },
         { text: 'Category Name', value: 'name' },
+        { text: 'Section', value: 'section.name' },
         { text: 'Slug', value: 'slug' },
         { text: 'Description', value: 'description' },
         { text: 'Actions', value: 'action' },

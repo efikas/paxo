@@ -17,11 +17,24 @@
             label="Brand"
             v-model="form.brand_id"
             item-text="name"
-            @change="getCategories(form.brand_id)"
+
             item-value="id"
             required
             :rules="[(v) => !!v || 'This field is required']"
             :items="brands"
+            dense
+            outlined
+          >
+          </v-select>
+          <v-select
+            label="Section"
+            v-model="form.section_id"
+            item-text="name"
+            @change="getCategories(form.brand_id)"
+            item-value="id"
+            required
+            :rules="[(v) => !!v || 'This field is required']"
+            :items="sections"
             dense
             outlined
           >
@@ -100,12 +113,12 @@
             v-model="form.short_description"
             label="Short Description"
           ></v-text-field>
-          <v-textarea outlined v-model="form.how_to_use" required :rules="[v => !!v || 'This field is required']" label="How to Use">
+          <p class="font-weight-bold">How to Use</p>
+          <ckeditor-nuxt v-model="form.how_to_use" :config="editorConfig" />
+          <p class="font-weight-bold mt-6">Ingredients</p>
+          <ckeditor-nuxt v-model="form.ingridient" :config="editorConfig" />
 
-          </v-textarea>
-          <v-textarea outlined v-model="form.ingridient"  label="Ingredients">
-
-          </v-textarea>
+<p class="font-weight-bold mt-6">Description</p>
           <client-only placeholder="loading...">
             <ckeditor-nuxt v-model="form.description" :config="editorConfig" />
           </client-only>
@@ -160,21 +173,28 @@ export default {
       editorConfig: {},
       categories: [],
       brands: [],
+      sections: []
     }
   },
   mounted() {
 
     this.getBrands()
+    this.getSection()
   },
   methods: {
 
     getCategories(name) {
-      let obj = this.brands.filter((item) => item.id === name)
+      let obj = this.sections.filter((item) => item.id === name)
       this.categories =  obj[0].category
     },
     async getBrands() {
       await this.$store.dispatch('brand/all').then((response) => {
         this.brands = response.data
+      })
+    },
+     async getSection() {
+      await this.$store.dispatch('section/all').then((response) => {
+        this.sections = response.data
       })
     },
     clickInput() {
@@ -201,6 +221,7 @@ export default {
       formData.append('avatar', this.form.product_image)
       formData.append('name', this.form.product_name)
       formData.append('brand_id', this.form.brand_id)
+      formData.append('section_id', this.form.section_id)
       formData.append('description', this.form.description)
       formData.append('how_to_use', this.form.description)
       formData.append('ingridient', this.form.description)

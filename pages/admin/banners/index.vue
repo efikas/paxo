@@ -59,7 +59,7 @@
         </template>
       </v-data-table>
     </v-card>
-    <v-dialog width="500" v-model="dialog">
+    <v-dialog width="800" v-model="dialog">
       <v-card class="pa-6">
         <h2>{{ update ? 'Update' : 'Add New' }} banner</h2>
         <v-form lazy-validation v-model="valid" class="mt-8" ref="addnew">
@@ -72,6 +72,19 @@
             :rules="[(v) => !!v || 'This field is required']"
           >
           </v-text-field>
+          <v-autocomplete
+            :items="products"
+            v-model="form.product_id"
+            outlined
+            dense
+            item-text="name"
+            item-value="id"
+            label="Select Products"
+            multiple
+            clearable
+            :rules="[(v) => !!v || 'This field is required']"
+          >
+          </v-autocomplete>
           <v-card class="pa-2" @click="clickInput()">
             <v-img
               class="d-flex justify-center align-center text-center"
@@ -123,12 +136,23 @@ export default {
         { text: 'Actions', value: 'action' },
       ],
       banners: [],
+      products: [],
     }
   },
   mounted() {
     this.getbanners()
+    this.getProducts()
   },
   methods: {
+    async getProducts() {
+      this.loading = true
+      const data = {
+        page: this.page,
+      }
+      await this.$store.dispatch('products/allall', data).then((response) => {
+        this.products = response.data
+      })
+    },
     onImageSelect(e) {
       if (this.form.product_image) {
         const file = this.form.product_image
@@ -168,6 +192,12 @@ export default {
         this.loading = true
         let formData = new FormData()
         formData.append('name', this.form.name)
+
+        var products = this.form.product_id
+
+        for (var i = 0; i < products.length; i++) {
+          formData.append('product_id[' + i + ']', JSON.stringify(products[i]))
+        }
         formData.append('avatar', this.form.product_image)
 
         await this.$store
@@ -190,6 +220,12 @@ export default {
         this.loading = true
         let formData = new FormData()
         formData.append('name', this.form.name)
+        formData.append('avatar', this.form.product_image)
+        var products = this.form.product_id
+
+        for (var i = 0; i < products.length; i++) {
+          formData.append('product_id[' + i + ']', JSON.stringify(products[i]))
+        }
         formData.append('avatar', this.form.product_image)
 
         formData.append('id', this.form.id)

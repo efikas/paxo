@@ -61,7 +61,7 @@
           >
           </v-text-field>
           <v-select
-            label="Select Brand"
+            label="Select Section"
             outlined
             dense
             required
@@ -122,6 +122,7 @@ export default {
       headers: [
         { text: 'S/N', value: 'sn' },
         { text: 'Sub Category Name', value: 'name' },
+        { text: 'Category Name', value: 'category.name' },
         { text: 'Slug', value: 'slug' },
         { text: 'Description', value: 'description' },
         { text: 'Actions', value: 'action' },
@@ -164,7 +165,7 @@ export default {
         })
     },
     async getbrands() {
-      await this.$store.dispatch('brand/all').then((response) => {
+      await this.$store.dispatch('section/all').then((response) => {
         this.brands = response.data
       })
     },

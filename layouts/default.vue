@@ -29,7 +29,7 @@
             router
             :class="
               (isAuthenticated && item.title == 'Sign in') ||
-              item.title == 'Sign Up'
+              item.title == 'Sign up'
                 ? 'hidden-sm-and-down'
                 : null
             "
@@ -135,8 +135,8 @@
           DOWNLOAD APP</v-btn
         > -->
   <p class="hidden-sm-and-down">
-
-    DOWNLOAD:&emsp; <a style="color: #333;" href="https://play.google.com/store/apps/details?id=com.paxo.shop" target="_blank">IOS</a> &emsp; <a style="color: #333;" href="https://apps.apple.com/ng/app/paxo-beauty/id1534936621" target="_blank">ANDROID</a>
+    <!-- <v-btn class="secondary" small text>DOWNLOAD</v-btn> -->
+    DOWNLOAD APP:&emsp; <a style="color: #333;" href="https://apps.apple.com/ng/app/paxo-beauty/id1534936621" target="_blank">IOS</a> &emsp; <a style="color: #333;" href="https://play.google.com/store/apps/details?id=com.paxo.shop" target="_blank">ANDROID</a>
   </p>
 
         <v-btn
@@ -184,19 +184,19 @@
         <nuxt-link class="nav-btn-small hidden-sm-and-down mx-3" to="/paxo-reward"
           >Paxo Reward</nuxt-link
         >
-        <nuxt-link class="nav-btn-small hidden-sm-and-down mx-3" to="/stories"
+        <!-- <nuxt-link class="nav-btn-small hidden-sm-and-down mx-3" to="/stories"
           >Blog</nuxt-link
-        >
+        > -->
         <nuxt-link
           to="/skin-expert"
           class="nav-btn-small hidden-sm-and-down mx-3"
           >Skin Expert</nuxt-link
         >
-        <nuxt-link
+        <!-- <nuxt-link
           to="/track-order"
           class="nav-btn-small hidden-sm-and-down mx-3"
           >Track Order</nuxt-link
-        >
+        > -->
 
         <div v-if="!isAuthenticated" class="hidden-sm-and-down">
           <nuxt-link to="/login" class="nav-btn-small mx-3">Sign in</nuxt-link>
@@ -626,12 +626,12 @@
             <nuxt-link to="/stories">
               <p>Blog</p>
             </nuxt-link>
-            <nuxt-link to="/login">
+            <!-- <nuxt-link to="/login">
               <p>Sign In</p>
             </nuxt-link>
             <nuxt-link to="/register">
               <p>Sign Up</p>
-            </nuxt-link>
+            </nuxt-link> -->
             <nuxt-link to="/privacy-policy">
               <p>Privacy Policy</p>
 
@@ -644,7 +644,10 @@
           </v-col>
           <v-col md="3" sm="3" cols="6">
             <h4 class="mb-4">Company</h4>
-            <!-- <p>About Us</p> -->
+            <nuxt-link to="/about-us">
+              <p>About Us</p>
+
+            </nuxt-link>
             <!-- <p>Affiliate</p> -->
             <!-- <p>Career</p> -->
             <nuxt-link to="/contact-us">
@@ -746,6 +749,11 @@ export default {
           icon: 'trending_up',
           title: 'Track Order',
           to: '/track-order',
+        },
+        {
+          icon: 'spa',
+          title: 'About Us',
+          to: '/about-us',
         },
         {
           icon: 'contact_support',

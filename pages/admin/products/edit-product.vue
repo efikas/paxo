@@ -13,15 +13,28 @@
             :rules="[(v) => !!v || 'This field is required']"
           >
           </v-text-field>
-           <v-select
+          <v-select
             label="Brand"
             v-model="form.brand_id"
+            item-text="name"
+
+            item-value="id"
+            required
+            :rules="[(v) => !!v || 'This field is required']"
+            :items="brands"
+            dense
+            outlined
+          >
+          </v-select>
+          <v-select
+            label="Section"
+            v-model="form.section_id"
             item-text="name"
             @change="getCategories(form.brand_id)"
             item-value="id"
             required
             :rules="[(v) => !!v || 'This field is required']"
-            :items="brands"
+            :items="sections"
             dense
             outlined
           >
@@ -39,6 +52,19 @@
             outlined
           >
           </v-select>
+          <!-- <v-select
+            label="Product Brand"
+            v-model="form.brand"
+            item-text="name"
+            item-value="id"
+            required
+            :rules="[(v) => !!v || 'This field is required']"
+            :items="brands"
+            dense
+            outlined
+          >
+          </v-select> -->
+
           <v-text-field
             outlined
             dense
@@ -61,7 +87,18 @@
             :rules="[(v) => !!v || 'This field is required']"
           >
           </v-text-field>
-           <v-text-field
+          <v-text-field
+            outlined
+            dense
+            label="Stock Quantity"
+            v-model="form.stock_quantity"
+            required
+            type="number"
+            :rules="[(v) => !!v || 'This field is required']"
+          >
+          </v-text-field>
+
+          <v-text-field
             outlined
             dense
             label="Product Weight"
@@ -73,19 +110,15 @@
           </v-text-field>
           <v-text-field
             outlined
-            dense
-            label="Stock Quantity"
-            v-model="form.stock_quantity"
-            required
-            type="number"
-            :rules="[(v) => !!v || 'This field is required']"
-          >
-          </v-text-field>
-          <v-text-field
-            outlined
             v-model="form.short_description"
             label="Short Description"
           ></v-text-field>
+          <p class="font-weight-bold">How to Use</p>
+          <ckeditor-nuxt v-model="form.how_to_use" :config="editorConfig" />
+          <p class="font-weight-bold mt-6">Ingredients</p>
+          <ckeditor-nuxt v-model="form.ingridient" :config="editorConfig" />
+
+<p class="font-weight-bold mt-6">Description</p>
           <client-only placeholder="loading...">
             <ckeditor-nuxt v-model="form.description" :config="editorConfig" />
           </client-only>
@@ -201,13 +234,15 @@ export default {
       formData.append('avatar', this.form.product_image)
       formData.append('name', this.form.product_name)
       formData.append('brand_id', this.form.brand_id)
+      formData.append('section_id', this.form.section_id)
       formData.append('description', this.form.description)
-      formData.append('short_description', this.form.short_description)
+      formData.append('how_to_use', this.form.description)
+      formData.append('ingridient', this.form.description)
       formData.append('weight', this.form.weight)
+      formData.append('short_description', this.form.short_description)
       formData.append('regular_price', this.form.regular_price)
       formData.append('wholesale_price', this.form.wholesales_price)
       formData.append('stock_quantity', this.form.stock_quantity)
-      formData.append('product_id', this.$route.query.productId)
       formData.append('top_product', this.form.top_product ? 1 : 0)
       await this.$store
         .dispatch('products/update', formData)

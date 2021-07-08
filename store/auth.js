@@ -156,7 +156,7 @@ export const actions = {
     return data
   },
   async forgotpassword({ commit }, { email, callback_url }) {
-    const data = await this.$axios.$post('/auth/password/forgot', {
+    const data = await this.$axios.$post('/auth/password/email', {
       email,
       callback_url,
     })
@@ -247,7 +247,7 @@ export const actions = {
         },
       }
     )
-    commit('SET_USER', data[1])
+    commit('SET_USER', data.data)
     return data
   },
   async wallet({ commit }, { user_id }) {

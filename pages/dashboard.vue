@@ -25,23 +25,47 @@
         </v-list>
       </v-col>
       <v-col md="8">
-        <h2>Account Information</h2>
+        <div class="d-flex justify-space-between">
+          <h2>Account Information</h2>
+          <v-tooltip top>
+            <template v-slot:activator="{ on, attrs }">
+              <v-chip v-bind="attrs" v-on="on" color="secondary" class="hidden-sm-and-down" small>{{
+                user.role | capitalize
+              }}</v-chip>
+            </template>
+            <span>Logged in as:</span>
+          </v-tooltip>
+        </div>
         <v-divider></v-divider>
-        <!-- {{ user }} -->
+
+          <v-tooltip top>
+              <template v-slot:activator="{ on, attrs }">
+                <v-chip v-bind="attrs" v-on="on" color="secondary" class="hidden-md-and-up mt-5" small>{{
+                  user.role | capitalize
+                }}</v-chip>
+              </template>
+              <span>Logged in as:</span>
+            </v-tooltip>
+
+        
         <v-form class="mt-12" lazy-validation v-model="valid" ref="form">
-        <v-row>
-          <v-col>
-            <p>Wallet Balance</p>
-            <v-chip style="border-radius: 0;" dark color="primary" large>&#8358;{{user.balance | formatPrice}}</v-chip>
-          </v-col>
-           <v-col>
-            <p>Bonus Points</p>
-            <v-chip style="border-radius: 0;" dark color="primary" large>{{user.points }} Points</v-chip>
-          </v-col>
-        </v-row>
-        <v-divider class="my-8"></v-divider>
           <v-row>
-            <v-col md="6">
+            <v-col>
+              <p>Wallet Balance</p>
+              <v-chip style="border-radius: 0" dark color="primary" large
+                >&#8358;{{ user.balance | formatPrice }}</v-chip
+              >
+            </v-col>
+            <v-col>
+              <p>Bonus Points</p>
+              <v-chip style="border-radius: 0" dark color="primary" large
+                >{{ user.points }} Points</v-chip
+              >
+            </v-col>
+          </v-row>
+          <v-divider class="my-8"></v-divider>
+          <v-row>
+            <v-col class="py-0" cols="12" md="6">
               <v-text-field
                 v-model="user.first_name"
                 outlined
@@ -50,7 +74,7 @@
               >
               </v-text-field>
             </v-col>
-            <v-col md="6">
+            <v-col class="py-0" cols="12" md="6">
               <v-text-field
                 v-model="user.last_name"
                 outlined
@@ -59,7 +83,7 @@
               >
               </v-text-field>
             </v-col>
-            <v-col md="6">
+            <v-col cols="12" class="py-0" md="6">
               <v-text-field
                 v-model="user.mobile"
                 outlined
@@ -68,7 +92,7 @@
               >
               </v-text-field>
             </v-col>
-            <v-col md="6">
+            <v-col class="py-0" md="6">
               <v-text-field
                 v-model="user.email"
                 outlined
@@ -81,7 +105,8 @@
           </v-row>
           <v-text-field
             label="Date of Birth"
-            v-model="user.dob" type="date"
+            v-model="user.dob"
+            type="date"
             required
             :rules="[(v) => !!v || 'This field is required']"
             outlined
@@ -100,7 +125,7 @@
             outlined
           ></v-text-field>
           <v-row>
-            <v-col>
+            <v-col class="py-0">
               <p class="mb-0">City</p>
               <v-text-field
                 placeholder="City"
@@ -110,14 +135,15 @@
                 outlined
               >
               </v-text-field>
-              <p class="mb-0">State</p>
+              <p class="mb-0 hidden-xs-only">State</p>
               <v-select
+                class="hidden-xs-only"
                 placeholder="State"
                 item-text="name"
                 item-value="id"
-                @change="getlga(user.state), (user.lga = '')"
+                @change="getlga(user.state_id), (user.lga = '')"
                 :items="states"
-                v-model="user.state"
+                v-model="user.state_id"
                 required
                 :rules="[(v) => !!v || 'This field is required']"
                 outlined
@@ -125,7 +151,7 @@
               </v-select>
             </v-col>
 
-            <v-col>
+            <v-col class="py-0">
               <p class="mb-0">Post Code</p>
               <v-text-field
                 placeholder="Postal Code"
@@ -141,7 +167,23 @@
                 v-if="lgas.length > 0"
                 item-value="id"
                 :items="lgas"
-                v-model="user.lga"
+                v-model="user.lga_id"
+                required
+                :rules="[(v) => !!v || 'This field is required']"
+                outlined
+              >
+              </v-select>
+            </v-col>
+            <v-col cols="12" class="py-0 mt-0">
+              <p class="mb-0 hidden-sm-and-up">State</p>
+              <v-select
+                class="hidden-sm-and-up"
+                placeholder="State"
+                item-text="name"
+                item-value="id"
+                @change="getlga(user.state_id), (user.lga = '')"
+                :items="states"
+                v-model="user.state_id"
                 required
                 :rules="[(v) => !!v || 'This field is required']"
                 outlined
@@ -166,7 +208,7 @@
 <script>
 import { mapGetters } from 'vuex'
 export default {
-middleware: 'authenticated',
+  middleware: 'authenticated',
   data() {
     return {
       states: [],
