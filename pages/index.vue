@@ -108,7 +108,7 @@
       <v-btn class="primary" dark icon @click="scrollRightDeal()"><v-icon>arrow_back</v-icon> </v-btn>
       <v-btn icon class="primary" dark @click="scrollLeftDeal()"><v-icon>arrow_forward</v-icon> </v-btn>
     </div>
-    <div class="pa-6 mt-12 top-products-container"  :class="{'px-6':$vuetify.breakpoint.mdAndUp,'px-4':$vuetify.breakpoint.smAndDown}">
+    <div class="pa-6 mt-0 top-products-container"  :class="{'px-6':$vuetify.breakpoint.mdAndUp,'px-4':$vuetify.breakpoint.smAndDown}">
       <!-- <p class="deal-text">Top Products</p> -->
       <div class="top-products" id="dealday" style="position: relative;">
         <v-card
@@ -122,7 +122,7 @@
           <v-skeleton-loader type="card"> </v-skeleton-loader>
         </v-card>
         <div
-          class="mx-4 product"
+          class="mx-0 product"
           v-for="(i, index) in products.slice(0, 10)"
           :key="index"
         >
@@ -145,7 +145,7 @@
       <v-btn class="primary" dark icon @click="scrollRight()"><v-icon>arrow_back</v-icon> </v-btn>
       <v-btn icon class="primary" dark @click="scrollLeft()"><v-icon>arrow_forward</v-icon> </v-btn>
     </div>
-    <div class="pa-6 mt-12 top-products-container"  :class="{'px-6':$vuetify.breakpoint.mdAndUp,'px-4':$vuetify.breakpoint.smAndDown}">
+    <div class="pa-6 mt- top-products-container"  :class="{'px-6':$vuetify.breakpoint.mdAndUp,'px-4':$vuetify.breakpoint.smAndDown}">
       <p class="deal-text">Top Products</p>
       <div class="top-products" id="topproducts" style="position: relative;">
         <v-card
@@ -159,7 +159,7 @@
           <v-skeleton-loader type="card"> </v-skeleton-loader>
         </v-card>
         <div
-          class="mx-4 product"
+          class="mx-0 product"
           v-for="(i, index) in topproducts"
           :key="index"
         >
@@ -428,7 +428,7 @@ export default {
   }
 }
 .top-products-container {
-  border: 1px solid #f5eeee;
+  // border: 1px solid #f5eeee;
   .top-products {
     display: flex;
     flex-flow: row;

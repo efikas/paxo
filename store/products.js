@@ -205,7 +205,7 @@ export const actions = {
 
   async makeorder(
     { commit },
-    { shipping_id, address, city, set_paid, product,email, phone, use_wallet, total, country, device }
+    { shipping_id, address, city, set_paid, product,email, phone, use_wallet, total, total_product, country, device }
   ) {
     let token = JSON.parse(window.localStorage.getItem('paxo')).auth.token
     const data = await this.$axios.$post(
@@ -217,7 +217,7 @@ export const actions = {
         set_paid,
         product,email,phone,
         use_wallet,
-        total, country, device
+        total, total_product, country, device
       },
       {
         headers: {
@@ -229,7 +229,7 @@ export const actions = {
     return data
   },
 
-  async storeorder({ commit }, { order_id, reference, amount, channel }) {
+  async storeorder({ commit }, { order_id, reference, amount, channel, total_product }) {
     let token = JSON.parse(window.localStorage.getItem('paxo')).auth.token
     const data = await this.$axios.$post(
       '/user/payment/store',
@@ -237,7 +237,7 @@ export const actions = {
         order_id,
         reference,
         amount,
-        channel,
+        channel, total_product
       },
       {
         headers: {

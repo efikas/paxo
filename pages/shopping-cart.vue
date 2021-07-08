@@ -47,7 +47,7 @@
             }}
           </td>
           <td class="text-right">
-            <v-icon @click="removeItem(index)">ri-close-line</v-icon>
+            <v-icon @click="removeItem(index), calculateSubtotal()">ri-close-line</v-icon>
           </td>
         </tr>
         <tr v-if="StoreCart.length == 0">

@@ -35,7 +35,14 @@
             </v-col>
           </v-row>
 
-          <h3>Shipping Address</h3>
+          <h3 class="mt-8">Delivery Information</h3>
+          <p>Please select your preferred delivery method</p>
+          <v-radio-group v-model="user.deliveryMethod" required :rules="[v=>!!v || 'This field is required']">
+            <v-radio value="0" label="Local Pickup (3 Billings Way, Oregun, Ikeja beside Fan Milk)"></v-radio>
+            <v-radio value="1" label="Home Delivery"></v-radio>
+          </v-radio-group>
+          <div  v-if="user.deliveryMethod == '1'">
+          <h3  class="mt-8">Shipping Address</h3>
           <v-row>
             <v-col>
               <p class="mb-0">First name</p>
@@ -122,11 +129,13 @@
               </v-select>
             </v-col>
           </v-row>
+
+          </div>
           <!-- <v-checkbox
             class="my-0"
             label="Save this information for next time"
           ></v-checkbox> -->
-          <v-row>
+          <v-row class="mt-16">
             <v-col>
               <nuxt-link to="shopping-cart">
                 <v-icon>ri-arrow-left-line</v-icon> Return to shopping cart
@@ -136,7 +145,7 @@
               <v-btn
                 class="primary font-weight-bold"
                 @click="
-                  $refs.form.validate() ? computeDeliveryFee() : null
+                  $refs.form.validate() ? (user.deliveryMethod == '1' ? (computeDeliveryFee()) : (user.deliveryfee = 0, $router.push('/shipping'))) : null
                 "
                 block :loading="loading"
                 large
@@ -197,13 +206,17 @@ export default {
       valid: true,
       loading: false,
       states: [],
-      lgas: []
+      lgas: [],
+      deliveryMethod: '',
     }
   },
   mounted() {
     this.calculateSubtotal()
     this.getStates()
-    console.log(this.StoreCart)
+    // console.log(this.StoreCart)
+    // if(this.user.state){
+    //   this.getlga(this.user.state)
+    // }
   },
   methods: {
     async getStates() {
@@ -212,6 +225,7 @@ export default {
       })
     },
     getlga(name) {
+      console.log(name)
       let obj = this.states.filter((item) => item.id === name)
       this.lgas = obj[0].lga
     },

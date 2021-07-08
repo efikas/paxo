@@ -104,6 +104,18 @@ export const actions = {
     return data
   },
 
+  async getuser({ commit }) {
+    let token = JSON.parse(window.localStorage.getItem('paxo')).auth.token
+    const data = await this.$axios.$get('/user', {
+      headers: {
+        Authorization: 'Bearer ' + token,
+      },
+    })
+    commit('SET_USER', data.data)
+
+    return data
+  },
+
   async skinexpert({ commit }, { skin_type, route, head_type }) {
     // let token = JSON.parse(window.localStorage.getItem('paxo')).auth.token
     const data = await this.$axios.$get(

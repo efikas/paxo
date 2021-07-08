@@ -51,7 +51,7 @@
                   </v-col>
               <v-col class="12">
                 <v-btn x-large text class="accent" @click="addToCart()">Add to Cart</v-btn>
-                <v-btn to="shopping-cart" x-large text class="accent font-weight-bold"
+                <v-btn @click="addToCart(), $router.push('/shopping-cart')"  x-large text class="accent font-weight-bold"
                   >Buy Now</v-btn
                 >
                 <!-- <v-btn icon><v-icon>ri-heart-line</v-icon></v-btn> -->

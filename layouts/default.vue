@@ -554,7 +554,7 @@
         >
           <nuxt />
         </v-container>
-        <div class="newsletter my-8">
+        <div class="newsletter mt-8">
           <v-row
             :class="{
               'px-8': $vuetify.breakpoint.mdAndUp,
@@ -600,7 +600,7 @@
           </v-row>
         </div>
       </v-main>
-      <div height="400" class="white--text footer pt-16">
+      <div height="400" class="white--text footer pt-8">
         <v-row
           dense
           :class="{
@@ -609,14 +609,17 @@
           }"
         >
           <v-col cols="6" sm="3" md="4">
-            <h4>Contact Us</h4>
+            <h4 class="mb-4">Contact Us</h4>
             <p>Call us 24/7</p>
-            <h3 class="primary--text">234 813 150 2944</h3>
-            <p class="mb-12">12 Christopher Avenue, Ilupeju, Lagos, Nigeria.</p>
+            <h3 class="primary--text">234 814 690 7099</h3>
+            <a href="mailto:info@paxo.com.ng">info@paxo.com.ng</a>
+
+            <p class="mb-12">No 3, Billings Way, Oregun Ikeja, Lagos
+</p>
 
           </v-col>
           <v-col md="3" sm="3" cols="6">
-            <h4>Quick Links</h4>
+            <h4 class="mb-4">Quick Links</h4>
             <nuxt-link to="/paxo-rewards">
               <p>Paxo Rewards</p>
             </nuxt-link>
@@ -640,7 +643,7 @@
             <!-- <p>FAQs</p> -->
           </v-col>
           <v-col md="3" sm="3" cols="6">
-            <h4>Company</h4>
+            <h4 class="mb-4">Company</h4>
             <!-- <p>About Us</p> -->
             <!-- <p>Affiliate</p> -->
             <!-- <p>Career</p> -->
@@ -667,7 +670,7 @@
             </nuxt-link>
           </v-col>
           <v-col md="2" sm="3" cols="6">
-            <h4>Business</h4>
+            <h4 class="mb-4">Business</h4>
             <!-- <p>Our Press</p>
             <p>Checkout</p> -->
             <nuxt-link to="/dashboard">
@@ -681,7 +684,7 @@
         </v-row>
         <div style="clear: both"></div>
         <div>
-          <v-divider class="my-5"></v-divider>
+          <v-divider class="mt-5"></v-divider>
         </div>
         <div class="footer-bottom text-center px-6">
           <div class="text-center">

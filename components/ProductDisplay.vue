@@ -121,7 +121,7 @@
                   <v-btn
                     x-large
                     text
-                    to="/shopping-cart"
+                    @click="addToCart(), $router.push('/shopping-cart')"
                     class="accent font-weight-bold"
                     >Buy Now</v-btn
                   >

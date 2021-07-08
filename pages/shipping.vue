@@ -2,7 +2,7 @@
   <v-container>
     <div class="text-center pb-16">
       <h1>Shipping Information</h1>
-      <!-- {{user}} -->
+      <!-- {{user.deliveryMethod}} -->
     </div>
     <v-row>
       <v-col md="8" cols="12">
@@ -10,15 +10,15 @@
           <v-row>
             <v-col md="2" class="pb-">
               <p class="py-0 my-0">Contact</p>
-              <p class="py-0 my-0">Ship to</p>
+              <p v-if="user.deliveryMethod == '1'" class="py-0 my-0">Ship to</p>
             </v-col>
             <v-col md="6" class="pb-">
               <p class="py-0 my-0 fade">{{ user.mobile }}</p>
-              <p class="py-0 my-0 fade">{{ user.address }}</p>
+              <p v-if="user.deliveryMethod == '1'" class="py-0 my-0 fade">{{ user.address }}</p>
             </v-col>
             <v-col class="text-right">
               <nuxt-link to="/checkout">Change</nuxt-link><br />
-              <nuxt-link to="/checkout">Change</nuxt-link>
+              <nuxt-link v-if="user.deliveryMethod == '1'" to="/checkout">Change</nuxt-link>
             </v-col>
           </v-row>
         </div>
@@ -42,7 +42,7 @@
               </v-radio>
             </v-radio-group> -->
             <p>Delivery to:</p>
-            <p>{{ user.address }}</p>
+            <p>{{ user.deliveryMethod == '1' ? user.address : 'Local Pickup: (3 Billings Way, Oregun, Ikeja beside Fan Milk)' }}</p>
           </div>
           <br />
             <h3 class="">Have a Coupon?</h3>
@@ -71,7 +71,7 @@
               required
               :rules="[(v) => !!v || 'Please selection a payment option']"
             >
-              <v-radio label="Pay from your wallet" value="1"></v-radio>
+              <v-radio label="Pay with your wallet" :disabled="user.balance == '0'" value="1"></v-radio>
               <p class="ml-8">
                 Your Wallet Balance: &#8358;{{ user.balance | formatPrice }}
               </p>
@@ -84,7 +84,7 @@
             text
             class="primary mt-12"
             :loading="loading"
-            @click="$refs.form.validate() ? createOrder() : null"
+            @click="$refs.form.validate() ? confirmDialog = true : null"
             >Complete Order</v-btn
           >
         </v-form>
@@ -164,6 +164,16 @@
         </div>
       </v-col>
     </v-row>
+    <v-dialog width="400" v-model="confirmDialog" overlay-color="#36bdb4" overlay-opacity="0.9">
+      <v-card class="pa-6 text-center">
+        <h3>Proceed to payment?</h3>
+        <p>Are you sure you want to proceed to paying for this order? Please note that this step is irreversible!</p>
+
+        <v-btn outlined text @click="confirmDialog = false">Cancel</v-btn>
+        <v-btn class="primary" :loading="loading" @click="createOrder()">Proceed</v-btn>
+
+      </v-card>
+    </v-dialog>
   </v-container>
 </template>
 <script>
@@ -173,9 +183,11 @@ export default {
   transition: 'default',
   components: {
     paystack,
+
   },
   data() {
     return {
+      confirmDialog: false,
       valid: true,
       loading: false,
       shippingMethods: [],
@@ -201,6 +213,7 @@ export default {
     this.getShippingMethods()
     this.calculateSubtotal()
     this.createReference()
+    // this.getUser()
   },
   watch: {
     discount_percent: function () {
@@ -269,14 +282,16 @@ export default {
         reference: this.reference,
         amount: this.order.order_balance,
         channel: this.paymentoption == '1' ? 'wallet' : 'card',
+        total_product: this.subtotal
       }
       await this.$store
         .dispatch('products/storeorder', data)
         .then((response) => {
           this.$toast.success(response.message)
-          this.loading = false
+          this.loading = this.confirmDialog = false
           this.$store.commit('products/CLEAR_CART')
           this.$router.push('/')
+          this.getUser()
 
           var dataLayer = window.dataLayer || []
           dataLayer.push({
@@ -343,11 +358,13 @@ export default {
         product: this.StoreCart,
         reference: this.reference,
         total: this.subtotal + parseInt(this.user.deliveryfee),
+        total_product: this.subtotal
       }
       await this.$store
         .dispatch('products/makeorder', payload)
         .then((response) => {
           this.$toast.success(response.message)
+          this.getUser()
           this.loading = false
           this.order = response.data
           this.order.order_balance > 0
@@ -362,6 +379,12 @@ export default {
     async getShippingMethods() {
       await this.$store.dispatch('auth/shipping').then((response) => {
         this.shippingMethods = response.data
+      })
+    },
+
+     async getUser() {
+      await this.$store.dispatch('auth/getuser').then((response) => {
+        // this.shippingMethods = response.data
       })
     },
   },
