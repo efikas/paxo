@@ -327,6 +327,17 @@ export const actions = {
     })
     return data
   },
+
+  async uploadselfie({ commit }, formData) {
+    let token = JSON.parse(window.localStorage.getItem('paxo')).auth.token
+    const data = await this.$axios.$post('/upload-skin', formData, {
+      headers: {
+        Authorization: 'Bearer ' + token,
+        'Content-Type': 'multipart/form-data',
+      },
+    })
+    return data
+  },
   async logout({ commit }) {
     commit('RESET_STATE', false)
   },

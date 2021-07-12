@@ -8,7 +8,15 @@
           </v-avatar>
           <div class="ml-6">
             <p class="mb-0 pb-0">Hello</p>
-            <h4>{{ user.first_name }} {{ user.last_name }}</h4>
+            <h4 class="mb-0">{{ user.first_name }} {{ user.last_name }}</h4>
+            <v-tooltip top>
+              <template v-slot:activator="{ on, attrs }">
+                <v-chip v-bind="attrs" v-on="on" color="secondary" class="hidden-md-and-up mt-0" x-small>{{
+                  user.role | capitalize
+                }}</v-chip>
+              </template>
+              <span>Logged in as:</span>
+            </v-tooltip>
           </div>
         </div>
         <v-list class="mt-7 sidebar py-0" outlined>
@@ -38,16 +46,9 @@
         </div>
         <v-divider></v-divider>
 
-          <v-tooltip top>
-              <template v-slot:activator="{ on, attrs }">
-                <v-chip v-bind="attrs" v-on="on" color="secondary" class="hidden-md-and-up mt-5" small>{{
-                  user.role | capitalize
-                }}</v-chip>
-              </template>
-              <span>Logged in as:</span>
-            </v-tooltip>
 
-        
+
+
         <v-form class="mt-12" lazy-validation v-model="valid" ref="form">
           <v-row>
             <v-col>

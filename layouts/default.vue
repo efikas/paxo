@@ -29,7 +29,7 @@
             router
             :class="
               (isAuthenticated && item.title == 'Sign in') ||
-              item.title == 'Sign up'
+              (isAuthenticated && item.title == 'Sign Up')
                 ? 'hidden-sm-and-down'
                 : null
             "

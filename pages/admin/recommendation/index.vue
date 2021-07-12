@@ -73,11 +73,11 @@
           >
           </v-select>
            <v-select
-            label="Route"
+            label="Skin Care Option"
             v-model="form.route"
             :items="[
-              { text: 'Acne', value: 'acne' },
-              { text: 'Normal', value: 'normal' },
+              { text: 'Acne-Prone Skin Treatment', value: 'acne' },
+              { text: 'Normal Skin Care Routine', value: 'normal' },
             ]"
             outlined
             required
@@ -86,7 +86,7 @@
           >
           </v-select>
            <v-select v-if="form.route == 'acne'"
-            label="Head Type"
+            label="Skin Condition"
             v-model="form.head_type"
             :items="[
               { text: 'Black Head', value: 'black head' },

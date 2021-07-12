@@ -1,5 +1,5 @@
 <template>
-  <v-container>
+  <v-container fluid>
     <v-row justify="center">
       <v-col md="10">
         <v-stepper v-model="e1">
@@ -8,12 +8,12 @@
             <v-divider></v-divider>
             <v-stepper-step step="2">Answer a few questions</v-stepper-step>
             <v-divider></v-divider>
-            <!-- <v-stepper-step step="3">Upload your selfie</v-stepper-step>
-            <v-divider></v-divider> -->
-            <v-stepper-step step="3">Results & Recommendations</v-stepper-step>
+            <v-stepper-step step="3">Upload your selfie</v-stepper-step>
+            <v-divider></v-divider>
+            <v-stepper-step step="4">Results & Recommendations</v-stepper-step>
           </v-stepper-header>
           <v-stepper-content step="1" class="text-center">
-           <img src="../static/assets/Skin Expert.jpg" width="100%" alt="">
+           <img src="../static/assets/Skin Expert today 2.jpg" width="100%" alt="">
             <v-btn
               class="primary mt-3"
               @click="e1 = 2"
@@ -111,13 +111,36 @@
                     @click="$refs.skin.validate() ? getRecommendation() : null"
                     text
                     block
-                    >Get Recommendations</v-btn
+                    >Continue</v-btn
                   >
                 </v-col>
               </v-row>
             </v-form>
           </v-stepper-content>
           <v-stepper-content step="3">
+            <v-row align="center" justify="center">
+              <v-col md="8" class="text-center">
+                <v-card :loading="loading" class="pa-2 mx-16" width="400" @click="clickInput()">
+                <v-img
+                  class="d-flex justify-center align-center text-center"
+                  :src="imagesrc"
+                  height="400"
+                >
+                  <h5 v-if="!imagesrc">Tap to upload selfie</h5>
+                </v-img>
+              </v-card>
+
+              </v-col>
+            </v-row>
+          <v-file-input
+            v-model="form.selfie"
+            style="visibility: hidden"
+            @change="onImageSelect()"
+            id="selfieimage"
+          >
+          </v-file-input>
+          </v-stepper-content>
+          <v-stepper-content step="4">
             <h3 class="">Recommended Products</h3>
             <p class="">Here are some recommended products for you!</p>
             <v-row
@@ -349,6 +372,7 @@ export default {
       skinTestDialog: false,
       e1: 1,
       skintype: '',
+      imagesrc: null,
 
       form: { password: '' },
       recommendations: [],
@@ -366,6 +390,31 @@ export default {
     }
   },
   methods: {
+    onImageSelect(e) {
+      if (this.form.selfie) {
+        const file = this.form.selfie
+        this.imagesrc = URL.createObjectURL(file)
+        this.uploadSelfie()
+      } else {
+        this.imagesrc = null
+      }
+    },
+    clickInput() {
+      document.getElementById('selfieimage').click()
+    },
+    async uploadSelfie() {
+      this.loading = true
+      let formData = new FormData()
+      formData.append('avatar',this.form.selfie)
+      await this.$store.dispatch('auth/uploadselfie',formData).then(response => {
+        this.$toast.success(response.message)
+        this.loading = false
+        this.e1 += 1
+      }).catch(error => {
+        this.$toast.error(error.response.data.message)
+        this.loading = false
+      })
+    },
     async login() {
       this.loading = true
       await this.$store
@@ -407,9 +456,9 @@ export default {
       await this.$store
         .dispatch('auth/skinexpert', this.form)
         .then((response) => {
-          this.$toast.success(response.message)
+          // this.$toast.success(response.message)
           this.recommendations = response.data
-          console.log(this.recommendations)
+          // console.log(this.recommendations)
           this.loading = false
           this.e1 += 1
         })

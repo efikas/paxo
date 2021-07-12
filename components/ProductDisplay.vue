@@ -125,13 +125,15 @@
                     class="accent font-weight-bold"
                     >Buy Now</v-btn
                   >
-                  <!-- <v-tooltip bottom>
+                  <v-tooltip bottom>
                     <template v-slot:activator="{ on, attrs }">
-                      <v-btn v-bind="attrs"
+                      <v-btn v-bind="attrs"  @click="
+                    isAuthenticated ? addToWishList() : loginDialog = true
+                  "
                   v-on="on" icon><v-icon>ri-heart-line</v-icon></v-btn>
                     </template>
                     <span>Add to Wishlist</span>
-                  </v-tooltip> -->
+                  </v-tooltip>
                   <!-- <v-btn icon><v-icon>ri-exchange-funds-line</v-icon></v-btn> -->
                 </v-col>
               </v-row>
