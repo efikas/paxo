@@ -94,6 +94,7 @@ export default {
         this.banner = response.data.avatar
       })
     },
+
   }
 }
 </script>
