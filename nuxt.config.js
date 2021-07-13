@@ -141,6 +141,11 @@ export default {
           component: resolve(__dirname, 'pages/brand.vue'),
         },
         {
+          name: 'banner products',
+          path: '/banners/*',
+          component: resolve(__dirname, 'pages/banners.vue'),
+        },
+        {
           name: 'single blog',
           path: '/blog/*',
           component: resolve(__dirname, 'pages/single-blog.vue'),

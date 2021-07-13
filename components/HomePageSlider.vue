@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-carousel  height="416" :class="{'h-200' : $vuetify.breakpoint.smAndDown}"  interval="5000"  cycle hide-delimiter-background>
-      <v-carousel-item v-for="i in banners" :key="i.id">
+      <v-carousel-item :href="'/banners/'+i.name+'?bannerId='+i.id" v-for="i in banners" :key="i.id">
         <v-img
           height="416" :class="{'h-200' : $vuetify.breakpoint.smAndDown}"
           :src="

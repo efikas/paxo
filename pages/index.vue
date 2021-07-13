@@ -130,7 +130,9 @@
             :vendor="i.brand ? i.brand.name : null"
             :product_name="i.name"
             rating="5"
-            :price="i.price"
+            :price="i.sale_price"
+            :regular_price="i.regular_price"
+            :wholesale_price="i.wholesale_price"
             :image="i.avatar"
             :badge="i.stock_status"
             :description="i.description"
@@ -167,7 +169,9 @@
             :vendor="i.brand ? i.brand.name : null"
             :product_name="i.name"
             rating="5"
-            :price="i.price"
+            :price="i.sale_price"
+            :regular_price="i.regular_price"
+            :wholesale_price="i.wholesale_price"
             :image="i.avatar"
             :badge="i.stock_status"
             :description="i.description"
@@ -273,6 +277,7 @@
   </div>
 </template>
 <script>
+import {mapGetters} from 'vuex'
 import ProductDisplay from '@/components/ProductDisplay'
 import HomePageSlider from '@/components/HomePageSlider'
 import NewArrival from '~/components/NewArrival.vue'
@@ -296,6 +301,9 @@ export default {
       categories: [],
 
     }
+  },
+  computed: {
+    ...mapGetters('auth', ['user', 'isAuthenticated']),
   },
   mounted() {
     this.getProducts()

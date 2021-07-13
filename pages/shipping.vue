@@ -117,7 +117,11 @@
           <div class="" v-for="(i, index) in StoreCart" :key="index">
             <p>
               {{ i.name }} <br />{{ i.quantity }} x &#8358;{{
-                i.price | formatPrice
+                (isAuthenticated
+                ? user.role == 'wholesaler'
+                  ? i.wholesale_price
+                  : i.price
+                : i.price) | formatPrice
               }}
             </p>
             <v-divider class="pb-6"></v-divider>
@@ -207,13 +211,17 @@ export default {
   },
   computed: {
     ...mapGetters('products', ['StoreCart']),
-    ...mapGetters('auth', ['user']),
+    ...mapGetters('auth', ['user', 'isAuthenticated']),
   },
   mounted() {
     this.getShippingMethods()
     this.calculateSubtotal()
     this.createReference()
-    // this.getUser()
+    // (isAuthenticated ? (user.role == 'wholesaler' ? i.wholesale_price : i.price) : i.price) | formatPrice
+    if(this.user.role == 'wholesaler'){
+      console.log(this.StoreCart)
+      this.StoreCart.price = this.StoreCart.wholesale_price
+    }
   },
   watch: {
     discount_percent: function () {
@@ -235,7 +243,13 @@ export default {
       for (var i = 0; i < this.StoreCart.length; i++) {
         this.subtotal +=
           parseInt(this.StoreCart[i].quantity) *
-          parseInt(this.StoreCart[i].price)
+          parseInt(
+            this.isAuthenticated
+              ? this.user.role == 'wholesaler'
+                ? this.StoreCart[i].wholesale_price
+                : this.StoreCart[i].price
+              : this.StoreCart[i].price
+          )
       }
      if(this.discount_percent){
        this.discount = ((this.discount_percent/100) * this.subtotal)
@@ -374,6 +388,7 @@ export default {
         })
         .catch((error) => {
           this.$toast.error(error.response.data.message)
+          this.loading = this.confirmDialog = false
         })
     },
     async getShippingMethods() {

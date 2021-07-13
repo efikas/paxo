@@ -17,7 +17,6 @@
             label="Brand"
             v-model="form.brand_id"
             item-text="name"
-
             item-value="id"
             required
             :rules="[(v) => !!v || 'This field is required']"
@@ -30,7 +29,7 @@
             label="Section"
             v-model="form.section_id"
             item-text="name"
-            @change="getCategories(form.brand_id)"
+            @change="getCategories(form.section_id)"
             item-value="id"
             required
             :rules="[(v) => !!v || 'This field is required']"
@@ -64,11 +63,10 @@
             outlined
           >
           </v-select> -->
-
           <v-text-field
             outlined
             dense
-            label="Product Price"
+            label="Product Regular Price"
             v-model="form.regular_price"
             required
             prefix="₦"
@@ -76,6 +74,19 @@
             :rules="[(v) => !!v || 'This field is required']"
           >
           </v-text-field>
+
+          <v-text-field
+            outlined
+            dense
+            label="Product Sale Price"
+            v-model="form.sale_price"
+            required
+            prefix="₦"
+            type="number"
+            :rules="priceRules"
+          >
+          </v-text-field>
+
           <v-text-field
             outlined
             dense
@@ -84,7 +95,7 @@
             required
             prefix="₦"
             type="number"
-            :rules="[(v) => !!v || 'This field is required']"
+            :rules="salesRules"
           >
           </v-text-field>
           <v-text-field
@@ -102,7 +113,8 @@
             outlined
             dense
             label="Product Weight"
-            v-model="form.weight" suffix="kg"
+            v-model="form.weight"
+            suffix="kg"
             required
             type="number"
             :rules="[(v) => !!v || 'This field is required']"
@@ -118,7 +130,7 @@
           <p class="font-weight-bold mt-6">Ingredients</p>
           <ckeditor-nuxt v-model="form.ingridient" :config="editorConfig" />
 
-<p class="font-weight-bold mt-6">Description</p>
+          <p class="font-weight-bold mt-6">Description</p>
           <client-only placeholder="loading...">
             <ckeditor-nuxt v-model="form.description" :config="editorConfig" />
           </client-only>
@@ -139,7 +151,17 @@
             id="productImage"
           >
           </v-file-input>
-          <v-checkbox label="Mark as Top Product?" v-model="form.top_product"></v-checkbox>
+          <div class="d-flex justify-space-between">
+            <v-checkbox
+              label="Mark as Top Product?"
+              v-model="form.top_product"
+            ></v-checkbox>
+             <v-checkbox
+              label="Is product on sale?"
+              v-model="form.onsale"
+            ></v-checkbox>
+
+          </div>
           <v-btn
             class="primary"
             @click="$refs.addnew.validate() ? addProduct() : null"
@@ -173,26 +195,30 @@ export default {
       editorConfig: {},
       categories: [],
       brands: [],
-      sections: []
+      sections: [],
+      priceRules: [(v) => !!v || 'This field is required',
+      (v) => v < parseInt(this.form.regular_price) || 'Sales price must be less than regular price'
+      ],
+      salesRules: [(v) => !!v || 'This field is required',
+      (v) => v < parseInt(this.form.sale_price) || 'Sales price must be less than sales price'
+      ]
     }
   },
   mounted() {
-
     this.getBrands()
     this.getSection()
   },
   methods: {
-
     getCategories(name) {
       let obj = this.sections.filter((item) => item.id === name)
-      this.categories =  obj[0].category
+      this.categories = obj[0].category
     },
     async getBrands() {
       await this.$store.dispatch('brand/all').then((response) => {
         this.brands = response.data
       })
     },
-     async getSection() {
+    async getSection() {
       await this.$store.dispatch('section/all').then((response) => {
         this.sections = response.data
       })
@@ -228,9 +254,12 @@ export default {
       formData.append('weight', this.form.weight)
       formData.append('short_description', this.form.short_description)
       formData.append('regular_price', this.form.regular_price)
+      formData.append('price', this.form.sale_price)
+      formData.append('sale_price', this.form.sale_price)
       formData.append('wholesale_price', this.form.wholesales_price)
       formData.append('stock_quantity', this.form.stock_quantity)
       formData.append('top_product', this.form.top_product ? 1 : 0)
+      formData.append('onsale', this.form.onsale ? 1 : 0)
       await this.$store
         .dispatch('products/addnew', formData)
         .then((response) => {

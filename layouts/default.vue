@@ -1,7 +1,7 @@
 <template>
   <v-app dark>
-    <v-container fill-height v-if="pageloading">
-      <v-layout row wrap align-center justify-center>
+    <v-container fill-height v-if="pageloading" >
+      <v-layout row wrap align-center justify-center >
         <v-flex md6 text-center>
           <!-- <img src="../static/assets/google-play.gif" width="100%" alt=""> -->
           <v-progress-circular
@@ -106,7 +106,7 @@
         </v-list>
       </v-navigation-drawer>
 
-      <v-app-bar app color="" style="" class="top-top">
+      <v-app-bar app color="" style="" class="top-top" id="banner">
         <p style="font-size: 12px">
           Win a FREE gift on your first order.<br />
           <span class="hidden-md-and-up">Use Code: <b>FIRSTGIFT</b></span>
@@ -374,11 +374,11 @@
             flat
             style="width: 100vw"
             min-height="400px"
-            max-height="auto"
+            max-height="400px"
             class="py-0 elevation-0"
           >
             <v-row>
-              <v-col cols="12" class="pa-8">
+              <v-col cols="12" class="pa-8 ">
                 <div class="d-flex justify-space-between">
                   <v-btn icon small>All</v-btn>
                   <v-btn icon small>#</v-btn>
@@ -412,21 +412,24 @@
                 <v-divider></v-divider>
               </v-col>
             </v-row>
-            <!-- <div class="d-flex flex-column pa-10">
-              <nuxt-link
-                v-for="j in orderedBrands"
-                :key="j.id"
-                :to="'/category/' + j.name + '?categoryId=' + j.id"
-                style="text-decoration: none; margin-bottom: 0 !important"
-              >
-                <p
-                  class="primary--text font-weight-bold"
-                  style="font-size: 13px"
+            <div class="d-flex justify-space-between pa-10 pt-0">
+              <div v-for="(i,index) in 4" :key="index">
+                <nuxt-link
+                  v-for="j in orderedBrands.slice(index,index + 7)"
+                  :key="j.id"
+                  :to="'/category/' + j.name + '?categoryId=' + j.id"
+                  style="text-decoration: none; margin-bottom: 0 !important"
                 >
-                  {{ j.name }}
-                </p></nuxt-link
-              >
-            </div> -->
+                  <p
+                    class="primary--text font-weight-bold"
+                    style="font-size: 13px"
+                  >
+                    {{ j.name }}
+                  </p></nuxt-link
+                >
+
+              </div>
+            </div>
           </v-list>
         </v-menu>
         <v-menu
@@ -535,6 +538,21 @@
           </v-col>
         </v-row>
       </v-app-bar>
+      <v-btn fab bottom right v-if="fab"
+
+      :small="$vuetify.breakpoint.xsOnly"
+      :class="{
+        'primary': $vuetify.breakpoint.lgAndDown,
+        'ma-12': $vuetify.breakpoint.mdAndUp,
+        'white--text back-to-top': $vuetify.breakpoint.lgAndDown,
+        'ma-4': $vuetify.breakpoint.smAndDown
+      }"
+
+      v-scroll-to="'#banner'"
+      color="#000"
+    >
+      <v-icon>keyboard_arrow_up</v-icon>
+    </v-btn>
       <v-main
         class="pt-0"
         :class="
@@ -599,6 +617,7 @@
             </v-col>
           </v-row>
         </div>
+
       </v-main>
       <div height="400" class="white--text footer pt-8">
         <v-row
@@ -699,6 +718,7 @@
         </div>
       </div>
     </v-responsive>
+
   </v-app>
 </template>
 
@@ -709,6 +729,7 @@ export default {
   components: { SearchProducts },
   data() {
     return {
+      fab:false,
       drawer: null,
       fixed: false,
       sticky: false,
@@ -764,6 +785,15 @@ export default {
     }
   },
   methods: {
+    scroller() {
+      if (window.scrollY > 500) {
+
+        this.fab = true
+      } else {
+
+        this.fab = false
+      }
+    },
     stickyNav() {
       var position = document.documentElement.scrollTop
 
@@ -838,7 +868,7 @@ export default {
   },
   created() {
     var date = new Date().toISOString().substr(0, 10)
-    window.addEventListener('scroll', this.stickyNav)
+    window.addEventListener('scroll', this.scroller)
   },
 }
 </script>
@@ -986,5 +1016,16 @@ a {
 }
 .logo-size-sm {
   width: 100px;
+}
+.back-to-top {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  z-index: 999999;
+  border-radius: 50px !important;
+}
+.back-to-top:hover {
+  background: #ff4e50 !important;
+  color: #000 !important;
 }
 </style>

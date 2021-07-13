@@ -24,7 +24,16 @@
             </div>
           </td>
 
-          <td>&#8358;{{ i.price | formatPrice }}</td>
+          <td>
+            &#8358;{{
+              (isAuthenticated
+                ? user.role == 'wholesaler'
+                  ? i.wholesale_price
+                  : i.price
+                : i.price) | formatPrice
+            }}
+          </td>
+
           <td>
             <div class="qty-box pa-2">
               <v-btn
@@ -43,11 +52,21 @@
           </td>
           <td>
             &#8358;{{
-              (parseInt(i.price) * parseInt(i.quantity)) | formatPrice
+              (parseInt(
+                isAuthenticated
+                  ? user.role == 'wholesaler'
+                    ? i.wholesale_price
+                    : i.price
+                  : i.price
+              ) *
+                parseInt(i.quantity))
+                | formatPrice
             }}
           </td>
           <td class="text-right">
-            <v-icon @click="removeItem(index), calculateSubtotal()">ri-close-line</v-icon>
+            <v-icon @click="removeItem(index), calculateSubtotal()"
+              >ri-close-line</v-icon
+            >
           </td>
         </tr>
         <tr v-if="StoreCart.length == 0">
@@ -62,7 +81,6 @@
         <v-btn @click="$router.go(-1)" class="secondary" block text large>
           <v-icon>ri-arrow-left-line</v-icon> Back to Shop</v-btn
         >
-
       </v-col>
       <v-col offset-md="5" md="4">
         <div class="shopping-total pa-5">
@@ -92,20 +110,24 @@ export default {
   data() {
     return {
       subtotal: 0,
-
     }
   },
   mounted() {
     this.calculateSubtotal()
   },
   methods: {
-
     calculateSubtotal() {
       this.subtotal = 0
       for (var i = 0; i < this.StoreCart.length; i++) {
         this.subtotal +=
           parseInt(this.StoreCart[i].quantity) *
-          parseInt(this.StoreCart[i].price)
+          parseInt(
+            this.isAuthenticated
+              ? this.user.role == 'wholesaler'
+                ? this.StoreCart[i].wholesale_price
+                : this.StoreCart[i].price
+              : this.StoreCart[i].price
+          )
       }
     },
     removeItem(index) {
@@ -114,6 +136,7 @@ export default {
   },
   computed: {
     ...mapGetters('products', ['StoreCart']),
+    ...mapGetters('auth', ['isAuthenticated', 'user']),
   },
 }
 </script>

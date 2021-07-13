@@ -167,6 +167,11 @@ export const actions = {
     return data
   },
 
+  async bannerproducts({}, { page, id }) {
+    const data = await this.$axios.$get('/site-banners/single/' + id)
+    return data
+  },
+
   async single({}, { id }) {
     const data = await this.$axios.$get('/products/single/' + id)
     return data

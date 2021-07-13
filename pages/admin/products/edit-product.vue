@@ -68,7 +68,7 @@
           <v-text-field
             outlined
             dense
-            label="Product Price"
+            label="Product Regular Price"
             v-model="form.regular_price"
             required
             prefix="₦"
@@ -76,6 +76,19 @@
             :rules="[(v) => !!v || 'This field is required']"
           >
           </v-text-field>
+
+          <v-text-field
+            outlined
+            dense
+            label="Product Sale Price"
+            v-model="form.sale_price"
+            required
+            prefix="₦"
+            type="number"
+            :rules="priceRules"
+          >
+          </v-text-field>
+
           <v-text-field
             outlined
             dense
@@ -84,7 +97,7 @@
             required
             prefix="₦"
             type="number"
-            :rules="[(v) => !!v || 'This field is required']"
+            :rules="salesRules"
           >
           </v-text-field>
           <v-text-field
@@ -138,7 +151,17 @@
             id="productImage"
           >
           </v-file-input>
-          <v-checkbox label="Mark as Top Product?" v-model="form.top_product"></v-checkbox>
+          <div class="d-flex justify-space-between">
+            <v-checkbox
+              label="Mark as Top Product?"
+              v-model="form.top_product"
+            ></v-checkbox>
+             <v-checkbox
+              label="Is product on sale?"
+              v-model="form.onsale"
+            ></v-checkbox>
+
+          </div>
           <v-btn
             class="primary"
             @click="$refs.addnew.validate() ? updateProduct() : null"
@@ -172,12 +195,20 @@ export default {
       editorConfig: {},
       categories: [],
       brands: [],
+      sections: [],
+       priceRules: [(v) => !!v || 'This field is required',
+      (v) => v < parseInt(this.form.regular_price) || 'Sales price must be less than regular price'
+      ],
+      salesRules: [(v) => !!v || 'This field is required',
+      (v) => v < parseInt(this.form.sale_price) || 'Sales price must be less than sales price'
+      ]
     }
   },
   mounted() {
 
     this.getBrands()
     this.getSingleProduct()
+    this.getSection()
   },
   methods: {
     async getSingleProduct() {
@@ -189,25 +220,36 @@ export default {
         this.form.product_name = details.name
         this.form.brand_id = parseInt(details.brand_id)
         this.form.regular_price = details.regular_price
+        this.form.section_id = parseInt(details.section_id)
+        this.form.sale_price = details.sale_price
         this.form.wholesales_price = details.wholesale_price
         this.form.stock_quantity = details.stock_quantity
         this.form.weight = details.weight
         this.form.short_description = details.short_description
         this.form.description = details.description
+        this.form.how_to_use = details.how_to_use
+        this.form.ingridient = details.ingridient
+        this.form.onsale = details.onsale
         this.imagesrc = details.avatar
         for(var i =0; i<details.categories.length; i++){
           this.form.category[i] = i.category_id
         }
         this.form.top_product = details.top_product
+        this.getCategories()
       })
     },
     getCategories(name) {
-      let obj = this.brands.filter((item) => item.id === name)
-      this.categories =  obj[0].category
+      let obj = this.sections.filter((item) => item.id === name)
+      this.categories = obj[0].category
     },
     async getBrands() {
       await this.$store.dispatch('brand/all').then((response) => {
         this.brands = response.data
+      })
+    },
+    async getSection() {
+      await this.$store.dispatch('section/all').then((response) => {
+        this.sections = response.data
       })
     },
     clickInput() {
@@ -241,9 +283,12 @@ export default {
       formData.append('weight', this.form.weight)
       formData.append('short_description', this.form.short_description)
       formData.append('regular_price', this.form.regular_price)
+      formData.append('price', this.form.sale_price)
+      formData.append('sale_price', this.form.sale_price)
       formData.append('wholesale_price', this.form.wholesales_price)
       formData.append('stock_quantity', this.form.stock_quantity)
       formData.append('top_product', this.form.top_product ? 1 : 0)
+      formData.append('onsale', this.form.onsale ? 1 : 0)
       await this.$store
         .dispatch('products/update', formData)
         .then((response) => {

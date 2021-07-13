@@ -6,12 +6,11 @@
           badge
         }}</v-chip> -->
         <nuxt-link :to="'/single-product?product_id=' + product_id">
-          <img :src="image"  width="100%" height="200"  alt="" />
+          <img :src="image" width="100%" height="200" alt="" />
         </nuxt-link>
         <v-expand-transition>
           <v-card
             flat
-
             class="py-2 text-center white transition-slow-in-slow-out white--text"
             style="margin-top: -40px; width: 100%"
           >
@@ -44,7 +43,7 @@
                   v-bind="attrs"
                   v-on="on"
                   @click="
-                    isAuthenticated ? addToWishList() : loginDialog = true
+                    isAuthenticated ? addToWishList() : (loginDialog = true)
                   "
                   ><v-icon small>ri-heart-line</v-icon></v-btn
                 >
@@ -63,20 +62,28 @@
           </nuxt-link>
         </div>
         <v-rating
-
           dense
           small
           color="orange"
           :value="parseInt(rating)"
         ></v-rating>
-        <div class="product-price">&#8358;{{ price | formatPrice }}</div>
+        <div class="product-price d-flex justify-space-between">
+          <del style="color: #bbb; font-size">&#8358;{{ regular_price | formatPrice }}</del>
+          &#8358;{{
+            (isAuthenticated
+              ? user.role == 'wholesaler'
+                ? wholesale_price
+                : price
+              : price) | formatPrice
+          }}
+        </div>
       </div>
     </v-hover>
     <v-dialog v-model="dialog" width="1200">
       <v-card class="pa-6">
         <v-row>
           <v-col md="5">
-            <img :src="image"  width="100%"  alt="" />
+            <img :src="image" width="100%" alt="" />
           </v-col>
           <v-col md="7">
             <div class="product-details">
@@ -88,12 +95,16 @@
               </p>
               <v-divider></v-divider>
               <div class="price mt-5">
-                <del
-                  >&#8358;{{
-                    (parseInt(price) + 0.15 * parseInt(price)) | formatPrice
-                  }}</del
-                >
-                <p class="ml-5 sale-price">&#8358;{{ price | formatPrice }}</p>
+                <del>&#8358;{{ regular_price | formatPrice }}</del>
+                <p class="ml-5 sale-price">
+                  &#8358;{{
+                    (isAuthenticated
+                      ? user.role == 'wholesaler'
+                        ? wholesale_price
+                        : price
+                      : price) | formatPrice
+                  }}
+                </p>
               </div>
               <!-- <p>
                 Sold by: <span class="font-weight-bold"> {{ brand }}</span>
@@ -127,10 +138,17 @@
                   >
                   <v-tooltip bottom>
                     <template v-slot:activator="{ on, attrs }">
-                      <v-btn v-bind="attrs"  @click="
-                    isAuthenticated ? addToWishList() : loginDialog = true
-                  "
-                  v-on="on" icon><v-icon>ri-heart-line</v-icon></v-btn>
+                      <v-btn
+                        v-bind="attrs"
+                        @click="
+                          isAuthenticated
+                            ? addToWishList()
+                            : (loginDialog = true)
+                        "
+                        v-on="on"
+                        icon
+                        ><v-icon>ri-heart-line</v-icon></v-btn
+                      >
                     </template>
                     <span>Add to Wishlist</span>
                   </v-tooltip>
@@ -143,7 +161,7 @@
         </v-row>
       </v-card>
     </v-dialog>
-     <v-dialog v-model="loginDialog" width="450px">
+    <v-dialog v-model="loginDialog" width="450px">
       <v-card class="pa-8">
         <h2 class="text-center mb-8">Login to Continue</h2>
         <v-divider></v-divider>
@@ -191,6 +209,8 @@ export default {
     'vendor',
     'product_name',
     'price',
+    'regular_price',
+    'wholesale_price',
     'rating',
     'badge',
     'image',
@@ -211,7 +231,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters('auth', ['isAuthenticated']),
+    ...mapGetters('auth', ['isAuthenticated', 'user']),
   },
   methods: {
     async login() {

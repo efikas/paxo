@@ -34,7 +34,9 @@
             <product-display
             :product_name="i.product.name"
             rating="5"
-            :price="i.product.price"
+            :price="i.product.sale_price"
+            :regular_price="i.product.regular_price"
+            :wholesale_price="i.product.wholesale_price"
             :image="i.product.avatar"
             :badge="i.product.stock_status"
             :description="i.product.description"
@@ -42,6 +44,8 @@
             :product_object="i"
             :product_id="i.product.id"
           />
+
+         
           </v-col>
         </v-row>
       </v-col>

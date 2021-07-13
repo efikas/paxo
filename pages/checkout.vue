@@ -171,7 +171,11 @@
           <div class="" v-for="(i, index) in StoreCart" :key="index">
             <p>
               {{ i.name }} <br />{{ i.quantity }} x &#8358;{{
-                i.price | formatPrice
+                (isAuthenticated
+                ? user.role == 'wholesaler'
+                  ? i.wholesale_price
+                  : i.price
+                : i.price) | formatPrice
               }}
             </p>
             <v-divider class="pb-6"></v-divider>
@@ -234,7 +238,13 @@ export default {
       for (var i = 0; i < this.StoreCart.length; i++) {
         this.subtotal +=
           parseInt(this.StoreCart[i].quantity) *
-          parseInt(this.StoreCart[i].price)
+          parseInt(
+            this.isAuthenticated
+              ? this.user.role == 'wholesaler'
+                ? this.StoreCart[i].wholesale_price
+                : this.StoreCart[i].price
+              : this.StoreCart[i].price
+          )
 
         this.totalweight +=
           parseInt(this.StoreCart[i].weight) *
@@ -262,7 +272,7 @@ export default {
   },
   computed: {
     ...mapGetters('products', ['StoreCart']),
-    ...mapGetters('auth', ['user']),
+    ...mapGetters('auth', ['isAuthenticated', 'user']),
   },
 }
 </script>

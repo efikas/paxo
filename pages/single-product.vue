@@ -27,8 +27,15 @@
             </p>
             <v-divider></v-divider>
             <div class="price mt-5">
-              <del>&#8358;{{(parseInt(product.price) + 0.15 * parseInt(product.price)) || 0 | formatPrice}}</del>
-              <p class="ml-5 sale-price">&#8358;{{product.price || 0 | formatPrice}}</p>
+              <del>&#8358;{{ product.regular_price | formatPrice }}</del>
+              <p class="ml-5 sale-price">&#8358;{{
+                    (isAuthenticated
+                      ? user.role == 'wholesaler'
+                        ? product.wholesale_price
+                        : product.price
+                      : product.price) | formatPrice
+                  }}</p>
+
             </div>
             <!-- <p>Sold by: <span class="font-weight-bold"> {{product.brand}}</span></p> -->
             <p>{{product.short_description}}</p>
@@ -208,9 +215,9 @@
           <h1>Related Products</h1>
           <v-divider></v-divider>
         </v-col>
-        <v-col v-for="i in relatedproduct"
+        <v-col  v-for="i in relatedproduct"
         :key="i"
-         class="pa-8" :class="{'px-8':$vuetify.breakpoint.mdAndUp,'px-4':$vuetify.breakpoint.smAndDown}" md="10">
+         class="pa-8" :class="{'px-8':$vuetify.breakpoint.mdAndUp,'px-4':$vuetify.breakpoint.smAndDown}" md="3">
           <product-display
           :vendor="i.brand ? i.brand.name : null"
           :product_name="i.name"
@@ -265,7 +272,7 @@ export default {
     this.getRelatedProduct()
   },
   computed: {
-    ...mapGetters('auth', ['isAuthenticated'])
+    ...mapGetters('auth', ['isAuthenticated', 'user'])
   },
   methods: {
     async getSingleProduct () {
