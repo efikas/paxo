@@ -371,7 +371,7 @@
       >
         <v-menu
           open-on-hover
-          bottom
+          bottom v-model="showBrand"
           offset-y
           :close-on-content-click="false"
           origin="top left"
@@ -396,53 +396,64 @@
             <v-row>
               <v-col cols="12" class="pa-8">
                 <div class="d-flex justify-space-between">
-                  <v-btn @click="sortBrands('A')" icon small>All</v-btn>
+                  <v-btn @click="orderedBrands = _.orderBy(brands, 'name')" icon small>All</v-btn>
                   <v-btn icon small>#</v-btn>
-                  <v-btn icon small>A</v-btn>
-                  <v-btn icon small>B</v-btn>
-                  <v-btn icon small>C</v-btn>
-                  <v-btn icon small>D</v-btn>
-                  <v-btn icon small>E</v-btn>
-                  <v-btn icon small>F</v-btn>
-                  <v-btn icon small>G</v-btn>
-                  <v-btn icon small>H</v-btn>
-                  <v-btn icon small>I</v-btn>
-                  <v-btn icon small>J</v-btn>
-                  <v-btn icon small>K</v-btn>
-                  <v-btn icon small>L</v-btn>
-                  <v-btn icon small>M</v-btn>
-                  <v-btn icon small>N</v-btn>
-                  <v-btn icon small>O</v-btn>
-                  <v-btn icon small>P</v-btn>
-                  <v-btn icon small>Q</v-btn>
-                  <v-btn icon small>R</v-btn>
-                  <v-btn icon small>S</v-btn>
-                  <v-btn icon small>T</v-btn>
-                  <v-btn icon small>U</v-btn>
-                  <v-btn icon small>V</v-btn>
-                  <v-btn icon small>W</v-btn>
-                  <v-btn icon small>X</v-btn>
-                  <v-btn icon small>Y</v-btn>
-                  <v-btn icon small>Z</v-btn>
+                  <v-btn @click="sortBrands('a')" icon small>A</v-btn>
+                  <v-btn @click="sortBrands('b')" icon small>B</v-btn>
+                  <v-btn @click="sortBrands('c')" icon small>C</v-btn>
+                  <v-btn @click="sortBrands('d')" icon small>D</v-btn>
+                  <v-btn @click="sortBrands('e')" icon small>E</v-btn>
+                  <v-btn @click="sortBrands('f')" icon small>F</v-btn>
+                  <v-btn @click="sortBrands('g')" icon small>G</v-btn>
+                  <v-btn @click="sortBrands('h')" icon small>H</v-btn>
+                  <v-btn @click="sortBrands('i')" icon small>I</v-btn>
+                  <v-btn @click="sortBrands('j')" icon small>J</v-btn>
+                  <v-btn @click="sortBrands('k')" icon small>K</v-btn>
+                  <v-btn @click="sortBrands('l')" icon small>L</v-btn>
+                  <v-btn @click="sortBrands('m')" icon small>M</v-btn>
+                  <v-btn @click="sortBrands('n')" icon small>N</v-btn>
+                  <v-btn @click="sortBrands('o')" icon small>O</v-btn>
+                  <v-btn @click="sortBrands('p')" icon small>P</v-btn>
+                  <v-btn @click="sortBrands('q')" icon small>Q</v-btn>
+                  <v-btn @click="sortBrands('r')" icon small>R</v-btn>
+                  <v-btn @click="sortBrands('s')" icon small>S</v-btn>
+                  <v-btn @click="sortBrands('t')" icon small>T</v-btn>
+                  <v-btn @click="sortBrands('u')" icon small>U</v-btn>
+                  <v-btn @click="sortBrands('v')" icon small>V</v-btn>
+                  <v-btn @click="sortBrands('w')" icon small>W</v-btn>
+                  <v-btn @click="sortBrands('x')" icon small>X</v-btn>
+                  <v-btn @click="sortBrands('y')" icon small>Y</v-btn>
+                  <v-btn @click="sortBrands('z')" icon small>Z</v-btn>
                 </div>
                 <v-divider></v-divider>
               </v-col>
             </v-row>
             <div class="brands-container pa-10 pt-0">
-              <div v-for="(i, index) in brandlength" :key="index" style="width: 300px;" class="brands">
-                <nuxt-link
-                  v-for="j in orderedBrands.slice(index * brandsize, (index *brandsize) + brandsize)"
+              <div
+                v-for="(i, index) in brandlength"
+                :key="index"
+                style="width: 300px"
+                class="brands"
+              >
+              <div class="sub-menu">
+                <a href="javascript:void(0)" class="nav-" @click="showBrand = false, $router.push('/brands/' + j.name + '?brandId=' + j.id)"
+                  v-for="j in orderedBrands.slice(
+                    index * brandsize,
+                    index * brandsize + brandsize
+                  )"
                   :key="j.id"
-                  :to="'/category/' + j.name + '?categoryId=' + j.id"
+
                   style="text-decoration: none; margin-bottom: 0 !important"
                 >
                   <p
-                    class="primary--text font-weight-bold"
+                    class=" "
                     style="font-size: 13px"
                   >
                     {{ j.name }}
-                  </p></nuxt-link
+                  </p></a
                 >
+
+              </div>
               </div>
             </div>
           </v-list>
@@ -757,12 +768,14 @@ export default {
   components: { SearchProducts },
   data() {
     return {
+      showBrand: false,
       fab: false,
       drawer: null,
       fixed: false,
       sticky: false,
       searchDialog: null,
       pageloading: true,
+      orderedBrands:[],
       brands: [],
       brandsize: 7,
       sections: [],
@@ -857,6 +870,7 @@ export default {
       await this.$store.dispatch('brand/all').then((response) => {
         this.brands = response.data
         // this.pageloading = false
+         this.orderedBrands = _.orderBy(this.brands, 'name')
       })
     },
     async getSections() {
@@ -878,21 +892,33 @@ export default {
           'https://apps.apple.com/ng/app/paxo-beauty/id1534936621'
       }
     },
-    sortBrands(alpha){
-      this.orderedBrands = this.orderedBrands.filter((brand) => brand.startsWith(alpha))
-    }
+    sortBrands(alpha) {
+      // this.orderedBrands = this.orderedBrands.filter((brand) => brand.name.startsWith(alpha))
+      // console.log(this.orderedBrands)
+      let startsWithN = this.brands.filter(function (brand) {
+        return brand.name[0].toLowerCase() === alpha
+      })
+      this.orderedBrands = startsWithN
+      console.log(startsWithN)
+    },
   },
   computed: {
     ...mapGetters('products', ['StoreCart', 'cartItem']),
     ...mapGetters('auth', ['isAuthenticated']),
-    orderedBrands() {
-      return _.orderBy(this.brands, 'name')
-    },
-    brandlength () {
+    // orderedBrands: {
+    //   get: function () {
+    //     return _.orderBy(this.brands, 'name')
+    //   },
+    //   set: function (newValue) {
+    //     return newValue
+    //   }
+    // },
+    brandlength() {
       return Math.ceil(this.brands.length / 7)
-    }
+    },
   },
   mounted() {
+
     // this.stickyNav()
   },
 

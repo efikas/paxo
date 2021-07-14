@@ -3,28 +3,29 @@
     <!-- <home-page-slider class="hidden-sm-and-down"></home-page-slider> -->
     <v-row class="mt-4" :class="{ 'px-4': $vuetify.breakpoint.smAndDown }">
       <v-col md="2" class="hidden-sm-and-down">
-        <div class="category pa-4">
-          <h4 class="mb-6">CATEGORIES</h4>
+        <div class="category pa-0">
+          <h4 class="mb-6 ma-4">FILTER BY <v-icon>filter_alt</v-icon></h4>
 
-          <a href="#" v-for="(i, index) in categories" :key="index">
-            {{ i.name }}<br />
-          </a>
-        </div>
-        <div class="category mt-6 pa-4">
-          <h4 class="mb-6">BY BRANDS</h4>
-          <v-radio-group
-            v-for="(i, index) in brands"
-            :key="index"
-            class="ma-0 pa-0"
-            v-model="brand"
-          >
-            <v-radio :label="i.name" :value="i.name"></v-radio>
-          </v-radio-group>
-
-          <v-divider></v-divider>
-          <h4 class="mt-6 mb-2">BY PRICE</h4>
-          <v-range-slider v-model="range" max="500000"></v-range-slider>
-          {{ range }}
+          <v-expansion-panels flat focusable>
+            <v-expansion-panel style="border-bottom: 1px solid #ddd; border-top: 1px solid #ddd;" >
+              <v-expansion-panel-header style="font-size: 15px;">Category</v-expansion-panel-header>
+              <v-expansion-panel-content>
+                <v-checkbox v-for="(i,index) in categories"  :key="index" :label="i.name" class="ma-0 pa-0"></v-checkbox>
+              </v-expansion-panel-content>
+            </v-expansion-panel>
+            <v-expansion-panel style="border-bottom: 1px solid #ddd;">
+              <v-expansion-panel-header style="font-size: 15px;">Brand</v-expansion-panel-header>
+              <v-expansion-panel-content>
+                <v-checkbox v-for="(i,index) in brands"  :key="index" :label="i.name" class="ma-0 pa-0"></v-checkbox>
+              </v-expansion-panel-content>
+            </v-expansion-panel>
+            <v-expansion-panel style="border-bottom: 1px solid #ddd;">
+              <v-expansion-panel-header style="font-size: 15px;">Price</v-expansion-panel-header>
+              <v-expansion-panel-content>
+                <v-range-slider v-model="range" max="500000"></v-range-slider>
+              </v-expansion-panel-content>
+            </v-expansion-panel>
+          </v-expansion-panels>
         </div>
       </v-col>
       <v-col md="10">
@@ -34,19 +35,19 @@
           <v-col md="3" v-for="(i, index) in products" :key="index">
             <!-- :vendor="i.product.brand.name" -->
             <product-display
-            :vendor="i.brand ? i.brand.name : null"
-            :product_name="i.name"
-            rating="5"
-            :price="i.sale_price"
-            :regular_price="i.regular_price"
-            :wholesale_price="i.wholesale_price"
-            :image="i.avatar"
-            :badge="i.stock_status"
-            :description="i.description"
-            :short_description="i.short_description"
-            :product_object="i"
-            :product_id="i.id"
-          />
+              :vendor="i.brand ? i.brand.name : null"
+              :product_name="i.name"
+              rating="5"
+              :price="i.sale_price"
+              :regular_price="i.regular_price"
+              :wholesale_price="i.wholesale_price"
+              :image="i.avatar"
+              :badge="i.stock_status"
+              :description="i.description"
+              :short_description="i.short_description"
+              :product_object="i"
+              :product_id="i.id"
+            />
           </v-col>
         </v-row>
       </v-col>
@@ -100,7 +101,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 .category {
-  background-color: #f5f5f5;
+  background-color: #fff;
   h4 {
     font-size: 18px;
     font-weight: 400;

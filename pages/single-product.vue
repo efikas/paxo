@@ -21,7 +21,7 @@
           <div class="product-details">
             <h2>{{product.name}}</h2>
             <p style="display: flex">
-              Brand: {{product.brand}} |
+              Brand: {{product.brand ? product.brand.name : null}} |
               <v-rating color="orange" dense small :value="5"></v-rating> (1
               review)
             </p>
