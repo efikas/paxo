@@ -1,7 +1,7 @@
 <template>
   <v-app dark>
-    <v-container fill-height v-if="pageloading" >
-      <v-layout row wrap align-center justify-center >
+    <v-container fill-height v-if="pageloading">
+      <v-layout row wrap align-center justify-center>
         <v-flex md6 text-center>
           <!-- <img src="../static/assets/google-play.gif" width="100%" alt=""> -->
           <v-progress-circular
@@ -134,10 +134,23 @@
           <v-icon size="18">smartphone</v-icon>
           DOWNLOAD APP</v-btn
         > -->
-  <p class="hidden-sm-and-down">
-    <!-- <v-btn class="secondary" small text>DOWNLOAD</v-btn> -->
-    DOWNLOAD APP:&emsp; <a style="color: #333;" href="https://apps.apple.com/ng/app/paxo-beauty/id1534936621" target="_blank">IOS</a> &emsp; <a style="color: #333;" href="https://play.google.com/store/apps/details?id=com.paxo.shop" target="_blank">ANDROID</a>
-  </p>
+        <p class="hidden-sm-and-down">
+          <!-- <v-btn class="secondary" small text>DOWNLOAD</v-btn> -->
+          DOWNLOAD APP:&emsp;
+          <a
+            style="color: #333"
+            href="https://apps.apple.com/ng/app/paxo-beauty/id1534936621"
+            target="_blank"
+            >IOS</a
+          >
+          &emsp;
+          <a
+            style="color: #333"
+            href="https://play.google.com/store/apps/details?id=com.paxo.shop"
+            target="_blank"
+            >ANDROID</a
+          >
+        </p>
 
         <v-btn
           class="secondary hidden-md-and-up"
@@ -177,11 +190,13 @@
         <v-spacer class="hidden-md-and-up" />
 
         <nuxt-link to="/">
-          <img src="../static/assets/Paxo Logo Green.png" width="" alt="" />
+          <img src="../static/assets/Paxo logo Size G.png" width="107" alt="" />
         </nuxt-link>
 
         <v-spacer />
-        <nuxt-link class="nav-btn-small hidden-sm-and-down mx-3" to="/paxo-reward"
+        <nuxt-link
+          class="nav-btn-small hidden-sm-and-down mx-3"
+          to="/paxo-reward"
           >Paxo Reward</nuxt-link
         >
         <!-- <nuxt-link class="nav-btn-small hidden-sm-and-down mx-3" to="/stories"
@@ -357,7 +372,8 @@
         <v-menu
           open-on-hover
           bottom
-          offset-y :close-on-content-click="false"
+          offset-y
+          :close-on-content-click="false"
           origin="top left"
           open-delay="500"
           max-width="100vw"
@@ -378,9 +394,9 @@
             class="py-0 elevation-0"
           >
             <v-row>
-              <v-col cols="12" class="pa-8 ">
+              <v-col cols="12" class="pa-8">
                 <div class="d-flex justify-space-between">
-                  <v-btn icon small>All</v-btn>
+                  <v-btn @click="sortBrands('A')" icon small>All</v-btn>
                   <v-btn icon small>#</v-btn>
                   <v-btn icon small>A</v-btn>
                   <v-btn icon small>B</v-btn>
@@ -412,10 +428,10 @@
                 <v-divider></v-divider>
               </v-col>
             </v-row>
-            <div class="d-flex justify-space-between pa-10 pt-0">
-              <div v-for="(i,index) in 4" :key="index">
+            <div class="brands-container pa-10 pt-0">
+              <div v-for="(i, index) in brandlength" :key="index" style="width: 300px;" class="brands">
                 <nuxt-link
-                  v-for="j in orderedBrands.slice(index,index + 7)"
+                  v-for="j in orderedBrands.slice(index * brandsize, (index *brandsize) + brandsize)"
                   :key="j.id"
                   :to="'/category/' + j.name + '?categoryId=' + j.id"
                   style="text-decoration: none; margin-bottom: 0 !important"
@@ -427,7 +443,6 @@
                     {{ j.name }}
                   </p></nuxt-link
                 >
-
               </div>
             </div>
           </v-list>
@@ -454,14 +469,14 @@
             flat
             style="width: 100vw"
             min-height="400px"
-            class="py-0 elevation-0"
+            class="pb-0 pt-8 elevation-0"
           >
             <v-row>
               <v-col
                 md="2"
                 v-for="(j, index) in i.category"
                 :key="index"
-                class="pa-8"
+                class="px-8 pt-0 pb-3"
               >
                 <p v-if="i.category.length == 0">No categories found</p>
                 <nuxt-link
@@ -529,7 +544,12 @@
             >
           </v-col>
           <v-col cols="3">
-            <v-btn  class="nav-btn font-weight-medium px-3" to="/paxo-reward" block text>
+            <v-btn
+              class="nav-btn font-weight-medium px-3"
+              to="/paxo-reward"
+              block
+              text
+            >
               Offers</v-btn
             >
           </v-col>
@@ -538,21 +558,23 @@
           </v-col>
         </v-row>
       </v-app-bar>
-      <v-btn fab bottom right v-if="fab"
-
-      :small="$vuetify.breakpoint.xsOnly"
-      :class="{
-        'primary': $vuetify.breakpoint.lgAndDown,
-        'ma-12': $vuetify.breakpoint.mdAndUp,
-        'white--text back-to-top': $vuetify.breakpoint.lgAndDown,
-        'ma-4': $vuetify.breakpoint.smAndDown
-      }"
-
-      v-scroll-to="'#banner'"
-      color="#000"
-    >
-      <v-icon>keyboard_arrow_up</v-icon>
-    </v-btn>
+      <v-btn
+        fab
+        bottom
+        right
+        v-if="fab"
+        :small="$vuetify.breakpoint.xsOnly"
+        :class="{
+          primary: $vuetify.breakpoint.lgAndDown,
+          'ma-12': $vuetify.breakpoint.mdAndUp,
+          'white--text back-to-top': $vuetify.breakpoint.lgAndDown,
+          'ma-4': $vuetify.breakpoint.smAndDown,
+        }"
+        v-scroll-to="'#banner'"
+        color="#000"
+      >
+        <v-icon>keyboard_arrow_up</v-icon>
+      </v-btn>
       <v-main
         class="pt-0"
         :class="
@@ -617,7 +639,6 @@
             </v-col>
           </v-row>
         </div>
-
       </v-main>
       <div height="400" class="white--text footer pt-8">
         <v-row
@@ -633,9 +654,7 @@
             <h3 class="primary--text">234 814 690 7099</h3>
             <a href="mailto:info@paxo.com.ng">info@paxo.com.ng</a>
 
-            <p class="mb-12">No 3, Billings Way, Oregun Ikeja, Lagos
-</p>
-
+            <p class="mb-12">No 3, Billings Way, Oregun Ikeja, Lagos</p>
           </v-col>
           <v-col md="3" sm="3" cols="6">
             <h4 class="mb-4">Quick Links</h4>
@@ -653,11 +672,9 @@
             </nuxt-link> -->
             <nuxt-link to="/privacy-policy">
               <p>Privacy Policy</p>
-
             </nuxt-link>
             <nuxt-link to="/terms-condition">
-            <p>Terms & Conditions</p>
-
+              <p>Terms & Conditions</p>
             </nuxt-link>
             <!-- <p>FAQs</p> -->
           </v-col>
@@ -665,42 +682,54 @@
             <h4 class="mb-4">Company</h4>
             <nuxt-link to="/about-us">
               <p>About Us</p>
-
             </nuxt-link>
             <!-- <p>Affiliate</p> -->
             <!-- <p>Career</p> -->
             <nuxt-link to="/contact-us">
-            <p>Contact Us</p>
-            <h4 class="mt-8">Socials</h4>
-            <v-btn icon href="https://facebook.com/paxobeauty" target="_blank">
-              <v-icon color="white">ri-facebook-fill</v-icon>
-            </v-btn>
-            <v-btn icon href="https://instagram.com/paxobeauty" target="_blank">
-              <v-icon color="white">ri-instagram-fill</v-icon>
-            </v-btn>
-            <v-btn
-              icon
-              href="https://api.whatsapp.com/send/?phone=2348146907099&text&app_absent=0"
-              target="_blank"
-            >
-              <v-icon color="white">ri-whatsapp-fill</v-icon>
-            </v-btn>
-            <v-btn icon>
-              <v-icon>ri-youtube-fill</v-icon>
-            </v-btn>
-
+              <p>Contact Us</p>
+              <h4 class="mt-8">Socials</h4>
+              <v-btn
+                icon
+                href="https://facebook.com/paxobeauty"
+                target="_blank"
+              >
+                <v-icon color="white">ri-facebook-fill</v-icon>
+              </v-btn>
+              <v-btn
+                icon
+                href="https://instagram.com/paxobeauty"
+                target="_blank"
+              >
+                <v-icon color="white">ri-instagram-fill</v-icon>
+              </v-btn>
+              <v-btn
+                icon
+                href="https://api.whatsapp.com/send/?phone=2348146907099&text&app_absent=0"
+                target="_blank"
+              >
+                <v-icon color="white">ri-whatsapp-fill</v-icon>
+              </v-btn>
+              <v-btn
+                icon
+                href="https://www.youtube.com/channel/UCoK_tl8YDxh-JDBfeO9RTuQ"
+                target="_blank"
+              >
+                <v-icon color="white">ri-youtube-fill</v-icon>
+              </v-btn>
             </nuxt-link>
           </v-col>
           <v-col md="2" sm="3" cols="6">
             <h4 class="mb-4">Business</h4>
             <!-- <p>Our Press</p>
             <p>Checkout</p> -->
+            <nuxt-link to="/track-order">
+              <p>Track Order</p>
+            </nuxt-link>
             <nuxt-link to="/dashboard">
               <p>My account</p>
             </nuxt-link>
             <nuxt-link to="/offers">
               <p>Shop</p>
-
             </nuxt-link>
           </v-col>
         </v-row>
@@ -718,7 +747,6 @@
         </div>
       </div>
     </v-responsive>
-
   </v-app>
 </template>
 
@@ -729,13 +757,14 @@ export default {
   components: { SearchProducts },
   data() {
     return {
-      fab:false,
+      fab: false,
       drawer: null,
       fixed: false,
       sticky: false,
       searchDialog: null,
       pageloading: true,
       brands: [],
+      brandsize: 7,
       sections: [],
       emailRules: [
         (v) => !!v || 'E-mail is required',
@@ -787,10 +816,8 @@ export default {
   methods: {
     scroller() {
       if (window.scrollY > 500) {
-
         this.fab = true
       } else {
-
         this.fab = false
       }
     },
@@ -835,7 +862,7 @@ export default {
     async getSections() {
       await this.$store.dispatch('section/all').then((response) => {
         this.sections = response.data
-         this.pageloading = false
+        this.pageloading = false
       })
     },
     getApp() {
@@ -847,9 +874,13 @@ export default {
         navigator.userAgent.match(/iPad/i) ||
         navigator.userAgent.match(/iPod/i)
       ) {
-        ;('https://apps.apple.com/ng/app/paxo-beauty/id1534936621')
+        window.location.href =
+          'https://apps.apple.com/ng/app/paxo-beauty/id1534936621'
       }
     },
+    sortBrands(alpha){
+      this.orderedBrands = this.orderedBrands.filter((brand) => brand.startsWith(alpha))
+    }
   },
   computed: {
     ...mapGetters('products', ['StoreCart', 'cartItem']),
@@ -857,6 +888,9 @@ export default {
     orderedBrands() {
       return _.orderBy(this.brands, 'name')
     },
+    brandlength () {
+      return Math.ceil(this.brands.length / 7)
+    }
   },
   mounted() {
     // this.stickyNav()
@@ -891,8 +925,23 @@ export default {
     color: #ff4e50;
   }
 }
-a{
+a {
   text-decoration: none;
+}
+
+.brands-container {
+  display: flex;
+  flex-flow: row;
+  min-height: 392px;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+  overflow-x: scroll !important;
+  .brands {
+    flex: 0 0 auto;
+  }
 }
 
 .nav-btn {

@@ -264,7 +264,7 @@
       <h3>Hot New Arrivals</h3>
     </div>
     <v-row class="mt-6">
-      <v-col md="4" cols="12" v-for="(i, index) in products.slice(0, 9)" :key="index">
+      <v-col class="text-left" md="4" cols="12" v-for="(i, index) in products.slice(0, 9)" :key="index">
         <new-arrival
           :product_name="i.name"
           :price="i.price"

@@ -27,13 +27,13 @@
             </p>
             <v-divider></v-divider>
             <div class="price mt-5">
-              <del>&#8358;{{ product.regular_price | formatPrice }}</del>
+              <del>&#8358;{{ product.regular_price || 0 | formatPrice }}</del>
               <p class="ml-5 sale-price">&#8358;{{
                     (isAuthenticated
                       ? user.role == 'wholesaler'
                         ? product.wholesale_price
                         : product.price
-                      : product.price) | formatPrice
+                      : product.price) || 0 | formatPrice
                   }}</p>
 
             </div>
@@ -273,6 +273,11 @@ export default {
   },
   computed: {
     ...mapGetters('auth', ['isAuthenticated', 'user'])
+  },
+   watch: {
+    '$route.query.product_id': function () {
+     this.getSingleProduct()
+    }
   },
   methods: {
     async getSingleProduct () {

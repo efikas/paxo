@@ -136,7 +136,7 @@ export default {
   },
   methods: {
     goToProduct (id) {
-      this.$router.push('single-product?product_id='+id)
+      this.$router.push('/single-product?product_id='+id)
     },
     async findProduct() {
       const data = {

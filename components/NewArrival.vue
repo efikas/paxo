@@ -2,7 +2,7 @@
 <v-hover v-slot="{ hover }">
   <v-card flat :to="'/single-product?product_id='+id" class="product-box">
     <img :src="image" width="100" alt="">
-    <div>
+    <div class="pl-4">
       <div class="product-title">{{product_name}}</div>
       <v-rating dense small :value="5" color="orange"></v-rating>
       <div class="product-price">&#8358;{{price | formatPrice}}</div>
@@ -25,7 +25,7 @@ export default {
   position: relative;
   padding: 20px 20px 0;
   display: flex;
-  justify-content: space-evenly;
+  // justify-content: space-between;
 
 
   &:hover{
