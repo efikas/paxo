@@ -12,7 +12,7 @@
           <v-card
             flat
             class="py-2 text-center white transition-slow-in-slow-out white--text"
-            style="margin-top: -40px; width: 100%"
+            style="margin-top: -0px; width: 100%"
           >
             <v-tooltip bottom>
               <template v-slot:activator="{ on, attrs }">
@@ -67,8 +67,9 @@
           color="orange"
           :value="parseInt(rating)"
         ></v-rating>
-        <div class="product-price d-flex justify-space-between">
-          <del style="color: #bbb; font-size">&#8358;{{ regular_price | formatPrice }}</del>
+        <div class="product-price d-flex justify-space-between text-right">
+          <del v-if="product_object.onsale == '1'" style="color: #bbb; font-size">&#8358;{{ regular_price | formatPrice }}</del>
+          <p v-else></p>
           &#8358;{{
             (isAuthenticated
               ? user.role == 'wholesaler'

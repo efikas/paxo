@@ -80,10 +80,10 @@
             dense
             label="Product Sale Price"
             v-model="form.sale_price"
-            required
+
             prefix="₦"
             type="number"
-            :rules="priceRules"
+
           >
           </v-text-field>
 
@@ -190,7 +190,7 @@ export default {
     return {
       valid: true,
       loading: false,
-      form: {},
+      form: {sale_price: ''},
       imagesrc: null,
       editorConfig: {},
       categories: [],
@@ -200,7 +200,7 @@ export default {
       (v) => v < parseInt(this.form.regular_price) || 'Sales price must be less than regular price'
       ],
       salesRules: [(v) => !!v || 'This field is required',
-      (v) => v < parseInt(this.form.sale_price) || 'Sales price must be less than sales price'
+      (v) => v < parseInt(this.form.regular_price) || 'Wholesale price must be less than regular price'
       ]
     }
   },
@@ -254,7 +254,7 @@ export default {
       formData.append('weight', this.form.weight)
       formData.append('short_description', this.form.short_description)
       formData.append('regular_price', this.form.regular_price)
-      formData.append('price', this.form.sale_price)
+      formData.append('price', this.form.sale_price || this.form.regular_price)
       formData.append('sale_price', this.form.sale_price)
       formData.append('wholesale_price', this.form.wholesales_price)
       formData.append('stock_quantity', this.form.stock_quantity)

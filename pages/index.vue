@@ -6,9 +6,9 @@
       </v-col>
     </v-row>
     <v-row :class="{'px-8':$vuetify.breakpoint.mdAndUp}" >
-      <v-col md="6" v-for="i in brands.slice(0, 2)" :key="i.id">
+      <v-col md="6" v-for="i in banners.slice(banners.length - 2, banners.length + 2)" :key="i.id">
         <v-img
-          @click="$router.push('/brands/'+i.name+'?brandId='+i.id)"
+          @click="$router.push('/banners/'+i.name+'?bannerId='+i.id)"
           class="brands-img elevation-2"
           :class="{'h-350' : $vuetify.breakpoint.mdAndUp, 'h-200' : $vuetify.breakpoint.smAndDown}"
           :src="i.avatar"
@@ -299,6 +299,7 @@ export default {
       loading: true,
       blogs: [],
       categories: [],
+      banners: []
 
     }
   },
@@ -312,6 +313,7 @@ export default {
     this.getTopBrands()
     this.getTopCategories()
     this.getbrands()
+    this.getBanners()
 
   },
   methods: {
@@ -330,6 +332,13 @@ export default {
     scrollRightDeal() {
       var elmnt = document.getElementById('dealday')
       elmnt.scrollLeft -= 700
+    },
+    async getBanners() {
+      this.loading = true
+      await this.$store.dispatch('banner/allbanner').then((response) => {
+        this.banners = response.data
+
+      })
     },
     async getTopCategories() {
       await this.$store.dispatch('category/top').then((response) => {
