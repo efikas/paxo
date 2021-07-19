@@ -27,7 +27,7 @@
           </div>
         </v-col> -->
         <v-col md="12">
-          <h1 class="font-weight-medium">{{products.length > 0 ? 'Brand: '+ products[0].brand.name : 'No Products Found'}}</h1>
+          <h1 class="font-weight-medium">{{ !loading ? ((products.length > 0) ? 'Brand: '+ products[0].brand.name : 'No Products Found') : null}}</h1>
           <v-divider></v-divider>
           <v-row class="mt-8">
             <v-col md="3" v-for="(i, index) in products" :key="index">
@@ -57,6 +57,7 @@ export default {
   computed: {
     brand() {
       return location.pathname.split('/')[2]
+
     },
   },
   mounted() {
@@ -66,6 +67,7 @@ export default {
   },
   data() {
     return {
+      loading: true,
       brand: '',
       range: '',
       page: 1,
@@ -87,6 +89,7 @@ export default {
       })
     },
     async getProducts() {
+      this.loading = true
       const data = {
         page: this.page,
         id: this.$route.query.brandId
@@ -94,6 +97,7 @@ export default {
       await this.$store.dispatch('products/brandproducts', data).then((response) => {
       response.data ?   this.products = response.data : null
         // this.length = response.data.last_page
+        this.loading = false
       })
     },
   }

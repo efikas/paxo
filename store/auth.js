@@ -56,21 +56,29 @@ export const actions = {
     {
       password,
       email,
-      first_name, last_name,
+      first_name,
+      last_name,
       mobile,
       password_confirmation,
       sex,
-      dob,role,referred_by,referral_id
+      dob,
+      role,
+      referred_by,
+      referral_id,
     }
   ) {
     const data = await this.$axios.$post('/auth/register', {
       email,
       password,
-      first_name, last_name,
+      first_name,
+      last_name,
       mobile,
       password_confirmation,
       gender: sex,
-      dob,role,referred_by,referral_id
+      dob,
+      role,
+      referred_by,
+      referral_id,
     })
     this.$axios.defaults.headers.common['Token'] = data.message.access_token
     commit('setToken', data.data.access_token)
@@ -119,7 +127,7 @@ export const actions = {
   async skinexpert({ commit }, { skin_type, route, head_type }) {
     // let token = JSON.parse(window.localStorage.getItem('paxo')).auth.token
     const data = await this.$axios.$get(
-      `/recommendations/${skin_type}/${route}/${head_type}`,
+      `/recommendations/${skin_type}/${route}/${head_type}`
       // {
       //   headers: {
       //     Authorization: 'Bearer ' + token,
@@ -197,7 +205,7 @@ export const actions = {
   },
   async profile({ commit }) {
     let token = JSON.parse(window.localStorage.getItem('paxo')).auth.token
-    const data = await this.$axios.$get('/auth/profile', {
+    const data = await this.$axios.$get('/user', {
       headers: {
         Authorization: 'Bearer ' + token,
       },
@@ -221,7 +229,7 @@ export const actions = {
       postcode,
       apartment,
       dob,
-      id,
+      id, account_number, account_name, bank_code
     }
   ) {
     let token = JSON.parse(window.localStorage.getItem('paxo')).auth.token
@@ -239,7 +247,7 @@ export const actions = {
         city,
         postcode,
         apartment,
-        dob,
+        dob, account_number, account_name, bank_code
       },
       {
         headers: {
@@ -365,6 +373,53 @@ export const actions = {
         password,
         password_confirmation,
         current_password,
+      },
+      {
+        headers: {
+          Authorization: 'Bearer ' + token,
+        },
+      }
+    )
+    return data
+  },
+
+  async banks() {
+    let token = JSON.parse(window.localStorage.getItem('paxo')).auth.token
+    const data = await this.$axios.$get(
+      '/user/wallet/get-banks',
+
+      {
+        headers: {
+          Authorization: 'Bearer ' + token,
+        },
+      }
+    )
+    return data
+  },
+
+  async resolveaccount({}, { account_number, bank_code }) {
+    let token = JSON.parse(window.localStorage.getItem('paxo')).auth.token
+    const data = await this.$axios.$post(
+      '/user/wallet/enquiry',
+      {
+        account_number,
+        bank_code,
+      },
+      {
+        headers: {
+          Authorization: 'Bearer ' + token,
+        },
+      }
+    )
+    return data
+  },
+
+  async withdraw({}, { amount, password }) {
+    let token = JSON.parse(window.localStorage.getItem('paxo')).auth.token
+    const data = await this.$axios.$post(
+      '/user/wallet/transfer',
+      {
+        amount, password
       },
       {
         headers: {

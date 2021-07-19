@@ -11,9 +11,14 @@
             <h4 class="mb-0">{{ user.first_name }} {{ user.last_name }}</h4>
             <v-tooltip top>
               <template v-slot:activator="{ on, attrs }">
-                <v-chip v-bind="attrs" v-on="on" color="secondary" class="hidden-md-and-up mt-0" x-small>{{
-                  user.role | capitalize
-                }}</v-chip>
+                <v-chip
+                  v-bind="attrs"
+                  v-on="on"
+                  color="secondary"
+                  class="hidden-md-and-up mt-0"
+                  x-small
+                  >{{ user.role | capitalize }}</v-chip
+                >
               </template>
               <span>Logged in as:</span>
             </v-tooltip>
@@ -37,17 +42,19 @@
           <h2>Account Information</h2>
           <v-tooltip top>
             <template v-slot:activator="{ on, attrs }">
-              <v-chip v-bind="attrs" v-on="on" color="secondary" class="hidden-sm-and-down" small>{{
-                user.role | capitalize
-              }}</v-chip>
+              <v-chip
+                v-bind="attrs"
+                v-on="on"
+                color="secondary"
+                class="hidden-sm-and-down"
+                small
+                >{{ user.role | capitalize }}</v-chip
+              >
             </template>
             <span>Logged in as:</span>
           </v-tooltip>
         </div>
         <v-divider></v-divider>
-
-
-
 
         <v-form class="mt-12" lazy-validation v-model="valid" ref="form">
           <v-row>
@@ -55,6 +62,9 @@
               <p>Wallet Balance</p>
               <v-chip style="border-radius: 0" dark color="primary" large
                 >&#8358;{{ user.balance | formatPrice }}</v-chip
+              >
+              <v-btn text :disabled="parseInt(user.balance) <= 500 " class="primary" @click="withdrawDialog = true">
+                <v-icon class="mr-2">payments</v-icon> Withdraw</v-btn
               >
             </v-col>
             <v-col>
@@ -192,6 +202,33 @@
               </v-select>
             </v-col>
           </v-row>
+          <!-- {{banks}} -->
+          <h4 class="mt-6">Bank Account Details</h4>
+          <v-divider class="mb-5"></v-divider>
+          <v-text-field
+            @keyup="resolveAccount()"
+            v-model="form.account_number"
+            outlined
+            label="Account Number"
+          >
+          </v-text-field>
+          <v-autocomplete
+            @change="resolveAccount()"
+            label="Select Bank"
+            outlined
+            :items="banks"
+            item-text="bankName"
+            item-value="bankCode"
+            v-model="form.bank_code"
+          >
+          </v-autocomplete>
+          <v-text-field
+            v-model="form.account_name"
+            label="Account Name"
+            outlined
+          >
+          </v-text-field>
+
           <v-btn
             class="primary"
             large
@@ -204,16 +241,63 @@
         </v-form>
       </v-col>
     </v-row>
+    <v-dialog v-model="withdrawDialog" width="500">
+      <v-card class="pa-6">
+        <h3 class="primary--text">Withdraw Funds</h3>
+        <v-divider class="mb-4"></v-divider>
+        Account Number: <b>{{user.account_number}}</b><br />
+        Bank Name: <b v-if="banks.length > 0 && user.bank_code">{{(banks.filter((item) => item.bankCode === user.bank_code))[0].bankName}}</b><br />
+        Account Name: <b>{{user.account_name}}</b>
+        <v-divider class="my-4"></v-divider>
+        <v-form lazy-validation v-model="valid" ref="withdraw"> </v-form>
+        <v-text-field
+          label="Enter Amount to Withdraw"
+          v-model="withdraw.amount"
+          outlined
+          type="number"
+          required
+          :rules="[
+            (v) => !!v || 'This field is required',
+            // (v) =>  parseInt(user.balance) > parseInt(v) || 'Insufficient funds'
+          ]"
+        >
+        </v-text-field>
+        <v-text-field
+          v-model="withdraw.password"
+          required
+          :rules="[(v) => !!v || 'This field is required']"
+          type="password"
+          outlined
+          label="Your Password"
+        >
+        </v-text-field>
+        <v-btn
+          class="primary"
+          block
+          @click="$refs.withdraw.validate() ? withdrawFunds() : null"
+          :loading="loading"
+          >Withdraw
+          <span v-if="withdraw.amount">
+            &#8358;{{ withdraw.amount }}</span
+          ></v-btn
+        >
+      </v-card>
+    </v-dialog>
   </v-container>
 </template>
 <script>
 import { mapGetters } from 'vuex'
+import axios from 'axios'
 export default {
   middleware: 'authenticated',
   data() {
     return {
+      withdrawDialog: false,
+      withdraw: { amount: '' },
       states: [],
       lgas: [],
+      banks: [],
+      form: { account_number: '', bank_code: '', account_name: '' },
       menus: [
         {
           icon: 'ri-user-line',
@@ -252,18 +336,84 @@ export default {
           to: '/logout',
         },
       ],
+      amountRules: [
+        (v) => v || 'This field is required',
+        // (v) =>  parseInt(this.user.balance) > parseInt(v) || 'Insufficient funds',
+      ],
       loading: false,
     }
   },
   mounted() {
     this.getStates()
+    this.getBanks()
+    this.getProfile()
+    this.form = this.user
   },
   methods: {
-    async updateProfile() {},
+    async withdrawFunds() {
+      this.loading = true
+      await this.$store
+        .dispatch('auth/withdraw', this.withdraw)
+        .then((response) => {
+          this.$toast.success(response.message)
+          this.loading = false
+        })
+        .catch((error) => {
+          this.$toast.error(error.response.data.message)
+
+          this.loading = false
+        })
+    },
+    async resolveAccount() {
+      if (this.form.account_number.length == 10 && this.form.bank_code) {
+        await this.$store
+          .dispatch('auth/resolveaccount', this.form)
+          .then((response) => {
+            this.form.account_name = response.data.accountName
+            this.user.account_name = this.form.account_name
+            this.user.account_number = this.form.account_number
+            this.user.bank_code = this.form.bank_code
+
+            this.loading = false
+          })
+          .catch((error) => {
+            this.$toast.error(error.response.data.message)
+
+            this.loading = false
+          })
+      }
+    },
     async getStates() {
       await this.$store.dispatch('states/states').then((response) => {
         this.states = response.data
       })
+    },
+    async getProfile() {
+      await this.$store.dispatch('auth/profile').then((response) => {
+        // this.states = response.data
+      })
+    },
+    // async getBanks() {
+    //   await this.$store.dispatch('auth/banks').then((response) => {
+    //     if(response.data){
+    //       this.banks = response.data
+
+    //     }
+    //   })
+    // },
+    getBanks() {
+      const headers = {
+        Authorization: 'Bearer uvjqzm5xl6bw',
+      }
+      axios
+        .post(
+          'https://sandbox.wallets.africa/transfer/banks/all',
+          {},
+          { headers }
+        )
+        .then((response) => {
+          this.banks = response.data
+        })
     },
     getlga(name) {
       let obj = this.states.filter((item) => item.id === name)
@@ -275,6 +425,7 @@ export default {
         .dispatch('auth/updateprofile', this.user)
         .then((response) => {
           this.$toast.success(response.message)
+          this.getProfile()
           this.loading = false
         })
         .catch((error) => {

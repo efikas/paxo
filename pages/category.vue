@@ -2,55 +2,58 @@
   <div>
 
     <!-- <home-page-slider class="hidden-sm-and-down"></home-page-slider> -->
-    <v-row class="mt-4" :class="{'px-4':$vuetify.breakpoint.smAndDown}">
-      <v-col md="3" class="hidden-sm-and-down">
-        <div class="category pa-4">
-          <h4 class="mb-6">CATEGORIES</h4>
+    <v-container>
+      <v-row class="mt-4" :class="{'px-4':$vuetify.breakpoint.smAndDown}">
+        <!-- <v-col md="3" class="hidden-sm-and-down">
+          <div class="category pa-4">
+            <h4 class="mb-6">CATEGORIES</h4>
 
-          <a href="#" v-for="(i, index) in categories" :key="index">
-            {{i.name}}<br/>
-          </a>
-        </div>
-        <div class="category mt-6 pa-4">
-          <h4 class="mb-6">
-            BY BRANDS
-          </h4>
-          <v-radio-group v-for="(i, index) in brands" :key="index" class="ma-0 pa-0" v-model="brand">
-            <v-radio :label="i.name" :value="i.name"></v-radio>
-          </v-radio-group>
+            <a href="#" v-for="(i, index) in categories" :key="index">
+              {{i.name}}<br/>
+            </a>
+          </div>
+          <div class="category mt-6 pa-4">
+            <h4 class="mb-6">
+              BY BRANDS
+            </h4>
+            <v-radio-group v-for="(i, index) in brands" :key="index" class="ma-0 pa-0" v-model="brand">
+              <v-radio :label="i.name" :value="i.name"></v-radio>
+            </v-radio-group>
 
+            <v-divider></v-divider>
+            <h4 class="mt-6 mb-2">BY PRICE</h4>
+            <v-range-slider v-model="range" max="500000"></v-range-slider>
+            {{range}}
+          </div>
+        </v-col> -->
+        <v-col md="12">
+          <h1 class="font-weight-medium">{{!loading ? (products.length > 0 ? products[0].category.name : 'No Products Found') : null}}</h1>
           <v-divider></v-divider>
-          <h4 class="mt-6 mb-2">BY PRICE</h4>
-          <v-range-slider v-model="range" max="500000"></v-range-slider>
-          {{range}}
-        </div>
-      </v-col>
-      <v-col md="9">
-        <h1 class="font-weight-medium">{{products.length > 0 ? products[0].category.name : 'No Products Found'}}</h1>
-        <v-divider></v-divider>
-        <v-row class="mt-8">
-          <v-col md="3" v-for="(i, index) in products" :key="index">
-            <!-- :vendor="i.product.brand.name" -->
-            <product-display
-            :product_name="i.product.name"
-            rating="5"
-            :price="i.product.sale_price"
-            :regular_price="i.product.regular_price"
-            :wholesale_price="i.product.wholesale_price"
-            :image="i.product.avatar"
-            :badge="i.product.stock_status"
-            :description="i.product.description"
-            :short_description="i.product.short_description"
-            :product_object="i"
-            :product_id="i.product.id"
-          />
+          <v-row class="mt-8">
+            <v-col md="3" v-for="(i, index) in products" :key="index">
+              <!-- :vendor="i.product.brand.name" -->
+              <product-display
+              :product_name="i.product.name"
+              rating="5"
+              :price="i.product.sale_price"
+              :regular_price="i.product.regular_price"
+              :wholesale_price="i.product.wholesale_price"
+              :image="i.product.avatar"
+              :badge="i.product.stock_status"
+              :description="i.product.description"
+              :short_description="i.product.short_description"
+              :product_object="i"
+              :product_id="i.product.id"
+            />
 
-         
-          </v-col>
-        </v-row>
-      </v-col>
 
-    </v-row>
+            </v-col>
+          </v-row>
+        </v-col>
+
+      </v-row>
+
+    </v-container>
   </div>
 </template>
 <script>
@@ -72,7 +75,8 @@ export default {
       range: [1000, 5000000],
       brands: [],
       categories: [],
-      products: []
+      products: [],
+      loading: true,
     }
   },
   methods: {
@@ -94,6 +98,7 @@ export default {
       await this.$store.dispatch('products/categoryproducts', data).then((response) => {
         this.products = response.data.data
         this.length = response.data.last_page
+        this.loading = false
       })
     },
   }

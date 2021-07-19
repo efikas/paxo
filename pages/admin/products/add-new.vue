@@ -41,12 +41,25 @@
           <v-select
             label="Product Category"
             multiple
-            v-model="form.category"
+            v-model="form.category" @change="getSubCategories(form.category)"
             item-text="name"
             item-value="id"
             required
             :rules="[(v) => !!v || 'This field is required']"
             :items="categories"
+            dense
+            outlined
+          >
+          </v-select>
+          <v-select
+            label="Product Sub Category"
+            multiple
+            v-model="form.sub_category"
+            item-text="name"
+            item-value="id"
+            required
+            :rules="[(v) => !!v || 'This field is required']"
+            :items="subcategories"
             dense
             outlined
           >
@@ -194,6 +207,7 @@ export default {
       imagesrc: null,
       editorConfig: {},
       categories: [],
+      subcategories:[],
       brands: [],
       sections: [],
       priceRules: [(v) => !!v || 'This field is required',
@@ -212,6 +226,17 @@ export default {
     getCategories(name) {
       let obj = this.sections.filter((item) => item.id === name)
       this.categories = obj[0].category
+    },
+    getSubCategories(name) {
+      for(var i=0; i<name.length; i++){
+        let obj = this.categories.filter((item) => item.id === name[i])
+        this.subcategories = [].concat(this.subcategories, obj[0].subcategory)
+
+      // console.log(obj[0].subcategory[0])
+      }
+      // console.log(this.categories)
+      // console.log(name[0])
+      console.log(this.subcategories)
     },
     async getBrands() {
       await this.$store.dispatch('brand/all').then((response) => {
@@ -239,10 +264,12 @@ export default {
       this.loading = true
       let formData = new FormData()
       var categories = this.form.category
-      // var categorylist = categories.split(',')
-      // console.log(categories)
       for (var i = 0; i < categories.length; i++) {
         formData.append('category_id[' + i + ']', JSON.stringify(categories[i]))
+      }
+      var subcategories = this.form.sub_category
+      for (var i = 0; i < categories.length; i++) {
+        formData.append('subcategory_id[' + i + ']', JSON.stringify(subcategories[i]))
       }
       formData.append('avatar', this.form.product_image)
       formData.append('name', this.form.product_name)
