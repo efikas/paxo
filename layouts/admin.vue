@@ -75,6 +75,11 @@ export default {
         },
         {
           icon: 'ri-projector-line',
+          title: 'Top Brands',
+          to: '/admin/topbrands',
+        },
+        {
+          icon: 'ri-projector-line',
           title: 'Section',
           to: '/admin/sections',
         },
