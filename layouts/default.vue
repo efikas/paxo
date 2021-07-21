@@ -569,6 +569,24 @@
           </v-col>
         </v-row>
       </v-app-bar>
+       <v-btn
+        fab href="https://api.whatsapp.com/send/?phone=2348146907099&text&app_absent=0" target="_blank"
+        bottom
+        right dark
+
+        :small="$vuetify.breakpoint.xsOnly"
+        :class="{
+
+          'ma-12': $vuetify.breakpoint.mdAndUp,
+          'white--text whatsapp-fab': $vuetify.breakpoint.lgAndDown,
+          'ma-4': $vuetify.breakpoint.smAndDown,
+        }"
+
+        color="#000"
+      >
+        <v-icon>ri-whatsapp-line</v-icon>
+      </v-btn>
+
       <v-btn
         fab
         bottom
@@ -1096,6 +1114,14 @@ a {
   position: fixed;
   bottom: 0;
   right: 0;
+  z-index: 999999;
+  border-radius: 50px !important;
+}
+.whatsapp-fab {
+  background: #00e676 !important;
+  position: fixed;
+  bottom: 0;
+  left: 0;
   z-index: 999999;
   border-radius: 50px !important;
 }
