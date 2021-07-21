@@ -201,7 +201,7 @@ export default {
     return {
       valid: true,
       loading: false,
-      form: { sale_price: '' },
+      form: { sale_price: '', description: '', how_to_use: '', ingridient: '' },
       imagesrc: null,
       editorConfig: {
         removePlugins: ['Title'],
