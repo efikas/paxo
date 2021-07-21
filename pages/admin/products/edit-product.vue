@@ -259,7 +259,7 @@ export default {
           this.form.sub_category[i] = i.subcategory_id
         }
         this.form.top_product = details.top_product
-        this.getCategories()
+        this.getCategories(this.form.brand_id)
       })
     },
     getCategories(name) {

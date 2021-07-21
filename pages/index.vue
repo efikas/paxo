@@ -130,7 +130,7 @@
             :vendor="i.brand ? i.brand.name : null"
             :product_name="i.name"
             rating="5"
-            :price="i.sale_price"
+            :price="i.price"
             :regular_price="i.regular_price"
             :wholesale_price="i.wholesale_price"
             :image="i.avatar"
@@ -169,7 +169,7 @@
             :vendor="i.brand ? i.brand.name : null"
             :product_name="i.name"
             rating="5"
-            :price="i.sale_price"
+            :price="i.price"
             :regular_price="i.regular_price"
             :wholesale_price="i.wholesale_price"
             :image="i.avatar"
@@ -334,7 +334,7 @@ export default {
     },
     async getTopBrands() {
       this.loading = true
-      await this.$store.dispatch('topbrand/all').then((response) => {
+      await this.$store.dispatch('topbrands/all').then((response) => {
         this.topbrands = response.data
         this.loading = false
       })

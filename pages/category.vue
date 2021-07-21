@@ -36,7 +36,7 @@
               <product-display
               :product_name="i.product.name"
               rating="5"
-              :price="i.product.sale_price"
+              :price="i.product.price"
               :regular_price="i.product.regular_price"
               :wholesale_price="i.product.wholesale_price"
               :image="i.product.avatar"
