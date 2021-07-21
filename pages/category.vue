@@ -2,8 +2,9 @@
   <div>
 
     <!-- <home-page-slider class="hidden-sm-and-down"></home-page-slider> -->
-    <v-container>
+    <v-container fluid>
       <v-row class="mt-4" :class="{'px-4':$vuetify.breakpoint.smAndDown}">
+      <!-- {{products}} -->
         <!-- <v-col md="3" class="hidden-sm-and-down">
           <div class="category pa-4">
             <h4 class="mb-6">CATEGORIES</h4>
@@ -29,9 +30,9 @@
         <v-col md="12">
           <h1 class="font-weight-medium">{{!loading ? (products.length > 0 ? products[0].category.name : 'No Products Found') : null}}</h1>
           <v-divider></v-divider>
-          <v-row class="mt-8">
-            <v-col md="3" v-for="(i, index) in products" :key="index">
-              <!-- :vendor="i.product.brand.name" -->
+          <v-row class="mt-8" >
+            <v-col md="2" v-for="(i, index) in products" :key="index">
+
               <product-display
               :product_name="i.product.name"
               rating="5"

@@ -41,7 +41,8 @@
           <v-select
             label="Product Category"
             multiple
-            v-model="form.category" @change="getSubCategories(form.category)"
+            v-model="form.category"
+            @change="getSubCategories(form.category)"
             item-text="name"
             item-value="id"
             required
@@ -93,10 +94,8 @@
             dense
             label="Product Sale Price"
             v-model="form.sale_price"
-
             prefix="₦"
             type="number"
-
           >
           </v-text-field>
 
@@ -169,11 +168,10 @@
               label="Mark as Top Product?"
               v-model="form.top_product"
             ></v-checkbox>
-             <v-checkbox
+            <v-checkbox
               label="Is product on sale?"
               v-model="form.onsale"
             ></v-checkbox>
-
           </div>
           <v-btn
             class="primary"
@@ -203,19 +201,27 @@ export default {
     return {
       valid: true,
       loading: false,
-      form: {sale_price: ''},
+      form: { sale_price: '' },
       imagesrc: null,
-      editorConfig: {},
+      editorConfig: {
+        removePlugins: ['Title'],
+      },
       categories: [],
-      subcategories:[],
+      subcategories: [],
       brands: [],
       sections: [],
-      priceRules: [(v) => !!v || 'This field is required',
-      (v) => v < parseInt(this.form.regular_price) || 'Sales price must be less than regular price'
+      priceRules: [
+        (v) => !!v || 'This field is required',
+        (v) =>
+          v < parseInt(this.form.regular_price) ||
+          'Sales price must be less than regular price',
       ],
-      salesRules: [(v) => !!v || 'This field is required',
-      (v) => v < parseInt(this.form.regular_price) || 'Wholesale price must be less than regular price'
-      ]
+      salesRules: [
+        (v) => !!v || 'This field is required',
+        (v) =>
+          v < parseInt(this.form.regular_price) ||
+          'Wholesale price must be less than regular price',
+      ],
     }
   },
   mounted() {
@@ -228,11 +234,11 @@ export default {
       this.categories = obj[0].category
     },
     getSubCategories(name) {
-      for(var i=0; i<name.length; i++){
+      for (var i = 0; i < name.length; i++) {
         let obj = this.categories.filter((item) => item.id === name[i])
         this.subcategories = [].concat(this.subcategories, obj[0].subcategory)
 
-      // console.log(obj[0].subcategory[0])
+        // console.log(obj[0].subcategory[0])
       }
       // console.log(this.categories)
       // console.log(name[0])
@@ -269,7 +275,10 @@ export default {
       }
       var subcategories = this.form.sub_category
       for (var i = 0; i < categories.length; i++) {
-        formData.append('subcategory_id[' + i + ']', JSON.stringify(subcategories[i]))
+        formData.append(
+          'subcategory_id[' + i + ']',
+          JSON.stringify(subcategories[i])
+        )
       }
       formData.append('avatar', this.form.product_image)
       formData.append('name', this.form.product_name)

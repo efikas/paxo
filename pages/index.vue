@@ -8,7 +8,7 @@
     <v-row :class="{'px-8':$vuetify.breakpoint.mdAndUp}" >
       <v-col md="6" v-for="i in banners.slice(banners.length - 2, banners.length + 2)" :key="i.id">
         <v-img
-          @click="$router.push('/banners/'+i.name+'?bannerId='+i.id)"
+          @click="$router.push('/banners/'+i.name+'?t=Offers&bannerId='+i.id)"
           class="brands-img elevation-2"
           :class="{'h-350' : $vuetify.breakpoint.mdAndUp, 'h-200' : $vuetify.breakpoint.smAndDown}"
           :src="i.avatar"
@@ -224,40 +224,27 @@
       </v-col>
     </v-row>
 
-    <v-row class="mt-16 pt-16 download-app" id="download" justify="center" align="center">
-      <v-col class="pb-0">
+    <v-row class="mt-16 py-16 download-app" id="download" >
+      <!-- <v-col class="pb-0">
         <img src="../static/assets/app.png" alt="" />
-      </v-col>
-      <v-col class="pb-0">
-        <h3>Download Paxo App Now!</h3>
-        <p>
-          Shopping fastly and easily more with our app. Get a link to download
-          the app on your phone
-        </p>
+      </v-col> -->
+      <v-col md="12" class="pb-0">
+        <div class="text-center">
+          <h3>Download Paxo App Now!</h3>
+          <p class="text-center">
+            Shopping fastly and easily more with our app.<br> Get a link to download
+            the app on your phone
+          </p>
 
-        <!-- <v-form>
-          <v-row>
-            <v-col cols="7" class="pr-0">
-              <v-text-field placeholder="Email address" outlined></v-text-field>
-            </v-col>
-            <v-col cols="2" class="pl-0">
-              <v-btn
-                class="black"
-                height="56"
-                dark
-                style="border-radius: 0 5px 5px 0"
-                text
-                >Subscribe</v-btn
-              >
-            </v-col>
-          </v-row>
-        </v-form> -->
-        <a href="https://play.google.com/store/apps/details?id=com.paxo.shop" target="_blank" rel="noopener noreferrer">
-          <img src="../static/assets/google-play.png" alt="" />
-        </a>
-        <a href="https://apps.apple.com/ng/app/paxo-beauty/id1534936621" class="ml-5" target="_blank" rel="noopener noreferrer">
-          <img src="../static/assets/appstore.png" alt="" />
-        </a>
+
+          <a href="https://play.google.com/store/apps/details?id=com.paxo.shop" target="_blank" rel="noopener noreferrer">
+            <img src="../static/assets/google-play.png" alt="" />
+          </a>
+          <a href="https://apps.apple.com/ng/app/paxo-beauty/id1534936621" class="ml-5" target="_blank" rel="noopener noreferrer">
+            <img src="../static/assets/appstore.png" alt="" />
+          </a>
+
+        </div>
       </v-col>
     </v-row>
     <div class="section-header mt-16">
@@ -425,7 +412,7 @@ export default {
   p {
     font-size: 16px;
     color: #666;
-    max-width: 400px;
+    // max-width: 400px;
   }
 }
 .section-header {

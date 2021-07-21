@@ -2,7 +2,7 @@
   <div>
 
     <home-page-slider></home-page-slider>
-    <v-container>
+    <v-container fluid>
       <v-row class="mt-4">
         <!-- <v-col md="3">
           <div class="category pa-4">
@@ -30,7 +30,7 @@
           <h1 class="font-weight-medium">{{ !loading ? ((products.length > 0) ? 'Brand: '+ products[0].brand.name : 'No Products Found') : null}}</h1>
           <v-divider></v-divider>
           <v-row class="mt-8">
-            <v-col md="3" v-for="(i, index) in products" :key="index">
+            <v-col md="2" v-for="(i, index) in products" :key="index">
               <!-- :vendor="i.product.brand.name" -->
               <product-display
               :product_name="i.name"

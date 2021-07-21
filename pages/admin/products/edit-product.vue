@@ -17,7 +17,6 @@
             label="Brand"
             v-model="form.brand_id"
             item-text="name"
-
             item-value="id"
             required
             :rules="[(v) => !!v || 'This field is required']"
@@ -41,7 +40,7 @@
           </v-select>
           <v-select
             label="Product Category"
-            multiple
+            multiple @change="getSubCategories(form.category)"
             v-model="form.category"
             item-text="name"
             item-value="id"
@@ -52,18 +51,31 @@
             outlined
           >
           </v-select>
-          <!-- <v-select
-            label="Product Brand"
-            v-model="form.brand"
+           <v-select
+            label="Product Sub Category"
+            multiple
+            v-model="form.sub_category"
             item-text="name"
             item-value="id"
             required
             :rules="[(v) => !!v || 'This field is required']"
-            :items="brands"
+            :items="subcategories"
             dense
             outlined
           >
-          </v-select> -->
+          </v-select>
+          <!-- <v-select
+                    label="Product Brand"
+                    v-model="form.brand"
+                    item-text="name"
+                    item-value="id"
+                    required
+                    :rules="[(v) => !!v || 'This field is required']"
+                    :items="brands"
+                    dense
+                    outlined
+                  >
+                  </v-select> -->
 
           <v-text-field
             outlined
@@ -82,10 +94,10 @@
             dense
             label="Product Sale Price"
             v-model="form.sale_price"
-            required
+
             prefix="₦"
             type="number"
-            :rules="priceRules"
+
           >
           </v-text-field>
 
@@ -115,7 +127,8 @@
             outlined
             dense
             label="Product Weight"
-            v-model="form.weight" suffix="kg"
+            v-model="form.weight"
+            suffix="kg"
             required
             type="number"
             :rules="[(v) => !!v || 'This field is required']"
@@ -131,12 +144,13 @@
           <p class="font-weight-bold mt-6">Ingredients</p>
           <ckeditor-nuxt v-model="form.ingridient" :config="editorConfig" />
 
-<p class="font-weight-bold mt-6">Description</p>
+          <p class="font-weight-bold mt-6">Description</p>
           <client-only placeholder="loading...">
             <ckeditor-nuxt v-model="form.description" :config="editorConfig" />
           </client-only>
-          <v-card  class="pa-2 mt-8" @click="clickInput()">
-            <v-img contain
+          <v-card class="pa-2 mt-8" @click="clickInput()">
+            <v-img
+              contain
               class="d-flex justify-center align-center text-center"
               :src="imagesrc"
               height="400"
@@ -156,11 +170,10 @@
               label="Mark as Top Product?"
               v-model="form.top_product"
             ></v-checkbox>
-             <v-checkbox
+            <v-checkbox
               label="Is product on sale?"
               v-model="form.onsale"
             ></v-checkbox>
-
           </div>
           <v-btn
             class="primary"
@@ -176,6 +189,7 @@
     </v-row>
   </v-container>
 </template>
+
 <script>
 export default {
   layout: 'admin',
@@ -190,22 +204,29 @@ export default {
     return {
       valid: true,
       loading: false,
-      form: {},
+      form: {sale_price: ''},
       imagesrc: null,
-      editorConfig: {},
+      editorConfig: {
+        removePlugins: ['Title'],
+      },
       categories: [],
       brands: [],
       sections: [],
-       priceRules: [(v) => !!v || 'This field is required',
-      (v) => v < parseInt(this.form.regular_price) || 'Sales price must be less than regular price'
+      priceRules: [
+        (v) => !!v || 'This field is required',
+        (v) =>
+          v < parseInt(this.form.regular_price) ||
+          'Sales price must be less than regular price',
       ],
-      salesRules: [(v) => !!v || 'This field is required',
-      (v) => v < parseInt(this.form.sale_price) || 'Sales price must be less than sales price'
-      ]
+      salesRules: [
+        (v) => !!v || 'This field is required',
+        (v) =>
+          v < parseInt(this.form.regular_price) ||
+          'Wholesale price must be less than regular price',
+      ],
     }
   },
   mounted() {
-
     this.getBrands()
     this.getSingleProduct()
     this.getSection()
@@ -231,8 +252,11 @@ export default {
         this.form.ingridient = details.ingridient
         this.form.onsale = details.onsale
         this.imagesrc = details.avatar
-        for(var i =0; i<details.categories.length; i++){
+        for (var i = 0; i < details.categories.length; i++) {
           this.form.category[i] = i.category_id
+        }
+        for (var i = 0; i < details.subcategories.length; i++) {
+          this.form.sub_category[i] = i.subcategory_id
         }
         this.form.top_product = details.top_product
         this.getCategories()
@@ -241,6 +265,17 @@ export default {
     getCategories(name) {
       let obj = this.sections.filter((item) => item.id === name)
       this.categories = obj[0].category
+    },
+    getSubCategories(name) {
+      for (var i = 0; i < name.length; i++) {
+        let obj = this.categories.filter((item) => item.id === name[i])
+        this.subcategories = [].concat(this.subcategories, obj[0].subcategory)
+
+        // console.log(obj[0].subcategory[0])
+      }
+      // console.log(this.categories)
+      // console.log(name[0])
+      console.log(this.subcategories)
     },
     async getBrands() {
       await this.$store.dispatch('brand/all').then((response) => {
@@ -273,6 +308,13 @@ export default {
       for (var i = 0; i < categories.length; i++) {
         formData.append('category_id[' + i + ']', JSON.stringify(categories[i]))
       }
+      var subcategories = this.form.sub_category
+      for (var i = 0; i < categories.length; i++) {
+        formData.append(
+          'subcategory_id[' + i + ']',
+          JSON.stringify(subcategories[i])
+        )
+      }
       formData.append('avatar', this.form.product_image)
       formData.append('name', this.form.product_name)
       formData.append('brand_id', this.form.brand_id)
@@ -295,7 +337,8 @@ export default {
           this.$toast.success(response.message)
           this.loading = false
           this.$router.push('/admin/products')
-        }).catch(error => {
+        })
+        .catch((error) => {
           this.$toast.error(error.response.data.message)
           this.loading = false
         })

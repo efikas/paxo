@@ -11,7 +11,7 @@
         </v-breadcrumbs-item>
       </template>
     </v-breadcrumbs> -->
-    <p class="py-2 pl-3">Home / Shop / {{product.name}}</p>
+    <p class="py-2 pl-3">Home / {{product.brand ? product.brand.name : null}} / {{product.name}}</p>
     <v-container>
       <v-row :class="{'px-4' : $vuetify.breakpoint.smAndDown}">
         <v-col md="4" cols="12">

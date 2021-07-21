@@ -28,10 +28,19 @@
           </v-btn>
         </v-col>
       </v-row>
-      <v-data-table :items="topbrands" :headers="headers" :loading="loading" :search="search">
+      <v-data-table
+        :items="topbrands"
+        :headers="headers"
+        :loading="loading"
+        :search="search"
+      >
         <template v-slot:item.sn="{ item }">
           {{ topbrands.indexOf(item) + 1 }}
         </template>
+        <template v-slot:item.avatar="{ item }">
+          <img height="60px" :src="item.avatar" alt="" />
+        </template>
+
         <template v-slot:item.action="{ item }">
           <!-- <v-btn icon @click=";(form = item), (dialog = true), (update = true), imagesrc = item.avatar">
             <v-icon color="success">edit</v-icon>
@@ -55,7 +64,7 @@
             :rules="[(v) => !!v || 'This field is required']"
           >
           </v-text-field>
-          <v-card  class="pa-2" @click="clickInput()">
+          <v-card class="pa-2" @click="clickInput()">
             <v-img
               class="d-flex justify-center align-center text-center"
               :src="imagesrc"
@@ -107,8 +116,8 @@ export default {
       imagesrc: null,
       headers: [
         { text: 'S/N', value: 'sn' },
+        { text: 'Image', value: 'avatar' },
         { text: 'Brand Name', value: 'name' },
-        // { text: 'Slug', value: 'slug' },
         // { text: 'Description', value: 'description' },
         { text: 'Actions', value: 'action' },
       ],
@@ -172,7 +181,7 @@ export default {
       }
     },
 
-     async updatebrand() {
+    async updatebrand() {
       if (this.$refs.addnew.validate()) {
         this.loading = true
         let formData = new FormData()
