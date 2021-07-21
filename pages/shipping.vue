@@ -304,7 +304,7 @@ export default {
           this.$toast.success(response.message)
           this.loading = this.confirmDialog = false
           this.$store.commit('products/CLEAR_CART')
-          this.$router.push('/')
+          this.$router.push('/thank-you')
           this.getUser()
 
           var dataLayer = window.dataLayer || []
