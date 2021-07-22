@@ -201,7 +201,7 @@ export default {
     return {
       valid: true,
       loading: false,
-      form: { sale_price: '', description: '', how_to_use: '', ingridient: '' },
+      form: { sale_price: '', short_description: '', description: '', how_to_use: '', ingridient: '' },
       imagesrc: null,
       editorConfig: {
         removePlugins: ['Title'],
@@ -267,7 +267,7 @@ export default {
       }
     },
     async addProduct() {
-      this.loading = true
+
       let formData = new FormData()
       var categories = this.form.category
       for (var i = 0; i < categories.length; i++) {
@@ -285,8 +285,8 @@ export default {
       formData.append('brand_id', this.form.brand_id)
       formData.append('section_id', this.form.section_id)
       formData.append('description', this.form.description)
-      formData.append('how_to_use', this.form.description)
-      formData.append('ingridient', this.form.description)
+      formData.append('how_to_use', this.form.how_to_use)
+      formData.append('ingridient', this.form.ingridient)
       formData.append('weight', this.form.weight)
       formData.append('short_description', this.form.short_description)
       formData.append('regular_price', this.form.regular_price)
@@ -296,13 +296,27 @@ export default {
       formData.append('stock_quantity', this.form.stock_quantity)
       formData.append('top_product', this.form.top_product ? 1 : 0)
       formData.append('onsale', this.form.onsale ? 1 : 0)
-      await this.$store
-        .dispatch('products/addnew', formData)
-        .then((response) => {
-          this.$toast.success(response.message)
-          this.loading = false
-          this.$router.push('/admin/products')
-        })
+      if(this.form.description == ''){
+        this.$toast.error('The Description field is required')
+
+      }else if(this.form.how_to_use == ''){
+        this.$toast.error('The How to Use field is required')
+      }else if(this.form.ingridient == ''){
+        this.$toast.error('The Ingredient field is required')
+      }else {
+        this.loading = true
+        await this.$store
+          .dispatch('products/addnew', formData)
+          .then((response) => {
+            this.$toast.success(response.message)
+            this.loading = false
+            this.$router.push('/admin/products')
+          }).catch(error => {
+            this.$toast.error(error.response.data.message)
+            this.loading = false
+          })
+
+      }
     },
   },
 }

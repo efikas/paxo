@@ -204,7 +204,7 @@ export default {
     return {
       valid: true,
       loading: false,
-      form: { sale_price: '', description: '', how_to_use: '', ingridient: '' },
+      form: { sale_price: '', short_description: '', description: '', how_to_use: '', ingridient: '' },
       imagesrc: null,
       editorConfig: {
         removePlugins: ['Title'],
@@ -320,8 +320,8 @@ export default {
       formData.append('brand_id', this.form.brand_id)
       formData.append('section_id', this.form.section_id)
       formData.append('description', this.form.description)
-      formData.append('how_to_use', this.form.description)
-      formData.append('ingridient', this.form.description)
+      formData.append('how_to_use', this.form.how_to_use)
+      formData.append('ingridient', this.form.ingridient)
       formData.append('weight', this.form.weight)
       formData.append('short_description', this.form.short_description)
       formData.append('regular_price', this.form.regular_price)
