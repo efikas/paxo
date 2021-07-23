@@ -266,7 +266,7 @@ export default {
         this.form.description = details.description
         this.form.how_to_use = details.how_to_use
         this.form.ingridient = details.ingridient
-        this.form.onsale = details.onsale
+        this.form.onsale = parseInt(details.onsale)
         this.imagesrc = details.avatar
         // for (var i = 0; i < details.categories.length; i++) {
         //   this.form.category[i] = i.category_id
@@ -277,7 +277,7 @@ export default {
         this.getCategories(parseInt(details.section_id))
         this.form.category = details.category.split(',').map(Number)
         this.form.sub_category = details.subcategory.split(',').map(Number)
-        this.form.top_product = details.top_product
+        this.form.top_product = parseInt(details.top_product)
         this.getSubCategories(this.form.category)
         this.pageloading = false
       })
