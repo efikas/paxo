@@ -136,6 +136,11 @@ export default {
           component: resolve(__dirname, 'pages/category.vue'),
         },
         {
+          name: 'subcategory',
+          path: '/subcategory/*',
+          component: resolve(__dirname, 'pages/subcategory.vue'),
+        },
+        {
           name: 'brand products',
           path: '/brands/*',
           component: resolve(__dirname, 'pages/brand.vue'),

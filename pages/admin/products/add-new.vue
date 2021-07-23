@@ -280,6 +280,8 @@ export default {
           JSON.stringify(subcategories[i])
         )
       }
+      formData.append('category', this.form.category)
+      formData.append('subcategory', this.form.sub_category)
       formData.append('avatar', this.form.product_image)
       formData.append('name', this.form.product_name)
       formData.append('brand_id', this.form.brand_id)

@@ -503,7 +503,7 @@
                 >
                 <div v-for="k in j.subcategory" :key="k.id" class="sub-menu">
                   <nuxt-link
-                    :to="'/category/' + k.name + '?categoryId=' + k.id"
+                    :to="'/subcategory/' + k.name + '?subCategoryId=' + k.id"
                     >{{ k.name }}</nuxt-link
                   >
                 </div>

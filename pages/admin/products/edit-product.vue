@@ -1,5 +1,12 @@
 <template>
-  <v-container fluid>
+<v-container v-if="pageloading">
+      <v-overlay light color="white"  :opacity="1" :value="pageloading">
+        <v-progress-circular color="primary" width="10" indeterminate size="64">
+          Loading...
+        </v-progress-circular>
+      </v-overlay>
+    </v-container>
+  <v-container v-else fluid>
     <h2>Update Product</h2>
     <v-row justify="center">
       <v-col md="12">
@@ -29,7 +36,7 @@
             label="Section"
             v-model="form.section_id"
             item-text="name"
-            @change="getCategories(form.brand_id)"
+            @change="getCategories(form.section_id)"
             item-value="id"
             required
             :rules="[(v) => !!v || 'This field is required']"
@@ -40,7 +47,8 @@
           </v-select>
           <v-select
             label="Product Category"
-            multiple @change="getSubCategories(form.category)"
+            multiple
+            @change="getSubCategories(form.category)"
             v-model="form.category"
             item-text="name"
             item-value="id"
@@ -51,7 +59,7 @@
             outlined
           >
           </v-select>
-           <v-select
+          <v-select
             label="Product Sub Category"
             multiple
             v-model="form.sub_category"
@@ -94,10 +102,8 @@
             dense
             label="Product Sale Price"
             v-model="form.sale_price"
-
             prefix="₦"
             type="number"
-
           >
           </v-text-field>
 
@@ -204,12 +210,20 @@ export default {
     return {
       valid: true,
       loading: false,
-      form: { sale_price: '', short_description: '', description: '', how_to_use: '', ingridient: '' },
+      pageloading: true,
+      form: {
+        sale_price: '',
+        short_description: '',
+        description: '',
+        how_to_use: '',
+        ingridient: '',
+      },
       imagesrc: null,
       editorConfig: {
         removePlugins: ['Title'],
       },
       categories: [],
+      subcategories: [],
       brands: [],
       sections: [],
       priceRules: [
@@ -228,11 +242,13 @@ export default {
   },
   mounted() {
     this.getBrands()
-    this.getSingleProduct()
     this.getSection()
+    // this.getSingleProduct()
+    // this.getCategories(this.form.section_id)
   },
   methods: {
     async getSingleProduct() {
+      this.pageloading = true
       const data = {
         id: this.$route.query.productId,
       }
@@ -252,30 +268,32 @@ export default {
         this.form.ingridient = details.ingridient
         this.form.onsale = details.onsale
         this.imagesrc = details.avatar
-        for (var i = 0; i < details.categories.length; i++) {
-          this.form.category[i] = i.category_id
-        }
-        for (var i = 0; i < details.subcategories.length; i++) {
-          this.form.sub_category[i] = i.subcategory_id
-        }
+        // for (var i = 0; i < details.categories.length; i++) {
+        //   this.form.category[i] = i.category_id
+        // }
+        // for (var i = 0; i < details.subcategories.length; i++) {
+        //   this.form.sub_category[i] = i.subcategory_id
+        // }
+        this.getCategories(parseInt(details.section_id))
+        this.form.category = details.category.split(',').map(Number)
+        this.form.sub_category = details.subcategory.split(',').map(Number)
         this.form.top_product = details.top_product
-        this.getCategories(this.form.brand_id)
+        this.getSubCategories(this.form.category)
+        this.pageloading = false
       })
     },
     getCategories(name) {
+      // console.log(name)
       let obj = this.sections.filter((item) => item.id === name)
+      // console.log(obj)
       this.categories = obj[0].category
     },
     getSubCategories(name) {
       for (var i = 0; i < name.length; i++) {
         let obj = this.categories.filter((item) => item.id === name[i])
         this.subcategories = [].concat(this.subcategories, obj[0].subcategory)
-
-        // console.log(obj[0].subcategory[0])
       }
-      // console.log(this.categories)
-      // console.log(name[0])
-      console.log(this.subcategories)
+      console.log(name)
     },
     async getBrands() {
       await this.$store.dispatch('brand/all').then((response) => {
@@ -285,6 +303,7 @@ export default {
     async getSection() {
       await this.$store.dispatch('section/all').then((response) => {
         this.sections = response.data
+        this.getSingleProduct()
       })
     },
     clickInput() {
@@ -315,6 +334,9 @@ export default {
           JSON.stringify(subcategories[i])
         )
       }
+      formData.append('category', this.form.category)
+      formData.append('subcategory', this.form.sub_category)
+      formData.append('product_id', this.$route.query.productId)
       formData.append('avatar', this.form.product_image)
       formData.append('name', this.form.product_name)
       formData.append('brand_id', this.form.brand_id)

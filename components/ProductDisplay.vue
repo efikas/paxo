@@ -6,7 +6,8 @@
           badge
         }}</v-chip> -->
         <nuxt-link :to="'/single-product?product_id=' + product_id">
-          <img :src="image" width="100%" height="200" alt="" />
+          <!-- <img :src="image" width="100%" height="200" alt="" /> -->
+          <v-img :src="image" ></v-img>
         </nuxt-link>
         <v-expand-transition>
           <v-card
