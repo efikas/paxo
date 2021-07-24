@@ -258,7 +258,7 @@ export default {
         this.form.brand_id = parseInt(details.brand_id)
         this.form.regular_price = details.regular_price
         this.form.section_id = parseInt(details.section_id)
-        this.form.sale_price = details.sale_price
+        this.form.sale_price = details.sale_price || ''
         this.form.wholesales_price = details.wholesale_price
         this.form.stock_quantity = details.stock_quantity
         this.form.weight = details.weight

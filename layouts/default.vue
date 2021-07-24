@@ -579,12 +579,12 @@
 
           'ma-12': $vuetify.breakpoint.mdAndUp,
           'white--text whatsapp-fab': $vuetify.breakpoint.lgAndDown,
-          'ma-4': $vuetify.breakpoint.smAndDown,
+          'ma-4': $vuetify.breakpoint.smAndDown, 'pa-4' :$vuetify.breakpoint.smAndDown
         }"
 
         color="#000"
       >
-        <v-icon>ri-whatsapp-line</v-icon>
+        <v-icon :x-large="$vuetify.breakpoint.mdAndUp" :large="$vuetify.breakpoint.smAndDown">ri-whatsapp-line</v-icon>
       </v-btn>
 
       <v-btn

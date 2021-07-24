@@ -1,17 +1,30 @@
 <template>
   <div>
-    <v-carousel v-if="banners.length > 0"  height="416" :class="{'h-200' : $vuetify.breakpoint.smAndDown}"  interval="5000"  cycle hide-delimiter-background>
+    <v-carousel v-if="banners.length > 0"  height="416" :class="{'h-200' : $vuetify.breakpoint.smAndDown}" class="hidden-sm-and-down"  interval="5000"  cycle hide-delimiter-background>
       <v-carousel-item :to="'/banners/'+i.name+'?bannerId='+i.id" v-for="i in banners.slice(0, banners.length - 2)" :key="i.id">
         <v-img
           height="416" :class="{'h-200' : $vuetify.breakpoint.smAndDown}"
           :src="
             i.avatar
           "
-          alt=""
+          alt="" :contain="$vuetify.breakpoint.smAndDown"
         >
         </v-img>
       </v-carousel-item>
     </v-carousel>
+    <v-carousel v-if="banners.length > 0" height="auto"  class="hidden-md-and-up"  interval="5000"  cycle hide-delimiter-background>
+      <v-carousel-item :to="'/banners/'+i.name+'?bannerId='+i.id" v-for="i in banners.slice(0, banners.length - 2)" :key="i.id">
+        <v-img
+
+          :src="
+            i.avatar
+          "
+          alt="" :contain="$vuetify.breakpoint.smAndDown"
+        >
+        </v-img>
+      </v-carousel-item>
+    </v-carousel>
+
     <v-card v-else class="d-flex justify-space-between">
       <v-skeleton-loader v-for="i in 3" :key="i" class="mx-4" type="card, image" height="416" width="100%">
 

@@ -26,8 +26,8 @@
             </p>
             <v-divider></v-divider>
             <div class="price mt-5">
-              <del>&#8358;{{ product.regular_price || 0 | formatPrice }}</del>
-              <p class="ml-5 sale-price">
+              <del v-if="product.onsale == '1'">&#8358;{{ product.regular_price || 0 | formatPrice }}</del>
+              <p class=" sale-price" :class="product.onsale == '1' ? 'ml-5' : null">
                 &#8358;{{
                   (isAuthenticated
                     ? user.role == 'wholesaler'
