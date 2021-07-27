@@ -38,7 +38,7 @@
           {{ subcategories.indexOf(item) + 1 }}
         </template>
         <template v-slot:item.action="{ item }">
-          <v-btn icon @click=";(form = item), (dialog = true), (update = true)">
+          <v-btn icon @click=";(form = item, form.category_id = parseInt(form.category_id), form.section_id = parseInt(form.section_id)), (dialog = true), (update = true)">
             <v-icon color="success">edit</v-icon>
           </v-btn>
           <v-btn icon @click="deleteSubCategory(item.id)">
@@ -66,8 +66,8 @@
             dense
             required
             :rules="[(v) => !!v || 'This field is required']"
-            v-model="form.brand_id"
-            :items="brands"
+            v-model="form.section_id"
+            :items="sections"
             @change="fetchCategory()"
             item-text="name"
             item-value="id"
@@ -85,14 +85,14 @@
             item-value="id"
           >
           </v-select>
-          <v-textarea
+          <!-- <v-textarea
             outlined
             v-model="form.description"
             :rules="(v) => !!v || 'This field is required'"
             required
             label="Description"
           >
-          </v-textarea>
+          </v-textarea> -->
           <v-btn
             large
             block
@@ -116,6 +116,7 @@ export default {
       valid: true,
       loading: false,
       update: false,
+      sections: [],
       search: '',
       form: {},
       brands: [],
@@ -133,11 +134,26 @@ export default {
   },
   mounted() {
     this.getSubCategories()
-    this.getbrands()
+    this.getCategories()
+    this.getSections()
   },
   methods: {
     fetchCategory() {
-      this.categories = this.brands.find((x) => x.id === this.form.brand_id).category
+      this.categories = this.sections.find((x) => x.id === this.form.section_id).category
+    },
+    async getSections() {
+      this.loading = true
+      await this.$store.dispatch('section/all').then((response) => {
+        this.sections = response.data
+        this.loading = false
+      })
+    },
+    async getCategories() {
+      this.loading = true
+      await this.$store.dispatch('category/all').then((response) => {
+        this.categories = response.data
+        this.loading = false
+      })
     },
     async deleteSubCategory(id) {
       const data = {

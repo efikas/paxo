@@ -168,10 +168,17 @@
               label="Mark as Top Product?"
               v-model="form.top_product"
             ></v-checkbox>
-            <v-checkbox
-              label="Is product on sale?"
-              v-model="form.onsale"
-            ></v-checkbox>
+            <div>
+              <v-checkbox
+                label="Is product on sale?"
+                v-model="form.onsale"
+              ></v-checkbox>
+              <v-date-range-picker v-if="form.onsale" v-model="form.duration" :from.sync="from" :to.sync="to" label="Set Duration" outlined dense/>
+              <!-- <p v-if="form.duration">{{form.duration.from}}</p> -->
+              <!-- <v-date-range-picker /> -->
+
+
+            </div>
           </div>
           <v-btn
             class="primary"
@@ -298,6 +305,11 @@ export default {
       formData.append('stock_quantity', this.form.stock_quantity)
       formData.append('top_product', this.form.top_product ? 1 : 0)
       formData.append('onsale', this.form.onsale ? 1 : 0)
+      if(form.duration){
+
+        formData.append('duration_form', this.form.duration.from)
+        formData.append('duration_to', this.form.duration.to)
+      }
       if(this.form.description == ''){
         this.$toast.error('The Description field is required')
 

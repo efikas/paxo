@@ -10,7 +10,7 @@
           <v-row class="mt-8" >
             <v-col md="2" v-for="(i, index) in products" :key="index">
 
-              <product-display
+              <product-display v-if="i"
               :product_name="i.product.name"
               rating="5"
               :price="i.product.price"
@@ -28,6 +28,8 @@
             </v-col>
           </v-row>
         </v-col>
+
+        <v-pagination :length="length" v-model="page" @input="getProducts()"></v-pagination>
 
       </v-row>
 
@@ -50,6 +52,7 @@ export default {
     return {
       brand: '',
       page: 1,
+      length: 1,
       range: [1000, 5000000],
       brands: [],
       categories: [],

@@ -50,6 +50,7 @@
             />
           </v-col>
         </v-row>
+        <v-pagination :length="length" class="my-16" v-model="page" @input="getProducts()"></v-pagination>
       </v-col>
     </v-row>
   </div>
@@ -74,6 +75,7 @@ export default {
       brands: [],
       categories: [],
       products: [],
+      length: 1
     }
   },
   methods: {

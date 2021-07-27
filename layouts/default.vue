@@ -236,6 +236,38 @@
             <v-icon color="">ri-shopping-cart-2-fill</v-icon>
           </v-btn>
         </v-badge>
+        <!-- <v-menu
+          bottom
+          left
+          offset-y
+          max-width="350"
+          max-height="300"
+          origin="top right"
+          transition="scale-transition"
+        >
+          <template v-slot:activator="{ attrs, on }">
+            <v-btn v-bind="attrs" v-on="on" icon class="ml-5"
+              ><v-icon>more_horiz</v-icon></v-btn
+            >
+          </template>
+
+          <v-list class="py-0">
+            <v-list-item @click="newDialog = true" class="py-0 my-0">
+              <v-list-item-content class="py-0 my-0">
+                <v-list-item-title>
+                  <img src="~/static/assets/edit-alt.png" alt="" /> Edit
+                </v-list-item-title>
+              </v-list-item-content>
+            </v-list-item>
+            <v-list-item @click="deleteDialog = true" class="py-0 my-0">
+              <v-list-item-content class="py-0 my-0">
+                <v-list-item-title>
+                  <img src="~/static/assets/delete-alt.png" alt="" /> Delete
+                </v-list-item-title>
+              </v-list-item-content>
+            </v-list-item>
+          </v-list>
+        </v-menu> -->
         <v-menu
           v-if="isAuthenticated"
           bottom
@@ -687,7 +719,7 @@
           </v-col>
           <v-col md="3" sm="3" cols="6">
             <h4 class="mb-4">Quick Links</h4>
-            <nuxt-link to="/paxo-rewards">
+            <nuxt-link to="/paxo-reward">
               <p>Paxo Rewards</p>
             </nuxt-link>
             <nuxt-link to="/stories">

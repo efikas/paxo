@@ -49,7 +49,8 @@ export default {
     // '~/plugins/vue-tel-input',
     '~/plugins/filters',
     '~/plugins/lodash',
-    '~/plugins/clipboard'
+    '~/plugins/clipboard',
+    '~/plugins/datepicker'
   ],
 
   // Auto import components (https://go.nuxtjs.dev/config-components)

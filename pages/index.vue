@@ -15,6 +15,17 @@
         ></v-img>
       </v-col>
     </v-row>
+    <v-row justify="center" align="center">
+      <v-col md="10">
+        <nuxt-link to="/offers">
+        <v-img
+          class="brands-img"
+          :src="require('../static/assets/banner.jpeg')"
+        ></v-img>
+
+        </nuxt-link>
+      </v-col>
+    </v-row>
     <v-row  :class="{'px-8':$vuetify.breakpoint.mdAndUp}">
       <v-col md="4" v-for="i in brands.slice(2, 11)" :key="i.id">
         <v-img
@@ -26,14 +37,9 @@
       </v-col>
     </v-row>
 
-    <v-row justify="center" align="center">
-      <v-col md="10">
-        <v-img
-          class="brands-img"
-          :src="require('../static/assets/banner.jpeg')"
-        ></v-img>
-      </v-col>
-    </v-row>
+
+
+
 
     <v-row :class="{'px-8':$vuetify.breakpoint.mdAndUp}">
       <v-col md="4" v-for="i in brands.slice(11, 40)" :key="i.id">

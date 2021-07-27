@@ -162,7 +162,7 @@ export const actions = {
     return data
   },
   async subcategoryproducts({}, { page, id }) {
-    const data = await this.$axios.$get('/products/subcategory/' + id)
+    const data = await this.$axios.$get('/products/subcategory/' + id + '?page='+page)
     return data
   },
 

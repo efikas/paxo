@@ -45,7 +45,7 @@
           <v-btn
             icon
             @click="
-              ;(form = item),
+              ;(form = item), form.product_id = item.product.split(',').map(Number),
                 (dialog = true),
                 (update = true),
                 (imagesrc = item.avatar)
@@ -198,6 +198,7 @@ export default {
         for (var i = 0; i < products.length; i++) {
           formData.append('product_id[' + i + ']', JSON.stringify(products[i]))
         }
+        formData.append('product', this.form.product_id)
         formData.append('avatar', this.form.product_image)
 
         await this.$store
@@ -227,6 +228,7 @@ export default {
           formData.append('product_id[' + i + ']', JSON.stringify(products[i]))
         }
         formData.append('avatar', this.form.product_image)
+        formData.append('product', this.form.product_id)
 
         formData.append('id', this.form.id)
         await this.$store

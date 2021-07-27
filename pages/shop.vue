@@ -34,9 +34,15 @@ export default {
     this.getbrands()
   },
   methods: {
+    // async getbrands() {
+    //   await this.$store.dispatch('brand/all').then((response) => {
+    //     this.brands = response.data
+    //   })
+    // },
     async getbrands() {
-      await this.$store.dispatch('brand/all').then((response) => {
+      await this.$store.dispatch('section/all').then((response) => {
         this.brands = response.data
+
       })
     },
   },
