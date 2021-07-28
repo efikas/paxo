@@ -357,7 +357,7 @@ export default {
       formData.append('stock_quantity', this.form.stock_quantity)
       formData.append('top_product', this.form.top_product ? 1 : 0)
       formData.append('onsale', this.form.onsale ? 1 : 0)
-       if(form.duration){
+       if(this.form.duration){
 
         formData.append('duration_form', this.form.duration.from)
         formData.append('duration_to', this.form.duration.to)
