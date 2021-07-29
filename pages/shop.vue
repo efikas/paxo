@@ -11,7 +11,8 @@
             <v-expansion-panel-content>
               <div v-for="k in j.subcategory" :key="k.id" class="sub-menu mb-4">
                   <nuxt-link
-                    :to="'/category/' + k.name + '?categoryId=' + k.id"
+                    
+                    :to="'/subcategory/' + k.name + '?subCategoryId=' + k.id"
                     >{{ k.name }}</nuxt-link
                   >
                 </div>
