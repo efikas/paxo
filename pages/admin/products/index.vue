@@ -62,7 +62,7 @@ export default {
         { text: 'Brand', value: 'brand.name' },
         { text: 'Price', value: 'price' },
         { text: 'Wholesales Price', value: 'wholesale_price' },
-        { text: 'Quantity in Stock', value: 'stock_quantity' },
+        // { text: 'Quantity in Stock', value: 'stock_quantity' },
         { text: 'Status', value: 'status' },
         { text: 'Actions', value: 'actions' },
       ],

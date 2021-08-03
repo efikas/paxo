@@ -199,6 +199,12 @@
           to="/paxo-reward"
           >Paxo Reward</nuxt-link
         >
+        <nuxt-link
+          class="nav-btn-small hidden-sm-and-down mx-3"
+          to="/offers"
+          >Offers</nuxt-link
+        >
+
         <!-- <nuxt-link class="nav-btn-small hidden-sm-and-down mx-3" to="/stories"
           >Blog</nuxt-link
         > -->
@@ -589,7 +595,7 @@
           <v-col cols="3">
             <v-btn
               class="nav-btn font-weight-medium px-3"
-              to="/paxo-reward"
+              to="/offers"
               block
               text
             >

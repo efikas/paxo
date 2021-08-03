@@ -18,7 +18,7 @@
           <td class="py-5">
             <div class="d-flex align-center">
               <img :src="i.avatar" width="100px" alt="" />
-              <nuxt-link to="/single-product">
+              <nuxt-link :to="'/single-product?product_id='+i.id">
                 <p class="ml-8">{{ i.name }}</p>
               </nuxt-link>
             </div>

@@ -142,8 +142,20 @@ export const actions = {
 
     return data
   },
-  async all({}, { page }) {
-    const data = await this.$axios.$get('/products?page=' + page)
+  async all({}, { page,category,brand,price }) {
+    var data
+    data = await this.$axios.$get('/products/80?category_id=' + category+ '&brand_id=' + brand+'&price='+price+ '&page='+page)
+    // if(category.length > 0){
+
+    // }else{
+    //   data = await this.$axios.$get('/products/80' +'?page='+page)
+    // }
+    return data
+  },
+  async offers({}, { page }) {
+    var data
+    data = await this.$axios.$get('/product/offers?page='+page)
+
     return data
   },
 

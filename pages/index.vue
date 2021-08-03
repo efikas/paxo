@@ -75,7 +75,7 @@
         <p class="deal-text">Deal of the Day</p>
       </v-col>
       <v-col md="6" cols="3" class="text-right py-0 ma-0">
-        <v-btn class="primary" text to="/offers" small>View All</v-btn>
+        <v-btn class="primary" text to="/store" small>View All</v-btn>
       </v-col>
       <!-- <v-col md="12" class="py-0 ma-0">
         <v-divider></v-divider>

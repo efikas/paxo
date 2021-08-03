@@ -36,7 +36,7 @@
         </div>
       </v-col>
       <v-col md="10">
-        <h1 class="font-weight-medium">Offers</h1>
+        <h1 class="font-weight-medium">Paxo Store</h1>
         <v-divider></v-divider>
         <v-row class="mt-8">
           <!-- {{category}} -->
@@ -108,8 +108,8 @@ export default {
         brand: this.brand,
         price: this.range
       }
-      await this.$store.dispatch('products/offers', data).then((response) => {
-        this.products = response.data
+      await this.$store.dispatch('products/all', data).then((response) => {
+        this.products = response.data.data
         this.length = response.data.last_page
         this.loading = false
       })

@@ -16,7 +16,7 @@
           <v-row class="mt-8" >
             <v-col md="2" v-for="(i, index) in products" :key="index">
 
-              <product-display v-if="i"
+              <product-display v-if="i.product"
               :product_name="i.product.name"
               rating="5"
               :price="i.product.price"
