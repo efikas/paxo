@@ -241,6 +241,7 @@ export default {
       this.categories = obj[0].category
     },
     getSubCategories(name) {
+      this.subcategories = []
       for (var i = 0; i < name.length; i++) {
         let obj = this.categories.filter((item) => item.id === name[i])
         this.subcategories = [].concat(this.subcategories, obj[0].subcategory)
