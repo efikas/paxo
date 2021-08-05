@@ -323,7 +323,7 @@ export default {
               shipping_tier: 'Local pickup', // see details below
               account_type: self.user.role == 'user' || self.user.role == 'staff' ? 'RETAILER' : 'WHOLESALER',
               customer_type: 'returning', // Add a code to tell whether this is a new customer or returning.
-              gift_item: 'YES', // This is boolean
+              gift_item: '', // This is boolean
               currency: 'NGN', // This value is constant
               // items: [
               //   {
@@ -356,7 +356,7 @@ export default {
           this.$toast.success(response.message)
           this.loading = this.confirmDialog = false
           this.$router.push('/thank-you')
-          // this.$store.commit('products/CLEAR_CART')
+          this.$store.commit('products/CLEAR_CART')
           this.getUser()
         // },3000)
           })
