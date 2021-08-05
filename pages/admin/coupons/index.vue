@@ -28,7 +28,12 @@
           </v-btn>
         </v-col>
       </v-row>
-      <v-data-table :items="coupons" :headers="headers" :loading="loading" :search="search">
+      <v-data-table
+        :items="coupons"
+        :headers="headers"
+        :loading="loading"
+        :search="search"
+      >
         <template v-slot:item.sn="{ item }">
           {{ coupons.indexOf(item) + 1 }}
         </template>
@@ -39,7 +44,15 @@
           {{ item.expiring_date | formatDate }}
         </template>
         <template v-slot:item.action="{ item }">
-          <v-btn icon @click=";(form = item), (dialog = true), (update = true)">
+          <v-btn
+            icon
+            @click="
+              ;(form = item),
+                (form.multiple_usage = parseInt(form.multiple_usage)), form.expiry_at = form.expiring_date,
+                (dialog = true),
+                (update = true)
+            "
+          >
             <v-icon color="success">edit</v-icon>
           </v-btn>
           <v-btn icon @click="deletecoupon(item.id)">
@@ -87,27 +100,35 @@
             dense
             outlined
             label="Number of Users (Optional)"
-
             v-model="form.number_of_user"
-
           >
           </v-text-field>
           <v-text-field
             dense
             outlined
-            label="Expiry Date" type="date"
+            label="Expiry Date"
+            type="date"
             required
             v-model="form.expiry_at"
             :rules="[(v) => !!v || 'This field is required']"
           >
           </v-text-field>
-          <v-checkbox label="Allow multiple usage?" v-model="form.multiple_usage" ></v-checkbox>
+          <v-checkbox
+            label="Allow multiple usage?"
+            v-model="form.multiple_usage"
+          ></v-checkbox>
           <v-btn
             large
             block
             class="primary"
             :loading="loading"
-            @click="$refs.addnew.validate() ? (update ? updatecoupon() : addcoupon()) : null"
+            @click="
+              $refs.addnew.validate()
+                ? update
+                  ? updatecoupon()
+                  : addcoupon()
+                : null
+            "
             >{{ update ? 'Update' : 'Add coupon' }}</v-btn
           >
         </v-form>
@@ -144,7 +165,6 @@ export default {
   },
   mounted() {
     this.getcoupons()
-
   },
   methods: {
     async deletecoupon(id) {
@@ -152,12 +172,10 @@ export default {
         id: id,
       }
       confirm('Are you sure you want to delete this coupon?') &&
-        (await this.$store
-          .dispatch('coupon/delete', data)
-          .then((response) => {
-            this.$toast.success(response.message)
-            this.getcoupons()
-          }))
+        (await this.$store.dispatch('coupon/delete', data).then((response) => {
+          this.$toast.success(response.message)
+          this.getcoupons()
+        }))
     },
     async getcoupons() {
       this.loading = true

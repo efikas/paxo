@@ -45,7 +45,7 @@ export default {
     // { src: '~plugins/ckeditor', ssr: false },
     { src: '~/plugins/localStorage.js', ssr: false },
     { src: '~/plugins/axios.js', ssr: false },
-    // '~/plugins/tel-input',
+    '~/plugins/gtm',
     // '~/plugins/vue-tel-input',
     '~/plugins/filters',
     '~/plugins/lodash',
