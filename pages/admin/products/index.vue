@@ -19,7 +19,7 @@
           </v-btn>
         </v-col>
       </v-row>
-      <v-data-table :loading="loading" :items-per-page="15" hide-default-footer :items="products" :headers="headers" :search="search">
+      <v-data-table :loading="loading" :items-per-page="80" hide-default-footer :items="products" :headers="headers" :search="search">
       <template v-slot:item.image="{item}">
         <img :src="item.avatar" width="100" alt="">
       </template>
