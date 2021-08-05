@@ -352,13 +352,13 @@ export default {
             },
           })
         })
-        setTimeout(() => {
+        // setTimeout(() => {
           this.$toast.success(response.message)
           this.loading = this.confirmDialog = false
           this.$store.commit('products/CLEAR_CART')
           this.$router.push('/thank-you')
           this.getUser()
-        },3000)
+        // },3000)
         .catch((error) => {
           this.$toast.error(error.response.data.message)
         })
