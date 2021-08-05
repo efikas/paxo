@@ -301,6 +301,7 @@ export default {
         channel: this.paymentoption == '1' ? 'wallet' : 'card',
         total_product: this.subtotal
       }
+      const self = this
       await this.$store
         .dispatch('products/storeorder', data)
         .then((response) => {
@@ -310,17 +311,17 @@ export default {
           window.dataLayer.push({
             event: 'purchase',
             ecommerce: {
-              transaction_id: response.data.order.order_number, // Transaction ID. Required
+              // transaction_id: response.data.order.order_number, // Transaction ID. Required
               affiliation: 'Online Store', // default value is Online Store
-              value: this.order.order_balance, // Total transaction value (does not include tax and shipping)
+              value: self.order.order_balance, // Total transaction value (does not include tax and shipping)
               tax: '0.00',
-              shipping: this.user.deliveryfee,
-              coupon: this.code,
-              payment_method: this.paymentoption == '1' ? 'wallet' : 'card', // either 'card' or 'wallet'
+              shipping: self.user.deliveryfee,
+              coupon: self.code,
+              payment_method: self.paymentoption == '1' ? 'wallet' : 'card', // either 'card' or 'wallet'
               shipping_zone: 'SW', // geo-zone shipped to
               shipping_location: this.user.state, // state being shipped to
               shipping_tier: 'Local pickup', // see details below
-              account_type: this.user.role == 'user' || this.user.role == 'staff' ? 'RETAILER' : 'WHOLESALER',
+              account_type: self.user.role == 'user' || self.user.role == 'staff' ? 'RETAILER' : 'WHOLESALER',
               customer_type: 'returning', // Add a code to tell whether this is a new customer or returning.
               gift_item: 'YES', // This is boolean
               currency: 'NGN', // This value is constant
@@ -348,19 +349,20 @@ export default {
               //     coupon: '', // leave empty.
               //   },
               // ], //expand this array if more product exists (make this expand based on number of items ordered)
-              items: this.StoreCart
+              items: self.StoreCart
             },
           })
-        setTimeout(() => {
+        // setTimeout(() => {
           this.$toast.success(response.message)
           this.loading = this.confirmDialog = false
           this.$router.push('/thank-you')
-          this.$store.commit('products/CLEAR_CART')
+          // this.$store.commit('products/CLEAR_CART')
           this.getUser()
-        },3000)
+        // },3000)
           })
         .catch((error) => {
           this.$toast.error(error.response.data.message)
+          console.log(error)
         })
     },
     async createOrder() {
