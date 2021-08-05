@@ -752,7 +752,7 @@
             </nuxt-link>
             <!-- <p>Affiliate</p> -->
             <!-- <p>Career</p> -->
-            <nuxt-link to="/contact-us">
+
               <p>Contact Us</p>
               <h4 class="mt-8">Socials</h4>
               <v-btn
@@ -783,7 +783,7 @@
               >
                 <v-icon color="white">ri-youtube-fill</v-icon>
               </v-btn>
-            </nuxt-link>
+            
           </v-col>
           <v-col md="2" sm="3" cols="6">
             <h4 class="mb-4">Business</h4>
