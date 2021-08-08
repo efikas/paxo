@@ -56,7 +56,7 @@
       <h3 style="font-size: 20px; font-weight: 400">TOP BRANDS</h3>
       <v-row class="mt-6">
         <v-col v-for="i in topbrands" :key="i" md="3" cols="12">
-          <v-card class="pa" height="99.4" flat :to="'/brands/'+i.name+'?brandId='+i.id">
+          <v-card class="pa" height="99.4" flat :to="'/brands/'+i.name+'?brandId='+i.brand_id">
             <v-img
               class="brands-img"
               height="95"
@@ -257,7 +257,7 @@
       <h3>Hot New Arrivals</h3>
     </div>
     <v-row class="mt-6">
-      <v-col class="text-left" md="3" cols="12" v-for="(i, index) in products.slice(0, 9)" :key="index">
+      <v-col class="text-left" md="3" cols="12" v-for="(i, index) in new_products.slice(0, 9)" :key="index">
         <new-arrival
           :product_name="i.name"
           :price="i.price"
@@ -286,6 +286,7 @@ export default {
       page: 1,
       length: 1,
       products: [],
+      new_products: [],
       topproducts: [],
       brands: [],
       topbrands: [],
@@ -301,6 +302,7 @@ export default {
   },
   mounted() {
     this.getProducts()
+    this.getNewProducts()
     this.getTopProducts()
     this.getblogs()
     this.getTopBrands()
@@ -365,6 +367,15 @@ export default {
       }
       await this.$store.dispatch('products/offers', data).then((response) => {
         this.products = response.data.data
+        this.length = response.data.last_page
+      })
+    },
+    async getNewProducts() {
+      const data = {
+        page: this.page,
+      }
+      await this.$store.dispatch('products/all', data).then((response) => {
+        this.new_products = response.data.data
         this.length = response.data.last_page
       })
     },
