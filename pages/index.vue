@@ -132,19 +132,19 @@
           v-for="(i, index) in products.slice(0, 10)"
           :key="index"
         >
-          <product-display
-            :vendor="i.brand ? i.brand.name : null"
-            :product_name="i.name"
+          <product-display v-if="i.products"
+            :vendor="i.products.brand ? i.products.brand.name : null"
+            :product_name="i.products.name"
             rating="5"
-            :price="i.price"
-            :regular_price="i.regular_price"
-            :wholesale_price="i.wholesale_price"
-            :image="i.avatar"
-            :badge="i.stock_status"
-            :description="i.description"
-            :short_description="i.short_description"
-            :product_object="i"
-            :product_id="i.id"
+            :price="i.products.price"
+            :regular_price="i.products.regular_price"
+            :wholesale_price="i.products.wholesale_price"
+            :image="i.products.avatar"
+            :badge="i.products.stock_status"
+            :description="i.products.description"
+            :short_description="i.products.short_description"
+            :product_object="i.products"
+            :product_id="i.products.id"
           />
         </div>
       </div>
@@ -363,7 +363,7 @@ export default {
       const data = {
         page: this.page,
       }
-      await this.$store.dispatch('products/all', data).then((response) => {
+      await this.$store.dispatch('products/offers', data).then((response) => {
         this.products = response.data.data
         this.length = response.data.last_page
       })

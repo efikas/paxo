@@ -2,7 +2,7 @@
   <v-container>
     <div class="text-center pb-16">
       <h1>Shipping Information</h1>
-      <!-- {{user.deliveryMethod}} -->
+      {{ order.order ? order.order.order_number : null }}
     </div>
     <v-row>
       <v-col md="8" cols="12">
@@ -14,11 +14,15 @@
             </v-col>
             <v-col md="6" class="pb-">
               <p class="py-0 my-0 fade">{{ user.mobile }}</p>
-              <p v-if="user.deliveryMethod == '1'" class="py-0 my-0 fade">{{ user.address }}</p>
+              <p v-if="user.deliveryMethod == '1'" class="py-0 my-0 fade">
+                {{ user.address }}
+              </p>
             </v-col>
             <v-col class="text-right">
               <nuxt-link to="/checkout">Change</nuxt-link><br />
-              <nuxt-link v-if="user.deliveryMethod == '1'" to="/checkout">Change</nuxt-link>
+              <nuxt-link v-if="user.deliveryMethod == '1'" to="/checkout"
+                >Change</nuxt-link
+              >
             </v-col>
           </v-row>
         </div>
@@ -42,14 +46,22 @@
               </v-radio>
             </v-radio-group> -->
             <p>Delivery to:</p>
-            <p>{{ user.deliveryMethod == '1' ? user.address : 'Local Pickup: (3 Billings Way, Oregun, Ikeja beside Fan Milk)' }}</p>
+            <p>
+              {{
+                user.deliveryMethod == '1'
+                  ? user.address
+                  : 'Local Pickup: (3 Billings Way, Oregun, Ikeja beside Fan Milk)'
+              }}
+            </p>
           </div>
           <br />
-            <h3 class="">Have a Coupon?</h3>
+          <h3 class="">Have a Coupon?</h3>
           <div class="contact-card pa-4 mb-6">
             <v-form lazy-validation ref="coupon" v-model="valid">
               <v-text-field
-                outlined style="width: 300px;" label="Enter your Coupon Code"
+                outlined
+                style="width: 300px"
+                label="Enter your Coupon Code"
                 v-model="code"
                 required
                 :rules="[(v) => !!v || 'Please enter coupon code']"
@@ -71,7 +83,11 @@
               required
               :rules="[(v) => !!v || 'Please selection a payment option']"
             >
-              <v-radio label="Pay with your wallet" :disabled="user.balance == '0'" value="1"></v-radio>
+              <v-radio
+                label="Pay with your wallet"
+                :disabled="user.balance == '0'"
+                value="1"
+              ></v-radio>
               <p class="ml-8">
                 Your Wallet Balance: &#8358;{{ user.balance | formatPrice }}
               </p>
@@ -84,7 +100,7 @@
             text
             class="primary mt-12"
             :loading="loading"
-            @click="$refs.form.validate() ? confirmDialog = true : null"
+            @click="$refs.form.validate() ? (confirmDialog = true) : null"
             >Complete Order</v-btn
           >
         </v-form>
@@ -118,10 +134,10 @@
             <p>
               {{ i.name }} <br />{{ i.quantity }} x &#8358;{{
                 (isAuthenticated
-                ? user.role == 'wholesaler'
-                  ? i.wholesale_price
-                  : i.price
-                : i.price) | formatPrice
+                  ? user.role == 'wholesaler'
+                    ? i.wholesale_price
+                    : i.price
+                  : i.price) | formatPrice
               }}
             </p>
             <v-divider class="pb-6"></v-divider>
@@ -141,7 +157,7 @@
                 <h5>discount</h5>
               </v-col>
               <v-col class="text-right">
-                - &#8358;{{ discount | formatPrice}}
+                - &#8358;{{ discount | formatPrice }}
               </v-col>
             </v-row>
             <v-divider v-if="discount_percent" class="my-6"></v-divider>
@@ -168,14 +184,23 @@
         </div>
       </v-col>
     </v-row>
-    <v-dialog width="400" v-model="confirmDialog" overlay-color="#36bdb4" overlay-opacity="0.9">
+    <v-dialog
+      width="400"
+      v-model="confirmDialog"
+      overlay-color="#36bdb4"
+      overlay-opacity="0.9"
+    >
       <v-card class="pa-6 text-center">
         <h3>Proceed to payment?</h3>
-        <p>Are you sure you want to proceed to paying for this order? Please note that this step is irreversible!</p>
+        <p>
+          Are you sure you want to proceed to paying for this order? Please note
+          that this step is irreversible!
+        </p>
 
         <v-btn outlined text @click="confirmDialog = false">Cancel</v-btn>
-        <v-btn class="primary" :loading="loading" @click="createOrder()">Proceed</v-btn>
-
+        <v-btn class="primary" :loading="loading" @click="createOrder()"
+          >Proceed</v-btn
+        >
       </v-card>
     </v-dialog>
   </v-container>
@@ -187,7 +212,6 @@ export default {
   transition: 'default',
   components: {
     paystack,
-
   },
   data() {
     return {
@@ -206,7 +230,7 @@ export default {
       paystackkey: 'pk_test_e88a1928368226327d9382a6c67c82749f30ec13',
       reference: '',
 
-      code: ''
+      code: '',
     }
   },
   computed: {
@@ -221,15 +245,15 @@ export default {
     this.calculateSubtotal()
     this.createReference()
     // (isAuthenticated ? (user.role == 'wholesaler' ? i.wholesale_price : i.price) : i.price) | formatPrice
-    if(this.user.role == 'wholesaler'){
+    if (this.user.role == 'wholesaler') {
       console.log(this.StoreCart)
       this.StoreCart.price = this.StoreCart.wholesale_price
     }
   },
   watch: {
     discount_percent: function () {
-      this.calculateSubtotal ()
-    }
+      this.calculateSubtotal()
+    },
   },
   methods: {
     clickPaystack() {
@@ -254,11 +278,10 @@ export default {
               : this.StoreCart[i].price
           )
       }
-     if(this.discount_percent){
-       this.discount = ((this.discount_percent/100) * this.subtotal)
-       this.subtotal -= this.discount
-
-     }
+      if (this.discount_percent) {
+        this.discount = (this.discount_percent / 100) * this.subtotal
+        this.subtotal -= this.discount
+      }
     },
     callback: function (response) {
       this.makeOrder()
@@ -276,21 +299,24 @@ export default {
 
       this.reference = `PAXO_WEB_${text}`
     },
-     async applyCoupon () {
+    async applyCoupon() {
       this.loading = true
       const data = {
-        code: this.code
+        code: this.code,
       }
-      await this.$store.dispatch('order/applycoupon',data).then(response => {
-        this.$toast.success(response.message)
-        this.loading = false
-        this.discount_percent = response.data.percentage
-        this.$refs.coupon.reset()
-      }).catch(error => {
-        this.$toast.error(error.response.data.message)
-        this.loading = false
-        this.$refs.coupon.reset()
-      })
+      await this.$store
+        .dispatch('order/applycoupon', data)
+        .then((response) => {
+          this.$toast.success(response.message)
+          this.loading = false
+          this.discount_percent = response.data.percentage
+          this.$refs.coupon.reset()
+        })
+        .catch((error) => {
+          this.$toast.error(error.response.data.message)
+          this.loading = false
+          this.$refs.coupon.reset()
+        })
     },
     async makeOrder() {
       this.loading = true
@@ -299,21 +325,20 @@ export default {
         reference: this.reference,
         amount: this.order.order_balance,
         channel: this.paymentoption == '1' ? 'wallet' : 'card',
-        total_product: this.subtotal
+        total_product: this.subtotal,
       }
       const self = this
       await this.$store
         .dispatch('products/storeorder', data)
         .then((response) => {
-
-
+          // const res = response
           // var dataLayer = window.dataLayer || []
           window.dataLayer.push({
             event: 'purchase',
             ecommerce: {
-              // transaction_id: response.data.order.order_number, // Transaction ID. Required
+              transaction_id: self.order.order.order_number, // Transaction ID. Required
               affiliation: 'Online Store', // default value is Online Store
-              value: self.order.order_balance, // Total transaction value (does not include tax and shipping)
+              value: self.subtotal, // Total transaction value (does not include tax and shipping)
               tax: '0.00',
               shipping: self.user.deliveryfee,
               coupon: self.code,
@@ -321,7 +346,10 @@ export default {
               shipping_zone: 'SW', // geo-zone shipped to
               shipping_location: this.user.state, // state being shipped to
               shipping_tier: 'Local pickup', // see details below
-              account_type: self.user.role == 'user' || self.user.role == 'staff' ? 'RETAILER' : 'WHOLESALER',
+              account_type:
+                self.user.role == 'user' || self.user.role == 'staff'
+                  ? 'RETAILER'
+                  : 'WHOLESALER',
               customer_type: 'returning', // Add a code to tell whether this is a new customer or returning.
               gift_item: '', // This is boolean
               currency: 'NGN', // This value is constant
@@ -349,17 +377,17 @@ export default {
               //     coupon: '', // leave empty.
               //   },
               // ], //expand this array if more product exists (make this expand based on number of items ordered)
-              items: self.StoreCart
+              items: self.StoreCart,
             },
           })
-        // setTimeout(() => {
+          // setTimeout(() => {
           this.$toast.success(response.message)
           this.loading = this.confirmDialog = false
           this.$router.push('/thank-you')
           this.$store.commit('products/CLEAR_CART')
           this.getUser()
-        // },3000)
-          })
+          // },3000)
+        })
         .catch((error) => {
           this.$toast.error(error.response.data.message)
           console.log(error)
@@ -380,7 +408,7 @@ export default {
         product: this.StoreCart,
         reference: this.reference,
         total: this.subtotal + parseInt(this.user.deliveryfee),
-        total_product: this.subtotal
+        total_product: this.subtotal,
       }
       await this.$store
         .dispatch('products/makeorder', payload)
@@ -389,10 +417,34 @@ export default {
           this.getUser()
           this.loading = false
           this.order = response.data
+          const self = this
           this.order.order_balance > 0
             ? this.clickPaystack()
-            : (this.$store.commit('products/CLEAR_CART'),
-              this.$router.push('/'))
+            : (window.dataLayer.push({
+                event: 'purchase',
+                ecommerce: {
+                  transaction_id: self.order.order.order_number, // Transaction ID. Required
+                  affiliation: 'Online Store', // default value is Online Store
+                  value: self.subtotal, // Total transaction value (does not include tax and shipping)
+                  tax: '0.00',
+                  shipping: self.user.deliveryfee,
+                  coupon: self.code,
+                  payment_method: self.paymentoption == '1' ? 'wallet' : 'card', // either 'card' or 'wallet'
+                  shipping_zone: 'SW', // geo-zone shipped to
+                  shipping_location: this.user.state, // state being shipped to
+                  shipping_tier: 'Local pickup', // see details below
+                  account_type:
+                    self.user.role == 'user' || self.user.role == 'staff'
+                      ? 'RETAILER'
+                      : 'WHOLESALER',
+                  customer_type: 'returning', // Add a code to tell whether this is a new customer or returning.
+                  gift_item: '', // This is boolean
+                  currency: 'NGN', // This value is constant
+                  items: self.StoreCart,
+                },
+              }),
+              this.$store.commit('products/CLEAR_CART'),
+              this.$router.push('/thank-you'))
         })
         .catch((error) => {
           this.$toast.error(error.response.data.message)
@@ -405,7 +457,7 @@ export default {
       })
     },
 
-     async getUser() {
+    async getUser() {
       await this.$store.dispatch('auth/getuser').then((response) => {
         // this.shippingMethods = response.data
       })
