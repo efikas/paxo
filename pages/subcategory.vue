@@ -26,7 +26,7 @@
               :badge="i.product.stock_status"
               :description="i.product.description"
               :short_description="i.product.short_description"
-              :product_object="i"
+              :product_object="i.product"
               :product_id="i.product.id"
             />
 
