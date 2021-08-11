@@ -55,15 +55,15 @@
       <v-card class="pa-6">
         <h2>{{ update ? 'Update' : 'Add New' }} Brand</h2>
         <v-form lazy-validation v-model="valid" class="mt-8" ref="addnew">
-          <v-text-field
+          <v-select
             dense
             outlined
-            label="Brand Name"
-            required
-            v-model="form.name"
+            label="Select Brand"
+            required :items="brands" item-text="name" item-value="id"
+            v-model="form.brand_id"
             :rules="[(v) => !!v || 'This field is required']"
           >
-          </v-text-field>
+          </v-select>
           <v-card class="pa-2" @click="clickInput()">
             <v-img
               class="d-flex justify-center align-center text-center"
@@ -122,12 +122,21 @@ export default {
         { text: 'Actions', value: 'action' },
       ],
       topbrands: [],
+      brands:[]
     }
   },
   mounted() {
     this.gettopbrands()
+    this.getbrands()
   },
   methods: {
+    async getbrands() {
+      this.loading = true
+      await this.$store.dispatch('brand/all').then((response) => {
+        this.brands = response.data
+        this.loading = false
+      })
+    },
     onImageSelect(e) {
       if (this.form.product_image) {
         const file = this.form.product_image
@@ -163,7 +172,7 @@ export default {
       if (this.$refs.addnew.validate()) {
         this.loading = true
         let formData = new FormData()
-        formData.append('name', this.form.name)
+        formData.append('brand_id', this.form.brand_id)
         formData.append('avatar', this.form.product_image)
         formData.append('description', this.form.description)
         await this.$store
