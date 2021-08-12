@@ -260,16 +260,16 @@
           md="3"
         >
           <product-display
-            :vendor="i.brand ? i.brand.name : null"
-            :product_name="i.name"
+            :vendor="i.product.brand ? i.product.brand.name : null"
+            :product_name="i.product.name"
             rating="5"
-            :price="i.price"
-            :image="i.avatar"
-            :badge="i.stock_status"
-            :description="i.description"
-            :short_description="i.short_description"
-            :product_object="i"
-            :product_id="i.id"
+            :price="i.product.price"
+            :image="i.product.avatar"
+            :badge="i.product.stock_status"
+            :description="i.product.description"
+            :short_description="i.product.short_description"
+            :product_object="i.product"
+            :product_id="i.product.id"
           />
         </v-col>
       </v-row>
