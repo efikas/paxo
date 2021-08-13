@@ -5,8 +5,16 @@
         <v-col md="5">
           <div class="text-center py-5">
             <p>
-              <nuxt-link to="/login">Login</nuxt-link>
-              <nuxt-link to="/register" class="ml-6 black--text"
+              <nuxt-link :to="
+                  '/login' +
+                  ($route.query.next ? '?next=' + $route.query.next : '')
+                ">Login</nuxt-link>
+              <nuxt-link
+                :to="
+                  '/register' +
+                  ($route.query.next ? '?next=' + $route.query.next : '')
+                "
+                class="ml-6 black--text"
                 >Register</nuxt-link
               >
             </p>
@@ -100,7 +108,10 @@ export default {
 
           if (this.$route.query.next) {
             this.$router.push('/' + this.$route.query.next)
-          } else if (response.data.user.role == 'admin' || response.data.user.role == 'superadmin') {
+          } else if (
+            response.data.user.role == 'admin' ||
+            response.data.user.role == 'superadmin'
+          ) {
             this.$router.push('/admin/dashboard')
           } else {
             this.$router.push('/')
@@ -115,7 +126,7 @@ export default {
       this.$auth.loginWith('google')
     },
     loginWithFacebook() {
-      this.$auth.loginWith('facebook').then(response => {
+      this.$auth.loginWith('facebook').then((response) => {
         console.log(response)
       })
     },

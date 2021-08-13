@@ -8,11 +8,11 @@ export const mutations = {}
 export const getters = {}
 
 export const actions = {
-  async addnew({ commit }, { name, code, percentage, expiry_at, number_of_user, multiple_usage }) {
+  async addnew({ commit }, { name, code, percentage, expiring_date, number_of_user, multiple_usage }) {
     let token = JSON.parse(window.localStorage.getItem('paxo')).auth.token
     const data = await this.$axios.$post(
       '/admin/coupon/store',
-      { name, code, percentage, expiry_at, number_of_user, multiple_usage },
+      { name, code, percentage, expiring_date, number_of_user, multiple_usage },
       {
         headers: {
           Authorization: 'Bearer ' + token,

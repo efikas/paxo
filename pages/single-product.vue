@@ -67,7 +67,12 @@
                   class="accent font-weight-bold"
                   >Buy Now</v-btn
                 >
-                <!-- <v-btn icon><v-icon>ri-heart-line</v-icon></v-btn> -->
+                 <v-tooltip bottom>
+              <template v-slot:activator="{ on, attrs }">
+                <v-btn @click="addToWishList()"  v-bind="attrs" v-on="on" icon><v-icon>ri-heart-line</v-icon></v-btn>
+                 </template>
+              <span>Add to Wishlist</span>
+            </v-tooltip>
               </v-col>
             </v-row>
             <v-divider></v-divider>
@@ -321,6 +326,19 @@ export default {
     },
   },
   methods: {
+     async addToWishList() {
+      const data = {
+        product_id: this.product.id,
+      }
+      await this.$store
+        .dispatch('products/addtowishlist', data)
+        .then((response) => {
+          this.$toast.success(response.message)
+        })
+        .catch((error) => {
+          this.$toast.error(error.response.data.error.message)
+        })
+    },
     async getSingleProduct() {
       this.loading =true
       const data = {

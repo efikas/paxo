@@ -27,7 +27,7 @@
       </v-col>
     </v-row>
     <v-row  :class="{'px-8':$vuetify.breakpoint.mdAndUp}">
-      <v-col md="4" v-for="i in brands.slice(2, 11)" :key="i.id">
+      <v-col md="4" v-for="i in brands" :key="i.id">
         <v-img
           @click="$router.push('/brands/'+i.name+'?brandId='+i.id)"
           class="brands-img elevation-2" :class="{ 'h-200' : $vuetify.breakpoint.smAndDown}"
@@ -41,7 +41,7 @@
 
 
 
-    <v-row :class="{'px-8':$vuetify.breakpoint.mdAndUp}">
+    <!-- <v-row :class="{'px-8':$vuetify.breakpoint.mdAndUp}">
       <v-col md="4" v-for="i in brands.slice(11, 40)" :key="i.id">
         <v-img
           @click="$router.push('/brands/'+i.name+'?brandId='+i.id)"
@@ -50,7 +50,7 @@
           :src="i.avatar"
         ></v-img>
       </v-col>
-    </v-row>
+    </v-row> -->
 
     <div style="background-color: #f5f5f5" class=" py-16 mt-7" :class="{'pa-10':$vuetify.breakpoint.mdAndUp,'px-4':$vuetify.breakpoint.smAndDown}">
       <h3 style="font-size: 20px; font-weight: 400">TOP BRANDS</h3>

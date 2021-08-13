@@ -5,8 +5,21 @@
         <v-col md="5">
           <div class="text-center py-5">
             <p>
-              <nuxt-link to="/login" class="mr-6 black--text">Login</nuxt-link>
-              <nuxt-link to="/register">Register</nuxt-link>
+              <nuxt-link
+                :to="
+                  '/login' +
+                  ($route.query.next ? '?next=' + $route.query.next : '')
+                "
+                >Login</nuxt-link
+              >
+              <nuxt-link
+                :to="
+                  '/register' +
+                  ($route.query.next ? '?next=' + $route.query.next : '')
+                "
+                class="ml-6 black--text"
+                >Register</nuxt-link
+              >
             </p>
           </div>
           <v-card flat class="pa-8">
@@ -69,7 +82,11 @@
               </v-menu> -->
               <v-select
                 outlined
-                :items="[{text: 'Male', value: 'male'}, {text: 'Female', value: 'female'}, {text: 'Others', value: 'others'}]"
+                :items="[
+                  { text: 'Male', value: 'male' },
+                  { text: 'Female', value: 'female' },
+                  { text: 'Others', value: 'others' },
+                ]"
                 v-model="form.sex"
                 placeholder="Gender"
                 required
@@ -135,7 +152,7 @@ export default {
         password: '',
         role: 'user',
         referred_by: this.$route.query.ref || '',
-        referral_id: ''
+        referral_id: '',
       },
     }
   },
@@ -143,26 +160,25 @@ export default {
   methods: {
     async register() {
       this.loading = true
-      this.form.first_name = this.form.full_name.split(' ').slice(0, -1).join(' ') ,
-      this.form.last_name = this.form.full_name.split(' ').slice(-1).join(' '),
-          console.log(this.form)
+      ;(this.form.first_name = this.form.full_name
+        .split(' ')
+        .slice(0, -1)
+        .join(' ')),
+        (this.form.last_name = this.form.full_name
+          .split(' ')
+          .slice(-1)
+          .join(' ')),
+        console.log(this.form)
       await this.$store
         .dispatch('auth/register', this.form)
         .then((response) => {
           this.$toast.success(response.message)
           this.loading = false
-          this.$router.push('/dashboard')
+          this.$router.push(
+            this.$route.query.next ? '/' + this.$route.query.next : '/dashboard'
+          )
         })
         .catch((error) => {
-          // var errors = error.response.data.errors
-          // if (errors) {
-          //   if (errors.email) {
-          //     this.emailerror = errors.email[0]
-          //   }
-          //   if (errors.mobile) {
-          //     this.phoneerror = errors.mobile[0]
-          //   }
-          // }
           this.$toast.error(error.response.data.message)
           this.loading = false
         })

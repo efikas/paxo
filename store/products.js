@@ -179,7 +179,7 @@ export const actions = {
   },
 
   async brandproducts({}, { page, id }) {
-    const data = await this.$axios.$get('/products/brand/' + id)
+    const data = await this.$axios.$get('/products/brand/' + id+'?page='+page)
     return data
   },
 

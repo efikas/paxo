@@ -48,7 +48,7 @@
             icon
             @click="
               ;(form = item),
-                (form.multiple_usage = parseInt(form.multiple_usage)), form.expiry_at = form.expiring_date,
+                (form.multiple_usage = parseInt(form.multiple_usage)), form.expiring_date = (form.expiring_date).substr(0, 10),
                 (dialog = true),
                 (update = true)
             "
@@ -65,6 +65,7 @@
       <v-card class="pa-6">
         <h2>{{ update ? 'Update' : 'Add New' }} Coupon</h2>
         <!-- <v-alert type="error">{{}}</v-alert> -->
+        {{ form.expiring_date}}
         <v-form lazy-validation v-model="valid" class="mt-8" ref="addnew">
           <v-text-field
             dense
@@ -109,7 +110,7 @@
             label="Expiry Date"
             type="date"
             required
-            v-model="form.expiry_at"
+            v-model="form.expiring_date"
             :rules="[(v) => !!v || 'This field is required']"
           >
           </v-text-field>
@@ -147,7 +148,7 @@ export default {
       loading: false,
       update: false,
       search: '',
-      form: {},
+      form: {expiring_date: ''},
 
       headers: [
         { text: 'S/N', value: 'sn' },

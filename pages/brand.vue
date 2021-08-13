@@ -27,10 +27,12 @@
           </div>
         </v-col> -->
         <v-col md="12">
-          <h1 class="font-weight-medium">{{ !loading ? ((products.length > 0) ? 'Brand: '+ products[0].brand.name : 'No Products Found') : null}}</h1>
+          <!-- <h1 class="font-weight-medium">{{ !loading ? ((products.length > 0) ? 'Brand: '+ products[0].brand.name : 'No Products Found') : null}}</h1> -->
+          <h1 class="font-weight-bold">{{decodeURI(brand)}}</h1>
           <v-divider></v-divider>
           <v-row class="mt-8">
             <v-col md="2" v-for="(i, index) in products" :key="index">
+            <!-- {{i}} -->
               <!-- :vendor="i.product.brand.name" -->
               <product-display
               :product_name="i.name"
@@ -48,6 +50,7 @@
         </v-col>
 
       </v-row>
+      <v-pagination v-model="page" class="my-16" :length="length" @input="getProducts()"></v-pagination>
 
     </v-container>
   </div>
@@ -68,7 +71,7 @@ export default {
   data() {
     return {
       loading: true,
-      brand: '',
+      length: 1,
       range: '',
       page: 1,
       range: [1000, 5000000],
@@ -95,8 +98,8 @@ export default {
         id: this.$route.query.brandId
       }
       await this.$store.dispatch('products/brandproducts', data).then((response) => {
-      response.data ?   this.products = response.data : null
-        // this.length = response.data.last_page
+      response.data ?   this.products = response.data.data : null
+        this.length = response.data.last_page
         this.loading = false
       })
     },

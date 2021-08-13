@@ -28,7 +28,12 @@ export const mutations = {
   RESET_STATE(state, payload) {
     state.authenticated = payload
     window.localStorage.clear()
-    this.$router.push('/')
+    ;(state.token = null),
+      (state.authenticated = false),
+      (state.blur = false),
+      (state.user = []),
+      (state.wallet_balance = null),
+      this.$router.push('/')
   },
 }
 
@@ -229,7 +234,10 @@ export const actions = {
       postcode,
       apartment,
       dob,
-      id, account_number, account_name, bank_code
+      id,
+      account_number,
+      account_name,
+      bank_code,
     }
   ) {
     let token = JSON.parse(window.localStorage.getItem('paxo')).auth.token
@@ -247,7 +255,10 @@ export const actions = {
         city,
         postcode,
         apartment,
-        dob, account_number, account_name, bank_code
+        dob,
+        account_number,
+        account_name,
+        bank_code,
       },
       {
         headers: {
@@ -322,6 +333,7 @@ export const actions = {
         },
       }
     )
+    commit('SET_USER', data.data)
     return data
   },
 
@@ -419,7 +431,8 @@ export const actions = {
     const data = await this.$axios.$post(
       '/user/wallet/transfer',
       {
-        amount, password
+        amount,
+        password,
       },
       {
         headers: {

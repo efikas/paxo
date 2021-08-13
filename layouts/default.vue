@@ -783,7 +783,7 @@
               >
                 <v-icon color="white">ri-youtube-fill</v-icon>
               </v-btn>
-            
+
           </v-col>
           <v-col md="2" sm="3" cols="6">
             <h4 class="mb-4">Business</h4>
@@ -957,6 +957,12 @@ export default {
       this.orderedBrands = startsWithN
       console.log(startsWithN)
     },
+  },
+  watch: {
+    isAuthenticated: function () {
+      // window.location.reload()
+      alert('success')
+    }
   },
   computed: {
     ...mapGetters('products', ['StoreCart', 'cartItem']),
