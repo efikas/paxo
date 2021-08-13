@@ -960,8 +960,9 @@ export default {
   },
   watch: {
     isAuthenticated: function () {
-      // window.location.reload()
-      alert('success')
+
+      isAuthenticated ? null : window.location.reload()
+
     }
   },
   computed: {
