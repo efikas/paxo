@@ -356,7 +356,8 @@ export default {
         .dispatch('auth/withdraw', this.withdraw)
         .then((response) => {
           this.$toast.success(response.message)
-          this.loading = false
+          this.getProfile()
+          this.loading = this.withdrawDialog = false
         })
         .catch((error) => {
           this.$toast.error(error.response.data.message)

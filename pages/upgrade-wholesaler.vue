@@ -141,12 +141,18 @@ export default {
       this.loading = true
       await this.$store.dispatch('auth/becomewholesaler').then(response => {
         this.$toast.success(response.message)
+        this.getProfile()
         this.loading = false
       }).catch(error => {
         // console.log(error)
         this.$toast.error(error.response.data.message)
         this.loading = false
         this.resendEmail ()
+      })
+    },
+     async getProfile() {
+      await this.$store.dispatch('auth/profile').then((response) => {
+
       })
     },
     async resendEmail () {

@@ -513,7 +513,7 @@
           class="elevation-0"
         >
           <template v-slot:activator="{ attrs, on }">
-            <v-btn class="nav-btn px-3" v-bind="attrs" v-on="on" text>
+            <v-btn class="nav-btn px-3 pt-3" :to="'/section/' + i.name + '?sectionId=' + i.id" v-bind="attrs" v-on="on" text>
               {{ i.name }}</v-btn
             >
           </template>

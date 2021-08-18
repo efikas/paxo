@@ -215,7 +215,7 @@ export const actions = {
         Authorization: 'Bearer ' + token,
       },
     })
-    commit('SET_USER', data.success.data)
+    commit('SET_USER', data.data)
     return data
   },
 
