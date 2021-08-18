@@ -217,6 +217,7 @@
     </v-row>
     <v-row :class="{'px-8':$vuetify.breakpoint.mdAndUp,'px-4':$vuetify.breakpoint.smAndDown}">
       <v-col md="3" v-for="i in blogs.slice(0,4)" :key="i">
+      <nuxt-link :to="'/blog/'+i.title+'?blogid='+i.id">
         <v-img
           class="blog-container"
           :src="i.avatar" height="320"
@@ -227,6 +228,8 @@
             <v-btn :to="'/blog/'+i.title+'?blogid='+i.id" class="primary" small text>Read More</v-btn>
           </div>
         </v-img>
+
+      </nuxt-link>
       </v-col>
     </v-row>
 

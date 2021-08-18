@@ -199,9 +199,7 @@
           to="/paxo-reward"
           >Paxo Reward</nuxt-link
         >
-        <nuxt-link
-          class="nav-btn-small hidden-sm-and-down mx-3"
-          to="/offers"
+        <nuxt-link class="nav-btn-small hidden-sm-and-down mx-3" to="/offers"
           >Offers</nuxt-link
         >
 
@@ -409,7 +407,8 @@
       >
         <v-menu
           open-on-hover
-          bottom v-model="showBrand"
+          bottom
+          v-model="showBrand"
           offset-y
           :close-on-content-click="false"
           origin="top left"
@@ -434,7 +433,12 @@
             <v-row>
               <v-col cols="12" class="pa-8">
                 <div class="d-flex justify-space-between">
-                  <v-btn @click="orderedBrands = _.orderBy(brands, 'name')" icon small>All</v-btn>
+                  <v-btn
+                    @click="orderedBrands = _.orderBy(brands, 'name')"
+                    icon
+                    small
+                    >All</v-btn
+                  >
                   <v-btn icon small>#</v-btn>
                   <v-btn @click="sortBrands('a')" icon small>A</v-btn>
                   <v-btn @click="sortBrands('b')" icon small>B</v-btn>
@@ -473,25 +477,26 @@
                 style="width: 300px"
                 class="brands"
               >
-              <div class="sub-menu">
-                <a href="javascript:void(0)" class="nav-" @click="showBrand = false, $router.push('/brands/' + j.name + '?brandId=' + j.id)"
-                  v-for="j in orderedBrands.slice(
-                    index * brandsize,
-                    index * brandsize + brandsize
-                  )"
-                  :key="j.id"
-
-                  style="text-decoration: none; margin-bottom: 0 !important"
-                >
-                  <p
-                    class=" "
-                    style="font-size: 13px"
+                <div class="sub-menu">
+                  <a
+                    href="javascript:void(0)"
+                    class="nav-"
+                    @click="
+                      ;(showBrand = false),
+                        $router.push('/brands/' + j.name + '?brandId=' + j.id)
+                    "
+                    v-for="j in orderedBrands.slice(
+                      index * brandsize,
+                      index * brandsize + brandsize
+                    )"
+                    :key="j.id"
+                    style="text-decoration: none; margin-bottom: 0 !important"
                   >
-                    {{ j.name }}
-                  </p></a
-                >
-
-              </div>
+                    <p class=" " style="font-size: 13px">
+                      {{ j.name }}
+                    </p></a
+                  >
+                </div>
               </div>
             </div>
           </v-list>
@@ -607,22 +612,27 @@
           </v-col>
         </v-row>
       </v-app-bar>
-       <v-btn
-        fab href="https://api.whatsapp.com/send/?phone=2348146907099&text&app_absent=0" target="_blank"
+      <v-btn
+        fab
+        href="https://api.whatsapp.com/send/?phone=2348146907099&text&app_absent=0"
+        target="_blank"
         bottom
-        right dark
-
+        right
+        dark
         :small="$vuetify.breakpoint.xsOnly"
         :class="{
-
           'ma-12': $vuetify.breakpoint.mdAndUp,
           'white--text whatsapp-fab': $vuetify.breakpoint.lgAndDown,
-          'ma-4': $vuetify.breakpoint.smAndDown, 'pa-4' :$vuetify.breakpoint.smAndDown
+          'ma-4': $vuetify.breakpoint.smAndDown,
+          'pa-4': $vuetify.breakpoint.smAndDown,
         }"
-
         color="#000"
       >
-        <v-icon :x-large="$vuetify.breakpoint.mdAndUp" :large="$vuetify.breakpoint.smAndDown">ri-whatsapp-line</v-icon>
+        <v-icon
+          :x-large="$vuetify.breakpoint.mdAndUp"
+          :large="$vuetify.breakpoint.smAndDown"
+          >ri-whatsapp-line</v-icon
+        >
       </v-btn>
 
       <v-btn
@@ -752,38 +762,30 @@
             </nuxt-link>
             <!-- <p>Affiliate</p> -->
             <!-- <p>Career</p> -->
-
+            <nuxt-link to="/contact-us">
               <p>Contact Us</p>
-              <h4 class="mt-8">Socials</h4>
-              <v-btn
-                icon
-                href="https://facebook.com/paxobeauty"
-                target="_blank"
-              >
-                <v-icon color="white">ri-facebook-fill</v-icon>
-              </v-btn>
-              <v-btn
-                icon
-                href="https://instagram.com/paxobeauty"
-                target="_blank"
-              >
-                <v-icon color="white">ri-instagram-fill</v-icon>
-              </v-btn>
-              <v-btn
-                icon
-                href="https://api.whatsapp.com/send/?phone=2348146907099&text&app_absent=0"
-                target="_blank"
-              >
-                <v-icon color="white">ri-whatsapp-fill</v-icon>
-              </v-btn>
-              <v-btn
-                icon
-                href="https://www.youtube.com/channel/UCoK_tl8YDxh-JDBfeO9RTuQ"
-                target="_blank"
-              >
-                <v-icon color="white">ri-youtube-fill</v-icon>
-              </v-btn>
-
+            </nuxt-link>
+            <h4 class="mt-8">Socials</h4>
+            <v-btn icon href="https://facebook.com/paxobeauty" target="_blank">
+              <v-icon color="white">ri-facebook-fill</v-icon>
+            </v-btn>
+            <v-btn icon href="https://instagram.com/paxobeauty" target="_blank">
+              <v-icon color="white">ri-instagram-fill</v-icon>
+            </v-btn>
+            <v-btn
+              icon
+              href="https://api.whatsapp.com/send/?phone=2348146907099&text&app_absent=0"
+              target="_blank"
+            >
+              <v-icon color="white">ri-whatsapp-fill</v-icon>
+            </v-btn>
+            <v-btn
+              icon
+              href="https://www.youtube.com/channel/UCoK_tl8YDxh-JDBfeO9RTuQ"
+              target="_blank"
+            >
+              <v-icon color="white">ri-youtube-fill</v-icon>
+            </v-btn>
           </v-col>
           <v-col md="2" sm="3" cols="6">
             <h4 class="mb-4">Business</h4>
@@ -795,7 +797,7 @@
             <nuxt-link to="/dashboard">
               <p>My account</p>
             </nuxt-link>
-            <nuxt-link to="/offers">
+            <nuxt-link to="/store">
               <p>Shop</p>
             </nuxt-link>
           </v-col>
@@ -831,7 +833,7 @@ export default {
       sticky: false,
       searchDialog: null,
       pageloading: true,
-      orderedBrands:[],
+      orderedBrands: [],
       brands: [],
       brandsize: 7,
       sections: [],
@@ -926,7 +928,7 @@ export default {
       await this.$store.dispatch('brand/all').then((response) => {
         this.brands = response.data
         // this.pageloading = false
-         this.orderedBrands = _.orderBy(this.brands, 'name')
+        this.orderedBrands = _.orderBy(this.brands, 'name')
       })
     },
     async getSections() {
@@ -960,10 +962,8 @@ export default {
   },
   watch: {
     isAuthenticated: function () {
-
       isAuthenticated ? null : window.location.reload()
-
-    }
+    },
   },
   computed: {
     ...mapGetters('products', ['StoreCart', 'cartItem']),
@@ -981,7 +981,6 @@ export default {
     },
   },
   mounted() {
-
     // this.stickyNav()
   },
 

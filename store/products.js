@@ -144,7 +144,17 @@ export const actions = {
   },
   async all({}, { page,category,brand,price }) {
     var data
-    data = await this.$axios.$get('/products/80?category_id=' + category+ '&brand_id=' + brand+'&price='+price+ '&page='+page)
+    data = await this.$axios.$get('/products/filter?category_id=' + category+ '&brand_id=' + brand+'&price='+price+ '&page='+page)
+    // if(category.length > 0){
+
+    // }else{
+    //   data = await this.$axios.$get('/products/80' +'?page='+page)
+    // }
+    return data
+  },
+  async filter({}, { page,category,brand,price }) {
+    var data
+    data = await this.$axios.$get('/products/filter?category_id=' + category+ '&brand_id=' + brand+'&price='+price+ '&page='+page)
     // if(category.length > 0){
 
     // }else{

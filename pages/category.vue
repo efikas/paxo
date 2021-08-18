@@ -1,8 +1,14 @@
 <template>
   <div>
 
-    <!-- <home-page-slider class="hidden-sm-and-down"></home-page-slider> -->
-    <v-container fluid>
+    <v-container v-if="loading">
+      <v-overlay color="white"  :opacity="1" :value="loading">
+        <v-progress-circular color="primary" indeterminate size="50" width="8">
+          <!-- Loading... -->
+        </v-progress-circular>
+      </v-overlay>
+    </v-container>
+    <v-container fluid v-else>
       <v-row class="mt-4" :class="{'px-4':$vuetify.breakpoint.smAndDown}">
       <!-- {{products}} -->
         <!-- <v-col md="3" class="hidden-sm-and-down">

@@ -2,7 +2,7 @@
   <v-container py-16>
     <h1 class="text-center">{{singleblog.title}}</h1>
     <p style="opacity: 0.5" class="text-center mt-5">{{singleblog.created_at | formatDate}}</p>
-    <v-img :src="singleblog.avatar">
+    <v-img :src="singleblog.avatar" height="400">
 
     </v-img>
     <div v-html="singleblog.description" class="mt-8" >

@@ -2,9 +2,9 @@
   <div>
 
     <v-container v-if="loading">
-      <v-overlay color="primary"  :opacity="1" :value="loading">
-        <v-progress-circular indeterminate size="64">
-          Loading...
+      <v-overlay color="white"  :opacity="1" :value="loading">
+        <v-progress-circular color="primary" indeterminate size="50" width="8">
+          <!-- Loading... -->
         </v-progress-circular>
       </v-overlay>
     </v-container>
@@ -17,13 +17,13 @@
             <v-expansion-panel style="border-bottom: 1px solid #ddd; border-top: 1px solid #ddd;" >
               <v-expansion-panel-header style="font-size: 15px;">Category</v-expansion-panel-header>
               <v-expansion-panel-content>
-                <v-checkbox v-for="(i,index) in categories"  :key="index"  :value="i.id" v-model="category" :label="i.name" @change="getProducts()" class="ma-0 pa-0"></v-checkbox>
+                <v-checkbox v-for="(i,index) in categories"  :key="index"  :value="i.id" v-model="category" :label="i.name" @change="getFilterProducts()" class="ma-0 pa-0"></v-checkbox>
               </v-expansion-panel-content>
             </v-expansion-panel>
             <v-expansion-panel style="border-bottom: 1px solid #ddd;">
               <v-expansion-panel-header style="font-size: 15px;">Brand</v-expansion-panel-header>
               <v-expansion-panel-content>
-                <v-checkbox v-for="(i,index) in brands" :value="i.id" v-model="brand"  :key="index" :label="i.name" class="ma-0 pa-0"></v-checkbox>
+                <v-checkbox v-for="(i,index) in brands" :value="i.id" v-model="brand" @change="getFilterProducts()"  :key="index" :label="i.name" class="ma-0 pa-0"></v-checkbox>
               </v-expansion-panel-content>
             </v-expansion-panel>
             <v-expansion-panel style="border-bottom: 1px solid #ddd;">
@@ -42,7 +42,7 @@
           <!-- {{category}} -->
           <v-col md="3" sm="6" cols="6" v-for="(i, index) in products" :key="index">
             <!-- :vendor="i.product.brand.name" -->
-            <product-display
+            <!-- <product-display
               :vendor="i.brand ? i.brand.name : null"
               :product_name="i.name"
               rating="5"
@@ -55,6 +55,20 @@
               :short_description="i.short_description"
               :product_object="i"
               :product_id="i.id"
+            /> -->
+            <product-display
+              :vendor="i.product.brand ? i.product.brand.name : null"
+              :product_name="i.product.name"
+              rating="5"
+              :price="i.product.price"
+              :regular_price="i.product.regular_price"
+              :wholesale_price="i.product.wholesale_price"
+              :image="i.product.avatar"
+              :badge="i.product.stock_status"
+              :description="i.product.description"
+              :short_description="i.product.short_description"
+              :product_object="i.product"
+              :product_id="i.product.id"
             />
           </v-col>
         </v-row>
@@ -109,6 +123,19 @@ export default {
         price: this.range
       }
       await this.$store.dispatch('products/all', data).then((response) => {
+        this.products = response.data.data
+        this.length = response.data.last_page
+        this.loading = false
+      })
+    },
+    async getFilterProducts() {
+      const data = {
+        page: this.page,
+        category: this.category,
+        brand: this.brand,
+        price: this.range
+      }
+      await this.$store.dispatch('products/filter', data).then((response) => {
         this.products = response.data.data
         this.length = response.data.last_page
         this.loading = false
