@@ -14,7 +14,7 @@
           <h1 class="font-weight-medium">{{!loading ? (products.length > 0 ? decodeURIComponent(pagename) : 'No Products Found') : null}}</h1>
           <v-divider></v-divider>
           <v-row class="mt-8" >
-            <v-col md="2" v-for="(i, index) in products" :key="index">
+            <v-col md="2" v-for="(i, index) in products" :key="index" v-if="i.product">
 
               <product-display v-if="i.product"
               :product_name="i.product.name"
