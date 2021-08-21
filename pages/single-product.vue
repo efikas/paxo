@@ -5,9 +5,9 @@
       {{ product.name }}
     </p>
     <v-container v-if="loading">
-      <v-overlay color="primary"  :opacity="1" :value="loading">
-        <v-progress-circular indeterminate size="64">
-          Loading...
+      <v-overlay color="white"  :opacity="1" :value="loading">
+        <v-progress-circular color="primary" indeterminate size="50" width="8">
+
         </v-progress-circular>
       </v-overlay>
     </v-container>
