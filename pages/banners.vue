@@ -1,15 +1,13 @@
 <template>
   <div>
-
     <v-container v-if="loading">
-      <v-overlay color="white"  :opacity="1" :value="loading">
+      <v-overlay color="white" :opacity="1" :value="loading">
         <v-progress-circular color="primary" indeterminate size="50" width="8">
           <!-- Loading... -->
         </v-progress-circular>
       </v-overlay>
     </v-container>
     <div v-else>
-
       <v-img :src="banner" width="100%"></v-img>
       <v-container>
         <v-row class="mt-4">
@@ -36,29 +34,33 @@
             </div>
           </v-col> -->
           <v-col md="12">
-            <h1 class="font-weight-medium">{{products.length > 0 ? 'Banner: '+ decodeURI(banner_name) : 'No Products Found'}}</h1>
+            <h1 class="font-weight-medium">
+              {{
+                products.length > 0
+                  ? 'Banner: ' + banner_name
+                  : 'No Products Found'
+              }}
+            </h1>
             <v-divider></v-divider>
             <v-row class="mt-8">
               <v-col md="3" v-for="(i, index) in products" :key="index">
                 <!-- :vendor="i.product.brand.name" -->
                 <product-display
-                :product_name="i.products.name"
-                rating="5"
-                :price="i.products.price"
-                :image="i.products.avatar"
-                :badge="i.products.stock_status"
-                :description="i.products.description"
-                :short_description="i.products.short_description"
-                :product_object="i.products"
-                :regular_price="i.products.regular_price"
-                :product_id="i.products.id"
-              />
+                  :product_name="i.products.name"
+                  rating="5"
+                  :price="i.products.price"
+                  :image="i.products.avatar"
+                  :badge="i.products.stock_status"
+                  :description="i.products.description"
+                  :short_description="i.products.short_description"
+                  :product_object="i.products"
+                  :regular_price="i.products.regular_price"
+                  :product_id="i.products.id"
+                />
               </v-col>
             </v-row>
           </v-col>
-
         </v-row>
-
       </v-container>
     </div>
   </div>
@@ -78,14 +80,14 @@ export default {
   data() {
     return {
       brand: '',
-      banner_name: location.pathname.split('/')[2],
+      banner_name: '',
       page: 1,
       range: [1000, 5000000],
       brands: [],
       categories: [],
       products: [],
       banner: '',
-      loading: true
+      loading: true,
     }
   },
   methods: {
@@ -102,28 +104,30 @@ export default {
     async getProducts() {
       const data = {
         page: this.page,
-        id: this.$route.query.bannerId
+        id: this.$route.query.bannerId,
       }
-      await this.$store.dispatch('products/bannerproducts', data).then((response) => {
-      response.data ?   this.products = response.data.bannerprod : null
-        this.banner = response.data.avatar
-        this.loading = false
-      })
+      await this.$store
+        .dispatch('products/bannerproducts', data)
+        .then((response) => {
+          response.data ? (this.products = response.data.bannerprod) : null
+          this.banner = response.data.avatar
+          this.banner_name = response.data.name
+          this.loading = false
+        })
     },
-
-  }
+  },
 }
 </script>
 <style lang="scss" scoped>
-.category{
+.category {
   background-color: #f5f5f5;
-  h4{
+  h4 {
     font-size: 18px;
     font-weight: 400;
   }
-  a{
+  a {
     font-size: 14px;
-    color: #000000DE;
+    color: #000000de;
     text-decoration: none;
   }
 }

@@ -8,7 +8,7 @@
     <v-row :class="{'px-8':$vuetify.breakpoint.mdAndUp}" >
       <v-col md="6" v-for="i in banners.slice(banners.length - 2, banners.length + 2)" :key="i.id">
         <v-img
-          @click="$router.push('/banners/'+i.name+'?t=Offers&bannerId='+i.id)"
+          @click="$router.push('/banners/'+i.slug+'?t=Offers&bannerId='+i.id)"
           class="brands-img elevation-2"
           :class="{'h-350' : $vuetify.breakpoint.mdAndUp, 'h-200' : $vuetify.breakpoint.smAndDown}"
           :src="i.avatar"
