@@ -1,10 +1,7 @@
 <template>
-  <v-container>
-    <div class="text-center my-10">
-      <v-btn outlined color="primary" :to="isAuthenticated ? '/dashboard' : '/login'"
-        >{{isAuthenticated ? 'Check your Paxo Points' : 'Login to check your Paxo Points'}}</v-btn
-      >
-    </div>
+  <v-container pt-8>
+    <v-img :src="require('../static/assets/Paxo Rewards.jpg')" height="450" class="mb-8" width="100%" alt=""> </v-img>
+
     <h1 class="primary--text">What is Paxo Rewards?</h1>
     <p>
       Paxo Rewards is Paxo Beauty's loyalty program. It is the way we ensure
@@ -20,6 +17,7 @@
     </p>
     <h2 class="primary--text">Purchase/Reward logic for points (Web App)</h2>
     <ul>
+      
       <li>4 points for N500 spent</li>
       <li>4 points = N20</li>
       <li>1 point = N5</li>
@@ -94,6 +92,12 @@
       get to the target.
     </p>
     <p>For the <b>Gold</b> category, if the wholesaler buys 85k monthly he/she should get to the target.</p>
+
+    <div class="text-center my-10">
+      <v-btn outlined color="primary" :to="isAuthenticated ? '/dashboard' : '/login'"
+        >{{isAuthenticated ? 'Check your Paxo Points' : 'Login to check your Paxo Points'}}</v-btn
+      >
+    </div>
 
   </v-container>
 </template>
