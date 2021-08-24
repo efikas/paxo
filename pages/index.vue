@@ -262,10 +262,10 @@
     <v-row class="mt-6">
       <v-col class="text-left" md="3" cols="12" v-for="(i, index) in new_products.slice(0, 9)" :key="index">
         <new-arrival
-          :product_name="i.name"
-          :price="i.price"
-          :image="i.avatar"
-          :id="i.id"
+          :product_name="i.product.name"
+          :price="i.product.price"
+          :image="i.product.avatar"
+          :id="i.product.id"
         />
       </v-col>
     </v-row>
@@ -376,6 +376,9 @@ export default {
     async getNewProducts() {
       const data = {
         page: this.page,
+        category: '',
+        brand: '',
+        price: ''
       }
       await this.$store.dispatch('products/all', data).then((response) => {
         this.new_products = response.data.data

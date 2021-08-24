@@ -383,6 +383,7 @@ export default {
           // setTimeout(() => {
           this.$toast.success(response.message)
           this.loading = this.confirmDialog = false
+          this.getProfile()
           this.$router.push('/thank-you')
           this.$store.commit('products/CLEAR_CART')
           this.getUser()
@@ -415,6 +416,7 @@ export default {
         .then((response) => {
           this.$toast.success(response.message)
           this.getUser()
+          this.getProfile()
           this.loading = false
           this.order = response.data
           const self = this
@@ -460,6 +462,11 @@ export default {
     async getUser() {
       await this.$store.dispatch('auth/getuser').then((response) => {
         // this.shippingMethods = response.data
+      })
+    },
+     async getProfile() {
+      await this.$store.dispatch('auth/profile').then((response) => {
+        // this.states = response.data
       })
     },
   },

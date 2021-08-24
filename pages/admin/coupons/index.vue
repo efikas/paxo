@@ -65,7 +65,7 @@
       <v-card class="pa-6">
         <h2>{{ update ? 'Update' : 'Add New' }} Coupon</h2>
         <!-- <v-alert type="error">{{}}</v-alert> -->
-        {{ form.expiring_date}}
+        <!-- {{ form.expiring_date}} -->
         <v-form lazy-validation v-model="valid" class="mt-8" ref="addnew">
           <v-text-field
             dense

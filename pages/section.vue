@@ -1,16 +1,15 @@
 <template>
   <div>
-
     <v-container v-if="loading">
-      <v-overlay color="white"  :opacity="1" :value="loading">
+      <v-overlay color="white" :opacity="1" :value="loading">
         <v-progress-circular color="primary" indeterminate size="50" width="8">
           <!-- Loading... -->
         </v-progress-circular>
       </v-overlay>
     </v-container>
     <v-container fluid v-else>
-      <v-row class="mt-4" :class="{'px-4':$vuetify.breakpoint.smAndDown}">
-      <!-- {{products}} -->
+      <v-row class="mt-4" :class="{ 'px-4': $vuetify.breakpoint.smAndDown }">
+        <!-- {{products}} -->
         <!-- <v-col md="3" class="hidden-sm-and-down">
           <div class="category pa-4">
             <h4 class="mb-6">CATEGORIES</h4>
@@ -34,31 +33,53 @@
           </div>
         </v-col> -->
         <v-col md="12">
-          <h1 class="font-weight-medium">{{!loading ? (products.length > 0 ? decodeURIComponent(pagename) : 'No Products Found') : null}}</h1>
+          <v-row>
+            <v-col md="9">
+              <h1 class="font-weight-medium">
+                {{
+                  !loading
+                    ? products.length > 0
+                      ? decodeURIComponent(pagename)
+                      : 'No Products Found'
+                    : null
+                }}
+              </h1>
+            </v-col>
+            <v-col>
+              Filter by Price:
+              <v-range-slider
+                v-model="range"
+                @change="filterPrice()"
+                max="10000"
+              ></v-range-slider>
+              <div class="d-flex justify-space-between">
+                <span> &#8358;{{ range[0] | formatPrice }} </span>
+                <span>&#8358;{{ range[1] | formatPrice }}</span>
+              </div>
+            </v-col>
+          </v-row>
+
           <v-divider></v-divider>
-          <v-row class="mt-8" >
+          <v-row class="mt-8">
             <v-col md="2" v-for="(i, index) in products" :key="index">
-
               <product-display
-              :product_name="i.name"
-              rating="5"
-              :price="i.price"
-              :regular_price="i.regular_price"
-              :wholesale_price="i.wholesale_price"
-              :image="i.avatar"
-              :badge="i.stock_status"
-              :description="i.description"
-              :short_description="i.short_description"
-              :product_object="i"
-              :product_id="i.id"
-            />
-
-
+                :product_name="i.name"
+                rating="5"
+                :price="i.price"
+                :regular_price="i.regular_price"
+                :wholesale_price="i.wholesale_price"
+                :image="i.avatar"
+                :badge="i.stock_status"
+                :description="i.description"
+                :short_description="i.short_description"
+                :product_object="i"
+                :product_id="i.id"
+              />
             </v-col>
           </v-row>
         </v-col>
-
       </v-row>
+      <v-pagination class="mt-16" :length="length" v-model="page" @input="getProducts()"></v-pagination>
 
     </v-container>
   </div>
@@ -79,15 +100,22 @@ export default {
     return {
       brand: '',
       page: 1,
-      range: [1000, 5000000],
+      length: 1,
+      range: [0, 10000],
       brands: [],
       categories: [],
       products: [],
+      real_products: [],
       loading: true,
-      pagename: location.pathname.split('/')[2]
+      pagename: location.pathname.split('/')[2],
     }
   },
   methods: {
+    filterPrice() {
+      this.products = this.real_products.filter(
+        (item) => item.price >= this.range[0] && item.price <= this.range[1]
+      )
+    },
     async getbrands() {
       await this.$store.dispatch('brand/all').then((response) => {
         this.brands = response.data
@@ -101,27 +129,30 @@ export default {
     async getProducts() {
       const data = {
         page: this.page,
-        id: this.$route.query.sectionId
+        id: this.$route.query.sectionId,
       }
-      await this.$store.dispatch('products/sectionproducts', data).then((response) => {
-        this.products = response.data.data
-        this.length = response.data.last_page
-        this.loading = false
-      })
+      await this.$store
+        .dispatch('products/sectionproducts', data)
+        .then((response) => {
+          this.products = this.real_products = response.data.data
+          this.length = response.data.last_page
+          this.loading = false
+          this.filterPrice()
+        })
     },
-  }
+  },
 }
 </script>
 <style lang="scss" scoped>
-.category{
+.category {
   background-color: #f5f5f5;
-  h4{
+  h4 {
     font-size: 18px;
     font-weight: 400;
   }
-  a{
+  a {
     font-size: 14px;
-    color: #000000DE;
+    color: #000000de;
     text-decoration: none;
   }
 }

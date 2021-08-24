@@ -34,7 +34,24 @@
           </div>
         </v-col> -->
         <v-col md="12">
-          <h1 class="font-weight-medium">{{!loading ? (products.length > 0 ? products[0].category.name : 'No Products Found') : null}}</h1>
+
+          <v-row>
+            <v-col md="9">
+              <h1 class="font-weight-medium">{{!loading ? (products.length > 0 ? products[0].category.name : 'No Products Found') : null}}</h1>
+            </v-col>
+            <v-col>
+              Filter by Price:
+              <v-range-slider
+                v-model="range"
+                @change="filterPrice()"
+                max="10000"
+              ></v-range-slider>
+              <div class="d-flex justify-space-between">
+                <span> &#8358;{{ range[0] | formatPrice }} </span>
+                <span>&#8358;{{ range[1] | formatPrice }}</span>
+              </div>
+            </v-col>
+          </v-row>
           <v-divider></v-divider>
           <v-row class="mt-8" >
             <v-col md="2" v-for="(i, index) in products" :key="index">
@@ -59,6 +76,7 @@
         </v-col>
 
       </v-row>
+      <v-pagination class="mt-16" :length="length" v-model="page" @input="getProducts()"></v-pagination>
 
     </v-container>
   </div>
@@ -79,14 +97,21 @@ export default {
     return {
       brand: '',
       page: 1,
-      range: [1000, 5000000],
+      length: 1,
+      range: [0, 10000],
       brands: [],
       categories: [],
       products: [],
+      real_products: [],
       loading: true,
     }
   },
   methods: {
+    filterPrice() {
+      this.products = this.real_products.filter(
+        (item) => item.product.price >= this.range[0] && item.product.price <= this.range[1]
+      )
+    },
     async getbrands() {
       await this.$store.dispatch('brand/all').then((response) => {
         this.brands = response.data
@@ -103,9 +128,10 @@ export default {
         id: this.$route.query.categoryId
       }
       await this.$store.dispatch('products/categoryproducts', data).then((response) => {
-        this.products = response.data.data
+        this.products =  this.real_products = response.data.data
         this.length = response.data.last_page
         this.loading = false
+        this.filterPrice()
       })
     },
   }
