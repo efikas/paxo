@@ -1,38 +1,51 @@
 <template>
   <div>
-
     <v-container v-if="loading">
-      <v-overlay color="white"  :opacity="1" :value="loading">
+      <v-overlay color="white" :opacity="1" :value="loading">
         <v-progress-circular color="primary" indeterminate size="50" width="8">
           <!-- Loading... -->
         </v-progress-circular>
       </v-overlay>
     </v-container>
-    <v-row v-else class="mt-4" :class="{ 'px-4': $vuetify.breakpoint.smAndDown }">
-      <v-col md="2" class="hidden-sm-and-down">
+    <v-row
+      v-else
+      class="mt-4"
+      :class="{ 'px-4': $vuetify.breakpoint.smAndDown }"
+    >
+      <v-col md="2" class="hidden-sm-and-down pl-6">
         <div class="category pa-0">
-          <h4 class="mb-6 ma-4">FILTER BY <v-icon>filter_alt</v-icon></h4>
+          <h4 class="mb-6 ma-">FILTER BY <v-icon>filter_alt</v-icon></h4>
 
-          <v-expansion-panels flat focusable>
-            <v-expansion-panel style="border-bottom: 1px solid #ddd; border-top: 1px solid #ddd;" >
-              <v-expansion-panel-header style="font-size: 15px;">Category</v-expansion-panel-header>
-              <v-expansion-panel-content>
-                <v-checkbox v-for="(i,index) in categories"  :key="index"  :value="i.id" v-model="category" :label="i.name" @change="getFilterProducts()" class="ma-0 pa-0"></v-checkbox>
-              </v-expansion-panel-content>
-            </v-expansion-panel>
-            <v-expansion-panel style="border-bottom: 1px solid #ddd;">
-              <v-expansion-panel-header style="font-size: 15px;">Brand</v-expansion-panel-header>
-              <v-expansion-panel-content>
-                <v-checkbox v-for="(i,index) in brands" :value="i.id" v-model="brand" @change="getFilterProducts()"  :key="index" :label="i.name" class="ma-0 pa-0"></v-checkbox>
-              </v-expansion-panel-content>
-            </v-expansion-panel>
-            <v-expansion-panel style="border-bottom: 1px solid #ddd;">
-              <v-expansion-panel-header style="font-size: 15px;">Price</v-expansion-panel-header>
-              <v-expansion-panel-content>
-                <v-range-slider v-model="range" max="500000"></v-range-slider>
-              </v-expansion-panel-content>
-            </v-expansion-panel>
-          </v-expansion-panels>
+          <h4 class="mb-4">Filter by Category</h4>
+          <div class="filter-box pa-4 ">
+            <v-checkbox
+              v-for="(i, index) in categories"
+              :key="index"
+              :value="i.id"
+              v-model="category"
+              :label="i.name"
+              @change="getFilterProducts()"
+              class="ma-0 pa-0"
+            ></v-checkbox>
+          </div>
+
+          <h4 class="mb-4 mt-6">Filter by Brand</h4>
+          <div class="filter-box pa-4 ">
+            <v-checkbox
+                  v-for="(i, index) in brands"
+                  :value="i.id"
+                  v-model="brand"
+                  @change="getFilterProducts()"
+                  :key="index"
+                  :label="i.name"
+                  class="ma-0 pa-0"
+                ></v-checkbox>
+          </div>
+          <h4 class="mb-2 mt-6">Filter by Price</h4>
+            <v-range-slider v-model="range" max="500000"></v-range-slider>
+
+
+
         </div>
       </v-col>
       <v-col md="10">
@@ -40,7 +53,13 @@
         <v-divider></v-divider>
         <v-row class="mt-8">
           <!-- {{category}} -->
-          <v-col md="3" sm="6" cols="6" v-for="(i, index) in products" :key="index">
+          <v-col
+            md="3"
+            sm="6"
+            cols="6"
+            v-for="(i, index) in products"
+            :key="index"
+          >
             <!-- :vendor="i.product.brand.name" -->
             <!-- <product-display
               :vendor="i.brand ? i.brand.name : null"
@@ -72,7 +91,12 @@
             />
           </v-col>
         </v-row>
-        <v-pagination :length="length" class="my-16" v-model="page" @input="getProducts()"></v-pagination>
+        <v-pagination
+          :length="length"
+          class="my-16"
+          v-model="page"
+          @input="getProducts()"
+        ></v-pagination>
       </v-col>
     </v-row>
   </div>
@@ -101,7 +125,6 @@ export default {
       length: 1,
       category: [],
       brand: [],
-
     }
   },
   methods: {
@@ -120,7 +143,7 @@ export default {
         page: this.page,
         category: this.category,
         brand: this.brand,
-        price: this.range
+        price: this.range,
       }
       await this.$store.dispatch('products/all', data).then((response) => {
         this.products = response.data.data
@@ -133,7 +156,7 @@ export default {
         page: this.page,
         category: this.category,
         brand: this.brand,
-        price: this.range
+        price: this.range,
       }
       await this.$store.dispatch('products/filter', data).then((response) => {
         this.products = response.data.data
@@ -146,6 +169,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 .category {
+  position: sticky;
   background-color: #fff;
   h4 {
     font-size: 18px;
@@ -156,5 +180,10 @@ export default {
     color: #000000de;
     text-decoration: none;
   }
+}
+.filter-box {
+  height: 400px;
+  border: 1px solid #ddd;
+  overflow: scroll;
 }
 </style>

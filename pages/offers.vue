@@ -9,31 +9,26 @@
       </v-overlay>
     </v-container>
     <v-row v-else class="mt-4" :class="{ 'px-4': $vuetify.breakpoint.smAndDown }">
-      <v-col md="2" class="hidden-sm-and-down">
+      <v-col md="2" class="hidden-sm-and-down pl-6">
         <div class="category pa-0">
-          <h4 class="mb-6 ma-4">FILTER BY <v-icon>filter_alt</v-icon></h4>
+          <h4 class="mb-6 ma-">FILTER BY <v-icon>filter_alt</v-icon></h4>
 
-          <v-expansion-panels flat focusable>
-            <v-expansion-panel style="border-bottom: 1px solid #ddd; border-top: 1px solid #ddd;" >
-              <v-expansion-panel-header style="font-size: 15px;">Category</v-expansion-panel-header>
-              <v-expansion-panel-content>
-                <v-checkbox v-for="(i,index) in categories"  :key="index"  :value="i.id" v-model="category" :label="i.name" @change="getProducts()" class="ma-0 pa-0"></v-checkbox>
-              </v-expansion-panel-content>
-            </v-expansion-panel>
-            <v-expansion-panel style="border-bottom: 1px solid #ddd;">
-              <v-expansion-panel-header style="font-size: 15px;">Brand</v-expansion-panel-header>
-              <v-expansion-panel-content>
-                <v-checkbox v-for="(i,index) in brands" :value="i.id" v-model="brand"  :key="index" :label="i.name" class="ma-0 pa-0"></v-checkbox>
-              </v-expansion-panel-content>
-            </v-expansion-panel>
-            <v-expansion-panel style="border-bottom: 1px solid #ddd;">
-              <v-expansion-panel-header style="font-size: 15px;">Price</v-expansion-panel-header>
-              <v-expansion-panel-content>
-                <v-range-slider v-model="range" max="500000"></v-range-slider>
-              </v-expansion-panel-content>
-            </v-expansion-panel>
-          </v-expansion-panels>
+          <h4 class="mb-4">Filter by Category</h4>
+          <div class="filter-box pa-4 ">
+           <v-checkbox v-for="(i,index) in categories"  :key="index"  :value="i.id" v-model="category" :label="i.name" @change="getProducts()" class="ma-0 pa-0"></v-checkbox>
+          </div>
+
+          <h4 class="mb-4 mt-6">Filter by Brand</h4>
+          <div class="filter-box pa-4 ">
+            <v-checkbox v-for="(i,index) in brands" :value="i.id" v-model="brand"  :key="index" :label="i.name" class="ma-0 pa-0"></v-checkbox>
+          </div>
+          <h4 class="mb-2 mt-6">Filter by Price</h4>
+            <v-range-slider v-model="range" max="500000"></v-range-slider>
+
+
+
         </div>
+
       </v-col>
       <v-col md="10">
         <h1 class="font-weight-medium">Offers</h1>
@@ -119,6 +114,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 .category {
+  position: sticky;
   background-color: #fff;
   h4 {
     font-size: 18px;
@@ -129,5 +125,10 @@ export default {
     color: #000000de;
     text-decoration: none;
   }
+}
+.filter-box {
+  height: 400px;
+  border: 1px solid #ddd;
+  overflow: scroll;
 }
 </style>
