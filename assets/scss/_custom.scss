@@ -7,6 +7,12 @@
   border-radius: 0 !important;
 }
 
+.filter-box {
+  height: 300px;
+  border: 1px solid #ddd;
+  overflow: scroll;
+}
+
 .v-btn{
   border-radius: 0 !important;
   text-transform: capitalize !important;

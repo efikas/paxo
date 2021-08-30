@@ -48,7 +48,7 @@
             icon
             @click="
               ;(form = item),
-                (form.multiple_usage = parseInt(form.multiple_usage)), form.expiring_date = (form.expiring_date).substr(0, 10),
+                (form.expiring_date = form.expiring_date.substr(0, 10)),
                 (dialog = true),
                 (update = true)
             "
@@ -148,7 +148,7 @@ export default {
       loading: false,
       update: false,
       search: '',
-      form: {expiring_date: ''},
+      form: { expiring_date: '' },
 
       headers: [
         { text: 'S/N', value: 'sn' },

@@ -360,7 +360,13 @@ export default {
         })
     },
     increaseQuantity() {
-      this.quantity += 1
+      // console.log(this.product)
+      if((this.quantity + 1) > this.product.stock_quantity){
+        this.$toast.error('Out of stock')
+      }else {
+        this.quantity += 1
+
+      }
     },
     decreaseQuantity() {
       if (this.quantity > 1) {

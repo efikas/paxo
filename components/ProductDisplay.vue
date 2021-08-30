@@ -2,12 +2,16 @@
   <div>
     <v-hover v-slot="{ hover }">
       <div class="product-box">
-        <!-- <v-chip v-if="badge" class="primary" style="float: right; border-radius: 0;" small>{{
-          badge
-        }}</v-chip> -->
         <nuxt-link :to="'/single-product?product_id=' + product_id">
-          <!-- <img :src="image" width="100%" height="200" alt="" /> -->
-          <v-img :src="image" ></v-img>
+          <v-img :src="image" width="100%">
+            <v-chip
+              v-if="badge"
+              :class="badge=='instock' ? 'primary' : 'error'"
+              style="float: right; border-radius: 0"
+              small
+              >{{ badge == 'instock' ? 'Instock' : 'Out of stock'  }}</v-chip
+            >
+          </v-img>
         </nuxt-link>
         <v-expand-transition>
           <v-card
@@ -69,7 +73,11 @@
           :value="parseInt(rating)"
         ></v-rating>
         <div class="product-price d-flex justify-space-between text-right">
-          <del v-if="product_object.onsale == '1'" style="color: #bbb; font-size">&#8358;{{ regular_price | formatPrice }}</del>
+          <del
+            v-if="product_object.onsale == '1'"
+            style="color: #bbb; font-size"
+            >&#8358;{{ regular_price | formatPrice }}</del
+          >
           <p v-else></p>
           &#8358;{{
             (isAuthenticated
@@ -97,8 +105,13 @@
               </p>
               <v-divider></v-divider>
               <div class="price mt-5">
-                <del v-if="product_object.onsale == '1'">&#8358;{{ regular_price | formatPrice }}</del>
-                <p class=" sale-price" :class="product_object.onsale == '1' ? 'ml-5' : null">
+                <del v-if="product_object.onsale == '1'"
+                  >&#8358;{{ regular_price | formatPrice }}</del
+                >
+                <p
+                  class="sale-price"
+                  :class="product_object.onsale == '1' ? 'ml-5' : null"
+                >
                   &#8358;{{
                     (isAuthenticated
                       ? user.role == 'wholesaler'
@@ -253,7 +266,11 @@ export default {
         })
     },
     increaseQuantity() {
-      this.quantity += 1
+      if (this.quantity + 1 > this.product_object.stock_quantity) {
+        this.$toast.error('Out of stock')
+      } else {
+        this.quantity += 1
+      }
     },
     decreaseQuantity() {
       if (this.quantity > 1) {

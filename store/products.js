@@ -178,8 +178,8 @@ export const actions = {
     const data = await this.$axios.$get('/banner/top-product')
     return data
   },
-  async sectionproducts({}, { page, id }) {
-    const data = await this.$axios.$get('/products/section/' + id)
+  async sectionproducts({}, { page, id, category, brand }) {
+    const data = await this.$axios.$get('/products/section/' + id + '?category_id=' + category +'&brand_id=' + brand)
     return data
   },
   async categoryproducts({}, { page, id }) {

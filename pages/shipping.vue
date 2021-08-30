@@ -2,7 +2,8 @@
   <v-container>
     <div class="text-center pb-16">
       <h1>Shipping Information</h1>
-      {{ order.order ? order.order.order_number : null }}
+      <!-- {{subtotal}} -->
+      <!-- {{ order.order ? order.order.order_number : null }} -->
     </div>
     <v-row>
       <v-col md="8" cols="12">
@@ -331,6 +332,7 @@ export default {
       await this.$store
         .dispatch('products/storeorder', data)
         .then((response) => {
+
           // const res = response
           // var dataLayer = window.dataLayer || []
           window.dataLayer.push({
@@ -405,7 +407,7 @@ export default {
         phone: this.user.mobile,
         city: this.user.city,
         set_paid: 1,
-        use_wallet: this.paymentoption,
+        use_wallet: parseInt(this.paymentoption),
         product: this.StoreCart,
         reference: this.reference,
         total: this.subtotal + parseInt(this.user.deliveryfee),
@@ -415,8 +417,8 @@ export default {
         .dispatch('products/makeorder', payload)
         .then((response) => {
           this.$toast.success(response.message)
-          this.getUser()
-          this.getProfile()
+          // this.getUser()
+          // this.getProfile()
           this.loading = false
           this.order = response.data
           const self = this

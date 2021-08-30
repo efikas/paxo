@@ -17,7 +17,7 @@
           <h4 class="mb-6 ma-">FILTER BY <v-icon>filter_alt</v-icon></h4>
 
           <h4 class="mb-4">Filter by Category</h4>
-          <div class="filter-box pa-4 ">
+          <div class="filter-box pa-4">
             <v-checkbox
               v-for="(i, index) in categories"
               :key="index"
@@ -30,22 +30,27 @@
           </div>
 
           <h4 class="mb-4 mt-6">Filter by Brand</h4>
-          <div class="filter-box pa-4 ">
+          <div class="filter-box pa-4">
             <v-checkbox
-                  v-for="(i, index) in brands"
-                  :value="i.id"
-                  v-model="brand"
-                  @change="getFilterProducts()"
-                  :key="index"
-                  :label="i.name"
-                  class="ma-0 pa-0"
-                ></v-checkbox>
+              v-for="(i, index) in brands"
+              :value="i.id"
+              v-model="brand"
+              @change="getFilterProducts()"
+              :key="index"
+              :label="i.name"
+              class="ma-0 pa-0"
+            ></v-checkbox>
           </div>
           <h4 class="mb-2 mt-6">Filter by Price</h4>
-            <v-range-slider v-model="range" max="500000"></v-range-slider>
-
-
-
+          <v-range-slider
+              v-model="range"
+              @change="filterPrice()"
+              max="10000"
+            ></v-range-slider>
+            <div class="d-flex justify-space-between">
+              <span> &#8358;{{ range[0] | formatPrice }} </span>
+              <span>&#8358;{{ range[1] | formatPrice }}</span>
+            </div>
         </div>
       </v-col>
       <v-col md="10">
@@ -116,18 +121,24 @@ export default {
   data() {
     return {
       loading: true,
-      brand: '',
+      // brand: '',
       page: 1,
-      range: [1000, 5000000],
+      range: [0, 10000],
       brands: [],
       categories: [],
       products: [],
+      real_products: [],
       length: 1,
       category: [],
       brand: [],
     }
   },
   methods: {
+     filterPrice() {
+      this.products = this.real_products.filter(
+        (item) => item.product.price >= this.range[0] && item.product.price <= this.range[1]
+      )
+    },
     async getbrands() {
       await this.$store.dispatch('brand/all').then((response) => {
         this.brands = response.data
@@ -146,9 +157,10 @@ export default {
         price: this.range,
       }
       await this.$store.dispatch('products/all', data).then((response) => {
-        this.products = response.data.data
+        this.products = this.real_products = response.data.data
         this.length = response.data.last_page
         this.loading = false
+        this.filterPrice()
       })
     },
     async getFilterProducts() {
@@ -181,9 +193,5 @@ export default {
     text-decoration: none;
   }
 }
-.filter-box {
-  height: 400px;
-  border: 1px solid #ddd;
-  overflow: scroll;
-}
+
 </style>

@@ -45,7 +45,7 @@
                 ><v-icon>ri-subtract-fill</v-icon></v-btn
               >
               <p class="ma-0">{{ i.quantity }}</p>
-              <v-btn @click=";(i.quantity += 1), calculateSubtotal()" icon small
+              <v-btn @click="((i.quantity + 1) > i.stock_quantity) ? $toast.error('Out of stock') : i.quantity += 1, calculateSubtotal()" icon small
                 ><v-icon>ri-add-fill</v-icon></v-btn
               >
             </div>
@@ -116,6 +116,7 @@ export default {
     this.calculateSubtotal()
   },
   methods: {
+
     calculateSubtotal() {
       this.subtotal = 0
       for (var i = 0; i < this.StoreCart.length; i++) {

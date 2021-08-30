@@ -23,7 +23,15 @@
             <v-checkbox v-for="(i,index) in brands" :value="i.id" v-model="brand"  :key="index" :label="i.name" class="ma-0 pa-0"></v-checkbox>
           </div>
           <h4 class="mb-2 mt-6">Filter by Price</h4>
-            <v-range-slider v-model="range" max="500000"></v-range-slider>
+            <v-range-slider
+              v-model="range"
+              @change="filterPrice()"
+              max="10000"
+            ></v-range-slider>
+            <div class="d-flex justify-space-between">
+              <span> &#8358;{{ range[0] | formatPrice }} </span>
+              <span>&#8358;{{ range[1] | formatPrice }}</span>
+            </div>
 
 
 
@@ -75,10 +83,11 @@ export default {
       loading: true,
       brand: '',
       page: 1,
-      range: [1000, 5000000],
+      range: [0, 10000],
       brands: [],
       categories: [],
       products: [],
+      real_products: [],
       length: 1,
       category: [],
       brand: [],
@@ -86,6 +95,11 @@ export default {
     }
   },
   methods: {
+    filterPrice() {
+      this.products = this.real_products.filter(
+        (item) => item.product.price >= this.range[0] && item.product.price <= this.range[1]
+      )
+    },
     async getbrands() {
       await this.$store.dispatch('brand/all').then((response) => {
         this.brands = response.data
@@ -104,9 +118,10 @@ export default {
         price: this.range
       }
       await this.$store.dispatch('products/offers', data).then((response) => {
-        this.products = response.data.data
+        this.products = this.real_products = response.data.data
         this.length = response.data.last_page
         this.loading = false
+        this.filterPrice()
       })
     },
   },
