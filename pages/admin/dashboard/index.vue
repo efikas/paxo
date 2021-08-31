@@ -1,28 +1,28 @@
 <template>
   <v-container fluid>
     <v-row>
-      <v-col md="3">
+      <v-col md="3" sm="6" cols="6">
         <v-card class="dash-card pa-4">
           <v-icon style="float: right">ri-shopping-cart-line</v-icon>
           <h4 class="primary--text">Total Products</h4>
           <h1 class="secondary--text">{{ dashboard.products }}</h1>
         </v-card>
       </v-col>
-      <v-col md="3">
+      <v-col md="3" sm="6" cols="6">
         <v-card class="dash-card pa-4">
           <v-icon style="float: right">ri-shopping-cart-line</v-icon>
           <h4 class="primary--text">Total Orders</h4>
           <h1 class="secondary--text">{{ dashboard.orders }}</h1>
         </v-card>
       </v-col>
-      <v-col md="3">
+      <v-col md="3" sm="6" cols="6">
         <v-card class="dash-card pa-4">
           <v-icon style="float: right">ri-user-line</v-icon>
           <h4 class="primary--text">Total Users</h4>
           <h1 class="secondary--text">{{ dashboard.users }}</h1>
         </v-card>
       </v-col>
-      <v-col md="3">
+      <v-col md="3" sm="6" cols="6">
         <v-card class="dash-card pa-4">
           <v-icon style="float: right">ri-user-line</v-icon>
           <h4 class="primary--text">Total Affiliates</h4>
@@ -32,10 +32,10 @@
     </v-row>
 
     <v-row>
-      <v-col md="6" lg="6">
+      <v-col cols="12" md="6" lg="6">
         <dashboard-chart></dashboard-chart>
       </v-col>
-      <v-col md="6" lg="6">
+      <v-col md="6" cols="12" lg="6">
         <dashboard-chart></dashboard-chart>
       </v-col>
     </v-row>

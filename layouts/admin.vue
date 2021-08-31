@@ -1,6 +1,7 @@
 <template>
   <v-app>
     <v-app-bar class="white" app>
+      <v-app-bar-nav-icon class="hidden-md-and-up" @click="drawer = !drawer"></v-app-bar-nav-icon>
       <h3>Hi {{user.first_name}}!</h3>
       <v-spacer></v-spacer>
       <v-chip color="secondary" class="mx-3">{{user.role | capitalize}}</v-chip>
@@ -11,7 +12,7 @@
         <v-icon>logout</v-icon>
       </v-btn>
     </v-app-bar>
-    <v-navigation-drawer dark app class="primary">
+    <v-navigation-drawer v-model="drawer" dark app class="primary">
       <nuxt-link to="/admin/dashboard">
         <img src="../static/assets/logo-white.png" width="150px" alt="" />
 
@@ -141,6 +142,7 @@ export default {
           to: '/logout',
         },
       ],
+      drawer: null
     }
   },
 

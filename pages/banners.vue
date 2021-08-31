@@ -8,8 +8,8 @@
       </v-overlay>
     </v-container>
     <div v-else>
-      <v-img :src="banner" width="100%"></v-img>
-      <v-container>
+      <!-- <v-img :src="banner" width="100%"></v-img> -->
+      <v-container fluid>
         <v-row class="mt-4">
           <!-- <v-col md="3">
             <div class="category pa-4">
@@ -43,7 +43,7 @@
             </h1>
             <v-divider></v-divider>
             <v-row class="mt-8">
-              <v-col md="3" v-for="(i, index) in products" :key="index">
+              <v-col md="2" v-for="(i, index) in products" :key="index">
                 <!-- :vendor="i.product.brand.name" -->
                 <product-display
                   :product_name="i.products.name"

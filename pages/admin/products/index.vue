@@ -33,7 +33,7 @@
       {{item.stock_quantity}} <v-chip small :color="item.stock_status == 'instock' ? 'success' : 'error'">{{item.stock_status}}</v-chip>
       </template>
       <template v-slot:item.actions="{item}">
-      <v-btn :to="'/admin/products/edit-product?productId='+item.id" icon ><v-icon color="success">edit</v-icon></v-btn>
+      <v-btn :to="'/admin/products/edit-product?productId='+item.product_id" icon ><v-icon color="success">edit</v-icon></v-btn>
       <v-btn icon @click="deleteProduct(item.id)"><v-icon color="error">delete</v-icon></v-btn>
       </template>
       <template v-slot:item.product.wholesale_price="{item}">

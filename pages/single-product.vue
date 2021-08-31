@@ -336,7 +336,7 @@ export default {
           this.$toast.success(response.message)
         })
         .catch((error) => {
-          this.$toast.error(error.response.data.error.message)
+          this.$toast.error(error.response.data.message)
         })
     },
     async getSingleProduct() {
