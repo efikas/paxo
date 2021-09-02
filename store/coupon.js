@@ -22,11 +22,11 @@ export const actions = {
 
     return data
   },
-  async update({ commit }, { name, code, percentage, expiring_date, number_of_user, id }) {
+  async update({ commit }, { name, code, percentage, expiring_date, number_of_user, multiple_usage, id }) {
     let token = JSON.parse(window.localStorage.getItem('paxo')).auth.token
     const data = await this.$axios.$put(
       '/admin/coupon/update/' + id,
-      { name, code, percentage, expiring_date, number_of_user },
+      { name, code, percentage, expiring_date, number_of_user, multiple_usage },
       {
         headers: {
           Authorization: 'Bearer ' + token,

@@ -57,12 +57,12 @@
                 </div>
               </v-col>
               <v-col class="12">
-                <v-btn x-large text class="accent" @click="addToCart()"
+                <v-btn x-large text class="accent" :disabled="product.badge == 'instock' ? false : true" @click="addToCart()"
                   >Add to Cart</v-btn
                 >
                 <v-btn
                   @click="addToCart(), $router.push('/shopping-cart')"
-                  x-large
+                  x-large :disabled="product.badge == 'instock' ? false : true"
                   text
                   class="accent font-weight-bold"
                   >Buy Now</v-btn

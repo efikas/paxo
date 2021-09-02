@@ -6,10 +6,10 @@
           <v-img :src="image" width="100%">
             <v-chip
               v-if="badge"
-              :class="badge=='instock' ? 'primary' : 'error'"
+              :class="badge == 'instock' ? 'primary' : 'error'"
               style="float: right; border-radius: 0"
               small
-              >{{ badge == 'instock' ? 'Instock' : 'Out of stock'  }}</v-chip
+              >{{ badge == 'instock' ? 'Instock' : 'Out of stock' }}</v-chip
             >
           </v-img>
         </nuxt-link>
@@ -21,7 +21,13 @@
           >
             <v-tooltip bottom>
               <template v-slot:activator="{ on, attrs }">
-                <v-btn icon small @click="addToCart()" v-bind="attrs" v-on="on"
+                <v-btn
+                  icon
+                  small
+                  :disabled="badge == 'instock' ? false : true"
+                  @click="addToCart()"
+                  v-bind="attrs"
+                  v-on="on"
                   ><v-icon small>ri-shopping-cart-2-line</v-icon></v-btn
                 >
               </template>
@@ -141,11 +147,17 @@
                   </div>
                 </v-col>
                 <v-col>
-                  <v-btn x-large text class="accent" @click="addToCart()"
+                  <v-btn
+                    x-large
+                    :disabled="badge == 'instock' ? false : true"
+                    text
+                    class="accent"
+                    @click="addToCart()"
                     >Add to Cart</v-btn
                   >
                   <v-btn
                     x-large
+                    :disabled="badge == 'instock' ? false : true"
                     text
                     @click="addToCart(), $router.push('/shopping-cart')"
                     class="accent font-weight-bold"
