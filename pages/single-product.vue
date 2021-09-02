@@ -57,19 +57,19 @@
                 </div>
               </v-col>
               <v-col class="12">
-                <v-btn x-large text class="accent" :disabled="product.badge == 'instock' ? false : true" @click="addToCart()"
+                <v-btn x-large text class="accent"  @click="addToCart()"
                   >Add to Cart</v-btn
                 >
                 <v-btn
                   @click="addToCart(), $router.push('/shopping-cart')"
-                  x-large :disabled="product.badge == 'instock' ? false : true"
+                  x-large
                   text
                   class="accent font-weight-bold"
                   >Buy Now</v-btn
                 >
                  <v-tooltip bottom>
               <template v-slot:activator="{ on, attrs }">
-                <v-btn @click="addToWishList()"  v-bind="attrs" v-on="on" icon><v-icon>ri-heart-line</v-icon></v-btn>
+                <v-btn @click="isAuthenticated ? addToWishList() : (loginDialog = true)"  v-bind="attrs" v-on="on" icon><v-icon>ri-heart-line</v-icon></v-btn>
                  </template>
               <span>Add to Wishlist</span>
             </v-tooltip>
@@ -262,7 +262,7 @@
             'px-8': $vuetify.breakpoint.mdAndUp,
             'px-4': $vuetify.breakpoint.smAndDown,
           }"
-          md="3"
+          md="3" cols="6"
         >
           <product-display
             :vendor="i.product.brand ? i.product.brand.name : null"
@@ -279,6 +279,45 @@
         </v-col>
       </v-row>
     </v-container>
+    <v-dialog v-model="loginDialog" width="450px">
+      <v-card class="pa-8">
+        <h2 class="text-center mb-8">Login to Continue</h2>
+        <v-divider></v-divider>
+        <v-form lazy-validation v-model="valid" ref="login">
+          <v-text-field
+            v-model="form.email"
+            outlined
+            @keypress.native.enter="$refs.login.validate() ? login() : null"
+            required
+            :rules="emailRules"
+            placeholder="Username or email"
+          ></v-text-field>
+          <v-text-field
+            type="password"
+            v-model="form.password"
+            @keypress.native.enter="$refs.login.validate() ? login() : null"
+            required
+            :rules="passwordRules"
+            placeholder="Please enter your password"
+            outlined
+          ></v-text-field>
+          <v-checkbox label="Remember me" class="my-0"></v-checkbox>
+          <v-btn
+            block
+            :loading="loading"
+            @click="$refs.login.validate() ? login() : null"
+            large
+            text
+            class="primary mb-4"
+            >Login</v-btn
+          >
+          <div class="text-center">
+            No account yet? <nuxt-link to="/register">Register here</nuxt-link
+            ><br />
+          </div>
+        </v-form>
+      </v-card>
+    </v-dialog>
 
   </div>
 </template>
@@ -293,6 +332,7 @@ export default {
       quantity: 1,
       valid: true,
       loading: false,
+      loginDialog: false,
       form: {},
       items: [
         {
@@ -326,6 +366,22 @@ export default {
     },
   },
   methods: {
+     async login() {
+      this.loading = true
+      await this.$store
+        .dispatch('auth/login', this.form)
+        .then((response) => {
+          // this.$toast.success(response.message)
+          this.loading = false
+          this.loginDialog = false
+
+          this.e1 = 2
+        })
+        .catch((error) => {
+          this.$toast.error(error.response.data.message)
+          this.loading = false
+        })
+    },
      async addToWishList() {
       const data = {
         product_id: this.product.id,

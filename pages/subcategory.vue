@@ -31,7 +31,7 @@
           </v-row>
           <v-divider></v-divider>
           <v-row class="mt-8" >
-            <v-col md="2" v-for="(i, index) in products" :key="index" v-if="i.product">
+            <v-col md="2" cols="6" v-for="(i, index) in products" :key="index" v-if="i.product">
 
               <product-display v-if="i.product"
               :product_name="i.product.name"
