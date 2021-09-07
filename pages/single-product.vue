@@ -57,16 +57,21 @@
                 </div>
               </v-col>
               <v-col class="12">
-                <v-btn x-large text class="accent"  @click="addToCart()"
-                  >Add to Cart</v-btn
-                >
-                <v-btn
-                  @click="addToCart(), $router.push('/shopping-cart')"
-                  x-large
-                  text
-                  class="accent font-weight-bold"
-                  >Buy Now</v-btn
-                >
+                <!-- {{product.stock_status}} -->
+                <v-chip color="error" large v-if="product.stock_status == 'outofstock'">Out of Stock</v-chip>
+                <div v-else>
+
+                  <v-btn x-large text class="accent"  @click="addToCart()"
+                    >Add to Cart</v-btn
+                  >
+                  <v-btn
+                    @click="addToCart(), $router.push('/shopping-cart')"
+                    x-large
+                    text
+                    class="accent font-weight-bold"
+                    >Buy Now</v-btn
+                  >
+                </div>
                  <v-tooltip bottom>
               <template v-slot:activator="{ on, attrs }">
                 <v-btn @click="isAuthenticated ? addToWishList() : (loginDialog = true)"  v-bind="attrs" v-on="on" icon><v-icon>ri-heart-line</v-icon></v-btn>
