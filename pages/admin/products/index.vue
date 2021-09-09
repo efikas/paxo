@@ -34,7 +34,7 @@
       </template>
       <template v-slot:item.actions="{item}">
       <v-btn :to="'/admin/products/edit-product?productId='+item.product_id" icon ><v-icon color="success">edit</v-icon></v-btn>
-      <v-btn icon @click="deleteProduct(item.id)"><v-icon color="error">delete</v-icon></v-btn>
+      <v-btn icon @click="deleteProduct(item.product_id)"><v-icon color="error">delete</v-icon></v-btn>
       </template>
       <template v-slot:item.product.wholesale_price="{item}">
       &#8358;{{item.product.wholesale_price | formatPrice}}

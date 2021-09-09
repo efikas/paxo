@@ -78,6 +78,15 @@
 
           <v-list dense width="250px" class="py-0">
             <v-list-item
+                dense
+                @click=";(order_products = item), (dialog = true)"
+                class="py-0 my-0"
+              >
+                <v-list-item-content class="py-0 my-0">
+                  <v-list-item-title>View Order Details </v-list-item-title>
+                </v-list-item-content>
+              </v-list-item>
+            <v-list-item
               dense
               @click="updateOrder('confirmed', item.id)"
               class="py-0 my-0"
@@ -128,6 +137,37 @@
         </v-menu>
       </template>
     </v-data-table>
+
+    <v-dialog v-model="dialog" width="700">
+      <v-card class="pa-6">
+        <h3>Order Details</h3>
+        <v-simple-table>
+          <thead>
+            <tr>
+              <th>Product</th>
+              <th>Price</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="i in order_products.product" :key="i.id">
+              <td>
+                <div class="d-flex align-center">
+                  <img :src="i.avatar" class="mr-3" width="60" height="60" />
+                  {{ i.name }}
+                </div>
+              </td>
+              <td>&#8358;{{ i.price | formatPrice }}</td>
+            </tr>
+            <tr>
+              <td class="text-right font-weight-bold">TOTAL:</td>
+              <td class="font-weight-bold">
+                &#8358;{{ order_products.total | formatPrice }}
+              </td>
+            </tr>
+          </tbody>
+        </v-simple-table>
+      </v-card>
+    </v-dialog>
   </v-container>
 </template>
 <script>
@@ -136,6 +176,8 @@ export default {
   data() {
     return {
       dashboard: [],
+      dialog: false,
+      order_products: [],
       orders: [],
       loading: false,
       headers: [
