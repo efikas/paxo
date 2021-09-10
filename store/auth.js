@@ -106,9 +106,9 @@ export const actions = {
     return data
   },
 
-  async orders({ commit }) {
+  async orders({ commit }, {page}) {
     let token = JSON.parse(window.localStorage.getItem('paxo')).auth.token
-    const data = await this.$axios.$get('/admin/orders', {
+    const data = await this.$axios.$get('/admin/orders?page=' +page, {
       headers: {
         Authorization: 'Bearer ' + token,
       },

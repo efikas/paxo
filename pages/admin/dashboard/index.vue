@@ -138,34 +138,129 @@
       </template>
     </v-data-table>
 
-    <v-dialog v-model="dialog" width="700">
-      <v-card class="pa-6">
-        <h3>Order Details</h3>
-        <v-simple-table>
-          <thead>
-            <tr>
-              <th>Product</th>
-              <th>Price</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="i in order_products.product" :key="i.id">
-              <td>
-                <div class="d-flex align-center">
-                  <img :src="i.avatar" class="mr-3" width="60" height="60" />
-                  {{ i.name }}
-                </div>
-              </td>
-              <td>&#8358;{{ i.price | formatPrice }}</td>
-            </tr>
-            <tr>
-              <td class="text-right font-weight-bold">TOTAL:</td>
-              <td class="font-weight-bold">
-                &#8358;{{ order_products.total | formatPrice }}
-              </td>
-            </tr>
-          </tbody>
-        </v-simple-table>
+    <v-dialog fullscreen v-if="order_products" v-model="dialog">
+      <v-card>
+        <v-container>
+          <v-row align="center" justify="center">
+            <v-col md="9">
+              <v-card class="pa-6" width="1000" outlined>
+                <v-card class="pa-6" flat outlined>
+                  <div class="d-flex justify-space-between">
+                    <div>
+                      <h2>Order details</h2>
+                      <h5>Order Number: {{ order_products.order_number }}</h5>
+                      <p>
+                        Payment Channel:
+                        {{ order_products.use_wallet ? 'Wallet' : 'Paystack' }}.
+                        Paid on
+                        {{ order_products.created_at | formatDate }}
+                      </p>
+                    </div>
+                    <div>
+                      <img src="~/static/assets/Paxo Logo Green.png" alt="" />
+                    </div>
+                  </div>
+
+                  <h3 v-if="order_products.user">
+                    Customer: {{ order_products.user.first_name | capitalize }}
+                    {{ order_products.user.last_name | capitalize }}
+                  </h3>
+                </v-card>
+                <v-card class="pa-6 mt-8" flat outlined>
+                  <v-row>
+                    <v-col md="2">
+                      <div>
+                        <h5>General</h5>
+                        <p>
+                          Date Created:
+                          {{ order_products.created_at | formatDate }}
+                        </p>
+                        <p>
+                          Status:
+                          <v-chip
+                            small
+                            :color="
+                              order_products.status == 'pending'
+                                ? 'error'
+                                : order_products.status == 'processing'
+                                ? 'warning'
+                                : 'success'
+                            "
+                          >
+                            {{ order_products.status }}
+                          </v-chip>
+                        </p>
+                      </div>
+                    </v-col>
+                    <v-col md="3">
+                      <div>
+                        <h5>Billing</h5>
+                        {{ order_products.address }} {{ order_products.city }}
+
+                        <h5 class="mt-4">Email address</h5>
+                        {{ order_products.email }}
+                        <h5 class="mt-4">Phone Number</h5>
+                        {{ order_products.phone }}
+                      </div>
+                    </v-col>
+                    <v-col md="3">
+                      <div>
+                        <h5>Shipping</h5>
+                        {{ order_products.address }} {{ order_products.city }}
+                      </div>
+                    </v-col>
+                  </v-row>
+                </v-card>
+                <v-card class="pa-6 mt-8" flat outlined>
+                  <v-simple-table>
+                    <thead>
+                      <tr>
+                        <th>Product</th>
+                        <th>Price</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr v-for="i in order_products.product" :key="i.id">
+                        <td>
+                          <div class="d-flex align-center">
+                            <img
+                              :src="i.avatar"
+                              class="mr-3"
+                              width="60"
+                              height="60"
+                            />
+                            {{ i.name }}
+                          </div>
+                        </td>
+                        <td>&#8358;{{ i.price | formatPrice }}</td>
+                      </tr>
+                      <tr>
+                        <td class="text-right font-weight-">Delivery Fee:</td>
+                        <td v-if="order_products.shipping" class="font-weight-">
+                          &#8358;{{
+                            order_products.shipping.delivery_fee | formatPrice
+                          }}
+                        </td>
+                      </tr>
+                      <tr>
+                        <td class="text-right font-weight-bold">TOTAL:</td>
+                        <td class="font-weight-bold">
+                          &#8358;{{ order_products.total | formatPrice }}
+                        </td>
+                      </tr>
+                    </tbody>
+                  </v-simple-table>
+
+                  <!-- {{order_products}} -->
+                  <div class="text-right mt-12">
+                    <v-btn @click="dialog = false">Close</v-btn>
+                    <v-btn class="primary" @click="printPage()">Print</v-btn>
+                  </div>
+                </v-card>
+              </v-card>
+            </v-col>
+          </v-row>
+        </v-container>
       </v-card>
     </v-dialog>
   </v-container>
@@ -200,7 +295,10 @@ export default {
     },
     async getOrders() {
       this.loading = true
-      await this.$store.dispatch('auth/orders').then((response) => {
+      const data = {
+        page: 1
+      }
+      await this.$store.dispatch('auth/orders', data).then((response) => {
         this.orders = response.data.data
         this.loading = false
       })
