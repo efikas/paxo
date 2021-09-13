@@ -216,7 +216,9 @@
                     <thead>
                       <tr>
                         <th>Product</th>
+                        <th>Quantity</th>
                         <th>Price</th>
+                        <th>Total</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -232,10 +234,12 @@
                             {{ i.name }}
                           </div>
                         </td>
+                        <td>{{i.quantity}}</td>
                         <td>&#8358;{{ i.price | formatPrice }}</td>
+                        <td>&#8358;{{i.quantity * i.price | formatPrice}}</td>
                       </tr>
                       <tr>
-                        <td class="text-right font-weight-">Delivery Fee:</td>
+                        <td colspan="3" class="text-right font-weight-">Delivery Fee:</td>
                         <td v-if="order_products.shipping" class="font-weight-">
                           &#8358;{{
                             order_products.shipping.delivery_fee | formatPrice
@@ -243,8 +247,8 @@
                         </td>
                       </tr>
                       <tr>
-                        <td class="text-right font-weight-bold">TOTAL:</td>
-                        <td class="font-weight-bold">
+                        <td colspan="3" class="text-right font-weight-bold">TOTAL:</td>
+                        <td  class="font-weight-bold">
                           &#8358;{{ order_products.total | formatPrice }}
                         </td>
                       </tr>
