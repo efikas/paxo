@@ -7,3 +7,17 @@
    </div>
  </v-container>
 </template>
+
+<script>
+export default {
+  head () {
+    return {
+      script: [
+        {
+          src: 'https://code.jquery'
+        }
+      ]
+    }
+  }
+}
+</script>

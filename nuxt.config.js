@@ -32,7 +32,12 @@ export default {
     ],
     script: [
       {
-        src: '/tagmanager.js'
+        src: '/tagmanager.js',
+      }
+    ],
+    script: [
+      {
+        src: '/fbpixelcode.js',
       }
     ]
   },

@@ -152,7 +152,7 @@
             <!-- {{recommendations}} -->
               <v-col
                 cols="6"
-                sm="4"
+                sm="4" v-if="i.product"
                 md="3"
                 v-for="(i, index) in recommendations"
                 :key="index"
