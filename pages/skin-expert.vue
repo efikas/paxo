@@ -140,7 +140,7 @@
           >
           </v-file-input>
           </v-stepper-content>
-          <v-stepper-content step="4">
+          <v-stepper-content step="4"  class="pb-12">
             <h3 class="">Recommended Products</h3>
             <p class="">Here are some recommended products for you!</p>
             <v-row
@@ -149,6 +149,7 @@
                 'px-4': $vuetify.breakpoint.smAndDown,
               }"
             >
+            <!-- {{recommendations}} -->
               <v-col
                 cols="6"
                 sm="4"
@@ -156,7 +157,6 @@
                 v-for="(i, index) in recommendations"
                 :key="index"
               >
-                  <!-- :vendor="i.product.brand ? i.brand.name : null" -->
                 <product-display
                   :product_name="i.product.name"
                   rating="5"
@@ -170,6 +170,10 @@
                 />
               </v-col>
             </v-row>
+            <!-- <div class="mt-10 text-center" v-if="recommendations.length == 0">
+                <h3>Oops</h3>
+              <p>No Recommendations available!</p>
+            </div> -->
           </v-stepper-content>
         </v-stepper>
       </v-col>

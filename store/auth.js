@@ -132,7 +132,7 @@ export const actions = {
   async skinexpert({ commit }, { skin_type, route, head_type }) {
     // let token = JSON.parse(window.localStorage.getItem('paxo')).auth.token
     const data = await this.$axios.$get(
-      `/recommendations/${skin_type}/${route}/${head_type}`
+     head_type ? `/recommendations/${skin_type}/${route}/${head_type}` : `/recommendations/${skin_type}/${route}`
       // {
       //   headers: {
       //     Authorization: 'Bearer ' + token,

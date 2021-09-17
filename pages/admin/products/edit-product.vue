@@ -7,6 +7,7 @@
       </v-overlay>
     </v-container>
   <v-container v-else fluid>
+    <!-- {{form}} -->
     <h2>Update Product</h2>
     <v-row justify="center">
       <v-col md="12">
@@ -181,7 +182,8 @@
                 label="Is product on sale?"
                 v-model="form.onsale"
               ></v-checkbox>
-              <v-date-range-picker v-if="form.onsale" v-model="form.duration" :from.sync="from" :to.sync="to" label="Set Duration" outlined dense/>
+              <!-- {{form}} -->
+              <v-date-range-picker v-if="form.onsale"  v-model="form.duration" :from.sync="from" :to.sync="to" label="Set Duration" outlined dense/>
 
             </div>
           </div>
@@ -221,6 +223,7 @@ export default {
         description: '',
         how_to_use: '',
         ingridient: '',
+        onsale: null,
       },
       imagesrc: null,
       editorConfig: {
