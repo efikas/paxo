@@ -401,6 +401,7 @@ export default {
       const payload = {
         shipping_id: this.user.shipping_id,
         address: this.user.address,
+        delivery_method: this.user.deliveryMethod,
         country: 'Nigeria',
         device: 'web',
         email: this.user.email,
