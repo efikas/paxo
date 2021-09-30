@@ -206,7 +206,9 @@
                     <v-col md="3">
                       <div>
                         <h5>Shipping</h5>
-                        {{ order_products.address }} {{ order_products.city }}
+                        <h5>Method: </h5>
+                        {{order_products.delivery_method == '0' ? 'Local Pick (3 Billings way, Oregun, Ikeja Lagos' : order_products.city + ', ' + order_products.state ? order_products.state : '' }}
+                        <!-- {{ order_products.city }}, {{ order_products.state }} -->
                       </div>
                     </v-col>
                   </v-row>
@@ -235,8 +237,8 @@
                           </div>
                         </td>
                         <td>{{i.quantity}}</td>
-                        <td>&#8358;{{ i.price | formatPrice }}</td>
-                        <td>&#8358;{{i.quantity * i.price | formatPrice}}</td>
+                        <td>&#8358;{{ order_products.user.role == 'wholesaler' ? i.wholesale_price  : i.price | formatPrice }} </td>
+                        <td>&#8358;{{order_products.user.role == 'wholesaler' ? i.quantity * i.wholesale_price : i.quantity * i.price | formatPrice}}</td>
                       </tr>
                       <tr>
                         <td colspan="3" class="text-right font-weight-">Delivery Fee:</td>
