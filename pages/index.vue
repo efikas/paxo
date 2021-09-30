@@ -75,7 +75,7 @@
         <p class="deal-text">Deal of the Day</p>
       </v-col>
       <v-col md="6" cols="3" class="text-right py-0 ma-0">
-        <v-btn class="primary" text to="/store" small>View All</v-btn>
+        <v-btn class="primary" text to="/offers" small>View All</v-btn>
       </v-col>
       <!-- <v-col md="12" class="py-0 ma-0">
         <v-divider></v-divider>
@@ -132,19 +132,19 @@
           v-for="(i, index) in products.slice(0, 10)"
           :key="index"
         >
-          <product-display v-if="i.products"
-            :vendor="i.products.brand ? i.products.brand.name : null"
-            :product_name="i.products.name"
+          <product-display v-if="i"
+            :vendor="i.brand ? i.brand.name : null"
+            :product_name="i.name"
             rating="5"
-            :price="i.products.price"
-            :regular_price="i.products.regular_price"
-            :wholesale_price="i.products.wholesale_price"
-            :image="i.products.avatar"
-            :badge="i.products.stock_status"
-            :description="i.products.description"
-            :short_description="i.products.short_description"
-            :product_object="i.products"
-            :product_id="i.products.id"
+            :price="i.price"
+            :regular_price="i.regular_price"
+            :wholesale_price="i.wholesale_price"
+            :image="i.avatar"
+            :badge="i.stock_status"
+            :description="i.description"
+            :short_description="i.short_description"
+            :product_object="i"
+            :product_id="i.id"
           />
         </div>
       </div>

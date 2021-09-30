@@ -407,6 +407,7 @@ export default {
         email: this.user.email,
         phone: this.user.mobile,
         city: this.user.city,
+        state: this.user.state,
         set_paid: 1,
         use_wallet: parseInt(this.paymentoption),
         product: this.StoreCart,

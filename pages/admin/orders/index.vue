@@ -190,7 +190,7 @@
                       <div>
                         <h5>Shipping</h5>
                         <h5>Method: </h5>
-                        {{order_products.delivery_method == '0' ? 'Local Pick (3 Billings way, Oregun, Ikeja Lagos' : order_products.city + ', ' + order_products.state ? order_products.state : '' }}
+                        {{order_products.delivery_method == '0' ? 'Local Pick (3 Billings way, Oregun, Ikeja Lagos' : order_products.city + ', ' + (order_products.state ? order_products.state : '') }}
                         <!-- {{ order_products.city }}, {{ order_products.state }} -->
                       </div>
                     </v-col>

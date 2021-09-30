@@ -37,7 +37,7 @@
             <h1 class="font-weight-medium">
               {{
                 products.length > 0
-                  ? 'Banner: ' + banner_name
+                  ?  banner_name
                   : 'No Products Found'
               }}
             </h1>
