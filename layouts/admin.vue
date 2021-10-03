@@ -135,6 +135,11 @@ export default {
           title: 'Recommendation',
           to: '/admin/recommendation',
         },
+        {
+          icon: 'ri-newspaper-line',
+          title: 'Edit Reward Content',
+          to: '/admin/rewards',
+        },
 
         {
           icon: 'ri-logout-box-line',

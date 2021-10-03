@@ -1,7 +1,7 @@
 <template>
   <div>
     <p class="py-2 pl-3">
-      Home / {{ product.brand ? product.brand.name : null }} /
+    <nuxt-link to="/">  Home </nuxt-link> / <nuxt-link v-if="product.brand" :to="`/brands/${product.brand.name}?brandId=${product.brand.id}`">  {{ product.brand ? product.brand.name : null }} </nuxt-link> /
       {{ product.name }}
     </p>
     <v-container v-if="loading">
@@ -536,5 +536,8 @@ p {
     color: #690;
     line-height: 1;
   }
+}
+a{
+  text-decoration: none;
 }
 </style>

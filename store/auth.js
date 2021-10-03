@@ -106,9 +106,9 @@ export const actions = {
     return data
   },
 
-  async orders({ commit }, {page}) {
+  async orders({ commit }, { page }) {
     let token = JSON.parse(window.localStorage.getItem('paxo')).auth.token
-    const data = await this.$axios.$get('/admin/orders?page=' +page, {
+    const data = await this.$axios.$get('/admin/orders?page=' + page, {
       headers: {
         Authorization: 'Bearer ' + token,
       },
@@ -132,7 +132,9 @@ export const actions = {
   async skinexpert({ commit }, { skin_type, route, head_type }) {
     // let token = JSON.parse(window.localStorage.getItem('paxo')).auth.token
     const data = await this.$axios.$get(
-     head_type ? `/recommendations/${skin_type}/${route}/${head_type}` : `/recommendations/${skin_type}/${route}`
+      head_type
+        ? `/recommendations/${skin_type}/${route}/${head_type}`
+        : `/recommendations/${skin_type}/${route}`
       // {
       //   headers: {
       //     Authorization: 'Bearer ' + token,
@@ -439,6 +441,19 @@ export const actions = {
           Authorization: 'Bearer ' + token,
         },
       }
+    )
+    return data
+  },
+
+  async rewardcontent() {
+    const data = await this.$axios.$get(
+      '/reward/content'
+
+      // {
+      //   // headers: {
+      //   //   Authorization: 'Bearer ' + token,
+      //   // },
+      // }
     )
     return data
   },
