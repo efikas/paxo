@@ -445,6 +445,18 @@ export const actions = {
     return data
   },
 
+  async updatereward({ commit }, formData) {
+    let token = JSON.parse(window.localStorage.getItem('paxo')).auth.token
+    console.log(formData)
+    const data = await this.$axios.$post(`/admin/reward/update/${formData.get('id')}`, formData, {
+      headers: {
+        Authorization: 'Bearer ' + token,
+        'Content-Type': 'multipart/form-data',
+      },
+    })
+    return data
+  },
+
   async rewardcontent() {
     const data = await this.$axios.$get(
       '/reward/content'

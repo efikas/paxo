@@ -1,27 +1,52 @@
 <template>
   <v-container fluid>
-    <v-btn class="primary" text block>Shop By Categories</v-btn>
-    <v-expansion-panels class="mt-4">
-      <v-expansion-panel v-for="(item, i) in brands" :key="i">
-        <v-expansion-panel-header class="primary--text font-weight-medium">{{ item.name }}</v-expansion-panel-header>
+    <div class="d-flex justify-space-between">
+      <v-btn @click="byCategory = true, byBrand = false" :color="!byCategory ? 'primary' : ''" :class="byCategory ? 'primary white--text' : ''" outlined text >Shop By Categories</v-btn>
+      <v-btn @click="byCategory = false, byBrand = true" :color="!byBrand ? 'primary' : ''" :class="byBrand ? 'primary white--text' : ''" text outlined>Shop By Brands</v-btn>
+    </div>
+    <v-expansion-panels v-if="byCategory" class="mt-4">
+      <v-expansion-panel v-for="(item, i) in sections" :key="i">
+        <v-expansion-panel-header class="primary--text font-weight-medium">{{
+          item.name
+        }}</v-expansion-panel-header>
         <v-expansion-panel-content>
           <v-expansion-panels>
             <v-expansion-panel v-for="(j, index) in item.category" :key="index">
-            <v-expansion-panel-header>{{j.name}} </v-expansion-panel-header>
-            <v-expansion-panel-content>
-              <div v-for="k in j.subcategory" :key="k.id" class="sub-menu mb-4">
+              <v-expansion-panel-header>{{ j.name }} </v-expansion-panel-header>
+              <v-expansion-panel-content>
+                <div
+                  v-for="k in j.subcategory"
+                  :key="k.id"
+                  class="sub-menu mb-4"
+                >
                   <nuxt-link
-                    
                     :to="'/subcategory/' + k.name + '?subCategoryId=' + k.id"
                     >{{ k.name }}</nuxt-link
                   >
                 </div>
-            </v-expansion-panel-content>
-          </v-expansion-panel>
+              </v-expansion-panel-content>
+            </v-expansion-panel>
           </v-expansion-panels>
         </v-expansion-panel-content>
       </v-expansion-panel>
     </v-expansion-panels>
+
+    <div v-if="byBrand">
+      <v-list dense>
+        <v-list-item style="border-bottom: 1px solid #ddd;" :to="'/brands/' + item.name + '?brandId=' + item.id" dense   v-for="(item, i) in brands" :key="i">
+          <v-list-item-content>
+            <v-list-item-title v-text="item.name">
+
+            </v-list-item-title>
+          </v-list-item-content>
+          <v-list-item-action>
+            <v-icon>
+              chevron_right
+            </v-icon>
+          </v-list-item-action>
+        </v-list-item>
+      </v-list>
+    </div>
   </v-container>
 </template>
 <script>
@@ -29,10 +54,14 @@ export default {
   data() {
     return {
       brands: [],
+      sections: [],
+      byCategory: true,
+      byBrand: false
     }
   },
   mounted() {
-    this.getbrands()
+    this.getSection()
+    this.getBrands()
   },
   methods: {
     // async getbrands() {
@@ -40,10 +69,16 @@ export default {
     //     this.brands = response.data
     //   })
     // },
-    async getbrands() {
+    async getSection() {
       await this.$store.dispatch('section/all').then((response) => {
+        this.sections = response.data
+      })
+    },
+    async getBrands() {
+      await this.$store.dispatch('brand/all').then((response) => {
         this.brands = response.data
-
+        // this.pageloading = false
+        this.orderedBrands = _.orderBy(this.brands, 'name')
       })
     },
   },

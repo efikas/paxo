@@ -1,8 +1,16 @@
 <template>
-  <v-container pt-8>
-    <v-img :src="require('../static/assets/Paxo Rewards.jpg')" height="450" class="mb-8" width="100%" alt=""> </v-img>
+<div>
+  <v-container v-if="loading">
+    <v-skeleton-loader type="image,image,article,article"></v-skeleton-loader>
+  </v-container>
+  <v-container v-else pt-8>
+    <v-img :src="content.featured_image" height="450" class="mb-8" width="100%" alt=""> </v-img>
 
-    <h1 class="primary--text">What is Paxo Rewards?</h1>
+    <div v-html="content.content">
+
+    </div>
+
+    <!-- <h1 class="primary--text">What is Paxo Rewards?</h1>
     <p>
       Paxo Rewards is Paxo Beauty's loyalty program. It is the way we ensure
       that you get the most out of your shopping experience, across our stores
@@ -17,7 +25,7 @@
     </p>
     <h2 class="primary--text">Purchase/Reward logic for points (Web App)</h2>
     <ul>
-      
+
       <li>4 points for N500 spent</li>
       <li>4 points = N20</li>
       <li>1 point = N5</li>
@@ -77,12 +85,7 @@
         </tr>
       </tbody>
     </v-simple-table>
-    <!-- <p>
-      on Wholesalers dashboard, we show what level they are at present, based on
-      what they have bought so far in the year and the next level they are
-      headed,a link at the top of the dashboard to show a breakdown of the
-      reward system as the table above
-    </p> -->
+
     <p>
       For the <b>bronze</b> category if a customer is able to buy 25k monthly it
       would meet up with 300k at the end of the year.
@@ -91,7 +94,7 @@
       For the <b>Sliver</b> category, if the customer buys 50k monthly he should
       get to the target.
     </p>
-    <p>For the <b>Gold</b> category, if the wholesaler buys 85k monthly he/she should get to the target.</p>
+    <p>For the <b>Gold</b> category, if the wholesaler buys 85k monthly he/she should get to the target.</p> -->
 
     <div class="text-center my-10">
       <v-btn outlined color="primary" :to="isAuthenticated ? '/dashboard' : '/login'"
@@ -100,6 +103,8 @@
     </div>
 
   </v-container>
+
+</div>
 </template>
 
 <script>
@@ -107,8 +112,25 @@ import { mapGetters } from 'vuex'
 export default {
   data () {
     return {
-
+      content: {},
+      loading: true,
     }
+  },
+  mounted () {
+    this.getContent()
+  },
+  methods: {
+    async getContent() {
+      await this.$store
+        .dispatch('auth/rewardcontent')
+        .then((response) => {
+          this.content = response.data
+          this.loading = false
+        })
+        .catch((error) => {
+          console.log(error)
+        })
+    },
   },
   computed: {
     ...mapGetters('auth', ['isAuthenticated']),

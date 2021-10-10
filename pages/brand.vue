@@ -38,7 +38,7 @@
           <h1 class="font-weight-bold">{{ decodeURI(brand) }}</h1>
           <v-divider></v-divider>
           <v-row class="mt-8">
-            <v-col md="2" v-for="(i, index) in products" :key="index">
+            <v-col md="2" cols="6" v-for="(i, index) in products" :key="index">
               <!-- {{i}} -->
               <!-- :vendor="i.product.brand.name" -->
               <product-display
@@ -51,6 +51,7 @@
                 :short_description="i.short_description"
                 :product_object="i"
                 :product_id="i.id"
+                :regular_price="i.regular_price"
               />
             </v-col>
           </v-row>
