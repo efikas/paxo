@@ -45,7 +45,7 @@
           <v-btn
             icon
             @click="
-              ;(form = item), form.product_id = item.product.split(',').map(Number),
+              ;(form = item), form.product ? form.product_id = item.product.split(',').map(Number) : form.product_id = [],
                 (dialog = true),
                 (update = true),
                 (imagesrc = item.avatar)

@@ -108,7 +108,7 @@
 
       <v-app-bar app color="" style="" class="top-top" id="banner">
         <p style="font-size: 12px">
-          Win a FREE gift on your first order.<br />
+          Get a discount on your first order<br />
           <span class="hidden-md-and-up">Use Code: <b>FIRSTGIFT</b></span>
         </p>
         <div
