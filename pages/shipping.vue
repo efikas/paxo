@@ -228,7 +228,7 @@ export default {
       total: 0,
       discount_percent: '',
       discount: '',
-      paystackkey: 'pk_test_e88a1928368226327d9382a6c67c82749f30ec13',
+      paystackkey: 'pk_live_7c02e6083d7879d591e497d97392bf4a3e4697f5',
       reference: '',
 
       code: '',
@@ -401,11 +401,13 @@ export default {
       const payload = {
         shipping_id: this.user.shipping_id,
         address: this.user.address,
+        delivery_method: this.user.deliveryMethod,
         country: 'Nigeria',
         device: 'web',
         email: this.user.email,
         phone: this.user.mobile,
         city: this.user.city,
+        state: this.user.state,
         set_paid: 1,
         use_wallet: parseInt(this.paymentoption),
         product: this.StoreCart,

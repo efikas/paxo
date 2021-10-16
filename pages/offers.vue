@@ -46,18 +46,18 @@
           <v-col md="3" sm="6" cols="6" v-for="(i, index) in products" :key="index">
             <!-- {{i.products}} -->
             <product-display
-              :vendor="i.products.brand ? i.products.brand.name : null"
-              :product_name="i.products.name"
+              :vendor="i.brand ? i.brand.name : null"
+              :product_name="i.name"
               rating="5"
-              :price="i.products.price"
-              :regular_price="i.products.regular_price"
-              :wholesale_price="i.products.wholesale_price"
-              :image="i.products.avatar"
-              :badge="i.products.stock_status"
-              :description="i.products.description"
-              :short_description="i.products.short_description"
-              :product_object="i.products"
-              :product_id="i.products.id"
+              :price="i.price"
+              :regular_price="i.regular_price"
+              :wholesale_price="i.wholesale_price"
+              :image="i.avatar"
+              :badge="i.stock_status"
+              :description="i.description"
+              :short_description="i.short_description"
+              :product_object="i"
+              :product_id="i.id"
             />
           </v-col>
         </v-row>

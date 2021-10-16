@@ -178,11 +178,13 @@
               v-model="form.top_product"
             ></v-checkbox>
             <div>
+
+              {{form.onsale}}
               <v-checkbox
                 label="Is product on sale?"
                 v-model="form.onsale"
               ></v-checkbox>
-              <!-- {{form}} -->
+              {{form.duration.from }} - {{form.duration.to}}
               <v-date-range-picker v-if="form.onsale"  v-model="form.duration" :from.sync="from" :to.sync="to" label="Set Duration" outlined dense/>
 
             </div>
@@ -224,6 +226,7 @@ export default {
         how_to_use: '',
         ingridient: '',
         onsale: null,
+        duration: {}
       },
       imagesrc: null,
       editorConfig: {
@@ -273,8 +276,10 @@ export default {
         this.form.description = details.description
         this.form.how_to_use = details.how_to_use
         this.form.ingridient = details.ingridient
-        this.form.onsale = parseInt(details.onsale)
+        this.form.onsale = (details.onsale)
         this.imagesrc = details.avatar
+        this.form.duration.from = new Date(details.duration_from).toISOString().substr(0, 10)
+        this.form.duration.to =new Date(details.duration_to).toISOString().substr(0, 10)
         // for (var i = 0; i < details.categories.length; i++) {
         //   this.form.category[i] = i.category_id
         // }

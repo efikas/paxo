@@ -75,7 +75,7 @@
         ></v-autocomplete>
       </v-col>
       <v-col md="4" cols="2" class="px-0 pt-7" :class="{'py-0' : $vuetify.breakpoint.smAndDown}">
-        <v-btn class="primary search-btn" @click="findProduct()" text
+        <v-btn class="primary search-btn" :to="'search?str='+productSearch" text
           ><v-icon>search</v-icon></v-btn
         >
       </v-col>

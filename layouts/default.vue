@@ -108,7 +108,7 @@
 
       <v-app-bar app color="" style="" class="top-top" id="banner">
         <p style="font-size: 12px">
-          Win a FREE gift on your first order.<br />
+          Get a discount on your first order<br />
           <span class="hidden-md-and-up">Use Code: <b>FIRSTGIFT</b></span>
         </p>
         <div
@@ -728,7 +728,10 @@
           <v-col cols="6" sm="3" md="4">
             <h4 class="mb-4">Contact Us</h4>
             <p>Call us 24/7</p>
-            <h3 class="primary--text">234 814 690 7099</h3>
+            <a href="tel:2348146907099">
+
+              <h3 class="primary--text">234 814 690 7099</h3>
+            </a>
             <a href="mailto:info@paxo.com.ng">info@paxo.com.ng</a>
 
             <p class="mb-12">No 3, Billings Way, Oregun Ikeja, Lagos</p>

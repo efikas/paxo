@@ -1,33 +1,24 @@
 <template>
   <v-container fluid>
-    <div class="row">
-      <v-col cols="6">
-        <v-btn
-          class="col-12"
-          @click="showCategory = true"
-          :class="{
-            'v-btn--outlined primary--text': !showCategory,
-            primary: showCategory,
-          }"
-          text
-          >Categories</v-btn
-        >
-      </v-col>
-      <v-col cols="6">
-        <v-btn
-          class="col-12"
-          @click="showCategory = false"
-          :class="{
-            'v-btn--outlined primary--text': showCategory,
-            primary: !showCategory,
-          }"
-          text
-          >Brands</v-btn
-        >
-      </v-col>
+    <div class="d-flex justify-space-between">
+      <v-btn
+        @click=";(byCategory = true), (byBrand = false)"
+        :color="!byCategory ? 'primary' : ''"
+        :class="byCategory ? 'primary white--text' : ''"
+        outlined
+        text
+        >Shop By Categories</v-btn
+      >
+      <v-btn
+        @click=";(byCategory = false), (byBrand = true)"
+        :color="!byBrand ? 'primary' : ''"
+        :class="byBrand ? 'primary white--text' : ''"
+        text
+        outlined
+        >Shop By Brands</v-btn
+      >
     </div>
-    <!-- <v-btn class="primary" text block>Shop By Categories</v-btn> -->
-    <v-expansion-panels class="mt-4" v-if="showCategory">
+    <v-expansion-panels v-if="byCategory" class="mt-4">
       <v-expansion-panel v-for="(item, i) in sections" :key="i">
         <v-expansion-panel-header class="primary--text font-weight-medium">{{
           item.name
@@ -53,79 +44,25 @@
         </v-expansion-panel-content>
       </v-expansion-panel>
     </v-expansion-panels>
-    <v-list
-      v-if="!showCategory"
-      dense
-      flat
-      style="width: 100vw"
-      class="py-0 elevation-0"
-    >
-      <v-row>
-        <v-col cols="12" class="pa-4">
-          <div class="d-flex justify-space-between letters-wrapper">
-            <v-btn @click="orderedBrands = _.orderBy(brands, 'name')" icon small
-              >All</v-btn
-            >
-            <v-btn icon small>#</v-btn>
-            <v-btn @click="sortBrands('a')" icon small>A</v-btn>
-            <v-btn @click="sortBrands('b')" icon small>B</v-btn>
-            <v-btn @click="sortBrands('c')" icon small>C</v-btn>
-            <v-btn @click="sortBrands('d')" icon small>D</v-btn>
-            <v-btn @click="sortBrands('e')" icon small>E</v-btn>
-            <v-btn @click="sortBrands('f')" icon small>F</v-btn>
-            <v-btn @click="sortBrands('g')" icon small>G</v-btn>
-            <v-btn @click="sortBrands('h')" icon small>H</v-btn>
-            <v-btn @click="sortBrands('i')" icon small>I</v-btn>
-            <v-btn @click="sortBrands('j')" icon small>J</v-btn>
-            <v-btn @click="sortBrands('k')" icon small>K</v-btn>
-            <v-btn @click="sortBrands('l')" icon small>L</v-btn>
-            <v-btn @click="sortBrands('m')" icon small>M</v-btn>
-            <v-btn @click="sortBrands('n')" icon small>N</v-btn>
-            <v-btn @click="sortBrands('o')" icon small>O</v-btn>
-            <v-btn @click="sortBrands('p')" icon small>P</v-btn>
-            <v-btn @click="sortBrands('q')" icon small>Q</v-btn>
-            <v-btn @click="sortBrands('r')" icon small>R</v-btn>
-            <v-btn @click="sortBrands('s')" icon small>S</v-btn>
-            <v-btn @click="sortBrands('t')" icon small>T</v-btn>
-            <v-btn @click="sortBrands('u')" icon small>U</v-btn>
-            <v-btn @click="sortBrands('v')" icon small>V</v-btn>
-            <v-btn @click="sortBrands('w')" icon small>W</v-btn>
-            <v-btn @click="sortBrands('x')" icon small>X</v-btn>
-            <v-btn @click="sortBrands('y')" icon small>Y</v-btn>
-            <v-btn @click="sortBrands('z')" icon small>Z</v-btn>
-          </div>
-          <!-- <v-divider></v-divider> -->
-        </v-col>
-      </v-row>
-      <div class="brands-container pa-10 pt-0 row">
-        <div
-          v-for="(i, index) in brandlength"
-          :key="index"
-          class="brands col-6"
+
+    <div v-if="byBrand">
+      <v-list dense>
+        <v-list-item
+          style="border-bottom: 1px solid #ddd"
+          :to="'/brands/' + item.name + '?brandId=' + item.id"
+          dense
+          v-for="(item, i) in brands"
+          :key="i"
         >
-          <div class="sub-menu--brand">
-            <a
-              href="javascript:void(0)"
-              class="nav-"
-              @click="
-                ;(showBrand = false),
-                  $router.push('/brands/' + j.name + '?brandId=' + j.id)
-              "
-              v-for="j in orderedBrands.slice(
-                index * brandsize,
-                index * brandsize + brandsize
-              )"
-              :key="j.id"
-              style="text-decoration: none; margin-bottom: 0 !important"
-            >
-              <p class="" style="font-size: 13px">
-                {{ j.name }}
-              </p></a
-            >
-          </div>
-        </div>
-      </div>
-    </v-list>
+          <v-list-item-content>
+            <v-list-item-title v-text="item.name"> </v-list-item-title>
+          </v-list-item-content>
+          <v-list-item-action>
+            <v-icon> chevron_right </v-icon>
+          </v-list-item-action>
+        </v-list-item>
+      </v-list>
+    </div>
   </v-container>
 </template>
 <script>
@@ -134,9 +71,9 @@ export default {
     return {
       sections: [],
       brands: [],
-      showCategory: true,
-      brandsize: 7,
-      orderedBrands: [],
+      sections: [],
+      byCategory: true,
+      byBrand: false,
     }
   },
   computed: {
@@ -145,8 +82,8 @@ export default {
     },
   },
   mounted() {
-    this.getsections()
-    this.getbrands()
+    this.getSection()
+    this.getBrands()
   },
   methods: {
     // async getbrands() {
@@ -154,14 +91,15 @@ export default {
     //     this.brands = response.data
     //   })
     // },
-    async getsections() {
+    async getSection() {
       await this.$store.dispatch('section/all').then((response) => {
         this.sections = response.data
       })
     },
-    async getbrands() {
+    async getBrands() {
       await this.$store.dispatch('brand/all').then((response) => {
         this.brands = response.data
+        // this.pageloading = false
         this.orderedBrands = _.orderBy(this.brands, 'name')
       })
     },

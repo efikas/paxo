@@ -37,13 +37,13 @@
             <h1 class="font-weight-medium">
               {{
                 products.length > 0
-                  ? 'Banner: ' + banner_name
+                  ?  banner_name
                   : 'No Products Found'
               }}
             </h1>
             <v-divider></v-divider>
             <v-row class="mt-8">
-              <v-col md="2" cols="6" v-for="(i, index) in products" :key="index">
+              <v-col md="2" v-if="i.products" cols="6" v-for="(i, index) in products" :key="index">
                 <!-- :vendor="i.product.brand.name" -->
                 <product-display
                   :product_name="i.products.name"
