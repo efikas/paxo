@@ -1,4 +1,4 @@
-fbq('track', 'Purchase', { value: 0.0, currency: 'NGN' })
+
 !(function (f, b, e, v, n, t, s) {
   if (f.fbq) return
   n = f.fbq = function () {
@@ -16,4 +16,5 @@ fbq('track', 'Purchase', { value: 0.0, currency: 'NGN' })
   s.parentNode.insertBefore(t, s)
 })(window, document, 'script', 'https://connect.facebook.net/en_US/fbevents.js')
 2019605138194633
+fbq('track', 'Purchase', { value: 0.00, currency: 'USD' })
 fbq('track', 'InitiateCheckout')

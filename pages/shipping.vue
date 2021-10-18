@@ -92,7 +92,7 @@
               <p class="ml-8">
                 Your Wallet Balance: &#8358;{{ user.balance | formatPrice }}
               </p>
-              <v-radio label="Pay with a Debit Card" value="0"></v-radio>
+              <v-radio label="Pay Online" value="0"></v-radio>
             </v-radio-group>
           </div>
 
@@ -332,7 +332,6 @@ export default {
       await this.$store
         .dispatch('products/storeorder', data)
         .then((response) => {
-
           // const res = response
           // var dataLayer = window.dataLayer || []
           window.dataLayer.push({
@@ -468,7 +467,7 @@ export default {
         // this.shippingMethods = response.data
       })
     },
-     async getProfile() {
+    async getProfile() {
       await this.$store.dispatch('auth/profile').then((response) => {
         // this.states = response.data
       })
