@@ -228,7 +228,7 @@ export default {
       total: 0,
       discount_percent: '',
       discount: '',
-      paystackkey: 'pk_live_7c02e6083d7879d591e497d97392bf4a3e4697f5',
+      paystackkey: 'pk_test_e88a1928368226327d9382a6c67c82749f30ec13',
       reference: '',
 
       code: '',

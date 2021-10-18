@@ -119,7 +119,7 @@
               <v-select
                 placeholder="LGA"
                 item-text="name" v-if="lgas.length > 0"
-                item-value="name"
+                item-value="id"
                 :items="lgas"
                 v-model="user.lga"
                 required
