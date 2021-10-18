@@ -262,7 +262,7 @@
                           TOTAL:
                         </td>
                         <td class="font-weight-bold">
-                          &#8358;{{ order_products.total | formatPrice }}
+                          &#8358;{{ Math.round(order_products.total) | formatPrice }}
                         </td>
                       </tr>
                     </tbody>
