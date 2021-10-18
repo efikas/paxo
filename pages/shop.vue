@@ -1,8 +1,22 @@
 <template>
   <v-container fluid>
     <div class="d-flex justify-space-between">
-      <v-btn @click="byCategory = true, byBrand = false" :color="!byCategory ? 'primary' : ''" :class="byCategory ? 'primary white--text' : ''" outlined text >Shop By Categories</v-btn>
-      <v-btn @click="byCategory = false, byBrand = true" :color="!byBrand ? 'primary' : ''" :class="byBrand ? 'primary white--text' : ''" text outlined>Shop By Brands</v-btn>
+      <v-btn
+        @click=";(byCategory = true), (byBrand = false)"
+        :color="!byCategory ? 'primary' : ''"
+        :class="byCategory ? 'primary white--text' : ''"
+        outlined
+        text
+        >Shop By Categories</v-btn
+      >
+      <v-btn
+        @click=";(byCategory = false), (byBrand = true)"
+        :color="!byBrand ? 'primary' : ''"
+        :class="byBrand ? 'primary white--text' : ''"
+        text
+        outlined
+        >Shop By Brands</v-btn
+      >
     </div>
     <v-expansion-panels v-if="byCategory" class="mt-4">
       <v-expansion-panel v-for="(item, i) in sections" :key="i">
@@ -33,16 +47,18 @@
 
     <div v-if="byBrand">
       <v-list dense>
-        <v-list-item style="border-bottom: 1px solid #ddd;" :to="'/brands/' + item.name + '?brandId=' + item.id" dense   v-for="(item, i) in brands" :key="i">
+        <v-list-item
+          style="border-bottom: 1px solid #ddd"
+          :to="'/brands/' + item.name + '?brandId=' + item.id"
+          dense
+          v-for="(item, i) in brands"
+          :key="i"
+        >
           <v-list-item-content>
-            <v-list-item-title v-text="item.name">
-
-            </v-list-item-title>
+            <v-list-item-title v-text="item.name"> </v-list-item-title>
           </v-list-item-content>
           <v-list-item-action>
-            <v-icon>
-              chevron_right
-            </v-icon>
+            <v-icon> chevron_right </v-icon>
           </v-list-item-action>
         </v-list-item>
       </v-list>
@@ -53,11 +69,17 @@
 export default {
   data() {
     return {
+      sections: [],
       brands: [],
       sections: [],
       byCategory: true,
-      byBrand: false
+      byBrand: false,
     }
+  },
+  computed: {
+    brandlength() {
+      return Math.ceil(this.brands.length / 7)
+    },
   },
   mounted() {
     this.getSection()
@@ -81,6 +103,30 @@ export default {
         this.orderedBrands = _.orderBy(this.brands, 'name')
       })
     },
+    sortBrands(alpha) {
+      let startsWithN = this.brands.filter(function (brand) {
+        return brand.name[0].toLowerCase() === alpha
+      })
+      this.orderedBrands = startsWithN
+    },
   },
 }
 </script>
+<style lang="scss" scoped>
+.v-btn--outlined {
+  border: thin solid #36bdb4 !important;
+}
+.letters-wrapper {
+  overflow: auto;
+  padding: 5px 0;
+  border-bottom: #000;
+}
+.sub-menu--brand a {
+  text-decoration: none;
+  color: #000;
+  font-size: 14px;
+  &:hover {
+    color: #ff4e50;
+  }
+}
+</style>

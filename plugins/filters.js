@@ -21,6 +21,10 @@ Vue.filter('formatDate', function (value) {
   return moment(value).format('MMMM Do, YYYY')
 })
 
+Vue.filter('formatDateTime', function (value) {
+  return moment(value).format('MMMM Do, YYYY HH:mm:ss')
+})
+
 Vue.filter('stringToNumber', function (value) {
   let val = value
   return val

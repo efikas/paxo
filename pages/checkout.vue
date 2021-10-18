@@ -37,99 +37,107 @@
 
           <h3 class="mt-8">Delivery Information</h3>
           <p>Please select your preferred delivery method</p>
-          <v-radio-group v-model="user.deliveryMethod" required :rules="[v=>!!v || 'This field is required']">
-            <v-radio value="0" label="Local Pickup (3 Billings Way, Oregun, Ikeja beside Fan Milk)"></v-radio>
-            <v-radio value="1" label="Home Delivery"></v-radio>
-          </v-radio-group>
-          <div  v-if="user.deliveryMethod == '1'">
-          <h3  class="mt-8">Shipping Address</h3>
-          <v-row>
-            <v-col>
-              <p class="mb-0">First name</p>
-              <v-text-field
-                v-model="user.first_name"
-                placeholder="First name"
-                required
-                :rules="[(v) => !!v || 'This field is required']"
-                outlined
-              >
-              </v-text-field>
-            </v-col>
-            <v-col>
-              <p class="mb-0">Last name</p>
-              <v-text-field
-                placeholder="Last name"
-                v-model="user.last_name"
-                required
-                :rules="[(v) => !!v || 'This field is required']"
-                outlined
-              >
-              </v-text-field>
-            </v-col>
-          </v-row>
-          <p class="mb-0">Address</p>
-          <v-text-field
-            placeholder="Address"
-            v-model="user.address"
+          <v-radio-group
+            v-model="user.deliveryMethod"
             required
             :rules="[(v) => !!v || 'This field is required']"
-            outlined
-          ></v-text-field>
-          <p class="mb-0">Apartment</p>
-          <v-text-field
-            placeholder="Apartment, Suite, etc (optional)"
-            v-model="user.apartment"
-            outlined
-          ></v-text-field>
-          <v-row>
-            <v-col>
-              <p class="mb-0">City</p>
-              <v-text-field
-                placeholder="City"
-                v-model="user.city"
-                required
-                :rules="[(v) => !!v || 'This field is required']"
-                outlined
-              >
-              </v-text-field>
-              <p class="mb-0">State</p>
-              <v-select
-                placeholder="State"
-                item-text="name"
-                item-value="id" @change="getlga(user.state), user.lga = ''"
-                :items="states"
-                v-model="user.state"
-                required
-                :rules="[(v) => !!v || 'This field is required']"
-                outlined
-              >
-              </v-select>
-            </v-col>
+          >
+            <v-radio
+              value="0"
+              label="Local Pickup (3 Billings Way, Oregun, Ikeja beside Fan Milk)"
+            ></v-radio>
+            <v-radio value="1" label="Home Delivery"></v-radio>
+          </v-radio-group>
+          <div v-if="user.deliveryMethod == '1'">
+            <h3 class="mt-8">Shipping Address</h3>
+            <v-row>
+              <v-col>
+                <p class="mb-0">First name</p>
+                <v-text-field
+                  v-model="user.first_name"
+                  placeholder="First name"
+                  required
+                  :rules="[(v) => !!v || 'This field is required']"
+                  outlined
+                >
+                </v-text-field>
+              </v-col>
+              <v-col>
+                <p class="mb-0">Last name</p>
+                <v-text-field
+                  placeholder="Last name"
+                  v-model="user.last_name"
+                  required
+                  :rules="[(v) => !!v || 'This field is required']"
+                  outlined
+                >
+                </v-text-field>
+              </v-col>
+            </v-row>
+            <p class="mb-0">Address</p>
+            <v-text-field
+              placeholder="Address"
+              v-model="user.address"
+              required
+              :rules="[(v) => !!v || 'This field is required']"
+              outlined
+            ></v-text-field>
+            <p class="mb-0">Apartment</p>
+            <v-text-field
+              placeholder="Apartment, Suite, etc (optional)"
+              v-model="user.apartment"
+              outlined
+            ></v-text-field>
+            <v-row>
+              <v-col>
+                <p class="mb-0">City</p>
+                <v-text-field
+                  placeholder="City"
+                  v-model="user.city"
+                  required
+                  :rules="[(v) => !!v || 'This field is required']"
+                  outlined
+                >
+                </v-text-field>
+                <p class="mb-0">State</p>
+                <v-select
+                  placeholder="State"
+                  item-text="name"
+                  item-value="id"
+                  @change="getlga(user.state), (user.lga = '')"
+                  :items="states"
+                  v-model="user.state"
+                  required
+                  :rules="[(v) => !!v || 'This field is required']"
+                  outlined
+                >
+                </v-select>
+              </v-col>
 
-            <v-col>
-              <p class="mb-0">Post Code</p>
-              <v-text-field
-                placeholder="Postal Code"
-                v-model="user.post_code"
-                outlined
-              >
-              </v-text-field>
+              <v-col>
+                <p class="mb-0">Post Code</p>
+                <v-text-field
+                  placeholder="Postal Code"
+                  v-model="user.post_code"
+                  outlined
+                >
+                </v-text-field>
 
-              <p class="mb-0" v-if="lgas.length > 0">Local Government</p>
-              <v-select
-                placeholder="LGA"
-                item-text="name" v-if="lgas.length > 0"
-                item-value="id"
-                :items="lgas"
-                v-model="user.lga"
-                required
-                :rules="[(v) => !!v || 'This field is required']"
-                outlined
-              >
-              </v-select>
-            </v-col>
-          </v-row>
-
+                <p class="mb-0" v-if="lgas.length > 0">Local Government</p>
+                <v-select
+                  placeholder="LGA"
+                  item-text="name"
+                  v-if="lgas.length > 0"
+                  item-value="id"
+                  :items="lgas"
+                  v-model="user.lga"
+                  required
+                  :rules="[(v) => !!v || 'This field is required']"
+                  outlined
+                >
+                </v-select>
+              </v-col>
+            </v-row>
           </div>
           <!-- <v-checkbox
             class="my-0"
@@ -145,9 +153,14 @@
               <v-btn
                 class="primary font-weight-bold"
                 @click="
-                  $refs.form.validate() ? (user.deliveryMethod == '1' ? (computeDeliveryFee()) : (user.deliveryfee = 0, $router.push('/shipping'))) : null
+                  $refs.form.validate()
+                    ? user.deliveryMethod == '1'
+                      ? computeDeliveryFee()
+                      : ((user.deliveryfee = 0), $router.push('/shipping'))
+                    : null
                 "
-                block :loading="loading"
+                block
+                :loading="loading"
                 large
                 text
                 >Continue to shipping</v-btn
@@ -172,10 +185,10 @@
             <p>
               {{ i.name }} <br />{{ i.quantity }} x &#8358;{{
                 (isAuthenticated
-                ? user.role == 'wholesaler'
-                  ? i.wholesale_price
-                  : i.price
-                : i.price) | formatPrice
+                  ? user.role == 'wholesaler'
+                    ? i.wholesale_price
+                    : i.price
+                  : i.price) | formatPrice
               }}
             </p>
             <v-divider class="pb-6"></v-divider>
@@ -232,6 +245,7 @@ export default {
       console.log(name)
       let obj = this.states.filter((item) => item.id === name)
       this.lgas = obj[0].lga
+      console.log(this.lgas)
     },
     calculateSubtotal() {
       this.subtotal = 0
@@ -257,18 +271,21 @@ export default {
       const data = {
         state_id: this.user.state,
         lga_id: this.user.lga,
-        weight: this.totalweight
+        weight: this.totalweight,
       }
-      await this.$store.dispatch('delivery/deliveryfee', data).then(response => {
-        this.user.deliveryfee = response.data.delivery_fee
-        this.user.shipping_id = response.data.id
-        this.loading = false
-        this.$router.push('/shipping')
-      }).catch(error => {
-        this.$toast.error(error.response.data.message)
-        this.loading = false
-      })
-    }
+      await this.$store
+        .dispatch('delivery/deliveryfee', data)
+        .then((response) => {
+          this.user.deliveryfee = response.data.delivery_fee
+          this.user.shipping_id = response.data.id
+          this.loading = false
+          this.$router.push('/shipping')
+        })
+        .catch((error) => {
+          this.$toast.error(error.response.data.message)
+          this.loading = false
+        })
+    },
   },
   computed: {
     ...mapGetters('products', ['StoreCart']),

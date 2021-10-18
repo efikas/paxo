@@ -1,13 +1,19 @@
 <template>
   <div>
     <p class="py-2 pl-3">
-    <nuxt-link to="/">  Home </nuxt-link> / <nuxt-link v-if="product.brand" :to="`/brands/${product.brand.name}?brandId=${product.brand.id}`">  {{ product.brand ? product.brand.name : null }} </nuxt-link> /
+      <nuxt-link to="/"> Home </nuxt-link> /
+      <nuxt-link
+        v-if="product.brand"
+        :to="`/brands/${product.brand.name}?brandId=${product.brand.id}`"
+      >
+        {{ product.brand ? product.brand.name : null }}
+      </nuxt-link>
+      /
       {{ product.name }}
     </p>
     <v-container v-if="loading">
-      <v-overlay color="white"  :opacity="1" :value="loading">
+      <v-overlay color="white" :opacity="1" :value="loading">
         <v-progress-circular color="primary" indeterminate size="50" width="8">
-
         </v-progress-circular>
       </v-overlay>
     </v-container>
@@ -26,8 +32,13 @@
             </p>
             <v-divider></v-divider>
             <div class="price mt-5">
-              <del v-if="product.onsale == '1'">&#8358;{{ product.regular_price || 0 | formatPrice }}</del>
-              <p class=" sale-price" :class="product.onsale == '1' ? 'ml-5' : null">
+              <del v-if="product.onsale == '1'"
+                >&#8358;{{ product.regular_price || 0 | formatPrice }}</del
+              >
+              <p
+                class="sale-price"
+                :class="product.onsale == '1' ? 'ml-5' : null"
+              >
                 &#8358;{{
                   (isAuthenticated
                     ? user.role == 'wholesaler'
@@ -58,10 +69,14 @@
               </v-col>
               <v-col class="12">
                 <!-- {{product.stock_status}} -->
-                <v-chip color="error" large v-if="product.stock_status == 'outofstock'">Out of Stock</v-chip>
+                <v-chip
+                  color="error"
+                  large
+                  v-if="product.stock_status == 'outofstock'"
+                  >Out of Stock</v-chip
+                >
                 <div v-else>
-
-                  <v-btn x-large text class="accent"  @click="addToCart()"
+                  <v-btn x-large text class="accent" @click="addToCart()"
                     >Add to Cart</v-btn
                   >
                   <v-btn
@@ -72,12 +87,20 @@
                     >Buy Now</v-btn
                   >
                 </div>
-                 <v-tooltip bottom>
-              <template v-slot:activator="{ on, attrs }">
-                <v-btn @click="isAuthenticated ? addToWishList() : (loginDialog = true)"  v-bind="attrs" v-on="on" icon><v-icon>ri-heart-line</v-icon></v-btn>
-                 </template>
-              <span>Add to Wishlist</span>
-            </v-tooltip>
+                <v-tooltip bottom>
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-btn
+                      @click="
+                        isAuthenticated ? addToWishList() : (loginDialog = true)
+                      "
+                      v-bind="attrs"
+                      v-on="on"
+                      icon
+                      ><v-icon>ri-heart-line</v-icon></v-btn
+                    >
+                  </template>
+                  <span>Add to Wishlist</span>
+                </v-tooltip>
               </v-col>
             </v-row>
             <v-divider></v-divider>
@@ -267,7 +290,8 @@
             'px-8': $vuetify.breakpoint.mdAndUp,
             'px-4': $vuetify.breakpoint.smAndDown,
           }"
-          md="3" cols="6"
+          md="3"
+          cols="6"
         >
           <product-display
             :vendor="i.product.brand ? i.product.brand.name : null"
@@ -279,6 +303,7 @@
             :description="i.product.description"
             :short_description="i.product.short_description"
             :product_object="i.product"
+            :regular_price="i.product.regular_price"
             :product_id="i.product.id"
           />
         </v-col>
@@ -323,7 +348,6 @@
         </v-form>
       </v-card>
     </v-dialog>
-
   </div>
 </template>
 <script>
@@ -371,7 +395,7 @@ export default {
     },
   },
   methods: {
-     async login() {
+    async login() {
       this.loading = true
       await this.$store
         .dispatch('auth/login', this.form)
@@ -387,7 +411,7 @@ export default {
           this.loading = false
         })
     },
-     async addToWishList() {
+    async addToWishList() {
       const data = {
         product_id: this.product.id,
       }
@@ -401,7 +425,7 @@ export default {
         })
     },
     async getSingleProduct() {
-      this.loading =true
+      this.loading = true
       const data = {
         id: this.$route.query.product_id,
       }
@@ -422,11 +446,10 @@ export default {
     },
     increaseQuantity() {
       // console.log(this.product)
-      if((this.quantity + 1) > this.product.stock_quantity){
+      if (this.quantity + 1 > this.product.stock_quantity) {
         this.$toast.error('Out of stock')
-      }else {
+      } else {
         this.quantity += 1
-
       }
     },
     decreaseQuantity() {
@@ -537,7 +560,7 @@ p {
     line-height: 1;
   }
 }
-a{
+a {
   text-decoration: none;
 }
 </style>

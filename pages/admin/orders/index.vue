@@ -17,10 +17,12 @@
         :search="search"
         :loading="loading"
         :items="orders"
-        :headers="headers" :items-per-page="15" hide-default-footer
+        :headers="headers"
+        :items-per-page="15"
+        hide-default-footer
       >
         <template v-slot:item.created_at="{ item }">
-          {{ item.created_at | formatDate }}
+          {{ item.created_at | formatDateTime }}
         </template>
         <template v-slot:item.total="{ item }">
           &#8358; {{ item.total | formatPrice }}
@@ -118,7 +120,11 @@
           </v-menu>
         </template>
       </v-data-table>
-      <v-pagination v-model="page" :length="length" @input="getOrders()"></v-pagination>
+      <v-pagination
+        v-model="page"
+        :length="length"
+        @input="getOrders()"
+      ></v-pagination>
     </v-card>
 
     <v-dialog fullscreen v-if="order_products" v-model="dialog">
@@ -189,8 +195,14 @@
                     <v-col md="3">
                       <div>
                         <h5>Shipping</h5>
-                        <h5>Method: </h5>
-                        {{order_products.delivery_method == '0' ? 'Local Pick (3 Billings way, Oregun, Ikeja Lagos' : order_products.city + ', ' + (order_products.state ? order_products.state : '') }}
+                        <h5>Method:</h5>
+                        {{
+                          order_products.delivery_method == '0'
+                            ? 'Local Pick (3 Billings way, Oregun, Ikeja Lagos'
+                            : order_products.city +
+                              ', ' +
+                              (order_products.state ? order_products.state : '')
+                        }}
                         <!-- {{ order_products.city }}, {{ order_products.state }} -->
                       </div>
                     </v-col>
@@ -219,12 +231,26 @@
                             {{ i.name }}
                           </div>
                         </td>
-                        <td>{{i.quantity}}</td>
-                        <td>&#8358;{{ order_products.user.role == 'wholesaler' ? i.wholesale_price  : i.price | formatPrice }} </td>
-                        <td>&#8358;{{order_products.user.role == 'wholesaler' ? i.quantity * i.wholesale_price : i.quantity * i.price | formatPrice}}</td>
+                        <td>{{ i.quantity }}</td>
+                        <td>
+                          &#8358;{{
+                            order_products.user.role == 'wholesaler'
+                              ? i.wholesale_price
+                              : i.price | formatPrice
+                          }}
+                        </td>
+                        <td>
+                          &#8358;{{
+                            order_products.user.role == 'wholesaler'
+                              ? i.quantity * i.wholesale_price
+                              : (i.quantity * i.price) | formatPrice
+                          }}
+                        </td>
                       </tr>
                       <tr>
-                        <td colspan="3" class="text-right font-weight-">Delivery Fee:</td>
+                        <td colspan="3" class="text-right font-weight-">
+                          Delivery Fee:
+                        </td>
                         <td v-if="order_products.shipping" class="font-weight-">
                           &#8358;{{
                             order_products.shipping.delivery_fee | formatPrice
@@ -232,8 +258,10 @@
                         </td>
                       </tr>
                       <tr>
-                        <td colspan="3" class="text-right font-weight-bold">TOTAL:</td>
-                        <td  class="font-weight-bold">
+                        <td colspan="3" class="text-right font-weight-bold">
+                          TOTAL:
+                        </td>
+                        <td class="font-weight-bold">
                           &#8358;{{ order_products.total | formatPrice }}
                         </td>
                       </tr>
@@ -283,12 +311,12 @@ export default {
   },
   methods: {
     printPage() {
-      window.print();
+      window.print()
     },
     async getOrders() {
       this.loading = true
       const data = {
-        page: this.page
+        page: this.page,
       }
       await this.$store.dispatch('auth/orders', data).then((response) => {
         this.orders = response.data.data
