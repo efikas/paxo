@@ -262,7 +262,7 @@
                           TOTAL:
                         </td>
                         <td class="font-weight-bold">
-                          &#8358;{{ Math.round(order_products.total) | formatPrice }}
+                          &#8358;{{ totalPrice | formatPrice }}
                         </td>
                       </tr>
                     </tbody>
@@ -289,7 +289,7 @@ export default {
     return {
       dialog: false,
       orders: [],
-      order_products: [],
+      order_products: null,
       loading: false,
       page: 1,
       length: 1,
@@ -309,9 +309,45 @@ export default {
   mounted() {
     this.getOrders()
   },
+  computed: {
+    totalPrice() {
+      if (this.order_products) {
+        if (this.order_products.user.role == 'wholesaler') {
+          const productTotal = this.aggregateProduct(
+            this.order_products.product,
+            'wholesale_price'
+          )
+          if (this.order_products.shipping) {
+            return productTotal + this.order_products.shipping.delivery_fee
+          } else {
+            return productTotal
+          }
+        } else {
+          const productTotal = this.aggregateProduct(
+            this.order_products.product,
+            'price'
+          )
+          if (this.order_products.shipping) {
+            return productTotal + this.order_products.shipping.delivery_fee
+          } else {
+            return productTotal
+          }
+        }
+      }
+
+      return ''
+    },
+  },
   methods: {
     printPage() {
       window.print()
+    },
+    aggregateProduct(array, item) {
+      return array.reduce(
+        (accumulator, current) =>
+          accumulator + current[item] * current.quantity,
+        0
+      )
     },
     async getOrders() {
       this.loading = true
