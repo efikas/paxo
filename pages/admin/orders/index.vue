@@ -136,7 +136,7 @@
                 <v-card class="pa-6" flat outlined>
                   <div class="d-flex justify-space-between">
                     <div>
-                      <h2>Order details{{ totalPrice }}</h2>
+                      <h2>Order details</h2>
                       <h5>Order Number: {{ order_products.order_number }}</h5>
                       <p>
                         Payment Channel:
