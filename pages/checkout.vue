@@ -13,7 +13,7 @@
               <p class="mb-0">Email address *</p>
               <v-text-field
                 outlined
-                v-model="user.email"
+                v-model="userDetail.email"
                 required
                 :rules="[(v) => !!v || 'This field is required']"
                 placeholder="Email"
@@ -27,7 +27,7 @@
               <p class="mb-0">Phone number *</p>
               <v-text-field
                 outlined
-                v-model="user.mobile"
+                v-model="userDetail.mobile"
                 required
                 :rules="[(v) => !!v || 'This field is required']"
                 placeholder="Phone number"
@@ -38,7 +38,7 @@
           <h3 class="mt-8">Delivery Information</h3>
           <p>Please select your preferred delivery method</p>
           <v-radio-group
-            v-model="user.deliveryMethod"
+            v-model="userDetail.deliveryMethod"
             required
             :rules="[(v) => !!v || 'This field is required']"
           >
@@ -48,13 +48,13 @@
             ></v-radio>
             <v-radio value="1" label="Home Delivery"></v-radio>
           </v-radio-group>
-          <div v-if="user.deliveryMethod == '1'">
+          <div v-if="userDetail.deliveryMethod == '1'">
             <h3 class="mt-8">Shipping Address</h3>
             <v-row>
               <v-col>
                 <p class="mb-0">First name</p>
                 <v-text-field
-                  v-model="user.first_name"
+                  v-model="userDetail.first_name"
                   placeholder="First name"
                   required
                   :rules="[(v) => !!v || 'This field is required']"
@@ -66,7 +66,7 @@
                 <p class="mb-0">Last name</p>
                 <v-text-field
                   placeholder="Last name"
-                  v-model="user.last_name"
+                  v-model="userDetail.last_name"
                   required
                   :rules="[(v) => !!v || 'This field is required']"
                   outlined
@@ -77,7 +77,7 @@
             <p class="mb-0">Address</p>
             <v-text-field
               placeholder="Address"
-              v-model="user.address"
+              v-model="userDetail.address"
               required
               :rules="[(v) => !!v || 'This field is required']"
               outlined
@@ -85,7 +85,7 @@
             <p class="mb-0">Apartment</p>
             <v-text-field
               placeholder="Apartment, Suite, etc (optional)"
-              v-model="user.apartment"
+              v-model="userDetail.apartment"
               outlined
             ></v-text-field>
             <v-row>
@@ -93,7 +93,7 @@
                 <p class="mb-0">City</p>
                 <v-text-field
                   placeholder="City"
-                  v-model="user.city"
+                  v-model="userDetail.city"
                   required
                   :rules="[(v) => !!v || 'This field is required']"
                   outlined
@@ -104,9 +104,9 @@
                   placeholder="State"
                   item-text="name"
                   item-value="id"
-                  @change="getlga(user.state), (user.lga = '')"
+                  @change="getlga(userDetail.state), (userDetail.lga = '')"
                   :items="states"
-                  v-model="user.state"
+                  v-model="userDetail.state"
                   required
                   :rules="[(v) => !!v || 'This field is required']"
                   outlined
@@ -118,7 +118,7 @@
                 <p class="mb-0">Post Code</p>
                 <v-text-field
                   placeholder="Postal Code"
-                  v-model="user.post_code"
+                  v-model="userDetail.post_code"
                   outlined
                 >
                 </v-text-field>
@@ -130,7 +130,7 @@
                   v-if="lgas.length > 0"
                   item-value="id"
                   :items="lgas"
-                  v-model="user.lga"
+                  v-model="userDetail.lga"
                   required
                   :rules="[(v) => !!v || 'This field is required']"
                   outlined
@@ -154,9 +154,10 @@
                 class="primary font-weight-bold"
                 @click="
                   $refs.form.validate()
-                    ? user.deliveryMethod == '1'
+                    ? userDetail.deliveryMethod == '1'
                       ? computeDeliveryFee()
-                      : ((user.deliveryfee = 0), $router.push('/shipping'))
+                      : ((userDetail.deliveryfee = 0),
+                        $router.push('/shipping'))
                     : null
                 "
                 block
@@ -185,7 +186,7 @@
             <p>
               {{ i.name }} <br />{{ i.quantity }} x &#8358;{{
                 (isAuthenticated
-                  ? user.role == 'wholesaler'
+                  ? userDetail.role == 'wholesaler'
                     ? i.wholesale_price
                     : i.price
                   : i.price) | formatPrice
@@ -225,11 +226,16 @@ export default {
       states: [],
       lgas: [],
       deliveryMethod: '',
+      userDetail: '',
     }
   },
-  mounted() {
+  async mounted() {
     this.calculateSubtotal()
-    this.getStates()
+    await this.getStates()
+    console.log(this.user)
+    this.userDetail = JSON.parse(JSON.stringify(this.user))
+    this.userDetail.state = ''
+
     // console.log(this.StoreCart)
     // if(this.user.state){
     //   this.getlga(this.user.state)
@@ -242,10 +248,8 @@ export default {
       })
     },
     getlga(name) {
-      console.log(name)
       let obj = this.states.filter((item) => item.id === name)
       this.lgas = obj[0].lga
-      console.log(this.lgas)
     },
     calculateSubtotal() {
       this.subtotal = 0
@@ -269,8 +273,8 @@ export default {
     async computeDeliveryFee() {
       this.loading = true
       const data = {
-        state_id: this.user.state,
-        lga_id: this.user.lga,
+        state_id: this.userDetail.state,
+        lga_id: this.userDetail.lga,
         weight: this.totalweight,
       }
       await this.$store
