@@ -21,9 +21,6 @@
             </v-col>
             <v-col class="text-right">
               <nuxt-link to="/checkout">Change</nuxt-link><br />
-              <nuxt-link v-if="user.deliveryMethod == '1'" to="/checkout"
-                >Change</nuxt-link
-              >
             </v-col>
           </v-row>
         </div>

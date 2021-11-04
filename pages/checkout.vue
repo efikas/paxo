@@ -171,6 +171,7 @@
                     ? userDetail.deliveryMethod == '1'
                       ? computeDeliveryFee()
                       : ((userDetail.deliveryfee = 0),
+                        updateUserDetail('deliveryfee', 0),
                         $router.push('/shipping'))
                     : null
                 "
