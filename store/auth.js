@@ -16,6 +16,9 @@ export const mutations = {
   SET_USER: (state, payload) => {
     state.user = payload
   },
+  UPDATE_USER: (state, {key, value}) => {
+    state.user[key] = value;
+  },
   SET_WALLET_BALANCE: (state, payload) => {
     state.wallet_balance = payload
   },

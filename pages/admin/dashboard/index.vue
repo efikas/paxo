@@ -45,17 +45,29 @@
       <template v-slot:item.sn="{ item }">
         {{ orders.indexOf(item) + 1 }}
       </template>
+      <template v-slot:item.user="{ item }">
+        {{ item.user.first_name }} {{ item.user.last_name }}
+      </template>
       <template v-slot:item.created_at="{ item }">
-        {{ item.created_at | formatDate }}
+        {{ item.created_at | formatDateTime }}
+      </template>
+      <template v-slot:item.total="{ item }">
+        &#8358;{{ item.total | formatPrice }}
       </template>
       <template v-slot:item.status="{ item }">
         <v-chip
           small
           :color="
             item.status == 'pending'
-              ? 'error'
+              ? 'info'
               : item.status == 'processing'
               ? 'warning'
+              : item.status == 'cancelled'
+              ? 'error'
+              : item.status == 'on-hold'
+              ? 'secondary'
+              : item.status == 'shipping'
+              ? 'accent'
               : 'success'
           "
         >
@@ -78,14 +90,14 @@
 
           <v-list dense width="250px" class="py-0">
             <v-list-item
-                dense
-                @click=";(order_products = item), (dialog = true)"
-                class="py-0 my-0"
-              >
-                <v-list-item-content class="py-0 my-0">
-                  <v-list-item-title>View Order Details </v-list-item-title>
-                </v-list-item-content>
-              </v-list-item>
+              dense
+              @click=";(order_products = item), (dialog = true)"
+              class="py-0 my-0"
+            >
+              <v-list-item-content class="py-0 my-0">
+                <v-list-item-title>View Order Details </v-list-item-title>
+              </v-list-item-content>
+            </v-list-item>
             <v-list-item
               dense
               @click="updateOrder('confirmed', item.id)"
@@ -206,8 +218,14 @@
                     <v-col md="3">
                       <div>
                         <h5>Shipping</h5>
-                        <h5>Method: </h5>
-                        {{order_products.delivery_method == '0' ? 'Local Pick (3 Billings way, Oregun, Ikeja Lagos' : order_products.city + ', ' + (order_products.state ? order_products.state : '') }}
+                        <h5>Method:</h5>
+                        {{
+                          order_products.delivery_method == '0'
+                            ? 'Local Pick (3 Billings way, Oregun, Ikeja Lagos'
+                            : order_products.city +
+                              ', ' +
+                              (order_products.state ? order_products.state : '')
+                        }}
                         <!-- {{ order_products.city }}, {{ order_products.state }} -->
                       </div>
                     </v-col>
@@ -236,12 +254,26 @@
                             {{ i.name }}
                           </div>
                         </td>
-                        <td>{{i.quantity}}</td>
-                        <td>&#8358;{{ order_products.user.role == 'wholesaler' ? i.wholesale_price  : i.price | formatPrice }} </td>
-                        <td>&#8358;{{order_products.user.role == 'wholesaler' ? i.quantity * i.wholesale_price : i.quantity * i.price | formatPrice}}</td>
+                        <td>{{ i.quantity }}</td>
+                        <td>
+                          &#8358;{{
+                            order_products.user.role == 'wholesaler'
+                              ? i.wholesale_price
+                              : i.price | formatPrice
+                          }}
+                        </td>
+                        <td>
+                          &#8358;{{
+                            order_products.user.role == 'wholesaler'
+                              ? i.quantity * i.wholesale_price
+                              : (i.quantity * i.price) | formatPrice
+                          }}
+                        </td>
                       </tr>
                       <tr>
-                        <td colspan="3" class="text-right font-weight-">Delivery Fee:</td>
+                        <td colspan="3" class="text-right font-weight-">
+                          Delivery Fee:
+                        </td>
                         <td v-if="order_products.shipping" class="font-weight-">
                           &#8358;{{
                             order_products.shipping.delivery_fee | formatPrice
@@ -249,8 +281,10 @@
                         </td>
                       </tr>
                       <tr>
-                        <td colspan="3" class="text-right font-weight-bold">TOTAL:</td>
-                        <td  class="font-weight-bold">
+                        <td colspan="3" class="text-right font-weight-bold">
+                          TOTAL:
+                        </td>
+                        <td class="font-weight-bold">
                           &#8358;{{ order_products.total | formatPrice }}
                         </td>
                       </tr>
@@ -283,6 +317,7 @@ export default {
       loading: false,
       headers: [
         { text: 'S/N', value: 'sn' },
+        { text: 'Customer', value: 'user' },
         { text: 'Delivery Address', value: 'address' },
         { text: 'City', value: 'city' },
         { text: 'Order Number', value: 'order_number' },
@@ -302,7 +337,7 @@ export default {
     async getOrders() {
       this.loading = true
       const data = {
-        page: 1
+        page: 1,
       }
       await this.$store.dispatch('auth/orders', data).then((response) => {
         this.orders = response.data.data

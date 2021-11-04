@@ -24,8 +24,11 @@
         <template v-slot:item.created_at="{ item }">
           {{ item.created_at | formatDateTime }}
         </template>
+        <template v-slot:item.user="{ item }">
+          {{ item.user.first_name }} {{ item.user.last_name }}
+        </template>
         <template v-slot:item.total="{ item }">
-          &#8358; {{ item.total | formatPrice }}
+          &#8358;{{ item.total | formatPrice }}
         </template>
         <template v-slot:item.sn="{ item }">
           {{ orders.indexOf(item) + 1 }}
@@ -35,9 +38,15 @@
             small
             :color="
               item.status == 'pending'
-                ? 'error'
+                ? 'info'
                 : item.status == 'processing'
                 ? 'warning'
+                : item.status == 'cancelled'
+                ? 'error'
+                : item.status == 'on-hold'
+                ? 'secondary'
+                : item.status == 'shipping'
+                ? 'accent'
                 : 'success'
             "
           >
@@ -296,6 +305,7 @@ export default {
       search: '',
       headers: [
         { text: 'S/N', value: 'sn' },
+        { text: 'Customer', value: 'user' },
         { text: 'Delivery Address', value: 'address' },
         { text: 'City', value: 'city' },
         { text: 'Order Number', value: 'order_number' },

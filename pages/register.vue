@@ -30,7 +30,7 @@
                 required
                 v-model="form.full_name"
                 :rules="(v) => !!v || 'This field is required'"
-                placeholder="Full Name"
+                placeholder="Jane Thomas"
               ></v-text-field>
               <!-- <v-text-field
                 outlined

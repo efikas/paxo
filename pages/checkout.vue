@@ -14,6 +14,7 @@
               <v-text-field
                 outlined
                 v-model="userDetail.email"
+                @change="updateUserDetail('email', userDetail.email)"
                 required
                 :rules="[(v) => !!v || 'This field is required']"
                 placeholder="Email"
@@ -28,6 +29,7 @@
               <v-text-field
                 outlined
                 v-model="userDetail.mobile"
+                @change="updateUserDetail('mobile', userDetail.mobile)"
                 required
                 :rules="[(v) => !!v || 'This field is required']"
                 placeholder="Phone number"
@@ -39,6 +41,9 @@
           <p>Please select your preferred delivery method</p>
           <v-radio-group
             v-model="userDetail.deliveryMethod"
+            @change="
+              updateUserDetail('deliveryMethod', userDetail.deliveryMethod)
+            "
             required
             :rules="[(v) => !!v || 'This field is required']"
           >
@@ -55,6 +60,9 @@
                 <p class="mb-0">First name</p>
                 <v-text-field
                   v-model="userDetail.first_name"
+                  @change="
+                    updateUserDetail('first_name', userDetail.first_name)
+                  "
                   placeholder="First name"
                   required
                   :rules="[(v) => !!v || 'This field is required']"
@@ -67,6 +75,7 @@
                 <v-text-field
                   placeholder="Last name"
                   v-model="userDetail.last_name"
+                  @change="updateUserDetail('last_name', userDetail.last_name)"
                   required
                   :rules="[(v) => !!v || 'This field is required']"
                   outlined
@@ -78,6 +87,7 @@
             <v-text-field
               placeholder="Address"
               v-model="userDetail.address"
+              @change="updateUserDetail('address', userDetail.address)"
               required
               :rules="[(v) => !!v || 'This field is required']"
               outlined
@@ -85,6 +95,7 @@
             <p class="mb-0">Apartment</p>
             <v-text-field
               placeholder="Apartment, Suite, etc (optional)"
+              @change="updateUserDetail('apartment', userDetail.apartment)"
               v-model="userDetail.apartment"
               outlined
             ></v-text-field>
@@ -94,6 +105,7 @@
                 <v-text-field
                   placeholder="City"
                   v-model="userDetail.city"
+                  @change="updateUserDetail('city', userDetail.city)"
                   required
                   :rules="[(v) => !!v || 'This field is required']"
                   outlined
@@ -119,6 +131,7 @@
                 <v-text-field
                   placeholder="Postal Code"
                   v-model="userDetail.post_code"
+                  @change="updateUserDetail('post_code', userDetail.post_code)"
                   outlined
                 >
                 </v-text-field>
@@ -131,6 +144,7 @@
                   item-value="id"
                   :items="lgas"
                   v-model="userDetail.lga"
+                  @change="updateUserDetail('lga', userDetail.lga)"
                   required
                   :rules="[(v) => !!v || 'This field is required']"
                   outlined
@@ -213,7 +227,7 @@
   </v-container>
 </template>
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters, mapMutations } from 'vuex'
 export default {
   transition: 'default',
   middleware: 'authenticated',
@@ -232,16 +246,18 @@ export default {
   async mounted() {
     this.calculateSubtotal()
     await this.getStates()
-    console.log(this.user)
     this.userDetail = JSON.parse(JSON.stringify(this.user))
     this.userDetail.state = ''
-
     // console.log(this.StoreCart)
     // if(this.user.state){
     //   this.getlga(this.user.state)
     // }
   },
   methods: {
+    ...mapMutations({ updateUser: 'auth/UPDATE_USER' }),
+    updateUserDetail(key, value) {
+      this.updateUser({ key, value })
+    },
     async getStates() {
       await this.$store.dispatch('states/states').then((response) => {
         this.states = response.data
