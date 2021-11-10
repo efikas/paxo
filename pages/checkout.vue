@@ -297,6 +297,7 @@ export default {
       await this.$store
         .dispatch('delivery/deliveryfee', data)
         .then((response) => {
+          console.log(response)
           this.user.deliveryfee = response.data.delivery_fee
           this.user.shipping_id = response.data.id
           this.loading = false

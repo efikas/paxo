@@ -413,7 +413,15 @@ export const actions = {
     )
     return data
   },
-
+  async allbanks() {
+    let token = JSON.parse(window.localStorage.getItem('paxo')).auth.token
+    const data = await this.$axios.$get('https://api.payant.ng/banks', {
+      headers: {
+        Authorization: 'Bearer ' + token,
+      },
+    })
+    return data
+  },
   async resolveaccount({}, { account_number, bank_code }) {
     let token = JSON.parse(window.localStorage.getItem('paxo')).auth.token
     const data = await this.$axios.$post(

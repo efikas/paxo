@@ -108,6 +108,7 @@
           :paystackkey="paystackkey"
           :reference="reference"
           :callback="callback"
+          :channels="channels"
           :close="close"
           :embed="false"
           id="paystack"
@@ -227,7 +228,7 @@ export default {
       discount: '',
       paystackkey: 'pk_live_7c02e6083d7879d591e497d97392bf4a3e4697f5',
       reference: '',
-
+      channels: ['card', 'bank', 'ussd', 'qr', 'mobile_money', 'bank_transfer'],
       code: '',
     }
   },
@@ -308,12 +309,12 @@ export default {
           this.$toast.success(response.message)
           this.loading = false
           this.discount_percent = response.data.percentage
-          this.$refs.coupon.reset()
+          //this.$refs.coupon.reset()
         })
         .catch((error) => {
           this.$toast.error(error.response.data.message)
           this.loading = false
-          this.$refs.coupon.reset()
+          //this.$refs.coupon.reset()
         })
     },
     async makeOrder() {
@@ -403,13 +404,15 @@ export default {
         email: this.user.email,
         phone: this.user.mobile,
         city: this.user.city,
-        state: this.user.state,
+        lga: this.user.lga?.name,
+        state: this.user.state?.name,
         set_paid: 1,
         use_wallet: parseInt(this.paymentoption),
         product: this.StoreCart,
         reference: this.reference,
         total: this.subtotal + parseInt(this.user.deliveryfee),
         total_product: this.subtotal,
+        code: this.code,
       }
       await this.$store
         .dispatch('products/makeorder', payload)
@@ -449,6 +452,7 @@ export default {
               this.$router.push('/thank-you'))
         })
         .catch((error) => {
+          console.log(error)
           this.$toast.error(error.response.data.message)
           this.loading = this.confirmDialog = false
         })

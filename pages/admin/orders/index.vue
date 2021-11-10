@@ -213,6 +213,10 @@
                               (order_products.state ? order_products.state : '')
                         }}
                         <!-- {{ order_products.city }}, {{ order_products.state }} -->
+                        <h5 class="mt-4" v-if="order_products.coupon">
+                          Coupon
+                        </h5>
+                        {{ order_products.coupon }}
                       </div>
                     </v-col>
                   </v-row>
@@ -310,6 +314,7 @@ export default {
         { text: 'City', value: 'city' },
         { text: 'Order Number', value: 'order_number' },
         { text: 'Order Price', value: 'total' },
+        { text: 'Coupon', value: 'coupon' },
         { text: 'Status', value: 'status' },
         { text: 'Date Created', value: 'created_at' },
         { text: 'Actions', value: 'actions' },

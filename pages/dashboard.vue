@@ -63,7 +63,12 @@
               <v-chip style="border-radius: 0" dark color="primary" large
                 >&#8358;{{ user.balance | formatPrice }}</v-chip
               >
-              <v-btn text :disabled="parseInt(user.balance) <= 500 " class="primary" @click="withdrawDialog = true">
+              <v-btn
+                text
+                :disabled="parseInt(user.balance) <= 500"
+                class="primary"
+                @click="withdrawDialog = true"
+              >
                 <v-icon class="mr-2">payments</v-icon> Withdraw</v-btn
               >
             </v-col>
@@ -245,9 +250,14 @@
       <v-card class="pa-6">
         <h3 class="primary--text">Withdraw Funds</h3>
         <v-divider class="mb-4"></v-divider>
-        Account Number: <b>{{user.account_number}}</b><br />
-        Bank Name: <b v-if="banks.length > 0 && user.bank_code">{{(banks.filter((item) => item.bankCode === user.bank_code))[0].bankName}}</b><br />
-        Account Name: <b>{{user.account_name}}</b>
+        Account Number: <b>{{ user.account_number }}</b
+        ><br />
+        Bank Name:
+        <b v-if="banks.length > 0 && user.bank_code">{{
+          banks.filter((item) => item.bankCode === user.bank_code)
+        }}</b
+        ><br />
+        Account Name: <b>{{ user.account_name }}</b>
         <v-divider class="my-4"></v-divider>
         <v-form lazy-validation v-model="valid" ref="withdraw"> </v-form>
         <v-text-field
@@ -286,7 +296,7 @@
   </v-container>
 </template>
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters, mapMutations } from 'vuex'
 import axios from 'axios'
 export default {
   middleware: 'authenticated',
@@ -294,6 +304,7 @@ export default {
     return {
       withdrawDialog: false,
       withdraw: { amount: '' },
+      selectedItem: '',
       states: [],
       lgas: [],
       banks: [],
@@ -343,13 +354,15 @@ export default {
       loading: false,
     }
   },
-  mounted() {
-    this.getStates()
-    this.getBanks()
-    this.getProfile()
-    this.form = this.user
+  async mounted() {
+    await this.getStates()
+    await this.getBanks()
+    await this.getProfile()
+    this.form = JSON.parse(JSON.stringify(this.user))
   },
   methods: {
+    ...mapMutations({ updateUser: 'auth/UPDATE_USER' }),
+
     async withdrawFunds() {
       this.loading = true
       await this.$store
@@ -370,14 +383,18 @@ export default {
         await this.$store
           .dispatch('auth/resolveaccount', this.form)
           .then((response) => {
-            this.form.account_name = response.data.accountName
-            this.user.account_name = this.form.account_name
-            this.user.account_number = this.form.account_number
-            this.user.bank_code = this.form.bank_code
+            //this.form.account_name = response.data.accountName
+            this.updateUser('account_name', response.data.accountName)
+            this.updateUser('account_number', this.form.account_number)
+            this.updateUser('bank_code', this.form.bank_code)
+            // this.user.account_name = this.form.account_name
+            // this.user.account_number = this.form.account_number
+            // this.user.bank_code = this.form.bank_code
 
             this.loading = false
           })
           .catch((error) => {
+            console.log(error)
             this.$toast.error(error.response.data.message)
 
             this.loading = false
@@ -394,28 +411,27 @@ export default {
         // this.states = response.data
       })
     },
-    // async getBanks() {
-    //   await this.$store.dispatch('auth/banks').then((response) => {
-    //     if(response.data){
-    //       this.banks = response.data
-
-    //     }
-    //   })
-    // },
-    getBanks() {
-      const headers = {
-        Authorization: 'Bearer uvjqzm5xl6bw',
-      }
-      axios
-        .post(
-          'https://sandbox.wallets.africa/transfer/banks/all',
-          {},
-          { headers }
-        )
-        .then((response) => {
+    async getBanks() {
+      await this.$store.dispatch('auth/allbanks').then((response) => {
+        if (response.data) {
           this.banks = response.data
-        })
+        }
+      })
     },
+    // getBanks() {
+    //   const headers = {
+    //     Authorization: 'Bearer uvjqzm5xl6bw',
+    //   }
+    //   axios
+    //     .post(
+    //       'https://sandbox.wallets.africa/transfer/banks/all',
+    //       {},
+    //       { headers }
+    //     )
+    //     .then((response) => {
+    //       this.banks = response.data
+    //     })
+    // },
     getlga(name) {
       let obj = this.states.filter((item) => item.id === name)
       this.lgas = obj[0].lga
