@@ -296,7 +296,7 @@
   </v-container>
 </template>
 <script>
-import { mapGetters, mapMutations } from 'vuex'
+import { mapGetters } from 'vuex'
 import axios from 'axios'
 export default {
   middleware: 'authenticated',
@@ -361,8 +361,6 @@ export default {
     this.form = JSON.parse(JSON.stringify(this.user))
   },
   methods: {
-    ...mapMutations({ updateUser: 'auth/UPDATE_USER' }),
-
     async withdrawFunds() {
       this.loading = true
       await this.$store
@@ -383,13 +381,10 @@ export default {
         await this.$store
           .dispatch('auth/resolveaccount', this.form)
           .then((response) => {
-            //this.form.account_name = response.data.accountName
-            this.updateUser('account_name', response.data.accountName)
-            this.updateUser('account_number', this.form.account_number)
-            this.updateUser('bank_code', this.form.bank_code)
-            // this.user.account_name = this.form.account_name
-            // this.user.account_number = this.form.account_number
-            // this.user.bank_code = this.form.bank_code
+            this.form.account_name = response.data.accountName
+            this.user.account_name = this.form.account_name
+            this.user.account_number = this.form.account_number
+            this.user.bank_code = this.form.bank_code
 
             this.loading = false
           })
