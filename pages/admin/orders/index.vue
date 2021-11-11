@@ -275,7 +275,8 @@
                           TOTAL:
                         </td>
                         <td class="font-weight-bold">
-                          &#8358;{{ totalPrice | formatPrice }}
+                          &#8358;{{ order_products.total | formatPrice }}
+                          <!-- &#8358;{{ totalPrice | formatPrice }} -->
                         </td>
                       </tr>
                     </tbody>
