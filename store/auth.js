@@ -467,7 +467,6 @@ export const actions = {
     })
     return data
   },
-
   async rewardcontent() {
     const data = await this.$axios.$get(
       '/reward/content'

@@ -51,7 +51,7 @@
           style="border-bottom: 1px solid #ddd"
           :to="'/brands/' + item.name + '?brandId=' + item.id"
           dense
-          v-for="(item, i) in brands"
+          v-for="(item, i) in sortBrandsAlphabetically"
           :key="i"
         >
           <v-list-item-content>
@@ -79,6 +79,9 @@ export default {
   computed: {
     brandlength() {
       return Math.ceil(this.brands.length / 7)
+    },
+    sortBrandsAlphabetically() {
+      return this.brands.sort((a, b) => (a.name > b.name ? 1 : -1))
     },
   },
   mounted() {
