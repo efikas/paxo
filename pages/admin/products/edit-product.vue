@@ -1,11 +1,11 @@
 <template>
-<v-container v-if="pageloading">
-      <v-overlay light color="white"  :opacity="1" :value="pageloading">
-        <v-progress-circular color="primary" width="10" indeterminate size="64">
-          Loading...
-        </v-progress-circular>
-      </v-overlay>
-    </v-container>
+  <v-container v-if="pageloading">
+    <v-overlay light color="white" :opacity="1" :value="pageloading">
+      <v-progress-circular color="primary" width="10" indeterminate size="64">
+        Loading...
+      </v-progress-circular>
+    </v-overlay>
+  </v-container>
   <v-container v-else fluid>
     <!-- {{form}} -->
     <h2>Update Product</h2>
@@ -178,15 +178,21 @@
               v-model="form.top_product"
             ></v-checkbox>
             <div>
-
-              {{form.onsale}}
+              {{ form.onsale }}
               <v-checkbox
                 label="Is product on sale?"
                 v-model="form.onsale"
               ></v-checkbox>
-              {{form.duration.from }} - {{form.duration.to}}
-              <v-date-range-picker v-if="form.onsale"  v-model="form.duration" :from.sync="from" :to.sync="to" label="Set Duration" outlined dense/>
-
+              {{ form.duration.from }} - {{ form.duration.to }}
+              <v-date-range-picker
+                v-if="form.onsale"
+                v-model="form.duration"
+                :from.sync="from"
+                :to.sync="to"
+                label="Set Duration"
+                outlined
+                dense
+              />
             </div>
           </div>
           <v-btn
@@ -226,7 +232,7 @@ export default {
         how_to_use: '',
         ingridient: '',
         onsale: null,
-        duration: {}
+        duration: {},
       },
       imagesrc: null,
       editorConfig: {
@@ -276,10 +282,14 @@ export default {
         this.form.description = details.description
         this.form.how_to_use = details.how_to_use
         this.form.ingridient = details.ingridient
-        this.form.onsale = (details.onsale)
+        this.form.onsale = details.onsale
         this.imagesrc = details.avatar
-        this.form.duration.from = new Date(details.duration_from).toISOString().substr(0, 10)
-        this.form.duration.to =new Date(details.duration_to).toISOString().substr(0, 10)
+        this.form.duration.from = new Date(details.duration_from)
+          .toISOString()
+          .substr(0, 10)
+        this.form.duration.to = new Date(details.duration_to)
+          .toISOString()
+          .substr(0, 10)
         // for (var i = 0; i < details.categories.length; i++) {
         //   this.form.category[i] = i.category_id
         // }
@@ -295,9 +305,8 @@ export default {
       })
     },
     getCategories(name) {
-      // console.log(name)
+      this.form.category = []
       let obj = this.sections.filter((item) => item.id === name)
-      // console.log(obj)
       this.categories = obj[0].category
     },
     getSubCategories(name) {
@@ -306,7 +315,6 @@ export default {
         let obj = this.categories.filter((item) => item.id === name[i])
         this.subcategories = [].concat(this.subcategories, obj[0].subcategory)
       }
-      console.log(name)
     },
     async getBrands() {
       await this.$store.dispatch('brand/all').then((response) => {
@@ -366,8 +374,7 @@ export default {
       formData.append('stock_quantity', this.form.stock_quantity)
       formData.append('top_product', this.form.top_product ? 1 : 0)
       formData.append('onsale', this.form.onsale ? 1 : 0)
-       if(this.form.duration){
-
+      if (this.form.duration) {
         formData.append('duration_form', this.form.duration.from)
         formData.append('duration_to', this.form.duration.to)
       }
