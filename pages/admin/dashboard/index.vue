@@ -34,7 +34,7 @@
       <v-col md="4" sm="6" cols="6">
         <v-card class="dash-card pa-4">
           <v-icon style="float: right">ri-user-line</v-icon>
-          <h4 class="primary--text">Toop Selling State</h4>
+          <h4 class="primary--text">Top Selling State</h4>
           <h1 class="secondary--text">{{ dashboard.top_selling_state }}</h1>
         </v-card>
       </v-col>
