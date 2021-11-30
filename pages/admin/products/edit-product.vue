@@ -49,7 +49,7 @@
           <v-select
             label="Product Category"
             multiple
-            @change="getSubCategories(form.category)"
+            @change=";(form.sub_category = []), getSubCategories(form.category)"
             v-model="form.category"
             item-text="name"
             item-value="id"
@@ -297,11 +297,10 @@ export default {
         //   this.form.sub_category[i] = i.subcategory_id
         // }
         this.getCategories(parseInt(details.section_id))
-        this.getSubCategories(this.form.category)
         this.form.category = details.category.split(',').map(Number)
         this.form.sub_category = details.subcategory.split(',').map(Number)
+        this.getSubCategories(this.form.category)
         this.form.top_product = parseInt(details.top_product)
-        console.log(details)
         this.pageloading = false
       })
     },
@@ -311,9 +310,9 @@ export default {
       let obj = this.sections.filter((item) => item.id === name)
       this.categories = obj[0].category
     },
+
     getSubCategories(name) {
       this.subcategories = []
-      this.form.sub_category = []
       for (var i = 0; i < name.length; i++) {
         let obj = this.categories.filter((item) => item.id === name[i])
         this.subcategories = [].concat(this.subcategories, obj[0].subcategory)
@@ -381,6 +380,7 @@ export default {
         formData.append('duration_form', this.form.duration.from)
         formData.append('duration_to', this.form.duration.to)
       }
+
       await this.$store
         .dispatch('products/update', formData)
         .then((response) => {
