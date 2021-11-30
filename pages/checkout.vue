@@ -2,7 +2,6 @@
   <v-container>
     <div class="text-center pb-16">
       <h1>Checkout Information</h1>
-      <!-- {{totalweight}} -->
     </div>
     <v-row>
       <v-col md="8" cols="12">
@@ -282,8 +281,7 @@ export default {
           )
 
         this.totalweight +=
-          parseInt(this.StoreCart[i].weight) *
-          parseInt(this.StoreCart[i].quantity)
+          this.StoreCart[i].weight * this.StoreCart[i].quantity
       }
     },
 

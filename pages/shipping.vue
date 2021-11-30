@@ -230,6 +230,7 @@ export default {
       reference: '',
       channels: ['card', 'bank', 'ussd', 'qr', 'mobile_money', 'bank_transfer'],
       code: '',
+      totalweight: null,
     }
   },
   computed: {
@@ -248,6 +249,7 @@ export default {
       console.log(this.StoreCart)
       this.StoreCart.price = this.StoreCart.wholesale_price
     }
+    this.calculateWeight()
   },
   watch: {
     discount_percent: function () {
@@ -393,9 +395,16 @@ export default {
           console.log(error)
         })
     },
+    calculateWeight() {
+      for (var i = 0; i < this.StoreCart.length; i++) {
+        this.totalweight +=
+          this.StoreCart[i].weight * this.StoreCart[i].quantity
+      }
+    },
     async createOrder() {
       this.loading = true
       const payload = {
+        weight: this.totalweight,
         shipping_id: this.user.shipping_id,
         address: this.user.address,
         delivery_method: this.user.deliveryMethod,
