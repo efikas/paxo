@@ -19,28 +19,48 @@
           </v-btn>
         </v-col>
       </v-row>
-      <v-data-table :loading="loading" :items-per-page="80" hide-default-footer :items="products" :headers="headers" :search="search">
-      <template v-slot:item.product.avatar="{item}">
-        <img :src="item.product.avatar" width="100" alt="">
-      </template>
-      <template v-slot:item.product.price="{item}">
-      &#8358;{{item.product.price | formatPrice}}
-      </template>
-      <template v-slot:item.description="{item}">
-      <div v-html="item.description"></div>
-      </template>
-       <template v-slot:item.stock_quantity="{item}">
-      {{item.stock_quantity}} <v-chip small :color="item.stock_status == 'instock' ? 'success' : 'error'">{{item.stock_status}}</v-chip>
-      </template>
-      <template v-slot:item.actions="{item}">
-      <v-btn :to="'/admin/products/edit-product?productId='+item.product_id" icon ><v-icon color="success">edit</v-icon></v-btn>
-      <v-btn icon @click="deleteProduct(item.product_id)"><v-icon color="error">delete</v-icon></v-btn>
-      </template>
-      <template v-slot:item.product.wholesale_price="{item}">
-      &#8358;{{item.product.wholesale_price | formatPrice}}
-      </template>
+      <v-data-table
+        :loading="loading"
+        :items-per-page="80"
+        hide-default-footer
+        :items="products"
+        :headers="headers"
+        :search="search"
+      >
+        <template v-slot:item.avatar="{ item }">
+          <img :src="item.avatar" width="100" alt="" />
+        </template>
+        <template v-slot:item.price="{ item }">
+          &#8358;{{ item.price | formatPrice }}
+        </template>
+        <template v-slot:item.description="{ item }">
+          <div v-html="item.description"></div>
+        </template>
+        <template v-slot:item.stock_quantity="{ item }">
+          {{ item.stock_quantity }}
+          <v-chip
+            small
+            :color="item.stock_status == 'instock' ? 'success' : 'error'"
+            >{{ item.stock_status }}</v-chip
+          >
+        </template>
+        <template v-slot:item.actions="{ item }">
+          <v-btn :to="'/admin/products/edit-product?productId=' + item.id" icon
+            ><v-icon color="success">edit</v-icon></v-btn
+          >
+          <v-btn icon @click="deleteProduct(item.id)"
+            ><v-icon color="error">delete</v-icon></v-btn
+          >
+        </template>
+        <template v-slot:item.wholesale_price="{ item }">
+          &#8358;{{ item.wholesale_price | formatPrice }}
+        </template>
       </v-data-table>
-      <v-pagination v-model="page" :length="length" @input="getProducts()"></v-pagination>
+      <v-pagination
+        v-model="page"
+        :length="length"
+        @input="getProducts()"
+      ></v-pagination>
     </v-card>
   </v-container>
 </template>
@@ -56,36 +76,43 @@ export default {
       products: [],
       loading: false,
       headers: [
-        { text: 'Product Image', value: 'product.avatar' },
-        { text: 'Product Name', value: 'product.name' },
-        { text: 'Short Description', value: 'product.short_description' },
+        { text: 'Product Image', value: 'avatar' },
+        { text: 'Product Name', value: 'name' },
+        { text: 'Short Description', value: 'short_description' },
         // { text: 'Brand', value: 'product.brand.name' },
-        { text: 'Price', value: 'product.price' },
-        { text: 'Wholesales Price', value: 'product.wholesale_price' },
+        { text: 'Price', value: 'price' },
+        { text: 'Wholesales Price', value: 'wholesale_price' },
         // { text: 'Quantity in Stock', value: 'stock_quantity' },
-        { text: 'Status', value: 'product.status' },
+        { text: 'Status', value: 'status' },
         { text: 'Actions', value: 'actions' },
       ],
     }
   },
   mounted() {
     this.getProducts()
-
   },
   methods: {
-    async getProducts () {
+    async getProducts() {
       this.loading = true
       const data = {
         page: this.page,
         category: '',
         brand: '',
-        price: ''
+        price: '',
       }
-      await this.$store.dispatch('products/all', data).then(response => {
-        this.products = response.data.data
-        this.length = response.data.last_page
-        this.loading = false
-      })
+      // await this.$store.dispatch('products/all', data).then((response) => {
+      //   this.products = response.data.data
+      //   console.log(this.products)
+      //   this.length = response.data.last_page
+      //   this.loading = false
+      // })
+      await this.$store
+        .dispatch('products/allproducts', this.page)
+        .then((response) => {
+          this.products = response.data.data
+          this.length = response.data.last_page
+          this.loading = false
+        })
     },
     async deleteProduct(id) {
       const data = {
@@ -99,6 +126,6 @@ export default {
             this.getProducts()
           }))
     },
-  }
+  },
 }
 </script>

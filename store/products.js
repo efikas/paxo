@@ -152,6 +152,15 @@ export const actions = {
     // }
     return data
   },
+  async allproducts({}, page) {
+    let token = JSON.parse(window.localStorage.getItem('paxo')).auth.token
+    const data = await this.$axios.$get(`admin/products/all-admin-product?page=${page}`, {
+      headers: {
+        Authorization: 'Bearer ' + token
+      }
+    })
+      return data;
+  },
   async filter({}, { page,category,brand,price }) {
     var data
     data = await this.$axios.$get('/products/filter?category_id=' + category+ '&brand_id=' + brand+'&price='+price+ '&page='+page)
