@@ -18,7 +18,7 @@
           <td class="py-5">
             <div class="d-flex align-center">
               <img :src="i.avatar" width="100px" alt="" />
-              <nuxt-link :to="'/single-product?product_id='+i.id">
+              <nuxt-link :to="'/single-product?product_id=' + i.id">
                 <p class="ml-8">{{ i.name }}</p>
               </nuxt-link>
             </div>
@@ -45,7 +45,15 @@
                 ><v-icon>ri-subtract-fill</v-icon></v-btn
               >
               <p class="ma-0">{{ i.quantity }}</p>
-              <v-btn @click="((i.quantity + 1) > i.stock_quantity) ? $toast.error('Out of stock') : i.quantity += 1, calculateSubtotal()" icon small
+              <v-btn
+                @click="
+                  i.quantity + 1 > i.stock_quantity
+                    ? $toast.error('Out of stock')
+                    : (i.quantity += 1),
+                    calculateSubtotal()
+                "
+                icon
+                small
                 ><v-icon>ri-add-fill</v-icon></v-btn
               >
             </div>
@@ -114,9 +122,9 @@ export default {
   },
   mounted() {
     this.calculateSubtotal()
+    this.getUpdatedCart()
   },
   methods: {
-
     calculateSubtotal() {
       this.subtotal = 0
       for (var i = 0; i < this.StoreCart.length; i++) {
@@ -133,6 +141,27 @@ export default {
     },
     removeItem(index) {
       this.$store.dispatch('products/removeFromCart', index)
+    },
+    async getUpdatedCart() {
+      const products = await this.StoreCart.reduce(function (acc, obj) {
+        return [...acc, obj.id]
+      }, [])
+      try {
+        await this.$store
+          .dispatch('products/refreshcart', products)
+          .then((response) => {
+            const newCart = this.StoreCart.reduce(function (acc, obj) {
+              const newData = response.data.map((data) => {
+                return { ...data, quantity: obj.quantity }
+              })
+              return newData
+            }, [])
+            this.$store.commit('products/UPDATE_CART', newCart)
+            this.calculateSubtotal()
+          })
+      } catch (error) {
+        this.$toast.error(error)
+      }
     },
   },
   computed: {

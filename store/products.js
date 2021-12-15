@@ -51,6 +51,9 @@ export const mutations = {
     }
     state.cartItem = carts
   },
+  UPDATE_CART(state, data) {
+    state.StoreCart = data
+  }
 }
 
 export const getters = {
@@ -296,6 +299,10 @@ export const actions = {
     const data = await this.$axios.$post('/product/search', {
       search,
     })
+    return data
+  },
+  async refreshcart({}, product_id) {
+    const data = await this.$axios.$get(`/refresh-cart?product_id=${product_id}`)
     return data
   },
 }

@@ -16,7 +16,13 @@
         <v-expand-transition>
           <v-card
             flat
-            class="py-2 text-center white transition-slow-in-slow-out white--text"
+            class="
+              py-2
+              text-center
+              white
+              transition-slow-in-slow-out
+              white--text
+            "
             style="margin-top: -0px; width: 100%"
           >
             <v-tooltip bottom>
