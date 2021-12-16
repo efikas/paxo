@@ -122,7 +122,9 @@ export default {
   },
   mounted() {
     this.calculateSubtotal()
-    this.getUpdatedCart()
+    if (this.StoreCart.length > 0) {
+      this.getUpdatedCart()
+    }
   },
   methods: {
     calculateSubtotal() {

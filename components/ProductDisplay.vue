@@ -67,6 +67,14 @@
               </template>
               <span>Add to Wishlist</span>
             </v-tooltip>
+            <v-tooltip bottom>
+              <template v-slot:activator="{ on, attrs }">
+                <v-btn icon small v-bind="attrs" v-on="on"
+                  ><v-icon small>ri-user-shared-line</v-icon></v-btn
+                >
+              </template>
+              <span>Refer Product</span>
+            </v-tooltip>
             <!-- <v-btn icon small
               ><v-icon small>ri-exchange-funds-line</v-icon></v-btn
             > -->
@@ -265,6 +273,9 @@ export default {
   },
   computed: {
     ...mapGetters('auth', ['isAuthenticated', 'user']),
+  },
+  mounted() {
+    console.log(this.$route.fullPath)
   },
   methods: {
     async login() {
