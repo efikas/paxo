@@ -69,7 +69,16 @@
             </v-tooltip>
             <v-tooltip bottom>
               <template v-slot:activator="{ on, attrs }">
-                <v-btn icon small v-bind="attrs" v-on="on"
+                <v-btn
+                  icon
+                  small
+                  v-bind="attrs"
+                  v-on="on"
+                  @click="
+                    isAuthenticated
+                      ? copyLink(product_id)
+                      : (loginDialog = true)
+                  "
                   ><v-icon small>ri-user-shared-line</v-icon></v-btn
                 >
               </template>
@@ -274,10 +283,13 @@ export default {
   computed: {
     ...mapGetters('auth', ['isAuthenticated', 'user']),
   },
-  mounted() {
-    console.log(this.$route.fullPath)
-  },
   methods: {
+    copyLink(id) {
+      this.$clipboard(
+        `${window.location.host}/single-product?product_id=${id}&ref=${this.user.referer_id}`
+      )
+      this.$toast.success('Referral Link Copied', 'Success')
+    },
     async login() {
       this.loading = true
       await this.$store

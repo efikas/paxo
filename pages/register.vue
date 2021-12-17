@@ -127,6 +127,7 @@
   </div>
 </template>
 <script>
+import { mapGetters } from 'vuex'
 export default {
   transition: 'default',
   data() {
@@ -156,7 +157,14 @@ export default {
       },
     }
   },
-
+  computed: {
+    ...mapGetters('products', ['referal']),
+  },
+  mounted() {
+    this.form.referred_by = this.$route.query.ref
+      ? this.$route.query.ref
+      : this.referal
+  },
   methods: {
     async register() {
       this.loading = true

@@ -5,10 +5,13 @@
         <v-col md="5">
           <div class="text-center py-5">
             <p>
-              <nuxt-link :to="
+              <nuxt-link
+                :to="
                   '/login' +
                   ($route.query.next ? '?next=' + $route.query.next : '')
-                ">Login</nuxt-link>
+                "
+                >Login</nuxt-link
+              >
               <nuxt-link
                 :to="
                   '/register' +

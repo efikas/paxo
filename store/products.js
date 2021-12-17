@@ -4,6 +4,7 @@ import { Store } from 'vuex'
 export const state = () => ({
   StoreCart: [],
   cartItem: 0,
+  referal: null
 })
 
 export const mutations = {
@@ -61,12 +62,16 @@ export const mutations = {
       carts += state.StoreCart[i].quantity
     }
     state.cartItem = carts
+  },
+  SAVE_REFERAL(state, data) {
+    state.referal = data
   }
 }
 
 export const getters = {
   StoreCart: (state) => state.StoreCart,
   cartItem: (state) => state.cartItem,
+  referal: (state) => state.referal
 }
 
 export const actions = {

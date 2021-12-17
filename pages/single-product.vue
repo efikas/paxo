@@ -383,6 +383,10 @@ export default {
     }
   },
   mounted() {
+    console.log(this.$route.query.ref)
+    if (this.$route.query.ref) {
+      this.$store.commit('products/SAVE_REFERAL', this.$route.query.ref)
+    }
     this.getSingleProduct()
     this.getRelatedProduct()
   },
