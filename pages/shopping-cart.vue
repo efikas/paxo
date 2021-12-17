@@ -148,17 +148,20 @@ export default {
       const products = await this.StoreCart.reduce(function (acc, obj) {
         return [...acc, obj.id]
       }, [])
+
       try {
         await this.$store
           .dispatch('products/refreshcart', products)
           .then((response) => {
-            const newCart = this.StoreCart.reduce(function (acc, obj) {
-              const newData = response.data.map((data) => {
-                return { ...data, quantity: obj.quantity }
-              })
-              return newData
-            }, [])
+            const newCart = response.data.map((cart) => {
+              const stored = this.StoreCart.find((data) => data.id === cart.id)
+              if (stored) {
+                cart.quantity = stored.quantity
+              }
+              return cart
+            })
             this.$store.commit('products/UPDATE_CART', newCart)
+            this.$store.commit('products/ADD_CART_QUANTITY')
             this.calculateSubtotal()
           })
       } catch (error) {

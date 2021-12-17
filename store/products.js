@@ -53,6 +53,14 @@ export const mutations = {
   },
   UPDATE_CART(state, data) {
     state.StoreCart = data
+  },
+  ADD_CART_QUANTITY(state) {
+    var i,
+      carts = 0
+    for (i = 0; i < state.StoreCart.length; i++) {
+      carts += state.StoreCart[i].quantity
+    }
+    state.cartItem = carts
   }
 }
 
@@ -301,7 +309,7 @@ export const actions = {
     })
     return data
   },
-  async refreshcart({}, product_id) {
+  async refreshcart({commit}, product_id) {
     const data = await this.$axios.$get(`/refresh-cart?product_id=${product_id}`)
     return data
   },
