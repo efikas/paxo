@@ -26,42 +26,42 @@ export const mutations = {
     // } else {
     //   state.StoreCart.push(item)
     // }
-    var i,
-      carts = 0
-    for (i = 0; i < state.StoreCart.length; i++) {
-      carts += state.StoreCart[i].quantity
-    }
-    state.cartItem = carts
+    // var i,
+    //   carts = 0
+    // for (i = 0; i < state.StoreCart.length; i++) {
+    //   carts += state.StoreCart[i].quantity
+    // }
+    state.cartItem = state.StoreCart.length
   },
 
   REMOVE_Item(state, index) {
     state.StoreCart.splice(index, 1)
-    var i,
-      carts = 0
-    for (i = 0; i < state.StoreCart.length; i++) {
-      carts += state.StoreCart[i].quantity
-    }
-    state.cartItem = carts
+    // var i,
+    //   carts = 0
+    // for (i = 0; i < state.StoreCart.length; i++) {
+    //   carts += state.StoreCart[i].quantity
+    // }
+    state.cartItem = state.StoreCart.length
   },
   CLEAR_CART(state, index) {
     state.StoreCart = []
-    var i,
-      carts = 0
-    for (i = 0; i < state.StoreCart.length; i++) {
-      carts += state.StoreCart[i].quantity
-    }
-    state.cartItem = carts
+    // var i,
+    //   carts = 0
+    // for (i = 0; i < state.StoreCart.length; i++) {
+    //   carts += state.StoreCart[i].quantity
+    // }
+    state.cartItem = state.StoreCart.length
   },
   UPDATE_CART(state, data) {
     state.StoreCart = data
   },
   ADD_CART_QUANTITY(state) {
-    var i,
-      carts = 0
-    for (i = 0; i < state.StoreCart.length; i++) {
-      carts += state.StoreCart[i].quantity
-    }
-    state.cartItem = carts
+    // var i,
+    //   carts = 0
+    // for (i = 0; i < state.StoreCart.length; i++) {
+    //   carts += state.StoreCart[i].quantity
+    // }
+    state.cartItem = state.StoreCart.length
   },
   SAVE_REFERAL(state, data) {
     state.referal = data
