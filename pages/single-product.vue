@@ -101,6 +101,21 @@
                   </template>
                   <span>Add to Wishlist</span>
                 </v-tooltip>
+                <v-tooltip bottom>
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-btn
+                      icon
+                      small
+                      v-bind="attrs"
+                      v-on="on"
+                      @click="
+                        isAuthenticated ? copyLink() : (loginDialog = true)
+                      "
+                      ><v-icon small>ri-user-shared-line</v-icon></v-btn
+                    >
+                  </template>
+                  <span>Refer Product</span>
+                </v-tooltip>
               </v-col>
             </v-row>
             <v-divider></v-divider>
@@ -413,6 +428,12 @@ export default {
           this.$toast.error(error.response.data.message)
           this.loading = false
         })
+    },
+    copyLink() {
+      this.$clipboard(
+        `${window.location.host}/single-product?product_id=${this.$route.query.product_id}&ref=${this.user.referer_id}`
+      )
+      this.$toast.success('Referral Link Copied', 'Success')
     },
     async addToWishList() {
       const data = {

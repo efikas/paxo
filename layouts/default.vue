@@ -403,7 +403,15 @@
         fixed
         style="height: 50px; position: fixed; z-index: 1; width: 100%"
         flat
-        class="white px-3 d-lg-flex d-md-flex justify-space-between align-center second-nav hidden-sm-and-down"
+        class="
+          white
+          px-3
+          d-lg-flex d-md-flex
+          justify-space-between
+          align-center
+          second-nav
+          hidden-sm-and-down
+        "
       >
         <v-menu
           open-on-hover
@@ -492,7 +500,7 @@
                     :key="j.id"
                     style="text-decoration: none; margin-bottom: 0 !important"
                   >
-                    <p class=" " style="font-size: 13px">
+                    <p class="" style="font-size: 13px">
                       {{ j.name }}
                     </p></a
                   >
@@ -513,7 +521,13 @@
           class="elevation-0"
         >
           <template v-slot:activator="{ attrs, on }">
-            <v-btn class="nav-btn px-3 pt-3" :to="'/section/' + i.name + '?sectionId=' + i.id" v-bind="attrs" v-on="on" text>
+            <v-btn
+              class="nav-btn px-3 pt-3"
+              :to="'/section/' + i.name + '?sectionId=' + i.id"
+              v-bind="attrs"
+              v-on="on"
+              text
+            >
               {{ i.name }}</v-btn
             >
           </template>
@@ -729,7 +743,6 @@
             <h4 class="mb-4">Contact Us</h4>
             <p>Call us 24/7</p>
             <a href="tel:2348146907099">
-
               <h3 class="primary--text">234 814 690 7099</h3>
             </a>
             <a href="mailto:info@paxo.com.ng">info@paxo.com.ng</a>
@@ -965,7 +978,7 @@ export default {
   },
   watch: {
     isAuthenticated: function () {
-      isAuthenticated ? null : window.location.reload()
+      this.isAuthenticated ? null : window.location.reload()
     },
   },
   computed: {
