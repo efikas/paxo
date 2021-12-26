@@ -93,7 +93,15 @@
             label="Coupon Percentage"
             required
             v-model="form.percentage"
-            :rules="[(v) => !!v || 'This field is required']"
+          >
+          </v-text-field>
+
+          <v-text-field
+            dense
+            outlined
+            label="Coupon Amount"
+            required
+            v-model="form.coupon_amount"
           >
           </v-text-field>
 
@@ -157,6 +165,7 @@ export default {
         { text: 'No of Users', value: 'number_of_user' },
         { text: 'Coupon Usage', value: 'coupon_usage' },
         { text: 'Percentage', value: 'percentage' },
+        { text: 'Coupon Amount', value: 'coupon_amount' },
         { text: 'Expiry Date', value: 'expiring_date' },
         { text: 'Creation Date', value: 'created_at' },
         { text: 'Actions', value: 'action' },

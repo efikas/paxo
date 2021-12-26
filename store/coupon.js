@@ -8,11 +8,11 @@ export const mutations = {}
 export const getters = {}
 
 export const actions = {
-  async addnew({ commit }, { name, code, percentage, expiring_date, number_of_user, multiple_usage }) {
+  async addnew({ commit }, { name, code, percentage, coupon_amount, expiring_date, number_of_user, multiple_usage }) {
     let token = JSON.parse(window.localStorage.getItem('paxo')).auth.token
     const data = await this.$axios.$post(
       '/admin/coupon/store',
-      { name, code, percentage, expiring_date, number_of_user, multiple_usage },
+      { name, code, percentage, coupon_amount, expiring_date, number_of_user, multiple_usage },
       {
         headers: {
           Authorization: 'Bearer ' + token,
@@ -22,11 +22,11 @@ export const actions = {
 
     return data
   },
-  async update({ commit }, { name, code, percentage, expiring_date, number_of_user, multiple_usage, id }) {
+  async update({ commit }, { name, code, percentage, coupon_amount, expiring_date, number_of_user, multiple_usage, id }) {
     let token = JSON.parse(window.localStorage.getItem('paxo')).auth.token
     const data = await this.$axios.$put(
       '/admin/coupon/update/' + id,
-      { name, code, percentage, expiring_date, number_of_user, multiple_usage },
+      { name, code, percentage, coupon_amount, expiring_date, number_of_user, multiple_usage },
       {
         headers: {
           Authorization: 'Bearer ' + token,
@@ -45,9 +45,6 @@ export const actions = {
     })
     return data
   },
-
-
-
 
   async delete({}, { id }) {
     let token = JSON.parse(window.localStorage.getItem('paxo')).auth.token

@@ -214,6 +214,7 @@ export default {
   },
   data() {
     return {
+      use_percent: false,
       confirmDialog: false,
       valid: true,
       loading: false,
@@ -280,7 +281,11 @@ export default {
           )
       }
       if (this.discount_percent) {
-        this.discount = (this.discount_percent / 100) * this.subtotal
+        if (this.use_percent) {
+         this.discount = (this.discount_percent / 100) * this.subtotal
+        }else{
+          this.discount = this.discount_percent;
+        }
         this.subtotal -= this.discount
       }
     },
@@ -310,7 +315,13 @@ export default {
         .then((response) => {
           this.$toast.success(response.message)
           this.loading = false
-          this.discount_percent = response.data.percentage
+          if (response.data.percentage != null) {
+            this.use_percent = true;
+            this.discount_percent = response.data.percentage
+          }else{
+            this.use_percent = false
+            this.discount_percent = response.data.coupon_amount
+          }
           //this.$refs.coupon.reset()
         })
         .catch((error) => {

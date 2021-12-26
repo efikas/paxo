@@ -116,6 +116,7 @@
             label="Stock Quantity"
             v-model="form.stock_quantity"
             required
+            min="0"
             type="number"
             :rules="[(v) => !!v || 'This field is required']"
           >
@@ -127,6 +128,7 @@
             label="Product Weight"
             v-model="form.weight"
             suffix="kg"
+            min="0"
             required
             type="number"
             :rules="[(v) => !!v || 'This field is required']"
