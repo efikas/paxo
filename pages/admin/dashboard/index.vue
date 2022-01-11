@@ -183,6 +183,7 @@
                         Paid on
                         {{ order_products.created_at | formatDate }}
                       </p>
+                      
                     </div>
                     <div>
                       <img src="~/static/assets/Paxo Logo Green.png" alt="" />
@@ -291,13 +292,11 @@
                         </td>
                       </tr>
                       <tr>
-                        <td colspan="3" class="text-right font-weight-">
+                        <td colspan="3" class="text-right font-weight-bold">
                           Delivery Fee:
                         </td>
-                        <td v-if="order_products.shipping" class="font-weight-">
-                          &#8358;{{
-                            order_products.shipping.delivery_fee | formatPrice
-                          }}
+                        <td v-if="order_products.shipping" class="font-weight-bold">
+                          &#8358;{{ order_products.shipping.delivery_fee | formatPrice }}
                         </td>
                       </tr>
                       <tr>

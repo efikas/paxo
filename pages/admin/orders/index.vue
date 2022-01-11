@@ -153,6 +153,7 @@
                         Paid on
                         {{ order_products.created_at | formatDate }}
                       </p>
+                      <p v-if="order_products.description != ''">Optional Note: {{order_products.description}}</p>
                     </div>
                     <div>
                       <img src="~/static/assets/Paxo Logo Green.png" alt="" />
