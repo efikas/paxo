@@ -65,7 +65,7 @@
               >
               <v-btn
                 text
-                :disabled="parseInt(user.balance) <= 500"
+                :disabled="parseInt(user.balance) < 1000"
                 class="primary"
                 @click="withdrawDialog = true"
               >
@@ -211,24 +211,22 @@
           <h4 class="mt-6">Bank Account Details</h4>
           <v-divider class="mb-5"></v-divider>
           <v-text-field
-            @keyup="resolveAccount()"
-            v-model="form.account_number"
+            v-model="user.account_number"
             outlined
             label="Account Number"
           >
           </v-text-field>
           <v-autocomplete
-            @change="resolveAccount()"
             label="Select Bank"
             outlined
             :items="banks"
             item-text="bankName"
-            item-value="bankCode"
-            v-model="form.bank_code"
+            item-value="bankName"
+            v-model="user.bank_code"
           >
           </v-autocomplete>
           <v-text-field
-            v-model="form.account_name"
+            v-model="user.account_name"
             label="Account Name"
             outlined
           >
@@ -250,15 +248,15 @@
       <v-card class="pa-6">
         <h3 class="primary--text">Withdraw Funds</h3>
         <v-divider class="mb-4"></v-divider>
-        Account Number: <b>{{ user.account_number }}</b
+        <!-- Account Number: <b>{{ user.account_number }}</b
         ><br />
         Bank Name:
         <b v-if="banks.length > 0 && user.bank_code">{{
-          banks.filter((item) => item.bankCode === user.bank_code)
+          banks.filter((item) => item.bankName === user.bank_code)
         }}</b
         ><br />
         Account Name: <b>{{ user.account_name }}</b>
-        <v-divider class="my-4"></v-divider>
+        <v-divider class="my-4"></v-divider> -->
         <v-form lazy-validation v-model="valid" ref="withdraw"> </v-form>
         <v-text-field
           label="Enter Amount to Withdraw"

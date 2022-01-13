@@ -35,6 +35,13 @@
               ></v-text-field>
             </v-col>
           </v-row>
+          <p class="mb-0">Order Notes (Optional)</p>
+          <v-textarea
+            v-model="userDetail.description"
+            @change="updateUserDetail('description', userDetail.description)"
+            placeholder="Order Note"
+            outlined
+          ></v-textarea>
 
           <h3 class="mt-8">Delivery Information</h3>
           <p>Please select your preferred delivery method</p>

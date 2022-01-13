@@ -140,6 +140,11 @@ export default {
           title: 'Edit Reward Content',
           to: '/admin/rewards',
         },
+        {
+          icon: 'ri-truck-line',
+          title: 'Withdrawal Request',
+          to: '/admin/wallet',
+        },
 
         {
           icon: 'ri-logout-box-line',

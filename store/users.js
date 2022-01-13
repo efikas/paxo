@@ -48,9 +48,35 @@ export const actions = {
 
     return data
   },
+
+  async changestatus({ commit }, { id, role }) {
+    let token = JSON.parse(window.localStorage.getItem('paxo')).auth.token
+    const data = await this.$axios.$post(
+      '/admin/wallet/approve/' + id,
+      { role },
+      {
+        headers: {
+          Authorization: 'Bearer ' + token,
+        },
+      }
+    )
+
+    return data
+  },
+
   async all({}, { page }) {
     let token = JSON.parse(window.localStorage.getItem('paxo')).auth.token
     const data = await this.$axios.$get('/admin/users?page=' + page, {
+      headers: {
+        Authorization: 'Bearer ' + token,
+      },
+    })
+    return data
+  },
+
+  async wallet({}, { page }) {
+    let token = JSON.parse(window.localStorage.getItem('paxo')).auth.token
+    const data = await this.$axios.$get('/admin/wallet/request?page=' + page, {
       headers: {
         Authorization: 'Bearer ' + token,
       },

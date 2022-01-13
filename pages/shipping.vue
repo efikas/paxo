@@ -419,6 +419,7 @@ export default {
         shipping_id: this.user.shipping_id,
         address: this.user.address,
         delivery_method: this.user.deliveryMethod,
+        description: this.user.description,
         country: 'Nigeria',
         device: 'web',
         email: this.user.email,
