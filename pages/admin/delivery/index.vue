@@ -82,7 +82,6 @@
             v-model="form.lga_id"
             item-value="id"
             item-text="name"
-
           >
           </v-select>
           <v-text-field
@@ -159,14 +158,14 @@ export default {
     this.getStates()
   },
   methods: {
-     getlga(name) {
-      let obj = this.states.filter((item) => item.id === name)
-      this.lgas = obj[0].lga
-    },
     async getStates() {
       await this.$store.dispatch('states/allstates').then((response) => {
         this.states = response.data
       })
+    },
+    getlga(name) {
+      let obj = this.states.filter((item) => item.id === name)
+      this.lgas = obj[0].lga
     },
     async deleteDelivery(id) {
       const data = {
@@ -185,6 +184,7 @@ export default {
       await this.$store.dispatch('delivery/all').then((response) => {
         this.deliveries = response.data
         this.loading = false
+        console.log(this.deliveries);
       })
     },
     async getbrands() {

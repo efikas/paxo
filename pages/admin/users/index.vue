@@ -66,6 +66,12 @@
                 </v-list-item-content>
               </v-list-item>
 
+              <v-list-item dense @click="changeRole(item.id, 'next_champ')">
+                <v-list-item-content>
+                  <v-list-item-title>Change to Next Champ </v-list-item-title>
+                </v-list-item-content>
+              </v-list-item>
+
               <v-list-item dense @click="changeRole(item.id, 'admin')">
                 <v-list-item-content>
                   <v-list-item-title>Change Role to Admin </v-list-item-title>

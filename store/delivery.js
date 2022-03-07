@@ -24,18 +24,10 @@ export const actions = {
   },
   async update(
     { commit },
-    { state_id, weight_from, weight_to, delivery_fee, id }
+    { state_id, lga_id, weight_from, weight_to, delivery_fee, id }
   ) {
     let token = JSON.parse(window.localStorage.getItem('paxo')).auth.token
-    const data = await this.$axios.$put(
-      '/admin/delivery/update/' + id,
-      { state_id, weight_from, weight_to, delivery_fee },
-      {
-        headers: {
-          Authorization: 'Bearer ' + token,
-        },
-      }
-    )
+    const data = await this.$axios.$put('/admin/delivery/update/' + id, { state_id, lga_id, weight_from, weight_to, delivery_fee },{headers: {Authorization: 'Bearer ' + token },})
 
     return data
   },
@@ -58,9 +50,13 @@ export const actions = {
     })
     return data
   },
-
   async deliveryfee({},{state_id, weight, lga_id}) {
-    const data = await this.$axios.$get('/delivery-fee/'+state_id + '/'+weight+ (lga_id ?  '/' + lga_id : ''), {})
+    let token = JSON.parse(window.localStorage.getItem('paxo')).auth.token
+    const data = await this.$axios.$get('/delivery-fee/'+state_id + '/'+weight+ (lga_id ?  '/' + lga_id : ''), {
+      headers: {
+        Authorization: 'Bearer ' + token,
+      },
+    })
     return data
   },
 }
