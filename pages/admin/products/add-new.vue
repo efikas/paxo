@@ -310,7 +310,7 @@ export default {
       formData.append('onsale', this.form.onsale ? 1 : 0)
       if(this.form.duration){
 
-        formData.append('duration_form', this.form.duration.from)
+        formData.append('product_duration_from', this.form.duration.from)
         formData.append('duration_to', this.form.duration.to)
       }
       if(this.form.description == ''){

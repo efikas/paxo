@@ -53,7 +53,7 @@
             </p>
           </div>
           <br />
-          <h3 class="">Have a Coupon?</h3>
+          <h3 class="coupon-color">Have a Coupon?</h3>
           <div class="contact-card pa-4 mb-6">
             <v-form lazy-validation ref="coupon" v-model="valid">
               <v-text-field
@@ -133,7 +133,7 @@
             <p>
               {{ i.name }} <br />{{ i.quantity }} x &#8358;{{
                 (isAuthenticated
-                  ? user.role == 'wholesaler'
+                  ? user.role == 'wholesaler' || user.role == 'next_champ'
                     ? i.wholesale_price
                     : i.price
                   : i.price) | formatPrice
@@ -246,7 +246,7 @@ export default {
     this.calculateSubtotal()
     this.createReference()
     // (isAuthenticated ? (user.role == 'wholesaler' ? i.wholesale_price : i.price) : i.price) | formatPrice
-    if (this.user.role == 'wholesaler') {
+    if (this.user.role == 'wholesaler' || this.user.role == 'next_champ') {
       console.log(this.StoreCart)
       this.StoreCart.price = this.StoreCart.wholesale_price
     }
@@ -274,7 +274,7 @@ export default {
           parseInt(this.StoreCart[i].quantity) *
           parseInt(
             this.isAuthenticated
-              ? this.user.role == 'wholesaler'
+              ? this.user.role == 'wholesaler' || this.user.role == 'next_champ'
                 ? this.StoreCart[i].wholesale_price
                 : this.StoreCart[i].price
               : this.StoreCart[i].price
@@ -533,5 +533,8 @@ a {
   margin-bottom: 10px;
   border-radius: 4px;
   border: 2px solid #eaeaea;
+}
+.coupon-color{
+ color: #36bdb4;
 }
 </style>

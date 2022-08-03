@@ -25,7 +25,7 @@
           {{ item.created_at | formatDateTime }}
         </template>
         <template v-slot:item.user="{ item }">
-          {{ item.user.first_name }} {{ item.user.last_name }}
+          <p v-if="item.user">{{ item.user.first_name }} {{ item.user.last_name }}</p>
         </template>
         <template v-slot:item.total="{ item }">
           &#8358;{{ item.total | formatPrice }}
@@ -139,10 +139,10 @@
     <v-dialog fullscreen v-if="order_products" v-model="dialog">
       <v-card>
         <v-container>
-          <v-row align="center" justify="center">
+          <v-row align="center" justify="center" style="margin:auto;">
             <v-col md="9">
               <v-card class="pa-6" width="1000" outlined>
-                <v-card class="pa-6" flat outlined>
+                <v-card rd class="pa-6" flat outlined>
                   <div class="d-flex justify-space-between">
                     <div>
                       <h2>Order details</h2>
@@ -153,7 +153,9 @@
                         Paid on
                         {{ order_products.created_at | formatDate }}
                       </p>
-                      <p v-if="order_products.description != ''">Optional Note: {{order_products.description}}</p>
+                      <p v-if="order_products.description != ''">
+                        Optional Note: {{ order_products.description }}
+                      </p>
                     </div>
                     <div>
                       <img src="~/static/assets/Paxo Logo Green.png" alt="" />
@@ -248,6 +250,7 @@
                         <td>{{ i.quantity }}</td>
                         <td>
                           &#8358;{{
+                            order_products.user.role == 'wholesaler' ||
                             order_products.user.role == 'wholesaler'
                               ? i.wholesale_price
                               : i.price | formatPrice
@@ -255,7 +258,7 @@
                         </td>
                         <td>
                           &#8358;{{
-                            order_products.user.role == 'wholesaler'
+                            order_products.user.role == 'wholesaler' || order_products.user.role == 'next_champ'
                               ? i.quantity * i.wholesale_price
                               : (i.quantity * i.price) | formatPrice
                           }}
@@ -312,7 +315,8 @@ export default {
       headers: [
         { text: 'S/N', value: 'sn' },
         { text: 'Customer', value: 'user' },
-        { text: 'Delivery Address', value: 'address' },
+        { text: 'Email', value: 'email' },
+        { text: 'Address', value: 'address' },
         { text: 'City', value: 'city' },
         { text: 'Order Number', value: 'order_number' },
         { text: 'Order Price', value: 'total' },
@@ -329,7 +333,10 @@ export default {
   computed: {
     totalPrice() {
       if (this.order_products) {
-        if (this.order_products.user.role == 'wholesaler') {
+        if (
+          this.order_products.user.role == 'wholesaler' ||
+          this.order_products.user.role == 'next_champ'
+        ) {
           const productTotal = this.aggregateProduct(
             this.order_products.product,
             'wholesale_price'
@@ -372,6 +379,7 @@ export default {
         page: this.page,
       }
       await this.$store.dispatch('auth/orders', data).then((response) => {
+        console.log(response);
         this.orders = response.data.data
         this.length = response.data.last_page
         this.loading = false
@@ -392,3 +400,7 @@ export default {
   },
 }
 </script>
+
+<style lang="scss" scoped>
+  
+</style>

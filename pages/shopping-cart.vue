@@ -27,7 +27,7 @@
           <td>
             &#8358;{{
               (isAuthenticated
-                ? user.role == 'wholesaler'
+                ? user.role == 'wholesaler' || user.role == 'next_champ'
                   ? i.wholesale_price
                   : i.price
                 : i.price) | formatPrice
@@ -62,7 +62,7 @@
             &#8358;{{
               (parseInt(
                 isAuthenticated
-                  ? user.role == 'wholesaler'
+                  ? user.role == 'wholesaler' || user.role == 'next_champ'
                     ? i.wholesale_price
                     : i.price
                   : i.price
@@ -134,7 +134,7 @@ export default {
           parseInt(this.StoreCart[i].quantity) *
           parseInt(
             this.isAuthenticated
-              ? this.user.role == 'wholesaler'
+              ? this.user.role == 'wholesaler' || this.user.role == 'next_champ'
                 ? this.StoreCart[i].wholesale_price
                 : this.StoreCart[i].price
               : this.StoreCart[i].price

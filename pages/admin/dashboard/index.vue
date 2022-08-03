@@ -278,14 +278,14 @@
                         <td>{{ i.quantity }}</td>
                         <td>
                           &#8358;{{
-                            order_products.user.role == 'wholesaler'
+                            order_products.user.role == 'wholesaler' ||  order_products.user.role == 'next_champ' 
                               ? i.wholesale_price
                               : i.price | formatPrice
                           }}
                         </td>
                         <td>
                           &#8358;{{
-                            order_products.user.role == 'wholesaler'
+                            order_products.user.role == 'wholesaler' ||  order_products.user.role == 'next_champ'
                               ? i.quantity * i.wholesale_price
                               : (i.quantity * i.price) | formatPrice
                           }}

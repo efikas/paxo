@@ -108,11 +108,7 @@
             >&#8358;{{ regular_price | formatPrice }}</del
           >
           <p v-else></p>
-          &#8358;{{
-            (isAuthenticated
-              ? user.role == 'wholesaler'
-                ? wholesale_price
-                : price
+          &#8358;{{(isAuthenticated ? user.role == 'wholesaler' || user.role == 'next_champ' ? wholesale_price: price
               : price) | formatPrice
           }}
         </div>
@@ -143,7 +139,7 @@
                 >
                   &#8358;{{
                     (isAuthenticated
-                      ? user.role == 'wholesaler'
+                      ? user.role == 'wholesaler' || user.role == 'next_champ'
                         ? wholesale_price
                         : price
                       : price) | formatPrice

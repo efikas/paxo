@@ -41,7 +41,7 @@
               >
                 &#8358;{{
                   (isAuthenticated
-                    ? user.role == 'wholesaler'
+                    ? user.role == 'wholesaler' || user.role == 'next_champ'
                       ? product.wholesale_price
                       : product.price
                     : product.price) || 0 | formatPrice
@@ -116,6 +116,7 @@
                   </template>
                   <span>Refer Product</span>
                 </v-tooltip>
+
               </v-col>
             </v-row>
             <v-divider></v-divider>
@@ -292,6 +293,29 @@
           <!-- <p>Sell on Paxo? <nuxt-link to="/register">Register now</nuxt-link></p> -->
         </v-col>
       </v-row>
+
+        <v-col class="hidden-sm-and-down">
+          <!-- <div class="features-widget">
+            <p>
+              <v-icon size="30" class="mr-4">ri-global-line</v-icon> Shipping
+              worldwide
+            </p>
+            <p>
+              <v-icon size="30" class="mr-4">ri-truck-line</v-icon> Free 7-day
+              return if eligible, so easy
+            </p>
+            <p>
+              <v-icon size="30" class="mr-4">ri-bill-line</v-icon>Supplier give
+              bills for this product.
+            </p>
+            <p>
+              <v-icon size="30" class="mr-4">ri-bank-card-line</v-icon>Pay online
+              or when receiving goods
+            </p>
+          </div> -->
+          <!-- <p>Sell on Paxo? <nuxt-link to="/register">Register now</nuxt-link></p> -->
+        </v-col>
+      </v-row>
       <v-row>
         <v-col cols="12">
           <h1>Related Products</h1>
@@ -377,6 +401,18 @@ export default {
       valid: true,
       loading: false,
       loginDialog: false,
+      facebookURL:
+        'http://www.facebook.com/sharer/sharer.php?u=' +
+        encodeURIComponent(
+          `${window.location.host}/single-product?product_id=${this.$route.query.product_id}`
+        ) +
+        '&title=view this product on Paxo website',
+      twitterURL:
+        'https://twitter.com/intent/tweet?text=view this product on Paxo website' +
+        '&url=' +
+        encodeURIComponent(
+          `${window.location.host}/single-product?product_id=${this.$route.query.product_id}`
+        ),
       form: {},
       items: [
         {
@@ -406,6 +442,14 @@ export default {
   },
   computed: {
     ...mapGetters('auth', ['isAuthenticated', 'user']),
+    encodedURL() {
+      return encodeURIComponent(
+        `${window.location.host}/single-product?product_id=${this.$route.query.product_id}&ref=${this.user.referer_id}`
+      )
+    },
+    encodedText() {
+      return encodeURIComponent('Paxo.com.ng')
+    },
   },
   watch: {
     '$route.query.product_id': function () {

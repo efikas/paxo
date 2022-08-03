@@ -207,7 +207,7 @@
             <p>
               {{ i.name }} <br />{{ i.quantity }} x &#8358;{{
                 (isAuthenticated
-                  ? userDetail.role == 'wholesaler'
+                  ? userDetail.role == 'wholesaler' || userDetail.role == 'next_champ'
                     ? i.wholesale_price
                     : i.price
                   : i.price) | formatPrice
@@ -281,7 +281,7 @@ export default {
           parseInt(this.StoreCart[i].quantity) *
           parseInt(
             this.isAuthenticated
-              ? this.user.role == 'wholesaler'
+              ? this.user.role == 'wholesaler' || this.user.role == 'next_champ'
                 ? this.StoreCart[i].wholesale_price
                 : this.StoreCart[i].price
               : this.StoreCart[i].price

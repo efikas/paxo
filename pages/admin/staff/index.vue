@@ -134,7 +134,7 @@ export default {
         id: id,
       }
       confirm(
-        'Are you sure you want to delete this user account?'
+        'Are you sure you want to deactivate this account?'
       ) &&
         (await this.$store
           .dispatch('users/deletestaff', data)

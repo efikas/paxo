@@ -172,6 +172,92 @@
             id="productImage"
           >
           </v-file-input>
+          <v-row>
+            <v-col
+      cols="12"
+      sm="6"
+      md="4"
+    >
+      <v-menu
+        ref="menu"
+        v-model="menu"
+        :close-on-content-click="false"
+        :return-value.sync="date"
+        transition="scale-transition"
+        offset-y
+        min-width="auto"
+      >
+        <template v-slot:activator="{ on, attrs }">
+          <v-text-field
+            v-model="form.product_duration_from"
+            label="Promo Duration Start Date"
+            prepend-icon="mdi-calendar"
+            readonly
+            v-bind="attrs"
+            v-on="on"
+          ></v-text-field>
+        </template>
+        <v-date-picker
+          v-model="form.product_duration_from"
+          no-title
+          scrollable
+        >
+          <v-spacer></v-spacer>
+          <v-btn
+            text
+            color="primary"
+            @click="menu = false"
+          >
+            Cancel
+          </v-btn>
+          <v-btn
+            text
+            color="primary"
+            @click="$refs.menu.save(form.product_duration_from)"
+          >
+            OK
+          </v-btn>
+        </v-date-picker>
+      </v-menu>
+    </v-col>
+            <v-spacer></v-spacer>
+            <v-col cols="12" sm="6" md="4">
+              <v-dialog
+                ref="dialog"
+                v-model="modal"
+                :return-value.sync="form.duration_to"
+                persistent
+                width="290px"
+              >
+                <template v-slot:activator="{ on, attrs }">
+                  <v-text-field
+                    v-model="form.duration_to"
+                    label="Promo Duration End Date"
+                    prepend-icon="mdi-calendar"
+                    readonly
+                    v-bind="attrs"
+                    v-on="on"
+                  ></v-text-field>
+                </template>
+                <v-date-picker v-model="form.duration_to" scrollable>
+                  <v-spacer></v-spacer>
+                  <v-btn text color="primary" @click="modal = false">
+                    Cancel
+                  </v-btn>
+                  <v-btn
+                    text
+                    color="primary"
+                    @click="$refs.dialog.save(form.duration_to)"
+                  >
+                    OK
+                  </v-btn>
+                </v-date-picker>
+              </v-dialog>
+            </v-col>
+
+            <v-spacer></v-spacer>
+          </v-row>
+
           <div class="d-flex justify-space-between">
             <v-checkbox
               label="Mark as Top Product?"
@@ -183,16 +269,16 @@
                 label="Is product on sale?"
                 v-model="form.onsale"
               ></v-checkbox>
-              {{ form.duration.from }} - {{ form.duration.to }}
-              <v-date-range-picker
-                v-if="form.onsale"
+              <!-- {{ form.product_duration_from }} - {{ form.duration_to }} -->
+              <!-- v-if="form.onsale" -->
+              <!-- <v-date-range-picker
                 v-model="form.duration"
                 :from.sync="from"
                 :to.sync="to"
                 label="Set Duration"
                 outlined
                 dense
-              />
+              /> -->
             </div>
           </div>
           <v-btn
@@ -225,6 +311,14 @@ export default {
       valid: true,
       loading: false,
       pageloading: true,
+      date: new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
+        .toISOString()
+        .substr(0, 10),
+      menu: false,
+      modal: false,
+      modal2: false,
+      modal3: false,
+      menu2: false,
       form: {
         sale_price: '',
         short_description: '',
@@ -232,7 +326,9 @@ export default {
         how_to_use: '',
         ingridient: '',
         onsale: null,
-        duration: {},
+        product_duration_from: '',
+        duration_to: '',
+        // duration: {},
       },
       imagesrc: null,
       editorConfig: {
@@ -284,12 +380,8 @@ export default {
         this.form.ingridient = details.ingridient
         this.form.onsale = details.onsale
         this.imagesrc = details.avatar
-        this.form.duration.from = new Date(details.duration_from)
-          .toISOString()
-          .substr(0, 10)
-        this.form.duration.to = new Date(details.duration_to)
-          .toISOString()
-          .substr(0, 10)
+        this.form.product_duration_from = details.product_duration_from
+        this.form.duration_to = details.duration_to
         // for (var i = 0; i < details.categories.length; i++) {
         //   this.form.category[i] = i.category_id
         // }
@@ -346,7 +438,6 @@ export default {
       let formData = new FormData()
       var categories = this.form.category
       // var categorylist = categories.split(',')
-      // console.log(categories)
       for (var i = 0; i < categories.length; i++) {
         formData.append('category_id[' + i + ']', JSON.stringify(categories[i]))
       }
@@ -376,11 +467,13 @@ export default {
       formData.append('stock_quantity', this.form.stock_quantity)
       formData.append('top_product', this.form.top_product ? 1 : 0)
       formData.append('onsale', this.form.onsale ? 1 : 0)
-      if (this.form.duration) {
-        formData.append('duration_form', this.form.duration.from)
-        formData.append('duration_to', this.form.duration.to)
-      }
-
+      formData.append('product_duration_from', this.form.product_duration_from)
+      formData.append('duration_to', this.form.duration_to)
+      // if (this.form.duration) {
+      //   formData.append('product_duration_from', this.form.duration.from)
+      //   formData.append('duration_to', this.form.duration.to)
+      // }
+      // console.log(formData)
       await this.$store
         .dispatch('products/update', formData)
         .then((response) => {

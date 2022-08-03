@@ -79,6 +79,7 @@
               </v-list-item>
             </v-list>
           </v-menu>
+           <v-btn icon @click="deleteUser(item.id)"  ><v-icon color="error">ri-delete-bin-line</v-icon></v-btn>
         </template>
       </v-data-table>
       <v-pagination
@@ -133,6 +134,20 @@ export default {
       await this.$store.dispatch('users/changerole', data).then((response) => {
        this.getUsers()
       })
+    },
+     async deleteUser(id) {
+      const data = {
+        id: id,
+      }
+      confirm(
+        'Are you sure you want to deactivate this account?'
+      ) &&
+        (await this.$store
+          .dispatch('users/deletestaff', data)
+          .then((response) => {
+            this.$toast.success(response.message)
+            this.getUsers()
+          }))
     },
   },
 }
