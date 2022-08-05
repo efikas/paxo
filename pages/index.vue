@@ -26,51 +26,8 @@
         </nuxt-link>
       </v-col>
     </v-row>
-    <v-row  :class="{'px-8':$vuetify.breakpoint.mdAndUp}">
-      <v-col md="4" v-for="i in brands" :key="i.id">
-        <v-img
-          @click="$router.push('/brands/'+i.name+'?brandId='+i.id)"
-          class="brands-img elevation-2" :class="{ 'h-200' : $vuetify.breakpoint.smAndDown}"
-          height="250"
-          :src="i.avatar"
-        ></v-img>
-      </v-col>
-    </v-row>
 
-
-
-
-
-    <!-- <v-row :class="{'px-8':$vuetify.breakpoint.mdAndUp}">
-      <v-col md="4" v-for="i in brands.slice(11, 40)" :key="i.id">
-        <v-img
-          @click="$router.push('/brands/'+i.name+'?brandId='+i.id)"
-          class="brands-img elevation-2"
-          height="250" :class="{ 'h-200' : $vuetify.breakpoint.smAndDown}"
-          :src="i.avatar"
-        ></v-img>
-      </v-col>
-    </v-row> -->
-
-    <div style="background-color: #f5f5f5" class=" py-16 mt-7" :class="{'pa-10':$vuetify.breakpoint.mdAndUp,'px-4':$vuetify.breakpoint.smAndDown}">
-      <h3 style="font-size: 20px; font-weight: 400">TOP BRANDS</h3>
-      <v-row class="mt-6">
-        <v-col v-for="i in topbrands" :key="i" md="3" cols="12">
-          <v-card class="pa" height="99.4" flat :to="'/brands/'+i.name+'?brandId='+i.brand_id">
-            <v-img
-              class="brands-img"
-              height="95"
-              contain
-              width="100%"
-              :src="i.avatar"
-              alt=""
-            >
-            </v-img>
-          </v-card>
-        </v-col>
-      </v-row>
-    </div>
-    <v-row class="mt-10 " :class="{'px-8':$vuetify.breakpoint.mdAndUp,'px-4':$vuetify.breakpoint.smAndDown}">
+   <v-row class="mt-10 " :class="{'px-8':$vuetify.breakpoint.mdAndUp,'px-4':$vuetify.breakpoint.smAndDown}">
       <v-col md="6" cols="9" class="py-0 ma-0">
         <p class="deal-text">Deal of the Day</p>
       </v-col>
@@ -188,6 +145,53 @@
         </div>
       </div>
     </div>
+
+
+    <v-row  :class="{'px-8':$vuetify.breakpoint.mdAndUp}">
+      <v-col md="4" v-for="i in brands" :key="i.id">
+        <v-img
+          @click="$router.push('/brands/'+i.name+'?brandId='+i.id)"
+          class="brands-img elevation-2" :class="{ 'h-200' : $vuetify.breakpoint.smAndDown}"
+          height="250"
+          :src="i.avatar"
+        ></v-img>
+      </v-col>
+    </v-row>
+
+
+
+
+
+    <!-- <v-row :class="{'px-8':$vuetify.breakpoint.mdAndUp}">
+      <v-col md="4" v-for="i in brands.slice(11, 40)" :key="i.id">
+        <v-img
+          @click="$router.push('/brands/'+i.name+'?brandId='+i.id)"
+          class="brands-img elevation-2"
+          height="250" :class="{ 'h-200' : $vuetify.breakpoint.smAndDown}"
+          :src="i.avatar"
+        ></v-img>
+      </v-col>
+    </v-row> -->
+
+    <div style="background-color: #f5f5f5" class=" py-16 mt-7" :class="{'pa-10':$vuetify.breakpoint.mdAndUp,'px-4':$vuetify.breakpoint.smAndDown}">
+      <h3 style="font-size: 20px; font-weight: 400">TOP BRANDS</h3>
+      <v-row class="mt-6">
+        <v-col v-for="i in topbrands" :key="i" md="3" cols="12">
+          <v-card class="pa" height="99.4" flat :to="'/brands/'+i.name+'?brandId='+i.brand_id">
+            <v-img
+              class="brands-img"
+              height="95"
+              contain
+              width="100%"
+              :src="i.avatar"
+              alt=""
+            >
+            </v-img>
+          </v-card>
+        </v-col>
+      </v-row>
+    </div>
+    
 
     <div style="background-color: #f5f5f5" class="pa-10 py-16 mt-7" :class="{'px-10':$vuetify.breakpoint.mdAndUp,'px-4':$vuetify.breakpoint.smAndDown}">
       <h3 style="font-size: 20px; font-weight: 400">TOP CATEGORIES</h3>
