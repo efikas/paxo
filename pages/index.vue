@@ -26,7 +26,7 @@
         </nuxt-link>
       </v-col>
     </v-row>
-
+    
    <v-row class="mt-10 " :class="{'px-8':$vuetify.breakpoint.mdAndUp,'px-4':$vuetify.breakpoint.smAndDown}">
       <v-col md="6" cols="9" class="py-0 ma-0">
         <p class="deal-text">Deal of the Day</p>

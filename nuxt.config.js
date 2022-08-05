@@ -10,7 +10,7 @@ export default {
   head: {
     titleTemplate: '%s - paxo',
     title:
-      'Paxo Health & Beauth | Your Online Beauty Store - Shop Affordable Cosmetics',
+      'Paxo Health & Beauty | Your Online Beauty Store - Shop Affordable Cosmetics',
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
