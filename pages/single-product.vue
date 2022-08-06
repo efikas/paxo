@@ -116,7 +116,20 @@
                   </template>
                   <span>Refer Product</span>
                 </v-tooltip>
-
+               <v-tooltip bottom>
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-btn
+                      @click="
+                         ShareDialog = true
+                      "
+                      v-bind="attrs"
+                      v-on="on"
+                      icon
+                      ><v-icon>ri-share-line</v-icon></v-btn
+                    >
+                  </template>
+                  <span>Share</span>
+                </v-tooltip>
               </v-col>
             </v-row>
             <v-divider></v-divider>
@@ -387,10 +400,55 @@
         </v-form>
       </v-card>
     </v-dialog>
+    <v-dialog v-model="ShareDialog" width="450px">
+      <v-card class="pa-8">
+        <h2 class="text-center mb-8">Copy link or share to socials?</h2>
+        <v-divider></v-divider>
+        <v-form lazy-validation v-model="valid" ref="login">
+          <v-text-field
+            v-model="firstUrl"
+            outlined
+            
+            placeholder="Share Product Link"
+          ></v-text-field>
+          
+        
+          <v-btn
+            block
+            :loading="loading"
+            @click="TwitterLink()"
+            large
+            text
+            class="primary mb-4"
+            ><i class="ri-twitter-fill"></i>
+          </v-btn>
+          <v-btn
+            block
+            :loading="loading"
+            @click="FacebookLink()"
+            large
+            text
+            class="primary mb-4"
+            ><i class="ri-facebook-fill"></i>
+          </v-btn>
+          <v-btn
+            block
+            :loading="loading"
+            @click="WhatsappLink()"
+            large
+            text
+            class="primary mb-4"
+            ><i class="ri-whatsapp-fill"></i>
+          </v-btn>
+         
+        </v-form>
+      </v-card>
+    </v-dialog>
   </div>
 </template>
 <script>
 import { mapGetters } from 'vuex'
+
 export default {
   transition: 'default',
   data() {
@@ -400,7 +458,10 @@ export default {
       quantity: 1,
       valid: true,
       loading: false,
+      firstUrl: encodeURI(document.location.href),
       loginDialog: false,
+      ShareDialog: false,
+      
       facebookURL:
         'http://www.facebook.com/sharer/sharer.php?u=' +
         encodeURIComponent(
@@ -478,6 +539,23 @@ export default {
         `${window.location.host}/single-product?product_id=${this.$route.query.product_id}&ref=${this.user.referer_id}`
       )
       this.$toast.success('Referral Link Copied', 'Success')
+    },
+    TwitterLink(){
+     let postUrl = encodeURI(document.location.href)
+     let postTitle = encodeURI("Hi everyone, please check this out: ")
+     location.href = `https://twitter.com/share?url=${postUrl}&text=${postTitle}`
+    
+    },
+    FacebookLink(){
+     let postUrl = encodeURI(document.location.href)
+     let postTitle = encodeURI("Hi everyone, please check this out: ")
+     location.href = `https://www.facebook.com/sharer.php?u=${postUrl}`
+    },
+    WhatsappLink(){
+    
+    let postUrl = encodeURI(document.location.href)
+     let postTitle = encodeURI("Hi everyone, please check this out: ")
+    location.href = `https://api.whatsapp.com/send?phone=whatsappphonenumber&text=${postUrl}`
     },
     async addToWishList() {
       const data = {
@@ -559,6 +637,7 @@ export default {
     },
   },
 }
+
 </script>
 <style lang="scss" scoped>
 h5 {
@@ -632,3 +711,17 @@ a {
   text-decoration: none;
 }
 </style>
+
+/* 
+Social Share Links:
+WhatsApp:
+https://wa.me/?text=[post-title] [post-url]
+Facebook:
+https://www.facebook.com/sharer.php?u=[post-url]
+Twitter:
+https://twitter.com/share?url=[post-url]&text=[post-title]
+Pinterest:
+https://pinterest.com/pin/create/bookmarklet/?media=[post-img]&url=[post-url]&is_video=[is_video]&description=[post-title]
+LinkedIn:
+https://www.linkedin.com/shareArticle?url=[post-url]&title=[post-title]
+*/
