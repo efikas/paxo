@@ -405,14 +405,43 @@
         <h2 class="text-center mb-8">Copy link or share to socials?</h2>
         <v-divider></v-divider>
         <v-form lazy-validation v-model="valid" ref="login">
+          <v-row>
+
+          <v-col>
+          
           <v-text-field
             v-model="firstUrl"
             outlined
-            
+            readonly
             placeholder="Share Product Link"
+            v-on:focus="$event.target.select()" 
+            ref="clone"
           ></v-text-field>
+
+
+          </v-col>
+
+          <v-col>
           
-        
+          <v-btn
+            block
+            :loading="loading"
+            @click="copyUrl"
+            large
+            text
+            class="primary mb-4"
+            v-clipboard:copy="firstUrl"
+            v-clipboard:success="onCopy"
+            v-clipboard:error="onError"
+            >Copy</v-btn>
+          
+          </v-col>
+          
+          </v-row>
+          
+          <v-row>
+          <v-col>
+          
           <v-btn
             block
             :loading="loading"
@@ -422,6 +451,11 @@
             class="primary mb-4"
             ><i class="ri-twitter-fill"></i>
           </v-btn>
+          
+          </v-col>
+
+          <v-col>
+          
           <v-btn
             block
             :loading="loading"
@@ -431,6 +465,11 @@
             class="primary mb-4"
             ><i class="ri-facebook-fill"></i>
           </v-btn>
+
+          </v-col>
+          
+
+          <v-col>
           <v-btn
             block
             :loading="loading"
@@ -440,6 +479,14 @@
             class="primary mb-4"
             ><i class="ri-whatsapp-fill"></i>
           </v-btn>
+          
+          
+          </v-col>
+          </v-row>
+        
+          
+          
+          
          
         </v-form>
       </v-card>
@@ -448,6 +495,9 @@
 </template>
 <script>
 import { mapGetters } from 'vuex'
+
+
+
 
 export default {
   transition: 'default',
@@ -461,7 +511,6 @@ export default {
       firstUrl: encodeURI(document.location.href),
       loginDialog: false,
       ShareDialog: false,
-      
       facebookURL:
         'http://www.facebook.com/sharer/sharer.php?u=' +
         encodeURIComponent(
@@ -518,6 +567,13 @@ export default {
     },
   },
   methods: {
+    onCopy: function (e) {
+                alert('You just copied the following text to the clipboard: ' + document.location.href)
+            },
+            onError: function (e) {
+                alert('Failed to copy the text to the clipboard')
+                console.log(e);
+            },
     async login() {
       this.loading = true
       await this.$store
@@ -540,6 +596,10 @@ export default {
       )
       this.$toast.success('Referral Link Copied', 'Success')
     },
+    copyUrl(){
+     this.$refs.clone.focus();
+      document.execCommand('copy');
+    },
     TwitterLink(){
      let postUrl = encodeURI(document.location.href)
      let postTitle = encodeURI("Hi everyone, please check this out: ")
@@ -556,6 +616,10 @@ export default {
     let postUrl = encodeURI(document.location.href)
      let postTitle = encodeURI("Hi everyone, please check this out: ")
     location.href = `https://api.whatsapp.com/send?phone=whatsappphonenumber&text=${postUrl}`
+    },
+    CopyToClipBoard(){
+    
+     alert("Copied")
     },
     async addToWishList() {
       const data = {
