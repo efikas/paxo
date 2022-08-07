@@ -283,6 +283,8 @@
               </v-tab-item>
             </v-tabs>
           </div>
+          
+
         </v-col>
         <v-col class="hidden-sm-and-down">
           <!-- <div class="features-widget">
@@ -359,6 +361,9 @@
             :product_id="i.product.id"
           />
         </v-col>
+
+           
+
       </v-row>
     </v-container>
     <v-dialog v-model="loginDialog" width="450px">
@@ -492,10 +497,12 @@
       </v-card>
     </v-dialog>
   </div>
+
+
+  
 </template>
 <script>
 import { mapGetters } from 'vuex'
-
 
 
 

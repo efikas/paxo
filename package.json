@@ -24,6 +24,8 @@
     "core-js": "^3.6.5",
     "debounce": "^1.2.1",
     "lodash": "^4.17.21",
+    "mdb-vue-ui-kit": "^2.0.0",
+    "mdbootstrap": "^4.20.0",
     "moment": "^2.29.1",
     "nuxt": "^2.14.6",
     "remixicon": "^2.5.0",
