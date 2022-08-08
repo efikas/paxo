@@ -281,6 +281,7 @@ import {mapGetters} from 'vuex'
 import ProductDisplay from '@/components/ProductDisplay'
 import HomePageSlider from '@/components/HomePageSlider'
 import NewArrival from '~/components/NewArrival.vue'
+
 export default {
   transition: 'default',
   components: {
