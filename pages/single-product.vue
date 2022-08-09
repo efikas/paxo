@@ -138,31 +138,52 @@
               </v-col>
             </v-row>
             <v-divider></v-divider>
-            <v-tabs>
-              <v-tabs-slider></v-tabs-slider>
-              <v-tab>Description</v-tab>
-              <!-- <v-tab>Specification</v-tab> -->
-              <v-tab>How To Use</v-tab>
-              <v-tab>Ingredients</v-tab>
-              
-
-              <v-tab-item class="pa-6">
-                <div v-html="product.description || ''"></div>
-              </v-tab-item>
-              <v-tab-item class="pa-6">
-                <div v-html="product.how_to_use || ''"></div>
-              </v-tab-item>
-              <v-tab-item class="pa-6">
-                <div v-html="product.ingridient || ''"></div>
-              </v-tab-item>
-
-              
-            </v-tabs>
+            
           </div>
-          
+
+          <v-expansion-panels focusable>
+    <v-expansion-panel
+      v-for="(item,i) in 1"
+      :key="i"
+    >
+      <v-expansion-panel-header>Description</v-expansion-panel-header>
       
+      <v-expansion-panel-content>
+        <div v-html="product.description || ''"></div>
+      </v-expansion-panel-content>
+    </v-expansion-panel>
+    
+  </v-expansion-panels>
+
+  <v-expansion-panels focusable>
+    <v-expansion-panel
+      v-for="(item,i) in 1"
+      :key="i"
+    >
+      <v-expansion-panel-header>How To Use</v-expansion-panel-header>
       
-        
+      <v-expansion-panel-content>
+        <div v-html="product.how_to_use || ''"></div>
+      </v-expansion-panel-content>
+    </v-expansion-panel>
+    
+  </v-expansion-panels>
+      
+    <v-expansion-panels focusable>
+    <v-expansion-panel
+      v-for="(item,i) in 1"
+      :key="i"
+    >
+      <v-expansion-panel-header>Ingredients</v-expansion-panel-header>
+      
+      <v-expansion-panel-content>
+        <div v-html="product.ingridient || ''"></div>
+      </v-expansion-panel-content>
+    </v-expansion-panel>
+    
+  </v-expansion-panels>
+      
+      <v-divider></v-divider>
       <v-tabs>
               <v-tabs-slider></v-tabs-slider>
               
