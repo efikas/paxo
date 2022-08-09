@@ -65,29 +65,12 @@
                   <v-btn icon small @click="increaseQuantity()"
                     ><v-icon>ri-add-fill</v-icon></v-btn
                   >
+                 
+
+
+
                 </div>
-              </v-col>
-              <v-col class="12">
-                <!-- {{product.stock_status}} -->
-                <v-chip
-                  color="error"
-                  large
-                  v-if="product.stock_status == 'outofstock'"
-                  >Out of Stock</v-chip
-                >
-                <div v-else>
-                  <v-btn x-large text class="accent" @click="addToCart()"
-                    >Add to Cart</v-btn
-                  >
-                  <v-btn
-                    @click="addToCart(), $router.push('/shopping-cart')"
-                    x-large
-                    text
-                    class="accent font-weight-bold"
-                    >Buy Now</v-btn
-                  >
-                </div>
-                <v-tooltip bottom>
+                   <v-tooltip bottom>
                   <template v-slot:activator="{ on, attrs }">
                     <v-btn
                       @click="
@@ -131,6 +114,28 @@
                   <span>Share</span>
                 </v-tooltip>
               </v-col>
+              <v-col class="12">
+                <!-- {{product.stock_status}} -->
+                <v-chip
+                  color="error"
+                  large
+                  v-if="product.stock_status == 'outofstock'"
+                  >Out of Stock</v-chip
+                >
+                <div v-else>
+                  <v-btn x-large text class="accent" @click="addToCart()"
+                    >Add to Cart</v-btn
+                  >
+                  <v-btn
+                    @click="addToCart(), $router.push('/shopping-cart')"
+                    x-large
+                    text
+                    class="accent font-weight-bold"
+                    >Buy Now</v-btn
+                  >
+                </div>
+             
+              </v-col>
             </v-row>
             <v-divider></v-divider>
             <v-tabs>
@@ -139,7 +144,7 @@
               <!-- <v-tab>Specification</v-tab> -->
               <v-tab>How To Use</v-tab>
               <v-tab>Ingredients</v-tab>
-              <v-tab>Reviews</v-tab>
+              
 
               <v-tab-item class="pa-6">
                 <div v-html="product.description || ''"></div>
@@ -151,9 +156,23 @@
                 <div v-html="product.ingridient || ''"></div>
               </v-tab-item>
 
+              
+            </v-tabs>
+          </div>
+          
+      
+      
+        
+      <v-tabs>
+              <v-tabs-slider></v-tabs-slider>
+              
+              
+              <v-tab>Recent Reviews</v-tab>
+
+             
+
               <v-tab-item class="pa-6">
-                <h3>Recent Reviews</h3>
-                <v-divider class="mb-6"></v-divider>
+                
                 <div
                   v-for="(i, index) in product.reviews"
                   :key="index"
@@ -282,9 +301,8 @@
                 </v-row>
               </v-tab-item>
             </v-tabs>
-          </div>
-          
 
+     
         </v-col>
         <v-col class="hidden-sm-and-down">
           <!-- <div class="features-widget">
