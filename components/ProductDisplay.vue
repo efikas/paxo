@@ -166,6 +166,7 @@
                   </div>
                 </v-col>
                 <v-col>
+                
                   <v-btn
                     x-large
                     :disabled="badge == 'instock' ? false : true"
