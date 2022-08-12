@@ -47,15 +47,34 @@
                     : product.price) || 0 | formatPrice
                 }}
               </p>
+              
             </div>
             <!-- <p>Sold by: <span class="font-weight-bold"> {{product.brand}}</span></p> -->
-            <p>{{ product.short_description }}</p>
+            <p>{{ product.short_description }}
+             
+            
+            
+            
+            </p>
             <!-- <div v-html="product.description">
 
             </div> -->
+            
+         
+          <v-btn
+            
+            :loading="loading"
+            @click="isAuthenticated ? copyLink() : (loginDialog = true)"
+            x-small
+            text
+            class="primary mb-2" 
+          
+            >Refer this product</v-btn>
+            
+          
             <v-divider></v-divider>
-            <v-row class="my-3" justify="end" align="end">
-              <v-col md="2" cols="12">
+            <v-row class="my-3 " justify="end" align="end">
+              <v-col md="2" cols="5">
                 <p>Quantity</p>
                 <div class="qty-box pa-2">
                   <v-btn @click="decreaseQuantity()" icon small
@@ -110,7 +129,7 @@
               
             </v-row>
             <v-row class="pb-6 ">
-            <v-col class="12">
+            <v-col class="12" >
                 <!-- {{product.stock_status}} -->
                 <v-chip
                   color="error"
@@ -119,14 +138,14 @@
                   >Out of Stock</v-chip
                 >
                 <div v-else>
-                  <v-btn x-large text class="accent" @click="addToCart()"
+                  <v-btn x-large text class="accent mt-2 " @click="addToCart()"
                     >Add to Cart</v-btn
                   >
                   <v-btn
                     @click="addToCart(), $router.push('/shopping-cart')"
                     x-large
                     text
-                    class="accent font-weight-bold"
+                    class="accent font-weight-bold px-9 mt-2"
                     >Buy Now</v-btn
                   >
                   
@@ -485,28 +504,20 @@
             >Copy</v-btn>
           
           </v-col>
-        <v-col>
-          <v-btn
-            block
-            :loading="loading"
-            @click="isAuthenticated ? copyLink() : (loginDialog = true)"
-            large
-            text
-            class="primary mb-4"
-          
-            >Referral</v-btn>
-          
-          </v-col>
+        
           
           </v-row>
           
           <v-row align="center"
       justify="center" >
           <h2 class="text-center">Share this product</h2>
+          
           </v-row>
-          <v-row>
+          <v-row 
+          
+          >
           <v-col align="center"
-      justify="center">
+      justify="center" >
           
           <v-btn
             fab
@@ -515,8 +526,8 @@
             @click="TwitterLink()"
             large
             text
-            class="primary mb-4 rounded-circle"
-            ><i class="ri-twitter-fill"></i>
+            class="primary mb-2 rounded-circle "
+            ><v-icon large >ri-twitter-fill</v-icon>
           </v-btn>
           
           </v-col>
@@ -533,8 +544,8 @@
             @click="FacebookLink()"
             large
             text
-            class="primary mb-4  rounded-circle"
-            ><i class="ri-facebook-fill"></i>
+            class="primary mb-2  rounded-circle"
+            ><v-icon large >ri-facebook-fill</v-icon>
           </v-btn>
 
           </v-col>
@@ -551,8 +562,8 @@
             @click="WhatsappLink()"
             large
             text
-            class="primary mb-4  rounded-circle"
-            ><i class="ri-whatsapp-fill"></i>
+            class="primary mb-2  rounded-circle"
+            ><v-icon large >ri-whatsapp-fill</v-icon>
           </v-btn>
           
           
@@ -571,6 +582,8 @@
 
   
 </template>
+<div id="fb-root"></div>
+<script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_GB/sdk.js#xfbml=1&version=v14.0" nonce="GTfjsWYx"></script>
 <script>
 import { mapGetters } from 'vuex'
 
@@ -660,6 +673,9 @@ export default {
     '$route.query.product_id': function () {
       this.getSingleProduct()
     },
+    function () {
+        this.firstUrl = encodeURI(document.location.href)
+    }
   },
   methods: {
    
@@ -686,6 +702,7 @@ export default {
       this.$toast.success('Referral Link Copied', 'Success')
     },
     copyUrl(){
+      
      this.$refs.clone.focus();
       document.execCommand('copy');
       this.$toast.success('Link Copied', 'Success')
@@ -693,19 +710,22 @@ export default {
     TwitterLink(){
      let postUrl = encodeURI(document.location.href)
      let postTitle = encodeURI("Hi everyone, please check this out: ")
-     location.href = `https://twitter.com/share?url=${postUrl}&text=${postTitle}`
+     let locationUrl = `https://twitter.com/share?url=${postUrl}&text=${postTitle}`
+     window.open(locationUrl)
     
     },
     FacebookLink(){
      let postUrl = encodeURI(document.location.href)
      let postTitle = encodeURI("Hi everyone, please check this out: ")
-     location.href = `https://www.facebook.com/sharer.php?u=${postUrl}`
+     let locationUrl  = `https://www.facebook.com/sharer/sharer.php?u=${postUrl}`
+     window.open(locationUrl)
     },
     WhatsappLink(){
     
     let postUrl = encodeURI(document.location.href)
-     let postTitle = encodeURI("Hi everyone, please check this out: ")
-    location.href = `https://api.whatsapp.com/send?text=${postUrl}`
+    let postTitle = encodeURI("Hi everyone, please check this out: ")
+    let locationUrl  = `https://api.whatsapp.com/send?text=${postUrl}`
+    window.open(locationUrl)
     },
     CopyToClipBoard(){
     

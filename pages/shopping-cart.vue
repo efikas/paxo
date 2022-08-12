@@ -3,7 +3,9 @@
     <div class="text-center pb-16">
       <h1>Shopping Cart</h1>
     </div>
-    <v-simple-table>
+    <v-simple-table
+    
+    >
       <thead>
         <tr>
           <th>PRODUCT</th>
