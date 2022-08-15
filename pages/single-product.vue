@@ -241,7 +241,7 @@
                     <p class="mb-6">1 review</p>
 
                     <div class="d-flex">
-                      <p class="pa-0 ma-0">5 star</p>
+                      <p class="pa-0 ma-0">5<i class="ri-star-line"></i></p>
                       <v-progress-linear
                         class="mt-2 mx-3"
                         style="max-width: 260px"
@@ -251,7 +251,7 @@
                     </div>
 
                     <div class="d-flex">
-                      <p class="pa-0 ma-0">4 star</p>
+                      <p class="pa-0 ma-0">4<i class="ri-star-line"></i></p>
                       <v-progress-linear
                         class="mt-2 mx-3"
                         style="max-width: 260px"
@@ -260,7 +260,7 @@
                       <p>0</p>
                     </div>
                     <div class="d-flex">
-                      <p class="pa-0 ma-0">3 star</p>
+                      <p class="pa-0 ma-0">3<i class="ri-star-line"></i></p>
                       <v-progress-linear
                         class="mt-2 mx-3"
                         style="max-width: 260px"
@@ -269,7 +269,7 @@
                       <p>0</p>
                     </div>
                     <div class="d-flex">
-                      <p class="pa-0 ma-0">2 star</p>
+                      <p class="pa-0 ma-0">2<i class="ri-star-line"></i></p>
                       <v-progress-linear
                         class="mt-2 mx-3"
                         style="max-width: 260px"
@@ -278,7 +278,7 @@
                       <p>0</p>
                     </div>
                     <div class="d-flex">
-                      <p class="pa-0 ma-0">1 star</p>
+                      <p class="pa-0 ma-0">1<i class="ri-star-line"></i></p>
                       <v-progress-linear
                         class="mt-2 mx-3"
                         style="max-width: 260px"
