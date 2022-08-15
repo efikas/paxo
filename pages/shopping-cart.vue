@@ -1,9 +1,11 @@
 <template>
   <v-container>
-    <div class="text-center pb-16">
+    <div class="text-center pb-4">
       <h1>Shopping Cart</h1>
     </div>
-    <v-simple-table>
+    <v-simple-table
+    id="shopTable"
+    >
       <thead>
         <tr>
           <th>PRODUCT</th>
@@ -84,6 +86,82 @@
         </tr>
       </tbody>
     </v-simple-table>
+   <v-card
+    class="mx-auto"
+    id="shopList"
+    tile
+  >
+    
+
+    <v-list-item three-line v-for="(i, index) in StoreCart" :key="index">
+      <v-list-item-content>
+      <nuxt-link :to="'/single-product?product_id=' + i.id">
+        <v-list-item-title>{{ i.name }}</v-list-item-title>
+        </nuxt-link>
+        <v-list-item-subtitle>
+        
+          <v-row>
+          <v-col>
+          <img :src="i.avatar" width="100px" alt="" />
+
+    
+          </v-col>
+          <v-col class="py-6">
+          <div class="qty-box pa-2">
+              <v-btn
+                icon
+                small
+                @click="
+                  i.quantity > 1 ? (i.quantity -= 1) : null, calculateSubtotal()
+                "
+                ><v-icon>ri-subtract-fill</v-icon></v-btn
+              >
+              <p class="ma-0">{{ i.quantity }}</p>
+              <v-btn
+                @click="
+                  i.quantity + 1 > i.stock_quantity
+                    ? $toast.error('Out of stock')
+                    : (i.quantity += 1),
+                    calculateSubtotal()
+                "
+                icon
+                small
+                ><v-icon>ri-add-fill</v-icon></v-btn
+              >
+            </div>
+            <p class ="pt-2" > Price: &#8358;{{
+              (isAuthenticated
+                ? user.role == 'wholesaler' || user.role == 'next_champ'
+                  ? i.wholesale_price
+                  : i.price
+                : i.price) | formatPrice }}</p>
+
+              
+          </v-col>
+          </v-row>
+          
+             
+             
+        
+       
+       
+        <td class="text-right">
+            <v-icon @click="removeItem(index), calculateSubtotal()"
+              >ri-close-line</v-icon
+            >
+          </td>
+        </v-list-item-subtitle>
+       
+      </v-list-item-content>
+    </v-list-item>
+    <v-list-item v-if="StoreCart.length == 0">
+      <v-list-item-content class="text-center pa-10">
+        <v-list-item-title >Your cart is empty!</v-list-item-title>
+      </v-list-item-content>
+    </v-list-item>
+  </v-card>
+
+
     <v-row class="mt-8">
       <v-col md="3">
         <v-btn @click="$router.go(-1)" class="secondary" block text large>
@@ -223,5 +301,16 @@ a {
     display: flex;
     justify-content: space-between;
   }
+}
+@media only screen and (max-width: 400px) {
+    #shopTable {
+        display: none;
+    }
+    
+}
+@media only screen and (min-width: 400px) {
+    #shopList{
+      display: none;
+    }
 }
 </style>

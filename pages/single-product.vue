@@ -47,15 +47,34 @@
                     : product.price) || 0 | formatPrice
                 }}
               </p>
+              
             </div>
             <!-- <p>Sold by: <span class="font-weight-bold"> {{product.brand}}</span></p> -->
-            <p>{{ product.short_description }}</p>
+            <p>{{ product.short_description }}
+             
+            
+            
+            
+            </p>
             <!-- <div v-html="product.description">
 
             </div> -->
+            
+         
+          <v-btn
+            
+            :loading="loading"
+            @click="isAuthenticated ? copyLink() : (loginDialog = true)"
+            x-small
+            text
+            class="primary mb-2" 
+          
+            >Refer this product</v-btn>
+            
+          
             <v-divider></v-divider>
-            <v-row class="my-3" justify="end" align="end">
-              <v-col md="3" cols="12">
+            <v-row class="my-3 " justify="end" align="end">
+              <v-col md="2" cols="5">
                 <p>Quantity</p>
                 <div class="qty-box pa-2">
                   <v-btn @click="decreaseQuantity()" icon small
@@ -68,9 +87,14 @@
                  
 
 
-
+       
                 </div>
-                   <v-tooltip bottom>
+                
+                   
+              </v-col>
+              <v-col>
+              
+              <v-tooltip bottom>
                   <template v-slot:activator="{ on, attrs }">
                     <v-btn
                       @click="
@@ -84,21 +108,7 @@
                   </template>
                   <span>Add to Wishlist</span>
                 </v-tooltip>
-                <v-tooltip bottom>
-                  <template v-slot:activator="{ on, attrs }">
-                    <v-btn
-                      icon
-                      small
-                      v-bind="attrs"
-                      v-on="on"
-                      @click="
-                        isAuthenticated ? copyLink() : (loginDialog = true)
-                      "
-                      ><v-icon small>ri-user-shared-line</v-icon></v-btn
-                    >
-                  </template>
-                  <span>Refer Product</span>
-                </v-tooltip>
+                
                <v-tooltip bottom>
                   <template v-slot:activator="{ on, attrs }">
                     <v-btn
@@ -113,8 +123,13 @@
                   </template>
                   <span>Share</span>
                 </v-tooltip>
+              
+              
               </v-col>
-              <v-col class="12">
+              
+            </v-row>
+            <v-row class="pb-6 ">
+            <v-col class="12" >
                 <!-- {{product.stock_status}} -->
                 <v-chip
                   color="error"
@@ -123,26 +138,26 @@
                   >Out of Stock</v-chip
                 >
                 <div v-else>
-                  <v-btn x-large text class="accent" @click="addToCart()"
+                  <v-btn x-large text class="accent mt-2 " @click="addToCart()"
                     >Add to Cart</v-btn
                   >
                   <v-btn
                     @click="addToCart(), $router.push('/shopping-cart')"
                     x-large
                     text
-                    class="accent font-weight-bold"
+                    class="accent font-weight-bold px-9 mt-2"
                     >Buy Now</v-btn
                   >
+                  
                 </div>
              
               </v-col>
+            
             </v-row>
             <v-divider></v-divider>
-            
-          </div>
-
-          <v-expansion-panels focusable>
-    <v-expansion-panel
+<div >
+               <v-expansion-panels focusable>
+    <v-expansion-panel  v-model="panel[item.Id]"
       v-for="(item,i) in 1"
       :key="i"
     >
@@ -154,9 +169,11 @@
     </v-expansion-panel>
     
   </v-expansion-panels>
+</div>
 
+<div >
   <v-expansion-panels focusable>
-    <v-expansion-panel
+    <v-expansion-panel   v-model="panel[item.Id]"
       v-for="(item,i) in 1"
       :key="i"
     >
@@ -168,9 +185,10 @@
     </v-expansion-panel>
     
   </v-expansion-panels>
-      
+</div>
+<div >
     <v-expansion-panels focusable>
-    <v-expansion-panel
+    <v-expansion-panel   v-model="panel[item.Id]"
       v-for="(item,i) in 1"
       :key="i"
     >
@@ -180,19 +198,26 @@
         <div v-html="product.ingridient || ''"></div>
       </v-expansion-panel-content>
     </v-expansion-panel>
+  
+    <v-divider></v-divider>
     
   </v-expansion-panels>
-      
-      <v-divider></v-divider>
-      <v-tabs>
+</div>    
+
+ 
+          </div>
+
+        
+
+      <v-tabs class="pa-6">
               <v-tabs-slider></v-tabs-slider>
               
               
-              <v-tab>Recent Reviews</v-tab>
+              <v-tab >Recent Reviews</v-tab>
 
              
 
-              <v-tab-item class="pa-6">
+              <v-tab-item >
                 
                 <div
                   v-for="(i, index) in product.reviews"
@@ -446,7 +471,7 @@
     </v-dialog>
     <v-dialog v-model="ShareDialog" width="450px">
       <v-card class="pa-8">
-        <h2 class="text-center mb-8">Copy link or share to socials?</h2>
+        
         <v-divider></v-divider>
         <v-form lazy-validation v-model="valid" ref="login">
           <v-row>
@@ -460,10 +485,11 @@
             placeholder="Share Product Link"
             v-on:focus="$event.target.select()" 
             ref="clone"
+             hide-details
           ></v-text-field>
-
-
           </v-col>
+          </v-row>
+          <v-row>
 
           <v-col>
           
@@ -475,53 +501,69 @@
             text
             class="primary mb-4"
             v-clipboard:copy="firstUrl"
-            v-clipboard:success="onCopy"
-            v-clipboard:error="onError"
             >Copy</v-btn>
           
           </v-col>
+        
           
           </v-row>
           
-          <v-row>
-          <v-col>
+          <v-row align="center"
+      justify="center" >
+          <h2 class="text-center">Share this product</h2>
+          
+          </v-row>
+          <v-row 
+          
+          >
+          <v-col align="center"
+      justify="center" >
           
           <v-btn
-            block
+            fab
+            
             :loading="loading"
             @click="TwitterLink()"
             large
             text
-            class="primary mb-4"
-            ><i class="ri-twitter-fill"></i>
+            class="primary mb-2 rounded-circle "
+            ><v-icon large >ri-twitter-fill</v-icon>
           </v-btn>
           
           </v-col>
 
-          <v-col>
+          <v-col
+          align="center"
+      justify="center"
+          >
           
           <v-btn
-            block
+            fab
+            
             :loading="loading"
             @click="FacebookLink()"
             large
             text
-            class="primary mb-4"
-            ><i class="ri-facebook-fill"></i>
+            class="primary mb-2  rounded-circle"
+            ><v-icon large >ri-facebook-fill</v-icon>
           </v-btn>
 
           </v-col>
           
 
-          <v-col>
+          <v-col
+          align="center"
+      justify="center"
+          >
           <v-btn
-            block
+          fab
+            
             :loading="loading"
             @click="WhatsappLink()"
             large
             text
-            class="primary mb-4"
-            ><i class="ri-whatsapp-fill"></i>
+            class="primary mb-2  rounded-circle"
+            ><v-icon large >ri-whatsapp-fill</v-icon>
           </v-btn>
           
           
@@ -540,6 +582,8 @@
 
   
 </template>
+<div id="fb-root"></div>
+<script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_GB/sdk.js#xfbml=1&version=v14.0" nonce="GTfjsWYx"></script>
 <script>
 import { mapGetters } from 'vuex'
 
@@ -549,8 +593,25 @@ export default {
   transition: 'default',
   data() {
     return {
+      
+      panel: {},
       product: [],
       relatedproduct: [],
+      AccItems: [
+                {
+                    title: "Description",
+                    
+                    
+                },
+                {
+                    title: "How To Use",
+                    
+                },
+                {
+                  title: "Ingredients",
+                  
+                },
+            ],
       quantity: 1,
       valid: true,
       loading: false,
@@ -570,6 +631,7 @@ export default {
           `${window.location.host}/single-product?product_id=${this.$route.query.product_id}`
         ),
       form: {},
+      
       items: [
         {
           text: 'Home',
@@ -611,15 +673,12 @@ export default {
     '$route.query.product_id': function () {
       this.getSingleProduct()
     },
+    function () {
+        this.firstUrl = encodeURI(document.location.href)
+    }
   },
   methods: {
-    onCopy: function (e) {
-                alert('You just copied the following text to the clipboard: ' + document.location.href)
-            },
-            onError: function (e) {
-                alert('Failed to copy the text to the clipboard')
-                console.log(e);
-            },
+   
     async login() {
       this.loading = true
       await this.$store
@@ -643,25 +702,30 @@ export default {
       this.$toast.success('Referral Link Copied', 'Success')
     },
     copyUrl(){
+      
      this.$refs.clone.focus();
       document.execCommand('copy');
+      this.$toast.success('Link Copied', 'Success')
     },
     TwitterLink(){
      let postUrl = encodeURI(document.location.href)
      let postTitle = encodeURI("Hi everyone, please check this out: ")
-     location.href = `https://twitter.com/share?url=${postUrl}&text=${postTitle}`
+     let locationUrl = `https://twitter.com/share?url=${postUrl}&text=${postTitle}`
+     window.open(locationUrl)
     
     },
     FacebookLink(){
      let postUrl = encodeURI(document.location.href)
      let postTitle = encodeURI("Hi everyone, please check this out: ")
-     location.href = `https://www.facebook.com/sharer.php?u=${postUrl}`
+     let locationUrl  = `https://www.facebook.com/sharer/sharer.php?u=${postUrl}`
+     window.open(locationUrl)
     },
     WhatsappLink(){
     
     let postUrl = encodeURI(document.location.href)
-     let postTitle = encodeURI("Hi everyone, please check this out: ")
-    location.href = `https://api.whatsapp.com/send?phone=whatsappphonenumber&text=${postUrl}`
+    let postTitle = encodeURI("Hi everyone, please check this out: ")
+    let locationUrl  = `https://api.whatsapp.com/send?text=${postUrl}`
+    window.open(locationUrl)
     },
     CopyToClipBoard(){
     
