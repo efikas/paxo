@@ -28,12 +28,25 @@
           </v-btn>
         </v-col>
       </v-row>
-      <v-data-table :items="brands" :headers="headers" :loading="loading" :search="search">
+      <v-data-table
+        :items="brands"
+        :headers="headers"
+        :loading="loading"
+        :search="search"
+      >
         <template v-slot:item.sn="{ item }">
           {{ brands.indexOf(item) + 1 }}
         </template>
         <template v-slot:item.action="{ item }">
-          <v-btn icon @click=";(form = item), (dialog = true), (update = true), imagesrc = item.avatar">
+          <v-btn
+            icon
+            @click="
+              ;(form = item),
+                (dialog = true),
+                (update = true),
+                (imagesrc = item.avatar)
+            "
+          >
             <v-icon color="success">edit</v-icon>
           </v-btn>
           <v-btn icon @click="deletebrand(item.id)">
@@ -55,7 +68,7 @@
             :rules="[(v) => !!v || 'This field is required']"
           >
           </v-text-field>
-          <v-card  class="pa-2" @click="clickInput()">
+          <v-card class="pa-2" @click="clickInput()">
             <v-img
               class="d-flex justify-center align-center text-center"
               :src="imagesrc"
@@ -79,6 +92,10 @@
             label="Description"
           >
           </v-textarea>
+          <v-checkbox
+            label="Publish Now?"
+            v-model="form.status"
+          ></v-checkbox>
           <v-btn
             large
             block
@@ -110,6 +127,7 @@ export default {
         { text: 'brand Name', value: 'name' },
         { text: 'Slug', value: 'slug' },
         { text: 'Description', value: 'description' },
+        { text: 'Published', value: 'status' },
         { text: 'Actions', value: 'action' },
       ],
       brands: [],
@@ -136,12 +154,10 @@ export default {
         id: id,
       }
       confirm('Are you sure you want to delete this brand?') &&
-        (await this.$store
-          .dispatch('brand/delete', data)
-          .then((response) => {
-            this.$toast.success(response.message)
-            this.getbrands()
-          }))
+        (await this.$store.dispatch('brand/delete', data).then((response) => {
+          this.$toast.success(response.message)
+          this.getbrands()
+        }))
     },
     async getbrands() {
       this.loading = true
@@ -157,28 +173,32 @@ export default {
         formData.append('name', this.form.name)
         formData.append('avatar', this.form.product_image)
         formData.append('description', this.form.description)
+        formData.append('status', this.form.status ? 1 : 0)
         await this.$store
           .dispatch('brand/addnew', formData)
           .then((response) => {
+            console.log(response);
             this.$toast.success(response.message)
             this.getbrands()
             this.$refs.addnew.reset()
             this.loading = this.dialog = false
           })
           .catch((error) => {
+            console.log(error)
             this.$toast.error(error.response.data.message)
             this.loading = false
           })
       }
     },
 
-     async updatebrand() {
+    async updatebrand() {
       if (this.$refs.addnew.validate()) {
         this.loading = true
         let formData = new FormData()
         formData.append('name', this.form.name)
         formData.append('avatar', this.form.product_image)
         formData.append('description', this.form.description)
+        formData.append('status', this.form.status ? 1 : 0)
         formData.append('id', this.form.id)
         await this.$store
           .dispatch('brand/update', formData)
