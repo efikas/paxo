@@ -45,6 +45,7 @@ export const actions = {
     })
     return data
   },
+  
   async top() {
     const data = await this.$axios.$get('/categories/top', {})
     return data

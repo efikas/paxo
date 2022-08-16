@@ -35,9 +35,11 @@ export const actions = {
     return data
   },
   async all() {
-
-    const data = await this.$axios.$get('/brands', {
-
+    let token = JSON.parse(window.localStorage.getItem('paxo')).auth.token
+    const data = await this.$axios.$get('/admin/brands', {
+      headers: {
+        Authorization: 'Bearer ' + token,
+      },
     })
     return data
   },
