@@ -302,13 +302,13 @@ a {
     justify-content: space-between;
   }
 }
-@media only screen and (max-width: 400px) {
+@media only screen and (max-width:  420px) {
     #shopTable {
         display: none;
     }
     
 }
-@media only screen and (min-width: 400px) {
+@media only screen and (min-width: 420px) {
     #shopList{
       display: none;
     }
