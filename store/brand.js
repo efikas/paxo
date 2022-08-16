@@ -34,12 +34,26 @@ export const actions = {
 
     return data
   },
+  // async all() {
+  //   let token = JSON.parse(window.localStorage.getItem('paxo')).auth.token
+  //   const data = await this.$axios.$get('/admin/brands', {
+  //     headers: {
+  //       Authorization: 'Bearer ' + token,
+  //     },
+  //   })
+  //   return data
+  // },
+
   async all() {
-    let token = JSON.parse(window.localStorage.getItem('paxo')).auth.token
-    const data = await this.$axios.$get('/admin/brands', {
-      headers: {
-        Authorization: 'Bearer ' + token,
-      },
+    const data = await this.$axios.$get('/brands', {
+
+    })
+    return data
+  },
+
+  async allBrands() {
+    const data = await this.$axios.$get('/brands-admin', {
+
     })
     return data
   },
