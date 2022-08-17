@@ -8703,6 +8703,11 @@
   "resolved" "https://registry.npmjs.org/v-date-range-picker/-/v-date-range-picker-1.0.7.tgz"
   "version" "1.0.7"
 
+"v-lazy-image@^2.1.1":
+  "integrity" "sha512-QC6Jcok99CRhhsO7svfI3hcBaT945dSuaHk3jr7WHm+QJMzbB/f32xKkdF45qL5ezd5KeoqHKh4gD92mQtjfXQ=="
+  "resolved" "https://registry.npmjs.org/v-lazy-image/-/v-lazy-image-2.1.1.tgz"
+  "version" "2.1.1"
+
 "v8-compile-cache@^2.0.3":
   "integrity" "sha512-l8lCEmLcLYZh4nbunNZvQCJc5pv7+RCwa8q/LdUx8u7lsWvPDKmpodJAJNwkAhJC//dFY48KuIEmjtd4RViDrA=="
   "resolved" "https://registry.npmjs.org/v8-compile-cache/-/v8-compile-cache-2.3.0.tgz"

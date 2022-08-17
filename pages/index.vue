@@ -11,7 +11,10 @@
           @click="$router.push('/banners/'+i.slug+'?t=Offers&bannerId='+i.id)"
           class="brands-img elevation-2"
           :class="{'h-350' : $vuetify.breakpoint.mdAndUp, 'h-200' : $vuetify.breakpoint.smAndDown}"
-          :src="i.avatar"
+          :src="i.avatar" 
+          @error="$event.target.src='../static/assets/paxo_icon_logo.png'"
+          lazy-src="./assets/logo.png"
+          
         ></v-img>
       </v-col>
     </v-row>
@@ -21,6 +24,9 @@
         <v-img
           class="brands-img"
           :src="require('../static/assets/banner.jpeg')"
+          @error="$event.target.src='../static/assets/paxo_icon_logo.png'"
+          lazy-src="./assets/logo.png"
+          
         ></v-img>
 
         </nuxt-link>
@@ -154,6 +160,9 @@
           class="brands-img elevation-2" :class="{ 'h-200' : $vuetify.breakpoint.smAndDown}"
           height="250"
           :src="i.avatar"
+          @error="$event.target.src='../static/assets/paxo_icon_logo.png'"
+          lazy-src="./assets/logo.png"
+          
         ></v-img>
       </v-col>
     </v-row>
@@ -169,6 +178,8 @@
           class="brands-img elevation-2"
           height="250" :class="{ 'h-200' : $vuetify.breakpoint.smAndDown}"
           :src="i.avatar"
+          @error="$event.target.src='../static/assets/paxo_icon_logo.png'"
+          lazy-src=".\assets\logo.png"
         ></v-img>
       </v-col>
     </v-row> -->
@@ -184,7 +195,9 @@
               contain
               width="100%"
               :src="i.avatar"
-              alt=""
+              @error="$event.target.src='../static/assets/paxo_icon_logo.png'"
+              lazy-src="./assets/logo.png"
+          
             >
             </v-img>
           </v-card>
@@ -225,6 +238,8 @@
         <v-img
           class="blog-container"
           :src="i.avatar" height="320"
+          @error="$event.target.src='../static/assets/paxo_icon_logo.png'"
+          lazy-src="./assets/logo.png"
         >
           <div class="blog-title white--text">
 
@@ -288,6 +303,7 @@ export default {
     ProductDisplay,
     NewArrival,
     HomePageSlider,
+    
   },
   data() {
     return {
@@ -303,7 +319,7 @@ export default {
       blogs: [],
       categories: [],
       banners: []
-
+      
     }
   },
   computed: {
