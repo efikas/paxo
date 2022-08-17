@@ -154,7 +154,7 @@
 
 
     <v-row  :class="{'px-8':$vuetify.breakpoint.mdAndUp}">
-      <v-col md="4" v-for="i in brands" :key="i.id">
+      <v-col md="4" v-for="i in adminBrands" :key="i.id">
         <v-img
           @click="$router.push('/brands/'+i.name+'?brandId='+i.id)"
           class="brands-img elevation-2" :class="{ 'h-200' : $vuetify.breakpoint.smAndDown}"
@@ -313,6 +313,7 @@ export default {
       new_products: [],
       topproducts: [],
       brands: [],
+      adminBrands: [],
       topbrands: [],
       loading: true,
       blogs: [],
@@ -332,6 +333,7 @@ export default {
     this.getTopBrands()
     this.getTopCategories()
     this.getbrands()
+    this.getadminBrands()
     this.getBanners()
 
   },
@@ -382,6 +384,12 @@ export default {
     async getbrands() {
       await this.$store.dispatch('brand/all').then((response) => {
         this.brands = response.data
+        this.loading = false
+      })
+    },
+    async getadminBrands() {
+      await this.$store.dispatch('brand/allBrands').then((response) => {
+        this.adminBrands = response.data
         this.loading = false
       })
     },
