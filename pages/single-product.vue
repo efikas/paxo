@@ -20,7 +20,8 @@
     <v-container v-else>
       <v-row :class="{ 'px-4': $vuetify.breakpoint.smAndDown }">
         <v-col md="4" cols="12">
-          <img :src="product.avatar" width="100%" alt="" />
+          <v-img :src="product.avatar" width="100%" alt="" @error="$event.target.src='../static/assets/paxo_icon_logo.png'"
+          lazy-src="./assets/logo.png" ></v-img>
         </v-col>
         <v-col md="8">
           <div class="product-details">
@@ -416,13 +417,14 @@
             :product_name="i.product.name"
             rating="5"
             :price="i.product.price"
-            :image="i.product.avatar"
+            :image="i.product.avatar "
             :badge="i.product.stock_status"
             :description="i.product.description"
             :short_description="i.product.short_description"
             :product_object="i.product"
             :regular_price="i.product.regular_price"
             :product_id="i.product.id"
+            
           />
         </v-col>
 
