@@ -20,7 +20,7 @@
           <td class="py-5">
             <div class="d-flex align-center">
               <img :src="i.avatar" width="100px" alt="" />
-              <nuxt-link :to="'/single-product?product_id=' + i.id">
+              <nuxt-link :to="'/single-product?product_id=' + i.id" >
                 <p class="ml-8">{{ i.name }}</p>
               </nuxt-link>
             </div>
@@ -135,7 +135,7 @@
           </td>
          
          <v-row class="mb-2 ml-0">
-          <div class="qty-box pa-2">
+          <div class="qty-box pa-2 mt-1">
               <v-btn
                 icon
                 small
@@ -158,9 +158,10 @@
               >
               
             </div>
-         <p class="mt-7 ma-0 pl-7 pa-0" @click="removeItem(index), calculateSubtotal()"
+            <div style="text-align: right">
+         <p class="mt-7 ma-0 pl-16 pa-0" style="color: red " @click="removeItem(index), calculateSubtotal()"
                >Remove</p>
-         
+         </div>
          </v-row>
             
         </v-list-item-subtitle>
