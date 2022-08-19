@@ -21,7 +21,7 @@
       <v-row :class="{ 'px-4': $vuetify.breakpoint.smAndDown }">
         <v-col md="4" cols="12">
           <v-img :src="product.avatar" width="100%" alt="" @error="$event.target.src='../static/assets/paxo_icon_logo.png'"
-          lazy-src="./assets/logo.png" ></v-img>
+          lazy-src="https://res.cloudinary.com/spectrina/image/upload/v1660831137/Icon_1b_f5502u.png" ></v-img>
         </v-col>
         <v-col md="8">
           <div class="product-details">
@@ -74,8 +74,8 @@
             
           
             <v-divider></v-divider>
-            <v-row class="my-3 " justify="end" align="end">
-              <v-col md="2" cols="5">
+            <v-row class="my-3  " justify="end" align="end">
+              <v-col md="2" cols="6">
                 <p>Quantity</p>
                 <div class="qty-box pa-2">
                   <v-btn @click="decreaseQuantity()" icon small
@@ -93,7 +93,7 @@
                 
                    
               </v-col>
-              <v-col>
+              <v-col  class="12">
               
               <v-tooltip bottom>
                   <template v-slot:activator="{ on, attrs }">
@@ -119,6 +119,7 @@
                       v-bind="attrs"
                       v-on="on"
                       icon
+                      
                       ><v-icon>ri-share-line</v-icon></v-btn
                     >
                   </template>
@@ -139,14 +140,14 @@
                   >Out of Stock</v-chip
                 >
                 <div v-else>
-                  <v-btn x-large text class="accent mt-2 " @click="addToCart()"
+                  <v-btn x-large text class="accent px-2 mt-1 " @click="addToCart()"
                     >Add to Cart</v-btn
                   >
                   <v-btn
                     @click="addToCart(), $router.push('/shopping-cart')"
                     x-large
                     text
-                    class="accent font-weight-bold px-9 mt-2"
+                    class="accent font-weight-bold px-4 mt-1"
                     >Buy Now</v-btn
                   >
                   
@@ -417,14 +418,14 @@
             :product_name="i.product.name"
             rating="5"
             :price="i.product.price"
-            :image="i.product.avatar "
+            :image="i.product.avatar "  
             :badge="i.product.stock_status"
             :description="i.product.description"
             :short_description="i.product.short_description"
             :product_object="i.product"
             :regular_price="i.product.regular_price"
             :product_id="i.product.id"
-            
+           
           />
         </v-col>
 

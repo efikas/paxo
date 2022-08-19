@@ -95,18 +95,46 @@
 
     <v-list-item three-line v-for="(i, index) in StoreCart" :key="index">
       <v-list-item-content>
-      <nuxt-link :to="'/single-product?product_id=' + i.id">
-        <v-list-item-title>{{ i.name }}</v-list-item-title>
-        </nuxt-link>
+     
         <v-list-item-subtitle>
         
           <v-row>
+          
           <v-col>
+          
           <img :src="i.avatar" width="100px" alt="" />
 
     
           </v-col>
           <v-col class="py-6">
+           <nuxt-link :to="'/single-product?product_id=' + i.id">
+       {{ i.name }}
+        </nuxt-link>
+            <p class ="pt-2" > &#8358;{{
+              (isAuthenticated
+                ? user.role == 'wholesaler' || user.role == 'next_champ'
+                  ? i.wholesale_price
+                  : i.price
+                : i.price) | formatPrice }}</p>
+          
+           
+              
+          </v-col>
+          
+          
+          
+          </v-row>
+         
+             
+             
+        
+       
+       
+        <td class="text-right">
+           
+          </td>
+         
+         <v-row class="mb-2 ml-0">
           <div class="qty-box pa-2">
               <v-btn
                 icon
@@ -128,28 +156,13 @@
                 small
                 ><v-icon>ri-add-fill</v-icon></v-btn
               >
-            </div>
-            <p class ="pt-2" > Price: &#8358;{{
-              (isAuthenticated
-                ? user.role == 'wholesaler' || user.role == 'next_champ'
-                  ? i.wholesale_price
-                  : i.price
-                : i.price) | formatPrice }}</p>
-
               
-          </v-col>
-          </v-row>
-          
-             
-             
-        
-       
-       
-        <td class="text-right">
-            <v-icon @click="removeItem(index), calculateSubtotal()"
-              >ri-close-line</v-icon
-            >
-          </td>
+            </div>
+         <p class="mt-7 ma-0 pl-7 pa-0" @click="removeItem(index), calculateSubtotal()"
+               >Remove</p>
+         
+         </v-row>
+            
         </v-list-item-subtitle>
        
       </v-list-item-content>
