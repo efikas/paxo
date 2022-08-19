@@ -1,7 +1,7 @@
 <template>
 <v-hover v-slot="{ hover }">
   <v-card flat :to="'/single-product?product_id='+id" class="product-box">
-    <img :src="image" width="100" alt="">
+    <v-img :src="image" width="100" alt="" lazy-src="https://res.cloudinary.com/spectrina/image/upload/v1660831137/Icon_1b_f5502u.png"></v-img>
     <div class="pl-4">
       <div class="product-title">{{product_name}}</div>
       <v-rating dense small :value="5" color="orange"></v-rating>
