@@ -13,7 +13,7 @@
           :class="{'h-350' : $vuetify.breakpoint.mdAndUp, 'h-200' : $vuetify.breakpoint.smAndDown}"
           :src="i.avatar" 
           @error="$event.target.src='../static/assets/paxo_icon_logo.png'"
-          lazy-src="./assets/logo.png"
+          lazy-src="https://res.cloudinary.com/spectrina/image/upload/v1660830145/Offer_Banner_1b_ugnb6t.png"
           
         ></v-img>
       </v-col>
@@ -25,7 +25,7 @@
           class="brands-img"
           :src="require('../static/assets/banner.jpeg')"
           @error="$event.target.src='../static/assets/paxo_icon_logo.png'"
-          lazy-src="./assets/logo.png"
+          lazy-src="https://res.cloudinary.com/spectrina/image/upload/v1660830145/Offer_Banner_1b_ugnb6t.png"
           
         ></v-img>
 
@@ -56,7 +56,7 @@
         <v-skeleton-loader type="card"> </v-skeleton-loader>
       </v-col>
       <v-col cols="6" sm="4" md="2" v-for="(i, index) in products" :key="index">
-        <v-skeleton-loader type="card" v-if="products.length == 0">
+        <v-skeleton-loader type="card" v-if="products.length == 0" lazy-src="https://res.cloudinary.com/spectrina/image/upload/v1660750038/logo9_auto_x5_gsrixv.png">
         </v-skeleton-loader>
         <product-display
           :vendor="i.brand ? i.brand.name : null"
@@ -69,6 +69,7 @@
           :short_description="i.short_description"
           :product_object="i"
           :product_id="i.id"
+          lazy-src="https://res.cloudinary.com/spectrina/image/upload/v1660830145/Offer_Banner_1b_ugnb6t.png"
         />
       </v-col>
     </v-row> -->
@@ -161,7 +162,7 @@
           height="250"
           :src="i.avatar"
           @error="$event.target.src='../static/assets/paxo_icon_logo.png'"
-          lazy-src="./assets/logo.png"
+          lazy-src="https://res.cloudinary.com/spectrina/image/upload/v1660830349/Brand_Banner_1b_gax3tp.png"
           
         ></v-img>
       </v-col>
@@ -179,7 +180,7 @@
           height="250" :class="{ 'h-200' : $vuetify.breakpoint.smAndDown}"
           :src="i.avatar"
           @error="$event.target.src='../static/assets/paxo_icon_logo.png'"
-          lazy-src=".\assets\logo.png"
+          lazy-src="https://res.cloudinary.com/spectrina/image/upload/v1660750038/logo9_auto_x5_gsrixv.png"
         ></v-img>
       </v-col>
     </v-row> -->
@@ -196,7 +197,7 @@
               width="100%"
               :src="i.avatar"
               @error="$event.target.src='../static/assets/paxo_icon_logo.png'"
-              lazy-src="./assets/logo.png"
+              lazy-src="https://res.cloudinary.com/spectrina/image/upload/v1660830349/Brand_Banner_1b_gax3tp.png"
           
             >
             </v-img>
@@ -239,7 +240,8 @@
           class="blog-container"
           :src="i.avatar" height="320"
           @error="$event.target.src='../static/assets/paxo_icon_logo.png'"
-          lazy-src="./assets/logo.png"
+          lazy-src="https://res.cloudinary.com/spectrina/image/upload/v1660831137/Icon_1b_f5502u.png"
+          
         >
           <div class="blog-title white--text">
 

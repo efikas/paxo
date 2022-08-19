@@ -3,7 +3,7 @@
     <v-hover v-slot="{ hover }">
       <div class="product-box">
         <nuxt-link :to="'/single-product?product_id=' + product_id">
-          <v-img :src="image" width="100%">
+          <v-img :src="image" width="100%" lazy-src="https://res.cloudinary.com/spectrina/image/upload/v1660831137/Icon_1b_f5502u.png">
             <v-chip
               v-if="badge"
               :class="badge == 'instock' ? 'primary' : 'error'"
