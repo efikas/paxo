@@ -3,9 +3,7 @@
     <div class="text-center pb-4">
       <h1>Shopping Cart</h1>
     </div>
-    <v-simple-table
-    id="shopTable"
-    >
+    <v-simple-table id="shopTable">
       <thead>
         <tr>
           <th>PRODUCT</th>
@@ -20,7 +18,7 @@
           <td class="py-5">
             <div class="d-flex align-center">
               <img :src="i.avatar" width="100px" alt="" />
-              <nuxt-link :to="'/single-product?product_id=' + i.id" >
+              <nuxt-link :to="'/single-product?product_id=' + i.id">
                 <p class="ml-8">{{ i.name }}</p>
               </nuxt-link>
             </div>
@@ -86,95 +84,83 @@
         </tr>
       </tbody>
     </v-simple-table>
-   <v-card
-    class="mx-auto"
-    id="shopList"
-    tile
-  >
-    
+    <v-card class="mx-auto" id="shopList" tile>
+      <v-list-item three-line v-for="(i, index) in StoreCart" :key="index">
+        <v-list-item-content>
+          <v-list-item-subtitle>
+            <v-row>
+              <v-col>
+                <img :src="i.avatar" width="130px" alt="" />
+              </v-col>
+              <v-col class="py-6">
+                <nuxt-link :to="'/single-product?product_id=' + i.id">
+                  {{ i.name }}
+                </nuxt-link>
+                <p class="pt-2">
+                  &#8358;{{
+                    (isAuthenticated
+                      ? user.role == 'wholesaler' || user.role == 'next_champ'
+                        ? i.wholesale_price
+                        : i.price
+                      : i.price) | formatPrice
+                  }}
+                </p>
+              </v-col>
+            </v-row>
 
-    <v-list-item three-line v-for="(i, index) in StoreCart" :key="index">
-      <v-list-item-content>
-     
-        <v-list-item-subtitle>
-        
-          <v-row>
-          
-          <v-col>
-          
-          <img :src="i.avatar" width="100px" alt="" />
+            <td class="text-right"></td>
 
-    
-          </v-col>
-          <v-col class="py-6">
-           <nuxt-link :to="'/single-product?product_id=' + i.id">
-       {{ i.name }}
-        </nuxt-link>
-            <p class ="pt-2" > &#8358;{{
-              (isAuthenticated
-                ? user.role == 'wholesaler' || user.role == 'next_champ'
-                  ? i.wholesale_price
-                  : i.price
-                : i.price) | formatPrice }}</p>
-          
-           
-              
-          </v-col>
-          
-          
-          
-          </v-row>
-         
-             
-             
-        
-       
-       
-        <td class="text-right">
-           
-          </td>
-         
-         <v-row class="mb-2 ml-0">
-          <div class="qty-box pa-2 mt-1">
-              <v-btn
-                icon
-                small
-                @click="
-                  i.quantity > 1 ? (i.quantity -= 1) : null, calculateSubtotal()
-                "
-                ><v-icon>ri-subtract-fill</v-icon></v-btn
-              >
-              <p class="ma-0">{{ i.quantity }}</p>
-              <v-btn
-                @click="
-                  i.quantity + 1 > i.stock_quantity
-                    ? $toast.error('Out of stock')
-                    : (i.quantity += 1),
-                    calculateSubtotal()
-                "
-                icon
-                small
-                ><v-icon>ri-add-fill</v-icon></v-btn
-              >
-              
-            </div>
-            <div style="text-align: right">
-         <p class="mt-7 ma-0 pl-16 pa-0" style="color: red " @click="removeItem(index), calculateSubtotal()"
-               >Remove</p>
-         </div>
-         </v-row>
-            
-        </v-list-item-subtitle>
-       
-      </v-list-item-content>
-    </v-list-item>
-    <v-list-item v-if="StoreCart.length == 0">
-      <v-list-item-content class="text-center pa-10">
-        <v-list-item-title >Your cart is empty!</v-list-item-title>
-      </v-list-item-content>
-    </v-list-item>
-  </v-card>
-
+            <v-row
+              class="mb-2 ml-0"
+              style="
+                margin-top: 10px;
+                display: flex;
+                justify-content: space-between;
+              "
+            >
+              <div class="qty-box pa-2 mt-1">
+                <v-btn
+                  icon
+                  small
+                  @click="
+                    i.quantity > 1 ? (i.quantity -= 1) : null,
+                      calculateSubtotal()
+                  "
+                  ><v-icon>ri-subtract-fill</v-icon></v-btn
+                >
+                <p class="ma-0">{{ i.quantity }}</p>
+                <v-btn
+                  @click="
+                    i.quantity + 1 > i.stock_quantity
+                      ? $toast.error('Out of stock')
+                      : (i.quantity += 1),
+                      calculateSubtotal()
+                  "
+                  icon
+                  small
+                  ><v-icon>ri-add-fill</v-icon></v-btn
+                >
+              </div>
+              <div style="padding-right: 15px">
+                <p
+                  class="mt-7 ma-0 pl-16 pa-0"
+                  style="color: red; font-size: 16px"
+                  @click="removeItem(index), calculateSubtotal()"
+                >
+                  Remove
+                </p>
+              </div>
+            </v-row>
+          </v-list-item-subtitle>
+          <v-divider class="mt-6" horizontal></v-divider>
+        </v-list-item-content>
+      </v-list-item>
+      <v-list-item v-if="StoreCart.length == 0">
+        <v-list-item-content class="text-center pa-10">
+          <v-list-item-title>Your cart is empty!</v-list-item-title>
+        </v-list-item-content>
+      </v-list-item>
+    </v-card>
 
     <v-row class="mt-8">
       <v-col md="3">
@@ -316,15 +302,14 @@ a {
     justify-content: space-between;
   }
 }
-@media only screen and (max-width:  420px) {
-    #shopTable {
-        display: none;
-    }
-    
+@media only screen and (max-width: 420px) {
+  #shopTable {
+    display: none;
+  }
 }
 @media only screen and (min-width: 420px) {
-    #shopList{
-      display: none;
-    }
+  #shopList {
+    display: none;
+  }
 }
 </style>
