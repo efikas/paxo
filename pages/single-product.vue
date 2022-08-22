@@ -1,4 +1,5 @@
 <template>
+
   <div>
     <p class="py-2 pl-3">
       <nuxt-link to="/"> Home </nuxt-link> /
@@ -94,7 +95,7 @@
                    
               </v-col>
               <v-col  class="12">
-              
+              <div style="padding-left: 22px" class="text-left">
               <v-tooltip bottom>
                   <template v-slot:activator="{ on, attrs }">
                     <v-btn
@@ -109,6 +110,7 @@
                   </template>
                   <span>Add to Wishlist</span>
                 </v-tooltip>
+                
                 
                <v-tooltip bottom>
                   <template v-slot:activator="{ on, attrs }">
@@ -125,7 +127,7 @@
                   </template>
                   <span>Share</span>
                 </v-tooltip>
-              
+              </div>
               
               </v-col>
               
