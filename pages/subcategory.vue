@@ -10,23 +10,60 @@
     </v-container>
     <v-container fluid v-else>
       <v-row class="mt-4" :class="{'px-4':$vuetify.breakpoint.smAndDown}" >
-        <v-col md="12">
+        <v-col md="2" class="hidden-sm-and-down pl-6">
+            <div class="category pa-0">
+            <h4 class="mb-6 ma-">FILTER BY <v-icon>filter_alt</v-icon></h4>
+            
+             <h4 class="mb-4">Filter by Category</h4>
+            <div class="filter-box pa-4">
+              <v-checkbox
+                v-for="(i, index) in categories"
+                :key="index"
+                :value="i.id"
+                v-model="category"
+                :label="i.name"
+                @change="getProducts()"
+                class="ma-0 pa-0"
+              ></v-checkbox>
+            </div>
+            
 
+            <h4 class="mb-4 mt-6">Filter by Brand</h4>
+            <div class="filter-box pa-4">
+              <v-checkbox
+                v-for="(i, index) in brands"
+                :value="i.id"
+                v-model="pages"
+                @change="getProducts()"
+                :key="index"
+                :label="i.name"
+                class="ma-0 pa-0"
+              ></v-checkbox>
+            </div>
+            <h4 class="mb-4 mt-6">Filter by Price</h4>
+            <v-range-slider
+              v-model="range"
+              @change="filterPrice()"
+              max="10000"
+            ></v-range-slider>
+            <div class="d-flex justify-space-between">
+              <span> &#8358;{{ range[0] | formatPrice }} </span>
+              <span>&#8358;{{ range[1] | formatPrice }}</span>
+            </div>
+          </div>
+        </v-col>
+        <v-col md="10">
           <v-row>
             <v-col md="9">
-              <h1 class="font-weight-medium">{{!loading ? (products.length > 0 ? decodeURIComponent(pagename) : 'No Products Found') : null}}</h1>
-            </v-col>
-            <v-col>
-              Filter by Price:
-              <v-range-slider
-                v-model="range"
-                @change="filterPrice()"
-                max="10000"
-              ></v-range-slider>
-              <div class="d-flex justify-space-between">
-                <span> &#8358;{{ range[0] | formatPrice }} </span>
-                <span>&#8358;{{ range[1] | formatPrice }}</span>
-              </div>
+              <h1 class="font-weight-medium">
+                {{
+                  !loading
+                    ? products.length > 0
+                      ? decodeURIComponent(pagename)
+                      : 'No Products Found'
+                    : null
+                }}
+              </h1>
             </v-col>
           </v-row>
           <v-divider></v-divider>
@@ -118,7 +155,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 .category{
-  background-color: #f5f5f5;
+ // background-color: #f5f5f5;
   h4{
     font-size: 18px;
     font-weight: 400;
