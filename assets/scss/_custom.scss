@@ -11,6 +11,9 @@
   height: 300px;
   border: 1px solid #ddd;
   overflow: scroll;
+  overflow-x: hidden;
+  overflow-y: overlay;
+  scroll-margin-right: 0;
 }
 
 .v-btn{
