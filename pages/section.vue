@@ -14,8 +14,40 @@
           <div class="category pa-0">
             <h4 class="mb-6 ma-">FILTER BY <v-icon>filter_alt</v-icon></h4>
 
-            <h4 class="mb-4">Filter by Category</h4>
-            <div class="filter-box pa-4">
+           <v-expansion-panels  focusable flat accordion  >
+    <v-expansion-panel 
+     
+      
+    >
+      <v-expansion-panel-header  expand-icon="mdi-plus " disable-icon-rotate >Brand
+      
+      
+      </v-expansion-panel-header>
+
+      
+      
+      <v-expansion-panel-content  style=" overflow:scroll; height: 50vh; " >
+         <div  >
+              <v-checkbox
+                v-for="(i, index) in brands"
+                :value="i.id"
+                v-model="pages"
+                @change="getProducts()"
+                :key="index"
+                :label="i.name"
+                class="ma-0 pa-0"
+              ></v-checkbox>
+            </div>
+      </v-expansion-panel-content>
+    </v-expansion-panel>
+    <v-divider></v-divider>
+    <v-expansion-panel 
+      
+    >
+      <v-expansion-panel-header expand-icon="mdi-plus" disable-icon-rotate>Category</v-expansion-panel-header>
+      
+      <v-expansion-panel-content  class=" px-1 mt-2  " style=" overflow:scroll; height: 50vh; border-style: none" >
+         <div  >
               <v-checkbox
                 v-for="(i, index) in categories"
                 :key="index"
@@ -24,22 +56,41 @@
                 :label="i.name"
                 @change="getProducts()"
                 class="ma-0 pa-0"
+                
               ></v-checkbox>
             </div>
-
-            <h4 class="mb-4 mt-6">Filter by Brand</h4>
-            <div class="filter-box pa-4">
+      </v-expansion-panel-content>
+    </v-expansion-panel>
+    <v-divider></v-divider>
+    <v-expansion-panel 
+     
+      
+    >
+      <v-expansion-panel-header expand-icon="mdi-plus" disable-icon-rotate   >Availability</v-expansion-panel-header>
+      
+      <v-expansion-panel-content  class=" px-1 mt-2 " style=" overflow:scroll; height: 50vh; " >
+         <div  >
               <v-checkbox
                 v-for="(i, index) in brands"
                 :value="i.id"
-                v-model="brand"
+                v-model="pages"
                 @change="getProducts()"
                 :key="index"
                 :label="i.name"
                 class="ma-0 pa-0"
               ></v-checkbox>
             </div>
-            <h4 class="mb-2 mt-6">Filter by Price</h4>
+      </v-expansion-panel-content>
+    </v-expansion-panel>
+    
+  </v-expansion-panels>
+          
+
+   
+             
+           
+  
+            <h4 class="mb-2 mt-6">Price</h4>
             <v-range-slider
               v-model="range"
               @change="filterPrice()"

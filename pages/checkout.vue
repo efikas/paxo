@@ -34,8 +34,18 @@
                 placeholder="Phone number"
               ></v-text-field>
             </v-col>
+            
           </v-row>
-          <p class="mb-0">Order Notes (Optional)</p>
+          <v-text-field
+            label="Date of Birth"
+           
+            type="date"
+            required
+            :rules="[(v) => !!v || 'This field is required']"
+            outlined
+          >
+          </v-text-field>
+          <p class="mb-0 ">Order Notes (Optional)</p>
           <v-textarea
             v-model="userDetail.description"
             @change="updateUserDetail('description', userDetail.description)"
@@ -275,6 +285,7 @@ export default {
       this.lgas = obj[0].lga
     },
     calculateSubtotal() {
+      
       this.subtotal = 0
       for (var i = 0; i < this.StoreCart.length; i++) {
         this.subtotal +=
@@ -289,6 +300,11 @@ export default {
 
         this.totalweight +=
           this.StoreCart[i].weight * this.StoreCart[i].quantity
+      }
+      if (parseInt(this.user.balance) < parseInt(this.subtotal)) {
+          this.$toast.error("Please add sufficient balance to wallet")
+      }else{
+        this.$toast.success("Wallet balance is sufficient")
       }
     },
 
