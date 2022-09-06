@@ -21,8 +21,12 @@
     <v-container v-else>
       <v-row :class="{ 'px-4': $vuetify.breakpoint.smAndDown }">
         <v-col md="4" cols="12">
-          <v-img :src="product.avatar" width="100%" alt="" @error="$event.target.src='../static/assets/paxo_icon_logo.png'"
+        
+          <v-img :src="product.avatar" 
+          width="100%" style="cursor: zoom-in;" alt="" @error="$event.target.src='../static/assets/paxo_icon_logo.png'"
           lazy-src="https://res.cloudinary.com/spectrina/image/upload/v1660831137/Icon_1b_f5502u.png" ></v-img>
+         
+          
         </v-col>
         <v-col md="8">
           <div class="product-details">
@@ -159,11 +163,10 @@
             
             </v-row>
             <v-divider></v-divider>
+            
 <div >
-               <v-expansion-panels focusable>
-    <v-expansion-panel  v-model="panel[item.Id]"
-      v-for="(item,i) in 1"
-      :key="i"
+               <v-expansion-panels focusable flat>
+    <v-expansion-panel  
     >
       <v-expansion-panel-header>Description</v-expansion-panel-header>
       
@@ -171,15 +174,7 @@
         <div v-html="product.description || ''"></div>
       </v-expansion-panel-content>
     </v-expansion-panel>
-    
-  </v-expansion-panels>
-</div>
-
-<div >
-  <v-expansion-panels focusable>
-    <v-expansion-panel   v-model="panel[item.Id]"
-      v-for="(item,i) in 1"
-      :key="i"
+    <v-expansion-panel   
     >
       <v-expansion-panel-header>How To Use</v-expansion-panel-header>
       
@@ -187,14 +182,7 @@
         <div v-html="product.how_to_use || ''"></div>
       </v-expansion-panel-content>
     </v-expansion-panel>
-    
-  </v-expansion-panels>
-</div>
-<div >
-    <v-expansion-panels focusable>
-    <v-expansion-panel   v-model="panel[item.Id]"
-      v-for="(item,i) in 1"
-      :key="i"
+    <v-expansion-panel  
     >
       <v-expansion-panel-header>Ingredients</v-expansion-panel-header>
       
@@ -203,10 +191,10 @@
       </v-expansion-panel-content>
     </v-expansion-panel>
   
-    <v-divider></v-divider>
-    
   </v-expansion-panels>
-</div>    
+</div>
+
+
 
  
           </div>
@@ -588,14 +576,29 @@
   
 </template>
 <div id="fb-root"></div>
+
 <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_GB/sdk.js#xfbml=1&version=v14.0" nonce="GTfjsWYx"></script>
 <script>
 import { mapGetters } from 'vuex'
-
+import { VueImageZoomer } from 'vue-image-zoomer'
 
 
 export default {
   transition: 'default',
+   metaInfo() {
+        return {
+            title: ``,
+            meta: [
+                {name: 'description', content: '' },
+                {property: 'og:title', content: ''},
+                {property: 'og:site_name', content: ''},
+                {property: 'og:description', content: '' },
+                {property: 'og:type', content: ''},
+                {property: 'og:url', content: '' },
+                {property: 'og:image', content: product.avatar }    
+            ]
+        }
+    },
   data() {
     return {
       
@@ -888,6 +891,9 @@ p {
 }
 a {
   text-decoration: none;
+}
+.v-expansion-panel-header {
+  
 }
 </style>
 

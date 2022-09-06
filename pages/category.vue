@@ -20,10 +20,10 @@
       :key="i"
       
     >
-      <v-expansion-panel-header class="px-1  "><h4 class="mb-0 pb-0">Filter by Category</h4></v-expansion-panel-header>
+      <v-expansion-panel-header class="px-1  "><h4 class="mb-0 pb-0">Category</h4></v-expansion-panel-header>
       
       <v-expansion-panel-content  class=" px-1 mt-2  " style=" overflow:scroll; height: 50vh; " >
-         <div  >
+         <div >
               <v-checkbox
                 v-for="(i, index) in categories"
                 :key="index"
@@ -46,7 +46,7 @@
       :key="i"
       
     >
-      <v-expansion-panel-header class="px-1   "><h4 class="mb-0 pb-0">Filter by Brand</h4></v-expansion-panel-header>
+      <v-expansion-panel-header class="px-1   "><h4 class="mb-0 pb-0">Brand</h4></v-expansion-panel-header>
       
       <v-expansion-panel-content  class=" px-1 mt-2 " style=" overflow:scroll; height: 50vh; " >
          <div  >
@@ -67,7 +67,7 @@
              
            
             
-            <h4 class="mb-4 mt-6">Filter by Price</h4>
+            <h4 class="mb-4 mt-6">Price</h4>
             <v-range-slider
               v-model="range"
               @change="filterPrice()"
