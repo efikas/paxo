@@ -12,17 +12,41 @@
       <v-row class="mt-4" :class="{'px-4':$vuetify.breakpoint.smAndDown}" >
         <v-col md="2" class="hidden-sm-and-down pl-6 mx-0">
             <div class="category pa-0">
-            <h4 class="mb-6 ">FILTER BY <v-icon>filter_alt</v-icon></h4>
+            <h4 class="mb-4 ">FILTER BY <v-icon>filter_alt</v-icon></h4>
 
-   <v-expansion-panels focusable  class="pb-4" >
+<v-expansion-panels  focusable flat accordion  >
     <v-expansion-panel 
-      v-for="(item,i) in 1"
-      :key="i"
+     
       
     >
-      <v-expansion-panel-header class="px-1  "><h4 class="mb-0 pb-0">Filter by Category</h4></v-expansion-panel-header>
+      <v-expansion-panel-header  expand-icon="mdi-plus " disable-icon-rotate >Brand
       
-      <v-expansion-panel-content  class=" px-1 mt-2  " style=" overflow:scroll; height: 50vh; " >
+      
+      </v-expansion-panel-header>
+
+      
+      
+      <v-expansion-panel-content  style=" overflow:scroll; height: 50vh; " >
+         <div  >
+              <v-checkbox
+                v-for="(i, index) in brands"
+                :value="i.id"
+                v-model="pages"
+                @change="getProducts()"
+                :key="index"
+                :label="i.name"
+                class="ma-0 pa-0"
+              ></v-checkbox>
+            </div>
+      </v-expansion-panel-content>
+    </v-expansion-panel>
+    <v-divider></v-divider>
+    <v-expansion-panel 
+      
+    >
+      <v-expansion-panel-header expand-icon="mdi-plus" disable-icon-rotate>Category</v-expansion-panel-header>
+      
+      <v-expansion-panel-content  class=" px-1 mt-2  " style=" overflow:scroll; height: 50vh; border-style: none" >
          <div  >
               <v-checkbox
                 v-for="(i, index) in categories"
@@ -37,16 +61,12 @@
             </div>
       </v-expansion-panel-content>
     </v-expansion-panel>
-    
-  </v-expansion-panels>
-
-  <v-expansion-panels focusable >
+    <v-divider></v-divider>
     <v-expansion-panel 
-      v-for="(item,i) in 1"
-      :key="i"
+     
       
     >
-      <v-expansion-panel-header class="px-1   "><h4 class="mb-0 pb-0">Filter by Brand</h4></v-expansion-panel-header>
+      <v-expansion-panel-header expand-icon="mdi-plus" disable-icon-rotate   >Availability</v-expansion-panel-header>
       
       <v-expansion-panel-content  class=" px-1 mt-2 " style=" overflow:scroll; height: 50vh; " >
          <div  >
@@ -64,10 +84,13 @@
     </v-expansion-panel>
     
   </v-expansion-panels>
+          
+
+   
              
            
             
-            <h4 class="mb-4 mt-6">Filter by Price</h4>
+            <h4 class="mb-4 mt-6">Price</h4>
             <v-range-slider
               v-model="range"
               @change="filterPrice()"
@@ -94,8 +117,8 @@
             </v-col>
           </v-row>
           <v-divider></v-divider>
-          <v-row class="mt-8" >
-            <v-col md="2" cols="6" v-for="(i, index) in products" :key="index" v-if="i.product">
+          <v-row class="mt-8 " >
+            <v-col md="3"  v-for="(i, index) in products" :key="index" v-if="i.product">
 
               <product-display v-if="i.product"
               :product_name="i.product.name"

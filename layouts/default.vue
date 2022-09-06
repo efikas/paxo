@@ -282,15 +282,24 @@
           transition="scale-transition"
         >
           <template v-slot:activator="{ attrs, on }">
+          <v-overlay
+      :z-index="0"
+      :opacity= "0"
+       style="height:10px" class="mt-3 justify-end"
+    >
+          <v-chip style="border-radius: 3" dark color="primary" class="pa-2"small id="WalletPrice"
+                >&#8358;{{ user.balance | formatPrice }}</v-chip
+              ></v-overlay>
             <v-btn
               v-bind="attrs"
               v-on="on"
-              class="ml-4 hidden-sm-and-down"
+              class="ml-4 hidden-sm-and-down "
               icon
               outlined
+              depressed
             >
-              <v-icon>ri-user-line</v-icon></v-btn
-            >
+              <v-icon>ri-user-line</v-icon></v-btn>
+              
           </template>
 
           <v-list dense width="250px" class="py-0">
@@ -371,6 +380,7 @@
               transition="scale-transition"
             >
               <template v-slot:activator="{ attrs, on }">
+              
                 <v-btn v-bind="attrs" v-on="on" icon outlined>
                   <v-icon>ri-user-line</v-icon></v-btn
                 >
@@ -983,7 +993,8 @@ export default {
   },
   computed: {
     ...mapGetters('products', ['StoreCart', 'cartItem']),
-    ...mapGetters('auth', ['isAuthenticated']),
+    ...mapGetters('auth', ['isAuthenticated', 'user']),
+    
     // orderedBrands: {
     //   get: function () {
     //     return _.orderBy(this.brands, 'name')
@@ -1189,4 +1200,9 @@ a {
   background: #ff4e50 !important;
   color: #000 !important;
 }
+@media only screen and (max-width: 420px) {
+  #WalletPrice {
+    display: none;
+  }
+  }
 </style>
