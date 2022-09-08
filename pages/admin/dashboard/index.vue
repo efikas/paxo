@@ -342,6 +342,7 @@ export default {
         { text: 'Order Number', value: 'order_number' },
         { text: 'Order Price', value: 'total' },
         { text: 'Coupon', value: 'coupon' },
+        { text: 'Method', value: 'channel' },
         { text: 'Status', value: 'status' },
         { text: 'Date Created', value: 'created_at' },
         { text: 'Actions', value: 'actions' },

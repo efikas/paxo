@@ -243,7 +243,7 @@
           </v-col>
         </v-row>
 
-        <p class="mt-3" >
+        <p class="mt-3">
           Are you sure you want to proceed to paying for this order? Please note
           that this step is irreversible!
         </p>
@@ -461,58 +461,6 @@ export default {
           console.log(error)
         })
     },
-    async makeOrder3() {
-      this.loading = true
-      const data = {
-        order_id: this.order.order.id,
-        reference: this.reference,
-        amount: this.order.order_balance,
-        channel: !this.use_wallet_card ? 'wallet' : 'wallet_card',
-        total_product: this.subtotal,
-      }
-      const self = this
-      await this.$store
-        .dispatch('products/storeorder', data)
-        .then((response) => {
-          // const res = response
-          // var dataLayer = window.dataLayer || []
-          window.dataLayer.push({
-            event: 'purchase',
-            ecommerce: {
-              transaction_id: self.order.order.order_number, // Transaction ID. Required
-              affiliation: 'Online Store', // default value is Online Store
-              value: self.subtotal, // Total transaction value (does not include tax and shipping)
-              tax: '0.00',
-              shipping: self.user.deliveryfee,
-              coupon: self.code,
-              payment_method: self.paymentoption == '1' ? 'wallet' : 'card', // either 'card' or 'wallet'
-              shipping_zone: 'SW', // geo-zone shipped to
-              shipping_location: this.user.state, // state being shipped to
-              shipping_tier: 'Local pickup', // see details below
-              account_type:
-                self.user.role == 'user' || self.user.role == 'staff'
-                  ? 'RETAILER'
-                  : 'WHOLESALER',
-              customer_type: 'returning', // Add a code to tell whether this is a new customer or returning.
-              gift_item: '', // This is boolean
-              currency: 'NGN', // This value is constant
-              items: self.StoreCart,
-            },
-          })
-          // setTimeout(() => {
-          this.$toast.success(response.message)
-          this.loading = this.confirmDialog = false
-          this.getProfile()
-          this.$router.push('/thank-you')
-          this.$store.commit('products/CLEAR_CART')
-          this.getUser()
-          // },3000)
-        })
-        .catch((error) => {
-          this.$toast.error(error.response.data.message)
-          console.log(error)
-        })
-    },
     async makeOrder2() {
       this.loading = true
       const data = {
@@ -605,6 +553,7 @@ export default {
         description: this.user.description,
         country: 'Nigeria',
         device: 'web',
+        dob: this.user.dob,
         email: this.user.email,
         phone: this.user.mobile,
         city: this.user.city,
@@ -618,6 +567,7 @@ export default {
         total_product: this.subtotal,
         code: this.code,
       }
+      console.log('datat to send', payload);
       await this.$store
         .dispatch('products/makeorder', payload)
         .then((response) => {
@@ -671,6 +621,7 @@ export default {
         description: this.user.description,
         country: 'Nigeria',
         device: 'web',
+        dob: this.user.dob,
         email: this.user.email,
         phone: this.user.mobile,
         city: this.user.city,
@@ -680,17 +631,14 @@ export default {
         use_wallet: parseInt(this.paymentoption),
         product: this.StoreCart,
         reference: this.reference,
-        total:
-          this.subtotal +
-          parseInt(this.user.deliveryfee) -
-          parseInt(this.user.balance),
+        total: this.subtotal + parseInt(this.user.deliveryfee),
         total_product: this.subtotal,
         code: this.code,
       }
       await this.$store
         .dispatch('products/makeorder', payload)
         .then(async (response) => {
-          console.log(response);
+          console.log('product saved', response)
           this.$toast.success(response.message)
           // this.getUser()
           // this.getProfile()
@@ -701,16 +649,14 @@ export default {
             this.use_wallet_card = true
             this.clickPaystack()
           } else {
-            this.use_wallet_card = false;
-            console.log('product id', this.order.order.id)
             this.loading = true
+             console.log('order value', self.order);
             const data = {
-              order_id: this.order.order.id,
+              order_id: self.order.order.id,
               reference: 'null',
-              amount: this.order.order_balance,
-              channel: !this.use_wallet_card ? 'wallet' : 'wallet_card',
+              amount: self.order.order.total,
+              channel: 'wallet',
             }
-            const self = this
             await this.$store
               .dispatch('products/storeorderwallet', data)
               .then((response) => {
@@ -738,44 +684,25 @@ export default {
                     items: self.StoreCart,
                   },
                 })
+                setTimeout(() => {
+                  this.getProfile()
+                  this.$store.commit('products/CLEAR_CART'),
+                    this.$router.push('/thank-you')
+                  this.getUser()
+                }, 3000)
                 // setTimeout(() => {
-                this.$toast.success(response.message)
-                this.loading = this.confirmDialog = false
-                this.getProfile()
-                this.$router.push('/thank-you')
-                this.$store.commit('products/CLEAR_CART')
-                this.getUser()
-                // },3000)
+                //   this.$toast.success(response.message)
+                //   this.loading = this.confirmDialog = false
+                //   this.getProfile()
+                //   this.$router.push('/thank-you')
+                //   this.$store.commit('products/CLEAR_CART')
+                //   this.getUser()
+                //    },3000)
               })
               .catch((error) => {
                 this.$toast.error(error.response.data.message)
                 console.log(error)
               })
-            // (window.dataLayer.push({
-            //     event: 'purchase',
-            //     ecommerce: {
-            //       transaction_id: self.order.order.order_number, // Transaction ID. Required
-            //       affiliation: 'Online Store', // default value is Online Store
-            //       value: self.subtotal, // Total transaction value (does not include tax and shipping)
-            //       tax: '0.00',
-            //       shipping: self.user.deliveryfee,
-            //       coupon: self.code,
-            //       payment_method: self.paymentoption == '1' ? 'wallet' : 'card', // either 'card' or 'wallet'
-            //       shipping_zone: 'SW', // geo-zone shipped to
-            //       shipping_location: this.user.state, // state being shipped to
-            //       shipping_tier: 'Local pickup', // see details below
-            //       account_type:
-            //         self.user.role == 'user' || self.user.role == 'staff'
-            //           ? 'RETAILER'
-            //           : 'WHOLESALER',
-            //       customer_type: 'returning', // Add a code to tell whether this is a new customer or returning.
-            //       gift_item: '', // This is boolean
-            //       currency: 'NGN', // This value is constant
-            //       items: self.StoreCart,
-            //     },
-            //   }),
-            //   this.$store.commit('products/CLEAR_CART'),
-            //   this.$router.push('/thank-you'))
           }
         })
         .catch((error) => {

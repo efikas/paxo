@@ -37,10 +37,11 @@
             
           </v-row>
           <v-text-field
+              v-if="userDetail.dob"
             label="Date of Birth"
-           
             type="date"
-            required
+            v-model="userDetail.dob"
+            @change="updateUserDetail('dob', userDetail.dob)"
             :rules="[(v) => !!v || 'This field is required']"
             outlined
           >
@@ -301,11 +302,11 @@ export default {
         this.totalweight +=
           this.StoreCart[i].weight * this.StoreCart[i].quantity
       }
-      if (parseInt(this.user.balance) < parseInt(this.subtotal)) {
-          this.$toast.error("Please add sufficient balance to wallet")
-      }else{
-        this.$toast.success("Wallet balance is sufficient")
-      }
+      // if (parseInt(this.user.balance) < parseInt(this.subtotal)) {
+      //     this.$toast.error("Please add sufficient balance to wallet")
+      // }else{
+      //   this.$toast.success("Wallet balance is sufficient")
+      // }
     },
 
     async computeDeliveryFee() {
