@@ -94,11 +94,22 @@
           </div>
 
           <v-btn
+            v-if="paymentoption == '0'"
             large
             text
             class="primary mt-12"
             :loading="loading"
             @click="$refs.form.validate() ? (confirmDialog = true) : null"
+            >Complete Order</v-btn
+          >
+
+          <v-btn
+            v-if="paymentoption == '1'"
+            large
+            text
+            class="primary mt-12"
+            :loading="loading"
+            @click="$refs.form.validate() ? (walletDialog = true) : null"
             >Complete Order</v-btn
           >
         </v-form>
@@ -190,7 +201,10 @@
       overlay-opacity="0.9"
     >
       <v-card class="pa-6 text-center">
-        <h3>Proceed to payment?</h3>
+        <h3>
+          Order Total: &#8358;
+          {{ (subtotal + parseInt(user.deliveryfee)) | formatPrice }}
+        </h3>
         <p>
           Are you sure you want to proceed to paying for this order? Please note
           that this step is irreversible!
@@ -198,6 +212,44 @@
 
         <v-btn outlined text @click="confirmDialog = false">Cancel</v-btn>
         <v-btn class="primary" :loading="loading" @click="createOrder()"
+          >Proceed</v-btn
+        >
+      </v-card>
+    </v-dialog>
+    <v-dialog
+      width="470"
+      v-model="walletDialog"
+      overlay-color="#36bdb4"
+      overlay-opacity="0.9"
+    >
+      <v-card class="pa-6 text-center">
+        <h3>
+          Order Total: &#8358;
+          {{ (subtotal + parseInt(user.deliveryfee)) | formatPrice }}
+        </h3>
+        <v-row>
+          <v-col class="pb-0 text-center">
+            <v-btn outlined text small
+              >Wallet Payment: &#8358;{{ user.balance | formatPrice }}</v-btn
+            >
+          </v-col>
+          <v-col ma-0>
+            <v-btn class="primary" small
+              >Card Payment: &#8358;{{
+                (subtotal + parseInt(user.deliveryfee) - parseInt(user.balance))
+                  | formatPrice
+              }}
+            </v-btn>
+          </v-col>
+        </v-row>
+
+        <p>
+          Are you sure you want to proceed to paying for this order? Please note
+          that this step is irreversible!
+        </p>
+
+        <v-btn outlined text @click="walletDialog = false">Cancel</v-btn>
+        <v-btn class="primary" :loading="loading" @click="createOrder2()"
           >Proceed</v-btn
         >
       </v-card>
@@ -214,20 +266,23 @@ export default {
   },
   data() {
     return {
+      use_wallet_card: false,
       use_percent: false,
       confirmDialog: false,
+      walletDialog: false,
       valid: true,
       loading: false,
       shippingMethods: [],
       shippingmethod: '',
-      paymentoption: '',
+      paymentoption: '0',
       order: [],
       shippingprice: 0,
       subtotal: 0,
       total: 0,
       discount_percent: '',
       discount: '',
-      paystackkey: 'pk_live_7c02e6083d7879d591e497d97392bf4a3e4697f5',
+      paystackkey: 'pk_test_e88a1928368226327d9382a6c67c82749f30ec13',
+      // pk_live_7c02e6083d7879d591e497d97392bf4a3e4697f5
       reference: '',
       channels: ['card', 'bank', 'ussd', 'qr', 'mobile_money', 'bank_transfer'],
       code: '',
@@ -282,15 +337,15 @@ export default {
       }
       if (this.discount_percent) {
         if (this.use_percent) {
-         this.discount = (this.discount_percent / 100) * this.subtotal
-        }else{
-          this.discount = this.discount_percent;
+          this.discount = (this.discount_percent / 100) * this.subtotal
+        } else {
+          this.discount = this.discount_percent
         }
         this.subtotal -= this.discount
       }
     },
     callback: function (response) {
-      this.makeOrder()
+      !this.use_wallet_card ? this.makeOrder() : this.makeOrder2()
     },
     close: function () {
       this.createReference()
@@ -316,9 +371,9 @@ export default {
           this.$toast.success(response.message)
           this.loading = false
           if (response.data.percentage != null) {
-            this.use_percent = true;
+            this.use_percent = true
             this.discount_percent = response.data.percentage
-          }else{
+          } else {
             this.use_percent = false
             this.discount_percent = response.data.coupon_amount
           }
@@ -337,6 +392,134 @@ export default {
         reference: this.reference,
         amount: this.order.order_balance,
         channel: this.paymentoption == '1' ? 'wallet' : 'card',
+        total_product: this.subtotal,
+      }
+      const self = this
+      await this.$store
+        .dispatch('products/storeorder', data)
+        .then((response) => {
+          // const res = response
+          // var dataLayer = window.dataLayer || []
+          window.dataLayer.push({
+            event: 'purchase',
+            ecommerce: {
+              transaction_id: self.order.order.order_number, // Transaction ID. Required
+              affiliation: 'Online Store', // default value is Online Store
+              value: self.subtotal, // Total transaction value (does not include tax and shipping)
+              tax: '0.00',
+              shipping: self.user.deliveryfee,
+              coupon: self.code,
+              payment_method: self.paymentoption == '1' ? 'wallet' : 'card', // either 'card' or 'wallet'
+              shipping_zone: 'SW', // geo-zone shipped to
+              shipping_location: this.user.state, // state being shipped to
+              shipping_tier: 'Local pickup', // see details below
+              account_type:
+                self.user.role == 'user' || self.user.role == 'staff'
+                  ? 'RETAILER'
+                  : 'WHOLESALER',
+              customer_type: 'returning', // Add a code to tell whether this is a new customer or returning.
+              gift_item: '', // This is boolean
+              currency: 'NGN', // This value is constant
+              // items: [
+              //   {
+              //     // List of productFieldObjects.
+              //     item_name: 'KINDII diapers', // Name or ID is required.
+              //     item_id: '12345', // ID of individual item
+              //     price: '5500.00',
+              //     item_brand: 'KINDII',
+              //     item_category: 'babys',
+              //     item_category2: 'new born', // Need to set a maximum number of categories for the entire store
+              //     quantity: 1,
+              //     discount: '', // leave empty
+              //     coupon: '', // leave empty string.
+              //   },
+              //   {
+              //     item_name: 'Tea tree face mask',
+              //     item_id: '67890',
+              //     price: '1000',
+              //     item_brand: 'Tea Tree',
+              //     item_category: 'Shirts',
+              //     quantity: 1,
+              //     discount: '', // leave empty
+              //     coupon: '', // leave empty.
+              //   },
+              // ], //expand this array if more product exists (make this expand based on number of items ordered)
+              items: self.StoreCart,
+            },
+          })
+          // setTimeout(() => {
+          this.$toast.success(response.message)
+          this.loading = this.confirmDialog = false
+          this.getProfile()
+          this.$router.push('/thank-you')
+          this.$store.commit('products/CLEAR_CART')
+          this.getUser()
+          // },3000)
+        })
+        .catch((error) => {
+          this.$toast.error(error.response.data.message)
+          console.log(error)
+        })
+    },
+    async makeOrder3() {
+      this.loading = true
+      const data = {
+        order_id: this.order.order.id,
+        reference: this.reference,
+        amount: this.order.order_balance,
+        channel: !this.use_wallet_card ? 'wallet' : 'wallet_card',
+        total_product: this.subtotal,
+      }
+      const self = this
+      await this.$store
+        .dispatch('products/storeorder', data)
+        .then((response) => {
+          // const res = response
+          // var dataLayer = window.dataLayer || []
+          window.dataLayer.push({
+            event: 'purchase',
+            ecommerce: {
+              transaction_id: self.order.order.order_number, // Transaction ID. Required
+              affiliation: 'Online Store', // default value is Online Store
+              value: self.subtotal, // Total transaction value (does not include tax and shipping)
+              tax: '0.00',
+              shipping: self.user.deliveryfee,
+              coupon: self.code,
+              payment_method: self.paymentoption == '1' ? 'wallet' : 'card', // either 'card' or 'wallet'
+              shipping_zone: 'SW', // geo-zone shipped to
+              shipping_location: this.user.state, // state being shipped to
+              shipping_tier: 'Local pickup', // see details below
+              account_type:
+                self.user.role == 'user' || self.user.role == 'staff'
+                  ? 'RETAILER'
+                  : 'WHOLESALER',
+              customer_type: 'returning', // Add a code to tell whether this is a new customer or returning.
+              gift_item: '', // This is boolean
+              currency: 'NGN', // This value is constant
+              items: self.StoreCart,
+            },
+          })
+          // setTimeout(() => {
+          this.$toast.success(response.message)
+          this.loading = this.confirmDialog = false
+          this.getProfile()
+          this.$router.push('/thank-you')
+          this.$store.commit('products/CLEAR_CART')
+          this.getUser()
+          // },3000)
+        })
+        .catch((error) => {
+          this.$toast.error(error.response.data.message)
+          console.log(error)
+        })
+    },
+    async makeOrder2() {
+      this.loading = true
+      const data = {
+        order_id: this.order.order.id,
+        reference: this.reference,
+        amount: this.order.order_balance,
+        channel: !this.use_wallet_card ? 'wallet' : 'wallet_card',
         total_product: this.subtotal,
       }
       const self = this
@@ -478,6 +661,129 @@ export default {
           this.loading = this.confirmDialog = false
         })
     },
+    async createOrder2() {
+      this.loading = true
+      const payload = {
+        weight: this.totalweight,
+        shipping_id: this.user.shipping_id,
+        address: this.user.address,
+        delivery_method: this.user.deliveryMethod,
+        description: this.user.description,
+        country: 'Nigeria',
+        device: 'web',
+        email: this.user.email,
+        phone: this.user.mobile,
+        city: this.user.city,
+        lga: this.user.lga?.name,
+        state: this.user.state?.name,
+        set_paid: 1,
+        use_wallet: parseInt(this.paymentoption),
+        product: this.StoreCart,
+        reference: this.reference,
+        total:
+          this.subtotal +
+          parseInt(this.user.deliveryfee) -
+          parseInt(this.user.balance),
+        total_product: this.subtotal,
+        code: this.code,
+      }
+      await this.$store
+        .dispatch('products/makeorder', payload)
+        .then(async (response) => {
+          console.log(response);
+          this.$toast.success(response.message)
+          // this.getUser()
+          // this.getProfile()
+          this.loading = false
+          this.order = response.data
+          const self = this
+          if (this.order.order_balance > 0) {
+            this.use_wallet_card = true
+            this.clickPaystack()
+          } else {
+            this.use_wallet_card = false;
+            console.log('product id', this.order.order.id)
+            this.loading = true
+            const data = {
+              order_id: this.order.order.id,
+              reference: 'null',
+              amount: this.order.order_balance,
+              channel: !this.use_wallet_card ? 'wallet' : 'wallet_card',
+            }
+            const self = this
+            await this.$store
+              .dispatch('products/storeorderwallet', data)
+              .then((response) => {
+                window.dataLayer.push({
+                  event: 'purchase',
+                  ecommerce: {
+                    transaction_id: self.order.order.order_number, // Transaction ID. Required
+                    affiliation: 'Online Store', // default value is Online Store
+                    value: self.subtotal, // Total transaction value (does not include tax and shipping)
+                    tax: '0.00',
+                    shipping: self.user.deliveryfee,
+                    coupon: self.code,
+                    payment_method:
+                      self.paymentoption == '1' ? 'wallet' : 'card', // either 'card' or 'wallet'
+                    shipping_zone: 'SW', // geo-zone shipped to
+                    shipping_location: this.user.state, // state being shipped to
+                    shipping_tier: 'Local pickup', // see details below
+                    account_type:
+                      self.user.role == 'user' || self.user.role == 'staff'
+                        ? 'RETAILER'
+                        : 'WHOLESALER',
+                    customer_type: 'returning', // Add a code to tell whether this is a new customer or returning.
+                    gift_item: '', // This is boolean
+                    currency: 'NGN', // This value is constant
+                    items: self.StoreCart,
+                  },
+                })
+                // setTimeout(() => {
+                this.$toast.success(response.message)
+                this.loading = this.confirmDialog = false
+                this.getProfile()
+                this.$router.push('/thank-you')
+                this.$store.commit('products/CLEAR_CART')
+                this.getUser()
+                // },3000)
+              })
+              .catch((error) => {
+                this.$toast.error(error.response.data.message)
+                console.log(error)
+              })
+            // (window.dataLayer.push({
+            //     event: 'purchase',
+            //     ecommerce: {
+            //       transaction_id: self.order.order.order_number, // Transaction ID. Required
+            //       affiliation: 'Online Store', // default value is Online Store
+            //       value: self.subtotal, // Total transaction value (does not include tax and shipping)
+            //       tax: '0.00',
+            //       shipping: self.user.deliveryfee,
+            //       coupon: self.code,
+            //       payment_method: self.paymentoption == '1' ? 'wallet' : 'card', // either 'card' or 'wallet'
+            //       shipping_zone: 'SW', // geo-zone shipped to
+            //       shipping_location: this.user.state, // state being shipped to
+            //       shipping_tier: 'Local pickup', // see details below
+            //       account_type:
+            //         self.user.role == 'user' || self.user.role == 'staff'
+            //           ? 'RETAILER'
+            //           : 'WHOLESALER',
+            //       customer_type: 'returning', // Add a code to tell whether this is a new customer or returning.
+            //       gift_item: '', // This is boolean
+            //       currency: 'NGN', // This value is constant
+            //       items: self.StoreCart,
+            //     },
+            //   }),
+            //   this.$store.commit('products/CLEAR_CART'),
+            //   this.$router.push('/thank-you'))
+          }
+        })
+        .catch((error) => {
+          console.log(error)
+          this.$toast.error(error.response.data.message)
+          this.loading = this.walletDialog = false
+        })
+    },
     async getShippingMethods() {
       await this.$store.dispatch('auth/shipping').then((response) => {
         this.shippingMethods = response.data
@@ -534,7 +840,7 @@ a {
   border-radius: 4px;
   border: 2px solid #eaeaea;
 }
-.coupon-color{
- color: #36bdb4;
+.coupon-color {
+  color: #36bdb4;
 }
 </style>
