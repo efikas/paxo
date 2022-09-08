@@ -225,21 +225,7 @@
           >
         </div>
 
-        <v-badge
-          :color="cartItem ? 'error' : 'transparent'"
-          :content="cartItem"
-          overlap
-        >
-          <v-btn
-            to="/shopping-cart"
-            icon
-            class="primary--text"
-            outlined
-            depressed
-          >
-            <v-icon color="">ri-shopping-cart-2-fill</v-icon>
-          </v-btn>
-        </v-badge>
+        
         <!-- <v-menu
           bottom
           left
@@ -285,15 +271,15 @@
           <v-overlay
       :z-index="0"
       :opacity= "0"
-       style="height:10px" class="mt-3 justify-end"
+       style="height:10px  " class="mt-2 justify-end  pr-16 mr-6 "
     >
-          <v-chip style="border-radius: 3" dark color="primary" class="pa-2"small id="WalletPrice"
+          <v-chip style="border-radius: 3 height:4px " dark color="error" class="pa-2" small id="WalletPrice"
                 >&#8358;{{ user.balance | formatPrice }}</v-chip
               ></v-overlay>
             <v-btn
               v-bind="attrs"
               v-on="on"
-              class="ml-4 hidden-sm-and-down "
+              class="ml-4  "
               icon
               outlined
               depressed
@@ -341,6 +327,22 @@
             </v-list-item>
           </v-list>
         </v-menu>
+
+        <v-badge
+          :color="cartItem ? 'error' : 'transparent'"
+          :content="cartItem"
+          overlap
+        >
+          <v-btn
+            to="/shopping-cart"
+            icon
+            class="primary--text ml-4 "
+            outlined
+            depressed
+          >
+            <v-icon color="">ri-shopping-cart-2-fill</v-icon>
+          </v-btn>
+        </v-badge>
         <!-- <v-row class="ml-5 hidden-sm-and-down" style="">
           <v-col class="py-0 ma-0">
              <v-btn text class="mt-2">Skin Expert</v-btn>
@@ -1200,9 +1202,5 @@ a {
   background: #ff4e50 !important;
   color: #000 !important;
 }
-@media only screen and (max-width: 420px) {
-  #WalletPrice {
-    display: none;
-  }
-  }
+
 </style>

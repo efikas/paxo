@@ -190,13 +190,44 @@
       overlay-opacity="0.9"
     >
       <v-card class="pa-6 text-center">
-        <h3>Proceed to payment?</h3>
+        <h3>Order Total: &#8358; {{ (subtotal + parseInt(user.deliveryfee)) | formatPrice}}</h3>
         <p>
           Are you sure you want to proceed to paying for this order? Please note
           that this step is irreversible!
         </p>
 
         <v-btn outlined text @click="confirmDialog = false">Cancel</v-btn>
+        <v-btn class="primary" :loading="loading" @click="createOrder()"
+          >Proceed</v-btn
+        >
+      </v-card>
+    </v-dialog>
+    <v-dialog
+      width="400"
+      v-model="walletDialog"
+      overlay-color="#36bdb4"
+      overlay-opacity="0.9"
+    >
+      <v-card class="pa-6 text-center ">
+        <h3>Order Total: &#8358; {{ (subtotal + parseInt(user.deliveryfee)) | formatPrice}}</h3>
+        <v-row>
+        <v-col class="pb-0 text-center ">
+          <v-btn outlined text small >Wallet Payment: &#8358;{{ user.balance | formatPrice }}</v-btn>
+        </v-col>
+        <v-col >
+          <v-btn class="primary" small
+          >Card Payment: &#8358;{{ (subtotal + parseInt(user.deliveryfee)) - parseInt(user.balance) | formatPrice }} </v-btn
+        >
+        </v-col>
+        </v-row>
+        
+        
+        <p>
+          Are you sure you want to proceed to paying for this order? Please note
+          that this step is irreversible!
+        </p>
+
+        <v-btn outlined text @click="walletDialog = false">Cancel</v-btn>
         <v-btn class="primary" :loading="loading" @click="createOrder()"
           >Proceed</v-btn
         >
@@ -216,6 +247,7 @@ export default {
     return {
       use_percent: false,
       confirmDialog: false,
+      walletDialog: false,
       valid: true,
       loading: false,
       shippingMethods: [],
