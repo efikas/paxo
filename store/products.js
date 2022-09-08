@@ -308,6 +308,26 @@ export const actions = {
     return data
   },
 
+  async storeorderwallet({ commit }, { order_id, reference, amount, channel, total_product }) {
+    let token = JSON.parse(window.localStorage.getItem('paxo')).auth.token
+    const data = await this.$axios.$post(
+      '/user/payment/store/wallet',
+      {
+        order_id,
+        reference,
+        amount,
+        channel, total_product
+      },
+      {
+        headers: {
+          Authorization: 'Bearer ' + token,
+        },
+      }
+    )
+
+    return data
+  },
+
   async search({}, { search }) {
     const data = await this.$axios.$post('/product/search', {
       search,
