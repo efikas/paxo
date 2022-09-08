@@ -243,7 +243,7 @@
           </v-col>
         </v-row>
 
-        <p>
+        <p class="mt-3" >
           Are you sure you want to proceed to paying for this order? Please note
           that this step is irreversible!
         </p>
