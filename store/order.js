@@ -17,6 +17,15 @@ export const actions = {
     })
     return data
   },
+  async userpendingorders() {
+    let token = JSON.parse(window.localStorage.getItem('paxo')).auth.token
+    const data = await this.$axios.$get('/user/pending/order', {
+      headers: {
+        Authorization: 'Bearer ' + token,
+      },
+    })
+    return data
+  },
   async singleblog({}, { id }) {
     // let token = JSON.parse(window.localStorage.getItem('paxo')).auth.token
     const data = await this.$axios.$get('/blog/single/' + id, {

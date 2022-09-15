@@ -291,7 +291,7 @@
           <v-list dense width="250px" class="py-0">
             <v-list-item dense to="/dashboard" class="py-0 my-0">
               <v-list-item-content class="py-0 my-0">
-                <v-list-item-title>Account Information </v-list-item-title>
+                <v-list-item-title>Account Informations </v-list-item-title>
               </v-list-item-content>
             </v-list-item>
             <v-list-item dense to="/change-password" class="py-0 my-0">

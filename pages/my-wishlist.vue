@@ -119,6 +119,11 @@ export default {
           to: '/my-orders',
         },
         {
+          icon: 'ri-shopping-cart-line',
+          text: 'My Pending Orders',
+          to: '/my-pending-orders',
+        },
+        {
           icon: 'ri-heart-line',
           text: 'My Wishlist',
           to: '/my-wishlist',
