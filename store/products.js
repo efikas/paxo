@@ -11,13 +11,12 @@ export const mutations = {
   ADD_Item(state, item) {
     if (state.StoreCart.some((data) => data.id === item.id)) {
       state.StoreCart.find((data) => data.id === item.id).quantity++
+      state.StoreCart.find((data) => data.id === item.id).cart_id = item.cart_id
       // console.log(state.StoreCart)
       // console.log(state.StoreCart.findIndex((data) => data.id === item.id))
       // console.log(state.StoreCart[state.StoreCart.indexOf(item)])
     } else {
       state.StoreCart.push(item)
-
-      //
     }
 
     // if (items.length > 0) {
@@ -31,6 +30,24 @@ export const mutations = {
     // for (i = 0; i < state.StoreCart.length; i++) {
     //   carts += state.StoreCart[i].quantity
     // }
+    state.cartItem = state.StoreCart.length
+  },
+
+  ADD_Item_cart_id(state, item) {
+    if (state.StoreCart.some((data) => data.id === item.id)) {
+      state.StoreCart.find((data) => data.id === item.id).cart_id = item.cart_id
+    } 
+    state.cartItem = state.StoreCart.length
+  },
+
+  UPDATE_Item_quantity(state, item) {
+    if (state.StoreCart.some((data) => data.id === item.id)) {
+      state.StoreCart.find((data) => data.id === item.id).quantity = item.quantity
+    } 
+  },
+
+  UPDATE_ALL_CART(state, item) {
+    state.StoreCart = item
     state.cartItem = state.StoreCart.length
   },
 
@@ -54,6 +71,7 @@ export const mutations = {
   },
   UPDATE_CART(state, data) {
     state.StoreCart = data
+    state.cartItem = state.StoreCart.length
   },
   ADD_CART_QUANTITY(state) {
     // var i,
@@ -78,10 +96,66 @@ export const actions = {
   addToCart(context, product) {
     context.commit('ADD_Item', product)
   },
-  async savecart({ state }) {
-    console.log(state.StoreCart)
+  async savecart(context, {product}) {
     let token = JSON.parse(window.localStorage.getItem('paxo')).auth.token
-    const data = await this.$axios.$post('/user/cart/store', state.StoreCart, {
+    if(context.state.StoreCart.some((data) => data.id === product.id)){
+      product.quantity = product.quantity + 1
+      let item = context.state.StoreCart.find((data) => data.id === product.id);
+      product.cart_id = item.cart_id;
+    }
+
+    const data = await this.$axios.$post('/user/cart/store', {
+      product, product_id: product.id}, {
+      headers: {
+        Authorization: 'Bearer ' + token,
+      },
+    })
+    if(data.status == true){
+      context.commit('ADD_Item_cart_id', {
+        ...data.data.product,
+        cart_id: data.data.id
+      })
+    }
+    return data
+  },
+
+  async fetchcart(context) {
+    let token = JSON.parse(window.localStorage.getItem('paxo')).auth.token
+    const data = await this.$axios.$get('/user/cart', {
+      headers: {
+        Authorization: 'Bearer ' + token,
+      },
+    })
+
+    if(data.status == true){
+      let cartItems = [];
+
+      data.data.forEach((item) => {
+        cartItems.push({
+          ...item.product,
+          stock_quantity: item.products.stock_quantity,
+          stock_status: item.products.stock_status,
+          price: item.products.price,
+          regular_price: item.products.regular_price,
+          sale_price: item.products.sale_price,
+          cart_id: item.id,
+        });
+      });
+
+      context.commit('UPDATE_ALL_CART', cartItems)
+    }
+    else {
+      context.commit('CLEAR_CART', 0)
+    }
+    return data
+  },
+
+  async removeFromCart (context, index)  {
+    context.commit('REMOVE_Item', index)
+    
+    let cartItem = context.state.StoreCart[index];
+    let token = JSON.parse(window.localStorage.getItem('paxo')).auth.token
+    const data = await this.$axios.$delete(`user/cart/delete/${cartItem.cart_id}`, {
       headers: {
         Authorization: 'Bearer ' + token,
       },
@@ -89,9 +163,28 @@ export const actions = {
 
     return data
   },
+  async updateItemQuantity(context,{count, product}) {
+    let token = JSON.parse(window.localStorage.getItem('paxo')).auth.token
+    if(context.state.StoreCart.some((data) => data.id === product.id)){
+      let item = {...product, quantity: count} 
+      context.commit("UPDATE_Item_quantity", item);
 
-  removeFromCart(context, index) {
-    context.commit('REMOVE_Item', index)
+      const data = await this.$axios.$post('/user/cart/store', {
+        product: item, product_id: product.id}, {
+        headers: {
+          Authorization: 'Bearer ' + token,
+        },
+      })
+
+      if(data.status == true){
+        context.commit('ADD_Item_cart_id', {
+          ...data.data.product,
+          cart_id: data.data.id
+        })
+      }
+
+      return data
+    }
   },
   async addtowishlist({ },{product_id}) {
 

@@ -18,6 +18,7 @@
           <td class="py-5">
             <div class="d-flex align-center">
               <img :src="i.avatar" width="100px" alt="" />
+              
               <nuxt-link :to="'/single-product?product_id=' + i.id">
                 <p class="ml-8">{{ i.name }}</p>
               </nuxt-link>
@@ -35,12 +36,20 @@
           </td>
 
           <td>
-            <div class="qty-box pa-2">
+            <!-- outofstock -->
+            <!-- instock -->
+            <v-chip v-if="i.stock_status == 'outofstock'"
+              :class="'error'"
+              style="float: right; border-radius: 0; z-index: 100"
+              small
+              >{{'Out of stock' }}
+              </v-chip>
+            <div v-else class="qty-box pa-2">
               <v-btn
                 icon
                 small
                 @click="
-                  i.quantity > 1 ? (i.quantity -= 1) : null, calculateSubtotal()
+                  i.quantity > 1 ? updateQuantity(i.quantity - 1, i) : null
                 "
                 ><v-icon>ri-subtract-fill</v-icon></v-btn
               >
@@ -49,9 +58,7 @@
                 @click="
                   i.quantity + 1 > i.stock_quantity
                     ? $toast.error('Out of stock')
-                    : (i.quantity += 1),
-                    calculateSubtotal()
-                "
+                    : updateQuantity(i.quantity + 1, i)"
                 icon
                 small
                 ><v-icon>ri-add-fill</v-icon></v-btn
@@ -175,7 +182,7 @@
             <p>&#8358;{{ subtotal | formatPrice }}</p>
           </div>
           <v-divider class="mb-6"></v-divider>
-          <div class="pb-6" v-for="(i, index) in StoreCart" :key="index">
+          <div class="pb-6" v-for="(i, index) in StoreCart.filter(item => item.stock_status != 'outofstock')" :key="index">
             <p>
               {{ i.name }} <br />
               x {{ i.quantity }}
@@ -199,28 +206,74 @@ export default {
     }
   },
   mounted() {
-    this.calculateSubtotal()
-    if (this.StoreCart.length > 0) {
-      this.getUpdatedCart()
-    }
+    this.$store
+      .dispatch('products/fetchcart')
+      .then((response) => {
+        if (response.status == true) {
+          this.calculateSubtotal()
+          // if (this.StoreCart.length > 0) {
+          //   this.getUpdatedCart()
+          // }
+        }
+      })
+      .catch((error) => {
+        this.$toast.error(error.response.data.error.message)
+      })
+  },
+  watch: {
+    // StoreCart(oldvalue, newValue){
+    //   this.subtotal = 0
+    //   if(newValue == null || newValue == undefined){
+    //     return;
+    //   }
+
+    //   let inStoreCartItems = newValue.filter(item => item.stock_status != 'outofstock');
+    
+    //   for (var i = 0; i < inStoreCartItems.length; i++) {
+    //     this.subtotal +=
+    //       parseInt(inStoreCartItems[i].quantity) *
+    //       parseInt(
+    //         this.isAuthenticated
+    //           ? this.user.role == 'wholesaler' || this.user.role == 'next_champ'
+    //             ? inStoreCartItems.wholesale_price
+    //             : inStoreCartItems.price
+    //           : inStoreCartItems.price
+    //       )
+    //   }
+    // }
   },
   methods: {
     calculateSubtotal() {
       this.subtotal = 0
-      for (var i = 0; i < this.StoreCart.length; i++) {
+      if(this.StoreCart == null || this.StoreCart == undefined){
+        return;
+      }
+
+      let inStoreCartItems = this.StoreCart.filter(item => item.stock_status != 'outofstock');
+      
+      for (var i = 0; i < inStoreCartItems.length; i++) {
         this.subtotal +=
-          parseInt(this.StoreCart[i].quantity) *
+          parseInt(inStoreCartItems[i].quantity) *
           parseInt(
             this.isAuthenticated
               ? this.user.role == 'wholesaler' || this.user.role == 'next_champ'
-                ? this.StoreCart[i].wholesale_price
-                : this.StoreCart[i].price
-              : this.StoreCart[i].price
+                ? inStoreCartItems[i].wholesale_price
+                : inStoreCartItems[i].price
+              : inStoreCartItems[i].price
           )
       }
     },
     removeItem(index) {
       this.$store.dispatch('products/removeFromCart', index)
+    },
+    updateQuantity(count, product) {
+      this.$store.dispatch('products/updateItemQuantity', {
+        count: count,
+        product: product,
+      })
+      .then((response) => {
+        this.calculateSubtotal()
+      })
     },
     async getUpdatedCart() {
       const products = await this.StoreCart.reduce(function (acc, obj) {

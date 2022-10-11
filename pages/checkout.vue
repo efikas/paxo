@@ -214,7 +214,7 @@
             </v-col>
           </v-row>
           <v-divider class="my-6"></v-divider>
-          <div class="" v-for="(i, index) in StoreCart" :key="index">
+          <div class="" v-for="(i, index) in StoreCart.filter(item => item.stock_status != 'outofstock')" :key="index">
             <p>
               {{ i.name }} <br />{{ i.quantity }} x &#8358;{{
                 (isAuthenticated
@@ -288,19 +288,25 @@ export default {
     calculateSubtotal() {
       
       this.subtotal = 0
+      if(this.StoreCart == null || this.StoreCart == undefined){
+        return;
+      }
+
+      let inStoreCartItems = this.StoreCart.filter(item => item.stock_status != 'outofstock');
+      
       for (var i = 0; i < this.StoreCart.length; i++) {
         this.subtotal +=
-          parseInt(this.StoreCart[i].quantity) *
+          parseInt(inStoreCartItems[i].quantity) *
           parseInt(
             this.isAuthenticated
               ? this.user.role == 'wholesaler' || this.user.role == 'next_champ'
-                ? this.StoreCart[i].wholesale_price
-                : this.StoreCart[i].price
-              : this.StoreCart[i].price
+                ? inStoreCartItems[i].wholesale_price
+                : inStoreCartItems[i].price
+              : inStoreCartItems[i].price
           )
 
         this.totalweight +=
-          this.StoreCart[i].weight * this.StoreCart[i].quantity
+        inStoreCartItems[i].weight * inStoreCartItems[i].quantity
       }
       // if (parseInt(this.user.balance) < parseInt(this.subtotal)) {
       //     this.$toast.error("Please add sufficient balance to wallet")
@@ -319,7 +325,7 @@ export default {
       await this.$store
         .dispatch('delivery/deliveryfee', data)
         .then((response) => {
-          console.log(response)
+          // console.log(response)
           this.user.deliveryfee = response.data.delivery_fee
           this.user.shipping_id = response.data.id
           this.loading = false

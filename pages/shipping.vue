@@ -140,7 +140,7 @@
             </v-col>
           </v-row>
           <v-divider class="my-6"></v-divider>
-          <div class="" v-for="(i, index) in StoreCart" :key="index">
+          <div class="" v-for="(i, index) in StoreCart.filter(item => item.stock_status != 'outofstock')" :key="index">
             <p>
               {{ i.name }} <br />{{ i.quantity }} x &#8358;{{
                 (isAuthenticated
@@ -227,7 +227,7 @@
           Order Total: &#8358;
           {{ (subtotal + parseInt(user.deliveryfee)) | formatPrice }}
         </h3>
-        <v-row>
+        <v-row v-if="(subtotal + parseInt(user.deliveryfee) - parseInt(user.balance)) > 0">
           <v-col class="pb-0 text-center">
             <v-btn outlined text small
               >Wallet Payment: &#8358;{{ user.balance | formatPrice }}</v-btn
@@ -324,15 +324,21 @@ export default {
     },
     calculateSubtotal() {
       this.subtotal = 0
-      for (var i = 0; i < this.StoreCart.length; i++) {
+      if(this.StoreCart == null || this.StoreCart == undefined){
+        return;
+      }
+
+      let inStoreCartItems = this.StoreCart.filter(item => item.stock_status != 'outofstock');
+      
+      for (var i = 0; i < inStoreCartItems.length; i++) {
         this.subtotal +=
-          parseInt(this.StoreCart[i].quantity) *
+          parseInt(inStoreCartItems[i].quantity) *
           parseInt(
             this.isAuthenticated
               ? this.user.role == 'wholesaler' || this.user.role == 'next_champ'
-                ? this.StoreCart[i].wholesale_price
-                : this.StoreCart[i].price
-              : this.StoreCart[i].price
+                ? inStoreCartItems[i].wholesale_price
+                : inStoreCartItems[i].price
+              : inStoreCartItems[i].price
           )
       }
       if (this.discount_percent) {
@@ -444,7 +450,7 @@ export default {
               //     coupon: '', // leave empty.
               //   },
               // ], //expand this array if more product exists (make this expand based on number of items ordered)
-              items: self.StoreCart,
+              items: self.StoreCart.filter(item => item.stock_status != 'outofstock'),
             },
           })
           // setTimeout(() => {

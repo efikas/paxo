@@ -1,9 +1,13 @@
 <template>
   <div>
     <v-hover v-slot="{ hover }">
-      <div class="product-box ">
+      <div class="product-box">
         <nuxt-link :to="'/single-product?product_id=' + product_id">
-          <v-img :src="image" width="100%" lazy-src="https://res.cloudinary.com/spectrina/image/upload/v1660831137/Icon_1b_f5502u.png">
+          <v-img
+            :src="image"
+            width="100%"
+            lazy-src="https://res.cloudinary.com/spectrina/image/upload/v1660831137/Icon_1b_f5502u.png"
+          >
             <v-chip
               v-if="badge"
               :class="badge == 'instock' ? 'primary' : 'error'"
@@ -31,7 +35,7 @@
                   icon
                   small
                   :disabled="badge == 'instock' ? false : true"
-                  @click="addToCart()"
+                  @click="isAuthenticated ? addToCart() : (loginDialog = true)"
                   v-bind="attrs"
                   v-on="on"
                   ><v-icon small>ri-shopping-cart-2-line</v-icon></v-btn
@@ -108,7 +112,11 @@
             >&#8358;{{ regular_price | formatPrice }}</del
           >
           <p v-else></p>
-          &#8358;{{(isAuthenticated ? user.role == 'wholesaler' || user.role == 'next_champ' ? wholesale_price: price
+          &#8358;{{
+            (isAuthenticated
+              ? user.role == 'wholesaler' || user.role == 'next_champ'
+                ? wholesale_price
+                : price
               : price) | formatPrice
           }}
         </div>
@@ -166,7 +174,6 @@
                   </div>
                 </v-col>
                 <v-col>
-                
                   <v-btn
                     x-large
                     :disabled="badge == 'instock' ? false : true"
@@ -330,14 +337,20 @@ export default {
     },
     async addToCart() {
       this.product_object.quantity = this.quantity
-      this.$store.dispatch('products/addToCart', this.product_object)
-      this.$toast.success('Product added to cart successfully!')
-      this.dialog = false
+      // this.dialog = false
       if (this.isAuthenticated) {
+        const data = {
+          product: { ...this.product_object, cart_id: null },
+        }
         await this.$store
-          .dispatch('products/savecart')
+          .dispatch('products/savecart', data)
           .then((response) => {
-            this.$toast.success(response.success.message)
+            if(response.status == true){
+              this.$store.dispatch('products/addToCart', this.product_object)
+              this.$toast.success('Product added to cart successfully!')
+              // this.$toast.success(response.success.message)
+            }
+            
           })
           .catch((error) => {
             // this.$toast.error(error.response.data.error.message)

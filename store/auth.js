@@ -160,7 +160,7 @@ export const actions = {
     })
     return data
   },
-  async login({ commit }, { email, password }) {
+  async login({ commit, dispatch }, { email, password }) {
     const data = await this.$axios.$post('/auth/login', {
       email,
       password,
@@ -170,6 +170,8 @@ export const actions = {
     commit('setToken', data.data.access_token)
     commit('SET_AUTH')
     commit('SET_USER', data.data.user)
+
+    dispatch('products/fetchcart')
     // commit('SET_WALLET_BALANCE', data.wallet_balance)
     return data
   },

@@ -337,6 +337,7 @@ export default {
     this.getbrands()
     this.getadminBrands()
     this.getBanners()
+    this.fetchCart()
 
   },
   methods: {
@@ -394,6 +395,12 @@ export default {
         this.adminBrands = response.data
         this.loading = false
       })
+    },
+    async fetchCart(){
+      if(this.isAuthenticated){
+        this.$store
+          .dispatch('products/fetchcart')
+      }
     },
     async getProducts() {
       const data = {
