@@ -296,8 +296,47 @@ export const actions = {
     const data = await this.$axios.$get('/banner/top-product')
     return data
   },
-  async sectionproducts({}, { page, id, category, brand }) {
-    const data = await this.$axios.$get('/products/section/' + id + '?category_id=' + category +'&brand_id=' + brand)
+  async sectionproducts({}, { page, id, category, brand, availability, price, subcategory, section }) {
+//     products/filter
+//     section_id
+// brand_id
+// category_id
+// subcategory_id
+// price
+    let url = ""
+    let isInitiated = false
+    if(category != "" && category != undefined){
+      url = url + "category_id=" + category
+      isInitiated = true;
+    }
+    if(brand != "" && brand != undefined){
+      if(isInitiated){url = url + "&"}
+      url = url + "brand_id=" + brand
+      isInitiated = true;
+    }
+    if(section != "" && section != undefined){
+      if(isInitiated){url = url + "&"}
+      url = url + "section_id=" + section
+      isInitiated = true;
+    }
+    if(subcategory != "" && subcategory != undefined){
+      if(isInitiated){url = url + "&"}
+      url = url + "subcategory_id=" + subcategory
+      isInitiated = true;
+    }
+    if(price.start != "" && price.start != undefined){
+      if(isInitiated){url = url + "&"}
+      url = url + "price_start=" + price.start + "&price_end=" + price.end
+      isInitiated = true;
+    }
+    if(availability != "" && availability != undefined){
+      if(isInitiated){url = url + "&"}
+      url = url + "availability=" + availability.toLowerCase()
+      isInitiated = true;
+    }
+
+    const data = await this.$axios.$get('/products/filter?'+ url)
+    // const data = await this.$axios.$get('/products/section/' + id + '?category_id=' + category +'&brand_id=' + brand)
     return data
   },
   async categoryproducts({}, { page, id }) {

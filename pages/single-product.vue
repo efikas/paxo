@@ -601,7 +601,14 @@ export default {
     },
   data() {
     return {
-      
+      emailRules: [
+        (v) => !!v || 'E-mail is required',
+        (v) => /.+@.+\..+/.test(v) || 'E-mail must be valid',
+      ],
+      passwordRules: [
+        (v) => !!v || 'Password number is required',
+        (v) => v.length >= 8 || 'Password must be at least eight characters',
+      ],
       panel: {},
       product: [],
       relatedproduct: [],
