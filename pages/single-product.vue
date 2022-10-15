@@ -587,17 +587,41 @@ export default {
   transition: 'default',
    metaInfo() {
         return {
-            title: ``,
+            title: `test name`,
             meta: [
-                {name: 'description', content: '' },
+              {
+            hid: 'description',
+            name: 'description',
+            content: 'Home page description'
+          },
+                // {name: 'description', content: this.product.name },
                 {property: 'og:title', content: ''},
                 {property: 'og:site_name', content: ''},
-                {property: 'og:description', content: '' },
+                {property: 'og:description', content: this.product.name },
                 {property: 'og:type', content: ''},
                 {property: 'og:url', content: '' },
-                {property: 'og:image', content: product.avatar }    
+                {property: 'og:image', content: this.product.avatar }    
             ]
         }
+    },
+    head() {
+      return {
+        title: `other namesnnnnnn`,
+        meta: [
+          {
+            hid: 'description',
+            name: 'description',
+            content: this.product.name
+          },
+          // {name: 'description', content: this.product.name },
+          {property: 'og:title', content: ''},
+          {property: 'og:site_name', content: ''},
+          {property: 'og:description', content: this.product.name },
+          {property: 'og:type', content: ''},
+          {property: 'og:url', content: '' },
+          {property: 'og:image', content: this.product.avatar }   
+        ]
+      }
     },
   data() {
     return {

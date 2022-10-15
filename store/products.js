@@ -150,12 +150,12 @@ export const actions = {
     return data
   },
 
-  async removeFromCart (context, index)  {
+  async removeFromCart (context, { index, product})  {
+
     context.commit('REMOVE_Item', index)
     
-    let cartItem = context.state.StoreCart[index];
     let token = JSON.parse(window.localStorage.getItem('paxo')).auth.token
-    const data = await this.$axios.$delete(`user/cart/delete/${cartItem.cart_id}`, {
+    const data = await this.$axios.$delete(`user/cart/delete/${product.cart_id}`, {
       headers: {
         Authorization: 'Bearer ' + token,
       },

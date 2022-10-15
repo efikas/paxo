@@ -288,7 +288,7 @@ export default {
       ],
       passwordRules: [
         (v) => !!v || 'Password number is required',
-        (v) => v.length >= 8 || 'Password must be at least eight characters',
+        (v) => (v != undefined && v.length >= 8) || 'Password must be at least eight characters',
       ],
     }
   },

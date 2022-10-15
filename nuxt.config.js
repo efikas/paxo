@@ -50,6 +50,7 @@ export default {
     // { src: '~plugins/ckeditor', ssr: false },
     { src: '~/plugins/localStorage.js', ssr: false },
     { src: '~/plugins/axios.js', ssr: false },
+    // { src: '~/plugins/vue-meta.js', ssr: true },
     '~/plugins/gtm',
     // '~/plugins/vue-tel-input',
     '~/plugins/filters',

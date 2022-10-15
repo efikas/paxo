@@ -188,7 +188,7 @@
     <div style="background-color: #f5f5f5" class=" py-16 mt-7" :class="{'pa-10':$vuetify.breakpoint.mdAndUp,'px-4':$vuetify.breakpoint.smAndDown}">
       <h3 style="font-size: 20px; font-weight: 400">TOP BRANDS</h3>
       <v-row class="mt-6">
-        <v-col v-for="i in topbrands" :key="i" md="3" cols="12">
+        <v-col v-for="i in topbrands" :key="i.id" md="3" cols="12">
           <v-card class="pa" height="99.4" flat :to="'/brands/'+i.name+'?brandId='+i.brand_id">
             <v-img
               class="brands-img"
@@ -210,7 +210,7 @@
     <div style="background-color: #f5f5f5" class="pa-10 py-16 mt-7" :class="{'px-10':$vuetify.breakpoint.mdAndUp,'px-4':$vuetify.breakpoint.smAndDown}">
       <h3 style="font-size: 20px; font-weight: 400">TOP CATEGORIES</h3>
       <v-row class="mt-6">
-        <v-col v-for="i in categories.slice(0,8)" :key="i" :class="{'mt-4':$vuetify.breakpoint.mdAndUp}" md="3" cols="12">
+        <v-col v-for="i in categories.slice(0,8)" :key="i.id" :class="{'mt-4':$vuetify.breakpoint.mdAndUp}" md="3" cols="12">
           <v-card class="pa-5 cat-card" flat :to="'/category/' + i.name + '?categoryId=' + i.id">
             <v-row justify="center" align="center">
               <v-col cols="8">
@@ -234,7 +234,7 @@
       </v-col>
     </v-row>
     <v-row :class="{'px-8':$vuetify.breakpoint.mdAndUp,'px-4':$vuetify.breakpoint.smAndDown}">
-      <v-col md="3" v-for="i in blogs.slice(0,4)" :key="i">
+      <v-col md="3" v-for="i in blogs.slice(0,4)" :key="i.id">
       <nuxt-link :to="'/blog/'+i.title+'?blogid='+i.id">
         <v-img
           class="blog-container"
@@ -282,11 +282,17 @@
     </div>
     <v-row class="mt-6">
       <v-col class="text-left" md="3" cols="12" v-for="(i, index) in new_products.slice(0, 9)" :key="index">
-        <new-arrival
+        <!-- <new-arrival
           :product_name="i.product.name"
           :price="i.product.price"
           :image="i.product.avatar"
           :id="i.product.id"
+        /> -->
+        <new-arrival
+          :product_name="i.name"
+          :price="i.price"
+          :image="i.avatar"
+          :id="i.id"
         />
       </v-col>
     </v-row>
@@ -419,8 +425,10 @@ export default {
         price: ''
       }
       await this.$store.dispatch('products/all', data).then((response) => {
-        this.new_products = response.data.data
-        this.length = response.data.last_page
+        // console.log(response);
+        // this.new_products = response.data.data
+        this.new_products = response.data
+        this.length = response.data.length
       })
     },
     // async getTopProducts() {

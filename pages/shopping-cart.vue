@@ -79,7 +79,7 @@
             }}
           </td>
           <td class="text-right">
-            <v-icon @click="removeItem(index), calculateSubtotal()"
+            <v-icon @click="removeItem(index, i), calculateSubtotal()"
               >ri-close-line</v-icon
             >
           </td>
@@ -152,7 +152,7 @@
                 <p
                   class="mt-7 ma-0 pl-16 pa-0"
                   style="color: red; font-size: 16px"
-                  @click="removeItem(index), calculateSubtotal()"
+                  @click="removeItem(index, i), calculateSubtotal()"
                 >
                   Remove
                 </p>
@@ -263,8 +263,12 @@ export default {
           )
       }
     },
-    removeItem(index) {
-      this.$store.dispatch('products/removeFromCart', index)
+    removeItem(index, product) {
+      let data = {
+        index,
+        product
+      }
+      this.$store.dispatch('products/removeFromCart', data)
     },
     updateQuantity(count, product) {
       this.$store.dispatch('products/updateItemQuantity', {

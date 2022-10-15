@@ -1,4 +1,5 @@
 <template lang="html">
+  <no-ssr>
   <v-overlay v-if="loading" :value="overlay">
     <v-progress-circular
       indeterminate
@@ -6,6 +7,7 @@
       color="primary"
     ></v-progress-circular>
   </v-overlay>
+</no-ssr>
 </template>
 
 <script>
