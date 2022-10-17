@@ -64,6 +64,30 @@
               <v-expansion-panel>
                 <v-expansion-panel-header
                   expand-icon="mdi-menu-down"
+                  >Subcategory</v-expansion-panel-header
+                >
+
+                <v-expansion-panel-content
+                  class="px-1 mt-2"
+                  style="overflow: scroll; height: 50vh; border-style: none"
+                >
+                  <div>
+                    <v-checkbox
+                      v-for="(i, index) in subCategories"
+                      :key="index"
+                      :value="i.id"
+                      v-model="subCategory"
+                      :label="i.name"
+                      @change="getProducts()"
+                      class="ma-0 pa-0"
+                    ></v-checkbox>
+                  </div>
+                </v-expansion-panel-content>
+              </v-expansion-panel>
+              <v-divider></v-divider>
+              <v-expansion-panel>
+                <v-expansion-panel-header
+                  expand-icon="mdi-menu-down"
                   >Availability</v-expansion-panel-header
                 >
 
@@ -74,11 +98,11 @@
                   <div>
                     <v-checkbox
                       v-for="(i, index) in avalabilities"
-                      :value="i"
+                      :value="i.id"
                       v-model="availability"
                       @change="getProducts()"
                       :key="index"
-                      :label="i"
+                      :label="i.name"
                       class="ma-0 pa-0"
                     ></v-checkbox>
                   </div>
@@ -133,7 +157,7 @@
                 {{
                   !loading
                     ? products.length > 0
-                      ? decodeURIComponent(pagename)
+                      ? decodeURIComponent(pageName)
                       : 'No Products Found'
                     : null
                 }}
@@ -194,14 +218,23 @@
 <script>
 export default {
   computed: {
-    sectionName() {
+    pageName() {
+      let dCate = this.subCategories.filter(item => item.id == this.subCategory);
+       if(dCate.length > 0){
+        let newUrlIS =  window.location.origin + `/subcategory/${dCate[0].name}?subCategoryId=${this.subCategory}`;
+        window.history.pushState({}, null, newUrlIS);
+        return dCate[0].name;
+       }
       return location.pathname.split('/')[2]
     },
   },
   mounted() {
+    this.getSubCategories()
     this.getCategories()
     this.getbrands()
     this.getProducts()
+
+    this.subCategory = this.$route.query.subCategoryId;
   },
   data() {
     return {
@@ -223,11 +256,13 @@ export default {
       range: [0, 10000],
       brands: [],
       categories: [],
+      subCategories: [],
       avalabilities: [
-        "Instock"
+        {id: "instock", name: "Exclude out of stock"}
       ],
       availability: "",
       category: "",
+      subCategory: "",
       brand: "",
       selectedPrice: {},
       products: [],
@@ -244,7 +279,7 @@ export default {
       ],
       real_products: [],
       loading: true,
-      pagename: location.pathname.split('/')[2],
+      // pagename: location.pathname.split('/')[2],
     }
   },
   methods: {
@@ -258,6 +293,11 @@ export default {
     async getbrands() {
       await this.$store.dispatch('brand/all').then((response) => {
         this.brands = response.data
+      })
+    },
+    async getSubCategories() {
+      await this.$store.dispatch('category/subcategories').then((response) => {
+        this.subCategories = response.data
       })
     },
     async getCategories() {
@@ -282,7 +322,7 @@ export default {
       const data = {
         page: this.page,
         id: this.$route.query.sectionId,
-        subcategory: this.$route.query.subCategoryId,
+        subcategory: this.subCategory,
         section: this.$route.query.sectionId,
         category: this.category,
         brand: this.brand,

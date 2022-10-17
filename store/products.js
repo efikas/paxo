@@ -280,9 +280,40 @@ export const actions = {
     // }
     return data
   },
-  async offers({}, { page }) {
-    var data
-    data = await this.$axios.$get('/product/offers?page='+page)
+  async offers({}, { page, id, category, brand, availability, price, subcategory, section }) {
+    let url = ""
+    let isInitiated = false
+    if(category != "" && category != undefined){
+      url = url + "category_id=" + category
+      isInitiated = true;
+    }
+    if(brand != "" && brand != undefined){
+      if(isInitiated){url = url + "&"}
+      url = url + "brand_id=" + brand
+      isInitiated = true;
+    }
+    if(section != "" && section != undefined){
+      if(isInitiated){url = url + "&"}
+      url = url + "section_id=" + section
+      isInitiated = true;
+    }
+    if(subcategory != "" && subcategory != undefined){
+      if(isInitiated){url = url + "&"}
+      url = url + "subcategory_id=" + subcategory
+      isInitiated = true;
+    }
+    if(price != undefinded && price.start != "" && price.start != undefined){
+      if(isInitiated){url = url + "&"}
+      url = url + "price_start=" + price.start + "&price_end=" + price.end
+      isInitiated = true;
+    }
+    if(availability != "" && availability != undefined){
+      if(isInitiated){url = url + "&"}
+      url = url + "availability=" + availability.toLowerCase()
+      isInitiated = true;
+    }
+
+    const data = await this.$axios.$get('/products/offer/filter?'+ url)
 
     return data
   },
@@ -324,7 +355,7 @@ export const actions = {
       url = url + "subcategory_id=" + subcategory
       isInitiated = true;
     }
-    if(price.start != "" && price.start != undefined){
+    if(price != undefinded && price.start != "" && price.start != undefined){
       if(isInitiated){url = url + "&"}
       url = url + "price_start=" + price.start + "&price_end=" + price.end
       isInitiated = true;

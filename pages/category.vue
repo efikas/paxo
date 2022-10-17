@@ -62,6 +62,29 @@
               </v-expansion-panel>
               <v-divider></v-divider>
               <v-expansion-panel>
+                <v-expansion-panel-header expand-icon="mdi-menu-down"
+                  >Subcategory</v-expansion-panel-header
+                >
+
+                <v-expansion-panel-content
+                  class="px-1 mt-2"
+                  style="overflow: scroll; height: 50vh; border-style: none"
+                >
+                  <div>
+                    <v-checkbox
+                      v-for="(i, index) in subCategories"
+                      :key="index"
+                      :value="i.id"
+                      v-model="subCategory"
+                      :label="i.name"
+                      @change="getProducts()"
+                      class="ma-0 pa-0"
+                    ></v-checkbox>
+                  </div>
+                </v-expansion-panel-content>
+              </v-expansion-panel>
+              <v-divider></v-divider>
+              <v-expansion-panel>
                 <v-expansion-panel-header
                   expand-icon="mdi-menu-down"
                   >Availability</v-expansion-panel-header
@@ -74,11 +97,11 @@
                   <div>
                     <v-checkbox
                       v-for="(i, index) in avalabilities"
-                      :value="i"
+                      :value="i.id"
                       v-model="availability"
                       @change="getProducts()"
                       :key="index"
-                      :label="i"
+                      :label="i.name"
                       class="ma-0 pa-0"
                     ></v-checkbox>
                   </div>
@@ -205,32 +228,29 @@ export default {
   },
   mounted() {
     this.category = this.$route.query.categoryId,
+    this.getSubCategories()
     this.getCategories()
     this.getbrands()
     this.getProducts()
+
+    this.subCategory = this.$route.query.subCategoryId
   },
   data() {
     return {
-      // brand: '',
-      // page: 1,
-      // length: 1,
-      // range: [0, 10000],
-      // brands: [],
-      // categories: [],
-      // products: [],
-      // real_products: [],
-      // loading: true,
+      
       page: 1,
       pageinationLength: 1,
       perPage: 40,
       range: [0, 10000],
       brands: [],
       categories: [],
+      subCategories: [],
       avalabilities: [
-        "Instock"
+      { id: 'instock', name: 'Exclude out of stock' }
       ],
       availability: "",
       category: "",
+      subCategory: '',
       brand: "",
       selectedPrice: {},
       products: [],
@@ -262,6 +282,11 @@ export default {
         this.brands = response.data
       })
     },
+    async getSubCategories() {
+      await this.$store.dispatch('category/subcategories').then((response) => {
+        this.subCategories = response.data
+      })
+    },
     async getCategories() {
       await this.$store.dispatch('category/openall').then((response) => {
         this.categories = response.data
@@ -284,7 +309,7 @@ export default {
       const data = {
         page: this.page,
         id: this.$route.query.sectionId,
-        subcategory: this.$route.query.subCategoryId,
+        subcategory: this.subCategory,
         section: this.$route.query.sectionId,
         category: this.category,
         brand: this.brand,

@@ -61,6 +61,16 @@ export const actions = {
     return data
   },
 
+  async subcategories() {
+    let token = JSON.parse(window.localStorage.getItem('paxo')).auth.token
+    const data = await this.$axios.$get('/products/subcategories', {
+      headers: {
+        Authorization: 'Bearer ' + token,
+      },
+    })
+    return data
+  },
+
   async delete({}, { id }) {
     let token = JSON.parse(window.localStorage.getItem('paxo')).auth.token
     const data = await this.$axios.$delete('/admin/category/delete/' + id, {

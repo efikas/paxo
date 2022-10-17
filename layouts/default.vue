@@ -333,8 +333,17 @@
           :content="cartItem"
           overlap
         >
-          <v-btn
+          <v-btn v-if="isAuthenticated"
             to="/shopping-cart"
+            icon
+            class="primary--text ml-4 "
+            outlined
+            depressed
+          >
+            <v-icon color="">ri-shopping-cart-2-fill</v-icon>
+          </v-btn>
+          <v-btn v-else
+            to="/login"
             icon
             class="primary--text ml-4 "
             outlined
