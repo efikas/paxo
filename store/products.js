@@ -302,7 +302,7 @@ export const actions = {
       url = url + "subcategory_id=" + subcategory
       isInitiated = true;
     }
-    if(price != undefinded && price.start != "" && price.start != undefined){
+    if(price != undefined && price.start != "" && price.start != undefined){
       if(isInitiated){url = url + "&"}
       url = url + "price_start=" + price.start + "&price_end=" + price.end
       isInitiated = true;
@@ -355,7 +355,7 @@ export const actions = {
       url = url + "subcategory_id=" + subcategory
       isInitiated = true;
     }
-    if(price != undefinded && price.start != "" && price.start != undefined){
+    if(price != undefined && price.start != "" && price.start != undefined){
       if(isInitiated){url = url + "&"}
       url = url + "price_start=" + price.start + "&price_end=" + price.end
       isInitiated = true;
