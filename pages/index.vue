@@ -413,7 +413,8 @@ export default {
         page: this.page,
       }
       await this.$store.dispatch('products/offers', data).then((response) => {
-        this.products = response.data.data
+        this.products = response.data
+        // this.products = response.data.data
         this.length = response.data.last_page
       })
     },
