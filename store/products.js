@@ -35,8 +35,28 @@ export const mutations = {
 
   ADD_Item_cart_id(state, item) {
     if (state.StoreCart.some((data) => data.id === item.id)) {
-      state.StoreCart.find((data) => data.id === item.id).cart_id = item.cart_id
-    } 
+      let items = [];
+      state.StoreCart.forEach((data) => {
+        if(data.id === item.id){
+          items.push({
+            ...data,
+            cart_id: item.cart_id,
+          });
+        }
+        else {
+          items.push(data);
+        }
+      });
+
+      state.StoreCart = items;
+    }
+    else {
+      let items = state.StoreCart;
+      state.StoreCart = [
+        ...items,
+        item
+      ]
+    }
     state.cartItem = state.StoreCart.length
   },
 
@@ -97,24 +117,32 @@ export const actions = {
     context.commit('ADD_Item', product)
   },
   async savecart(context, {product}) {
+
     let token = JSON.parse(window.localStorage.getItem('paxo')).auth.token
     if(context.state.StoreCart.some((data) => data.id === product.id)){
       product.quantity = product.quantity + 1
       let item = context.state.StoreCart.find((data) => data.id === product.id);
-      product.cart_id = item.cart_id;
+
+      product = {
+        ...product,
+        cart_id: item.cart_id
+      };
     }
 
-    const data = await this.$axios.$post('/user/cart/store', {
+
+    const data = await this.$axios.$post('/user/cart/webstore', {
       product, product_id: product.id}, {
       headers: {
         Authorization: 'Bearer ' + token,
       },
     })
     if(data.status == true){
-      context.commit('ADD_Item_cart_id', {
+      let newItem = {
         ...data.data.product,
-        cart_id: data.data.id
-      })
+        cart_id: data.data.id,
+      };
+      newItem.cart_id = data.data.id;
+      context.commit('ADD_Item_cart_id', newItem)
     }
     return data
   },
@@ -129,10 +157,19 @@ export const actions = {
 
     if(data.status == true){
       let cartItems = [];
+      
 
       data.data.forEach((item) => {
+        let quantity = 1;
+        if(item.product.quantity > item.products.stock_quantity){
+          quantity = item.products.stock_quantity
+        }
+        else {
+          quantity = item.product.quantity
+        }
         cartItems.push({
           ...item.product,
+          quantity: quantity,
           stock_quantity: item.products.stock_quantity,
           stock_status: item.products.stock_status,
           price: item.products.price,
@@ -169,7 +206,7 @@ export const actions = {
       let item = {...product, quantity: count} 
       context.commit("UPDATE_Item_quantity", item);
 
-      const data = await this.$axios.$post('/user/cart/store', {
+      const data = await this.$axios.$post('/user/cart/webstore', {
         product: item, product_id: product.id}, {
         headers: {
           Authorization: 'Bearer ' + token,
@@ -179,7 +216,7 @@ export const actions = {
       if(data.status == true){
         context.commit('ADD_Item_cart_id', {
           ...data.data.product,
-          cart_id: data.data.id
+          cart_id: data.data.id,
         })
       }
 

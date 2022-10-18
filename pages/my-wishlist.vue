@@ -47,8 +47,11 @@
                   </nuxt-link>
                 </div>
               </td>
-
-              <td>&#8358;{{ i.product.price | formatPrice }}</td>
+              <td>&#8358;{{ (isAuthenticated
+                      ? user.role == 'wholesaler' || user.role == 'next_champ'
+                        ? i.product.wholesale_price
+                        : i.product.price
+                      : i.product.price) | formatPrice }}</td>
               <!-- <td>
             <div class="qty-box pa-2">
               <v-btn
@@ -138,7 +141,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters('auth', ['user']),
+    ...mapGetters('auth', ['isAuthenticated', 'user']),
   },
   mounted() {
     this.getWishList()

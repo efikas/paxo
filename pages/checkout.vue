@@ -293,8 +293,7 @@ export default {
       }
 
       let inStoreCartItems = this.StoreCart.filter(item => item.stock_status != 'outofstock');
-      
-      for (var i = 0; i < this.StoreCart.length; i++) {
+      for (var i = 0; i < inStoreCartItems.length; i++) {
         this.subtotal +=
           parseInt(inStoreCartItems[i].quantity) *
           parseInt(

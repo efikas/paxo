@@ -38,9 +38,9 @@
           <td>
             <!-- outofstock -->
             <!-- instock -->
-            <v-chip v-if="i.stock_status == 'outofstock'"
+            <v-chip v-if="isOutOfStock(i) == 'outofstock'"
               :class="'error'"
-              style="float: right; border-radius: 0; z-index: 100"
+              style="float: right; border-radius: 0;"
               small
               >{{'Out of stock' }}
               </v-chip>
@@ -66,7 +66,7 @@
             </div>
           </td>
           <td>
-            &#8358;{{
+           <span v-if="isOutOfStock(i) != 'outofstock'"> &#8358;{{
               (parseInt(
                 isAuthenticated
                   ? user.role == 'wholesaler' || user.role == 'next_champ'
@@ -76,7 +76,7 @@
               ) *
                 parseInt(i.quantity))
                 | formatPrice
-            }}
+            }}</span>
           </td>
           <td class="text-right">
             <v-icon @click="removeItem(index, i), calculateSubtotal()"
@@ -182,7 +182,7 @@
             <p>&#8358;{{ subtotal | formatPrice }}</p>
           </div>
           <v-divider class="mb-6"></v-divider>
-          <div class="pb-6" v-for="(i, index) in StoreCart.filter(item => item.stock_status != 'outofstock')" :key="index">
+          <div class="pb-6" v-for="(i, index) in StoreCart.filter(item => isOutOfStock(item) != 'outofstock')" :key="index">
             <p>
               {{ i.name }} <br />
               x {{ i.quantity }}
@@ -250,7 +250,7 @@ export default {
         return;
       }
 
-      let inStoreCartItems = this.StoreCart.filter(item => item.stock_status != 'outofstock');
+      let inStoreCartItems = this.StoreCart.filter(item => this.isOutOfStock(item) != 'outofstock');
       
       for (var i = 0; i < inStoreCartItems.length; i++) {
         this.subtotal +=
@@ -263,6 +263,18 @@ export default {
               : inStoreCartItems[i].price
           )
       }
+    },
+    isOutOfStock(item){
+      console.log(item)
+      if(item.stock_status == 'outofstock'){
+        return 'outofstock';
+      }
+
+      if(item.stock_quantity < item.quantity){
+        return 'outofstock';
+      }
+
+      return ""
     },
     removeItem(index, product) {
       let data = {
