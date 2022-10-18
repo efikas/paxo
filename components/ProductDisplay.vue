@@ -186,7 +186,7 @@
                     x-large
                     :disabled="badge == 'instock' ? false : true"
                     text
-                    @click="addToCart(), $router.push('/shopping-cart')"
+                    @click="buyNow()"
                     class="accent font-weight-bold"
                     >Buy Now</v-btn
                   >
@@ -343,6 +343,13 @@ export default {
           this.$toast.error(error.response.data.error.message)
         })
     },
+    async buyNow() {
+      this.addToCart()
+
+      if (this.isAuthenticated) {
+        this.$router.push('/shopping-cart')
+      }
+    },
     async addToCart() {
       this.product_object.quantity = this.quantity
       // this.dialog = false
@@ -363,6 +370,9 @@ export default {
           .catch((error) => {
             // this.$toast.error(error.response.data.error.message)
           })
+      }
+      else {
+        this.$router.push('/login')
       }
     },
   },

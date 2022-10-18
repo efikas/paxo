@@ -150,7 +150,7 @@
                     >Add to Cart</v-btn
                   >
                   <v-btn
-                    @click="addToCart(), $router.push('/shopping-cart')"
+                    @click="buyNow()"
                     x-large
                     text
                     class="accent font-weight-bold px-4 mt-1"
@@ -832,6 +832,12 @@ export default {
           this.loading
         })
     },
+    async buyNow() {
+      this.addToCart()
+      if (this.isAuthenticated) {
+       this.$router.push('/shopping-cart')
+      }
+    },
     async addToCart() {
       // this.product.quantity = this.quantity
       // this.$store.dispatch('products/addToCart', this.product)
@@ -867,6 +873,9 @@ export default {
           .catch((error) => {
             // this.$toast.error(error.response.data.error.message)
           })
+      }
+      else {
+        this.$router.push('/login')
       }
     },
   },
