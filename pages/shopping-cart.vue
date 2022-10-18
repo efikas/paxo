@@ -209,6 +209,7 @@ export default {
     this.$store
       .dispatch('products/fetchcart')
       .then((response) => {
+        console.log(response);
         if (response.status == true) {
           this.calculateSubtotal()
           // if (this.StoreCart.length > 0) {

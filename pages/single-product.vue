@@ -833,15 +833,36 @@ export default {
         })
     },
     async addToCart() {
+      // this.product.quantity = this.quantity
+      // this.$store.dispatch('products/addToCart', this.product)
+      // this.$toast.success('Product added to cart successfully!')
+      // this.dialog = false
+      // if (this.isAuthenticated) {
+      //   await this.$store
+      //     .dispatch('products/savecart')
+      //     .then((response) => {
+      //       this.$toast.success(response.success.message)
+      //     })
+      //     .catch((error) => {
+      //       // this.$toast.error(error.response.data.error.message)
+      //     })
+      // }
+
       this.product.quantity = this.quantity
-      this.$store.dispatch('products/addToCart', this.product)
-      this.$toast.success('Product added to cart successfully!')
-      this.dialog = false
+      // this.dialog = false
       if (this.isAuthenticated) {
+        const data = {
+          product: { ...this.product, cart_id: null },
+        }
         await this.$store
-          .dispatch('products/savecart')
+          .dispatch('products/savecart', data)
           .then((response) => {
-            this.$toast.success(response.success.message)
+            if(response.status == true){
+              this.$store.dispatch('products/addToCart', this.product)
+              this.$toast.success('Product added to cart successfully!')
+              // this.$toast.success(response.success.message)
+            }
+            
           })
           .catch((error) => {
             // this.$toast.error(error.response.data.error.message)
