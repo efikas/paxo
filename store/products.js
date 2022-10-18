@@ -80,7 +80,7 @@ export const mutations = {
     // }
     state.cartItem = state.StoreCart.length
   },
-  CLEAR_CART(state, index) {
+  CLEAR_CART(state) {
     state.StoreCart = []
     // var i,
     //   carts = 0
@@ -537,5 +537,8 @@ export const actions = {
   async refreshcart({commit}, product_id) {
     const data = await this.$axios.$get(`/refresh-cart?product_id=${product_id}`)
     return data
+  },
+  async clearcart({commit}, product_id) {
+    commit("CLEAR_CART")
   },
 }
