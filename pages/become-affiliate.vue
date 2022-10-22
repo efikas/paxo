@@ -63,7 +63,8 @@
                 color="primary"
                 @click="copyLink()"
                 type="submit"
-                value="Subscribe" style="margin-top: -8px;"
+                value="Subscribe"
+                style="margin-top: -8px"
               >
                 Copy
               </v-btn>
@@ -102,19 +103,9 @@ export default {
           to: '/dashboard',
         },
         {
-          icon: 'ri-lock-line',
-          text: 'Change Password',
-          to: '/change-password',
-        },
-        {
-          icon: 'ri-briefcase-line',
-          text: 'Upgrade to Wholesaler',
-          to: '/upgrade-wholesaler',
-        },
-        {
-          icon: 'ri-honour-line',
-          text: 'Become an Affiliate',
-          to: '/become-affiliate',
+          icon: 'ri-shopping-cart-line',
+          text: 'My Pending Orders',
+          to: '/my-pending-orders',
         },
         {
           icon: 'ri-shopping-cart-line',
@@ -122,16 +113,25 @@ export default {
           to: '/my-orders',
         },
         {
-          icon: 'ri-shopping-cart-line',
-          text: 'My Pending Orders',
-          to: '/my-pending-orders',
-        },
-        {
           icon: 'ri-heart-line',
           text: 'My Wishlist',
           to: '/my-wishlist',
         },
-
+        {
+          icon: 'ri-honour-line',
+          text: 'Become an Affiliate',
+          to: '/become-affiliate',
+        },
+        {
+          icon: 'ri-briefcase-line',
+          text: 'Upgrade to Wholesaler',
+          to: '/upgrade-wholesaler',
+        },
+        {
+          icon: 'ri-lock-line',
+          text: 'Change Password',
+          to: '/change-password',
+        },
         {
           icon: 'ri-logout-circle-line',
           text: 'Logout',

@@ -171,7 +171,7 @@ export const actions = {
     commit('SET_AUTH')
     commit('SET_USER', data.data.user)
 
-    dispatch('products/fetchcart')
+    dispatch('products/fetchcart', {}, {root:true})
     // commit('SET_WALLET_BALANCE', data.wallet_balance)
     return data
   },

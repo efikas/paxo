@@ -34,10 +34,9 @@
                 placeholder="Phone number"
               ></v-text-field>
             </v-col>
-            
           </v-row>
           <v-text-field
-              v-if="userDetail.dob"
+            v-if="userDetail.dob"
             label="Date of Birth"
             type="date"
             v-model="userDetail.dob"
@@ -46,7 +45,7 @@
             outlined
           >
           </v-text-field>
-          <p class="mb-0 ">Order Notes (Optional)</p>
+          <p class="mb-0">Order Notes (Optional)</p>
           <v-textarea
             v-model="userDetail.description"
             @change="updateUserDetail('description', userDetail.description)"
@@ -144,9 +143,9 @@
               </v-col>
 
               <v-col>
-                <p class="mb-0">Post Code</p>
+                <p class="mb-0">Nearest Bus-stop</p>
                 <v-text-field
-                  placeholder="Postal Code"
+                  placeholder="Nearest Bus-stop"
                   v-model="userDetail.post_code"
                   @change="updateUserDetail('post_code', userDetail.post_code)"
                   outlined
@@ -214,11 +213,18 @@
             </v-col>
           </v-row>
           <v-divider class="my-6"></v-divider>
-          <div class="" v-for="(i, index) in StoreCart.filter(item => item.stock_status != 'outofstock')" :key="index">
+          <div
+            class=""
+            v-for="(i, index) in StoreCart.filter(
+              (item) => item.stock_status != 'outofstock'
+            )"
+            :key="index"
+          >
             <p>
               {{ i.name }} <br />{{ i.quantity }} x &#8358;{{
                 (isAuthenticated
-                  ? userDetail.role == 'wholesaler' || userDetail.role == 'next_champ'
+                  ? userDetail.role == 'wholesaler' ||
+                    userDetail.role == 'next_champ'
                     ? i.wholesale_price
                     : i.price
                   : i.price) | formatPrice
@@ -286,13 +292,14 @@ export default {
       this.lgas = obj[0].lga
     },
     calculateSubtotal() {
-      
       this.subtotal = 0
-      if(this.StoreCart == null || this.StoreCart == undefined){
-        return;
+      if (this.StoreCart == null || this.StoreCart == undefined) {
+        return
       }
 
-      let inStoreCartItems = this.StoreCart.filter(item => item.stock_status != 'outofstock');
+      let inStoreCartItems = this.StoreCart.filter(
+        (item) => item.stock_status != 'outofstock'
+      )
       for (var i = 0; i < inStoreCartItems.length; i++) {
         this.subtotal +=
           parseInt(inStoreCartItems[i].quantity) *
@@ -305,7 +312,7 @@ export default {
           )
 
         this.totalweight +=
-        inStoreCartItems[i].weight * inStoreCartItems[i].quantity
+          inStoreCartItems[i].weight * inStoreCartItems[i].quantity
       }
       // if (parseInt(this.user.balance) < parseInt(this.subtotal)) {
       //     this.$toast.error("Please add sufficient balance to wallet")

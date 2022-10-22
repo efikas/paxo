@@ -8,7 +8,7 @@
           </v-avatar>
           <div class="ml-6">
             <p class="mb-0 pb-0">Hello</p>
-            <h4 class="mb-0">{{ user.first_name }} {{ user.last_name }}</h4>
+            <h4 class="mb-0">{{ form.first_name }} {{ form.last_name }}</h4>
             <v-tooltip top>
               <template v-slot:activator="{ on, attrs }">
                 <v-chip
@@ -17,7 +17,7 @@
                   color="secondary"
                   class="hidden-md-and-up mt-0"
                   x-small
-                  >{{ user.role | capitalize }}</v-chip
+                  >{{ form.role | capitalize }}</v-chip
                 >
               </template>
               <span>Logged in as:</span>
@@ -48,7 +48,7 @@
                 color="secondary"
                 class="hidden-sm-and-down"
                 small
-                >{{ user.role | capitalize }}</v-chip
+                >{{ form.role | capitalize }}</v-chip
               >
             </template>
             <span>Logged in as:</span>
@@ -61,11 +61,11 @@
             <v-col>
               <p>Wallet Balance</p>
               <v-chip style="border-radius: 0" dark color="primary" large
-                >&#8358;{{ user.balance | formatPrice }}</v-chip
+                >&#8358;{{ form.balance | formatPrice }}</v-chip
               >
               <v-btn
                 text
-                :disabled="parseInt(user.balance) < 1000"
+                :disabled="parseInt(form.balance) < 1000"
                 class="primary"
                 @click="withdrawDialog = true"
               >
@@ -75,7 +75,7 @@
             <v-col>
               <p>Bonus Points</p>
               <v-chip style="border-radius: 0" dark color="primary" large
-                >{{ user.points }} Points</v-chip
+                >{{ form.points }} Points</v-chip
               >
             </v-col>
           </v-row>
@@ -83,7 +83,7 @@
           <v-row>
             <v-col class="py-0" cols="12" md="6">
               <v-text-field
-                v-model="user.first_name"
+                v-model="form.first_name"
                 outlined
                 label="First Name"
                 :rules="[(v) => !!v || 'This field is required']"
@@ -92,7 +92,7 @@
             </v-col>
             <v-col class="py-0" cols="12" md="6">
               <v-text-field
-                v-model="user.last_name"
+                v-model="form.last_name"
                 outlined
                 label="Last Name"
                 :rules="[(v) => !!v || 'This field is required']"
@@ -101,7 +101,7 @@
             </v-col>
             <v-col cols="12" class="py-0" md="6">
               <v-text-field
-                v-model="user.mobile"
+                v-model="form.mobile"
                 outlined
                 label="Phone Number"
                 :rules="[(v) => !!v || 'This field is required']"
@@ -110,7 +110,7 @@
             </v-col>
             <v-col class="py-0" md="6">
               <v-text-field
-                v-model="user.email"
+                v-model="form.email"
                 outlined
                 label="Email"
                 disabled
@@ -118,26 +118,45 @@
               >
               </v-text-field>
             </v-col>
+
+            <v-col cols="12" class="py-0" md="6">
+              <p class="mb-0 hidden-xs-only">&nbsp; &nbsp; &nbsp; &nbsp;</p>
+              <v-text-field
+                label="Date of Birth"
+                v-model="form.dob"
+                type="date"
+                required
+                :rules="[(v) => !!v || 'This field is required']"
+                outlined
+              >
+              </v-text-field>
+            </v-col>
+            <v-col cols="12" class="py-0" md="6">
+              <p class="mb-0 hidden-xs-only">Gender</p>
+              <v-select
+                class="hidden-xs-only"
+                placeholder="Gender"
+                item-text="name"
+                item-value="id"
+                :items="genders"
+                v-model="form.gender"
+                required
+                :rules="[(v) => !!v || 'This field is required']"
+                outlined
+              >
+              </v-select>
+            </v-col>
           </v-row>
           <v-text-field
-            label="Date of Birth"
-            v-model="user.dob"
-            type="date"
-            required
-            :rules="[(v) => !!v || 'This field is required']"
-            outlined
-          >
-          </v-text-field>
-          <v-text-field
             placeholder="Address"
-            v-model="user.address"
+            v-model="form.address"
             required
             :rules="[(v) => !!v || 'This field is required']"
             outlined
           ></v-text-field>
           <v-text-field
             placeholder="Apartment, Suite, etc (optional)"
-            v-model="user.apartment"
+            v-model="form.apartment"
             outlined
           ></v-text-field>
           <v-row>
@@ -145,7 +164,7 @@
               <p class="mb-0">City</p>
               <v-text-field
                 placeholder="City"
-                v-model="user.city"
+                v-model="form.city"
                 required
                 :rules="[(v) => !!v || 'This field is required']"
                 outlined
@@ -157,9 +176,9 @@
                 placeholder="State"
                 item-text="name"
                 item-value="id"
-                @change="getlga(user.state_id), (user.lga = '')"
+                @change="getlga(form.state_id), (form.lga = '')"
                 :items="states"
-                v-model="user.state_id"
+                v-model="form.state_id"
                 required
                 :rules="[(v) => !!v || 'This field is required']"
                 outlined
@@ -168,10 +187,10 @@
             </v-col>
 
             <v-col class="py-0">
-              <p class="mb-0">Post Code</p>
+              <p class="mb-0">Nearest Bus-stop</p>
               <v-text-field
-                placeholder="Postal Code"
-                v-model="user.post_code"
+                placeholder="Nearest Bus-stop"
+                v-model="form.post_code"
                 outlined
               >
               </v-text-field>
@@ -183,7 +202,7 @@
                 v-if="lgas.length > 0"
                 item-value="id"
                 :items="lgas"
-                v-model="user.lga_id"
+                v-model="form.lga_id"
                 required
                 :rules="[(v) => !!v || 'This field is required']"
                 outlined
@@ -197,9 +216,9 @@
                 placeholder="State"
                 item-text="name"
                 item-value="id"
-                @change="getlga(user.state_id), (user.lga = '')"
+                @change="getlga(form.state_id), (form.lga = '')"
                 :items="states"
-                v-model="user.state_id"
+                v-model="form.state_id"
                 required
                 :rules="[(v) => !!v || 'This field is required']"
                 outlined
@@ -211,7 +230,7 @@
           <h4 class="mt-6">Bank Account Details</h4>
           <v-divider class="mb-5"></v-divider>
           <v-text-field
-            v-model="user.account_number"
+            v-model="form.account_number"
             outlined
             label="Account Number"
           >
@@ -222,11 +241,11 @@
             :items="banks"
             item-text="bankName"
             item-value="bankName"
-            v-model="user.bank_code"
+            v-model="form.bank_code"
           >
           </v-autocomplete>
           <v-text-field
-            v-model="user.account_name"
+            v-model="form.account_name"
             label="Account Name"
             outlined
           >
@@ -306,6 +325,16 @@ export default {
       states: [],
       lgas: [],
       banks: [],
+      genders: [
+        {
+          name: 'Male',
+          id: 'male',
+        },
+        {
+          name: 'Female',
+          id: 'female',
+        },
+      ],
       form: { account_number: '', bank_code: '', account_name: '' },
       menus: [
         {
@@ -314,19 +343,9 @@ export default {
           to: '/dashboard',
         },
         {
-          icon: 'ri-lock-line',
-          text: 'Change Password',
-          to: '/change-password',
-        },
-        {
-          icon: 'ri-briefcase-line',
-          text: 'Upgrade to Wholesaler',
-          to: '/upgrade-wholesaler',
-        },
-        {
-          icon: 'ri-honour-line',
-          text: 'Become an Affiliate',
-          to: '/become-affiliate',
+          icon: 'ri-shopping-cart-line',
+          text: 'My Pending Orders',
+          to: '/my-pending-orders',
         },
         {
           icon: 'ri-shopping-cart-line',
@@ -334,16 +353,25 @@ export default {
           to: '/my-orders',
         },
         {
-          icon: 'ri-shopping-cart-line',
-          text: 'My Pending Orders',
-          to: '/my-pending-orders',
-        },
-        {
           icon: 'ri-heart-line',
           text: 'My Wishlist',
           to: '/my-wishlist',
         },
-
+        {
+          icon: 'ri-honour-line',
+          text: 'Become an Affiliate',
+          to: '/become-affiliate',
+        },
+        {
+          icon: 'ri-briefcase-line',
+          text: 'Upgrade to Wholesaler',
+          to: '/upgrade-wholesaler',
+        },
+        {
+          icon: 'ri-lock-line',
+          text: 'Change Password',
+          to: '/change-password',
+        },
         {
           icon: 'ri-logout-circle-line',
           text: 'Logout',
@@ -437,7 +465,8 @@ export default {
     async updateProfile() {
       this.loading = true
       await this.$store
-        .dispatch('auth/updateprofile', this.user)
+        // .dispatch('auth/updateprofile', this.user)
+        .dispatch('auth/updateprofile', this.form)
         .then((response) => {
           this.$toast.success(response.message)
           this.getProfile()

@@ -202,7 +202,7 @@
 export default {
   computed: {
     sectionName() {
-      return location.pathname.split('/')[2]
+      return location.pathname.split('/')[2];
     },
   },
   mounted() {

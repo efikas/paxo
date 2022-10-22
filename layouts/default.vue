@@ -53,31 +53,6 @@
               <v-list-item-title>Account Information </v-list-item-title>
             </v-list-item-content>
           </v-list-item>
-          <v-list-item to="/change-password" class="py-0 my-0">
-            <v-list-item-action>
-              <v-icon>password</v-icon>
-            </v-list-item-action>
-
-            <v-list-item-content class="py-0 my-0">
-              <v-list-item-title>Change Password </v-list-item-title>
-            </v-list-item-content>
-          </v-list-item>
-          <v-list-item to="/upgrade-wholesaler" class="py-0 my-0">
-            <v-list-item-action>
-              <v-icon>receipt</v-icon>
-            </v-list-item-action>
-            <v-list-item-content class="py-0 my-0">
-              <v-list-item-title>Upgrade to Wholesaler </v-list-item-title>
-            </v-list-item-content>
-          </v-list-item>
-          <v-list-item to="/become-affiliate" class="py-0 my-0">
-            <v-list-item-action>
-              <v-icon>group_work</v-icon>
-            </v-list-item-action>
-            <v-list-item-content class="py-0 my-0">
-              <v-list-item-title>Become an Affiliate </v-list-item-title>
-            </v-list-item-content>
-          </v-list-item>
           <v-list-item to="/my-orders" class="py-0 my-0">
             <v-list-item-action>
               <v-icon>favorite_border</v-icon>
@@ -94,7 +69,31 @@
               <v-list-item-title>My Wishlist </v-list-item-title>
             </v-list-item-content>
           </v-list-item>
+          <v-list-item to="/become-affiliate" class="py-0 my-0">
+            <v-list-item-action>
+              <v-icon>group_work</v-icon>
+            </v-list-item-action>
+            <v-list-item-content class="py-0 my-0">
+              <v-list-item-title>Become an Affiliate </v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+          <v-list-item to="/upgrade-wholesaler" class="py-0 my-0">
+            <v-list-item-action>
+              <v-icon>receipt</v-icon>
+            </v-list-item-action>
+            <v-list-item-content class="py-0 my-0">
+              <v-list-item-title>Upgrade to Wholesaler </v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+          <v-list-item to="/change-password" class="py-0 my-0">
+            <v-list-item-action>
+              <v-icon>password</v-icon>
+            </v-list-item-action>
 
+            <v-list-item-content class="py-0 my-0">
+              <v-list-item-title>Change Password </v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
           <v-list-item to="/logout">
             <v-list-item-action>
               <v-icon>logout</v-icon>
@@ -225,7 +224,6 @@
           >
         </div>
 
-        
         <!-- <v-menu
           bottom
           left
@@ -268,45 +266,38 @@
           transition="scale-transition"
         >
           <template v-slot:activator="{ attrs, on }">
-          <v-overlay
-      :z-index="0"
-      :opacity= "0"
-       style="height:10px  " class="mt-2 justify-end  pr-16 mr-6 "
-    >
-          <v-chip style="border-radius: 3 height:4px " dark color="error" class="pa-2" small id="WalletPrice"
+            <v-overlay
+              :z-index="0"
+              :opacity="0"
+              style="height: 10px"
+              class="mt-2 justify-end pr-16 mr-6"
+            >
+              <v-chip
+                style="border-radius: 3 height:4px "
+                dark
+                color="error"
+                class="pa-2"
+                small
+                id="WalletPrice"
                 >&#8358;{{ user.balance | formatPrice }}</v-chip
-              ></v-overlay>
+              ></v-overlay
+            >
             <v-btn
               v-bind="attrs"
               v-on="on"
-              class="ml-4  "
+              class="ml-4"
               icon
               outlined
               depressed
             >
-              <v-icon>ri-user-line</v-icon></v-btn>
-              
+              <v-icon>ri-user-line</v-icon></v-btn
+            >
           </template>
 
           <v-list dense width="250px" class="py-0">
             <v-list-item dense to="/dashboard" class="py-0 my-0">
               <v-list-item-content class="py-0 my-0">
                 <v-list-item-title>Account Informations </v-list-item-title>
-              </v-list-item-content>
-            </v-list-item>
-            <v-list-item dense to="/change-password" class="py-0 my-0">
-              <v-list-item-content class="py-0 my-0">
-                <v-list-item-title>Change Password </v-list-item-title>
-              </v-list-item-content>
-            </v-list-item>
-            <v-list-item dense to="/upgrade-wholesaler" class="py-0 my-0">
-              <v-list-item-content class="py-0 my-0">
-                <v-list-item-title>Upgrade to Wholesaler </v-list-item-title>
-              </v-list-item-content>
-            </v-list-item>
-            <v-list-item dense to="/become-affiliate" class="py-0 my-0">
-              <v-list-item-content class="py-0 my-0">
-                <v-list-item-title>Become an Affiliate </v-list-item-title>
               </v-list-item-content>
             </v-list-item>
             <v-list-item dense to="/my-orders" class="py-0 my-0">
@@ -319,7 +310,21 @@
                 <v-list-item-title>My Wishlist </v-list-item-title>
               </v-list-item-content>
             </v-list-item>
-
+            <v-list-item dense to="/become-affiliate" class="py-0 my-0">
+              <v-list-item-content class="py-0 my-0">
+                <v-list-item-title>Become an Affiliate </v-list-item-title>
+              </v-list-item-content>
+            </v-list-item>
+            <v-list-item dense to="/upgrade-wholesaler" class="py-0 my-0">
+              <v-list-item-content class="py-0 my-0">
+                <v-list-item-title>Upgrade to Wholesaler </v-list-item-title>
+              </v-list-item-content>
+            </v-list-item>
+            <v-list-item dense to="/change-password" class="py-0 my-0">
+              <v-list-item-content class="py-0 my-0">
+                <v-list-item-title>Change Password </v-list-item-title>
+              </v-list-item-content>
+            </v-list-item>
             <v-list-item dense to="/logout">
               <v-list-item-content>
                 <v-list-item-title>Logout </v-list-item-title>
@@ -333,19 +338,21 @@
           :content="cartItem"
           overlap
         >
-          <v-btn v-if="isAuthenticated"
+          <v-btn
+            v-if="isAuthenticated"
             to="/shopping-cart"
             icon
-            class="primary--text ml-4 "
+            class="primary--text ml-4"
             outlined
             depressed
           >
             <v-icon color="">ri-shopping-cart-2-fill</v-icon>
           </v-btn>
-          <v-btn v-else
+          <v-btn
+            v-else
             to="/login"
             icon
-            class="primary--text ml-4 "
+            class="primary--text ml-4"
             outlined
             depressed
           >
@@ -1005,7 +1012,7 @@ export default {
   computed: {
     ...mapGetters('products', ['StoreCart', 'cartItem']),
     ...mapGetters('auth', ['isAuthenticated', 'user']),
-    
+
     // orderedBrands: {
     //   get: function () {
     //     return _.orderBy(this.brands, 'name')
@@ -1211,5 +1218,4 @@ a {
   background: #ff4e50 !important;
   color: #000 !important;
 }
-
 </style>

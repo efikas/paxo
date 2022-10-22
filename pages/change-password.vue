@@ -32,7 +32,8 @@
             <v-col md="8">
               <v-text-field
                 label="Current Password"
-                outlined type="password"
+                outlined
+                type="password"
                 v-model="form.current_password"
                 required
                 :rules="[(v) => !!v || 'This field is required']"
@@ -41,7 +42,8 @@
 
               <v-text-field
                 label="New Password"
-                outlined type="password"
+                outlined
+                type="password"
                 v-model="form.password"
                 required
                 :rules="passwordRules"
@@ -50,13 +52,22 @@
 
               <v-text-field
                 label="Confirm New Password"
-                outlined type="password"
+                outlined
+                type="password"
                 v-model="form.password_confirmation"
                 required
                 :rules="passwordConfirmRules"
               >
               </v-text-field>
-              <v-btn class="primary" :loading="loading" @click="$refs.form.validate() ? changePassword() : null" large text block>Change Password</v-btn>
+              <v-btn
+                class="primary"
+                :loading="loading"
+                @click="$refs.form.validate() ? changePassword() : null"
+                large
+                text
+                block
+                >Change Password</v-btn
+              >
             </v-col>
           </v-row>
         </v-form>
@@ -71,7 +82,6 @@ export default {
     return {
       form: {
         password: '',
-
       },
       loading: false,
       passwordRules: [
@@ -89,19 +99,9 @@ export default {
           to: '/dashboard',
         },
         {
-          icon: 'ri-lock-line',
-          text: 'Change Password',
-          to: '/change-password',
-        },
-        {
-          icon: 'ri-briefcase-line',
-          text: 'Upgrade to Wholesaler',
-          to: '/upgrade-wholesaler',
-        },
-        {
-          icon: 'ri-honour-line',
-          text: 'Become an Affiliate',
-          to: '/become-affiliate',
+          icon: 'ri-shopping-cart-line',
+          text: 'My Pending Orders',
+          to: '/my-pending-orders',
         },
         {
           icon: 'ri-shopping-cart-line',
@@ -109,16 +109,25 @@ export default {
           to: '/my-orders',
         },
         {
-          icon: 'ri-shopping-cart-line',
-          text: 'My Pending Orders',
-          to: '/my-pending-orders',
-        },
-        {
           icon: 'ri-heart-line',
           text: 'My Wishlist',
           to: '/my-wishlist',
         },
-
+        {
+          icon: 'ri-honour-line',
+          text: 'Become an Affiliate',
+          to: '/become-affiliate',
+        },
+        {
+          icon: 'ri-briefcase-line',
+          text: 'Upgrade to Wholesaler',
+          to: '/upgrade-wholesaler',
+        },
+        {
+          icon: 'ri-lock-line',
+          text: 'Change Password',
+          to: '/change-password',
+        },
         {
           icon: 'ri-logout-circle-line',
           text: 'Logout',
@@ -128,17 +137,19 @@ export default {
     }
   },
   methods: {
-    async changePassword () {
+    async changePassword() {
       this.loading = true
-      await this.$store.dispatch('auth/changepassword', this.form).then(response => {
-        this.$toast.success(response.message)
-        this.loading = false
-      }).catch(error => {
-        this.$toast.error(error.response.data.message)
-        this.loading = false
-      })
-
-    }
+      await this.$store
+        .dispatch('auth/changepassword', this.form)
+        .then((response) => {
+          this.$toast.success(response.message)
+          this.loading = false
+        })
+        .catch((error) => {
+          this.$toast.error(error.response.data.message)
+          this.loading = false
+        })
+    },
   },
   computed: {
     ...mapGetters('auth', ['user']),

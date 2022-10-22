@@ -1,5 +1,5 @@
 <template>
-  <v-container pt-16 >
+  <v-container pt-16>
     <v-row>
       <v-col md="4">
         <div style="display: flex">
@@ -34,34 +34,48 @@
               <th>DELIVERY ADDRESS</th>
               <!-- <th>ORDER NUMBER</th> -->
               <th>TOTAL</th>
-          <th>STATUS</th>
+              <th>STATUS</th>
               <th>ACTION</th>
             </tr>
           </thead>
           <tbody>
             <tr v-for="(i, index) in orders" :key="index">
               <td class="py-5">
-                ORDER NUMBER: {{i.order_number}}<br><br>
-                <div class="d-flex mb-2 align-center" v-for="j in i.product" :key="j.id">
+                ORDER NUMBER: {{ i.order_number }}<br /><br />
+                <div
+                  class="d-flex mb-2 align-center"
+                  v-for="j in i.product"
+                  :key="j.id"
+                >
                   <img :src="j.avatar" height="60px" alt="" />
                   <div>
                     <nuxt-link :to="'/single-product?product_id=' + j.id">
                       <p class="ml-8 mb-0 pb-0">{{ j.name }}</p>
                     </nuxt-link>
                     <span class="ml-8">
-                      &#8358;{{ j.price | formatPrice }} x {{j.quantity}}
-
+                      &#8358;{{ j.price | formatPrice }} x {{ j.quantity }}
                     </span>
-
                   </div>
-
                 </div>
               </td>
 
-              <td>{{i.address}}, {{i.city}}, {{i.state}}</td>
+              <td>{{ i.address }}, {{ i.city }}, {{ i.state }}</td>
               <!-- <td>{{i.order_number}}</td> -->
-              <td>&#8358;{{i.total | formatPrice}}</td>
-              <td><span :class="i.status == 'pending' ? 'warning--text' : i.status == 'cancelled' ? 'error--text' : i.status == 'processing' ? 'primary--text' : 'success--text'">{{i.status}}</span></td>
+              <td>&#8358;{{ i.total | formatPrice }}</td>
+              <td>
+                <span
+                  :class="
+                    i.status == 'pending'
+                      ? 'warning--text'
+                      : i.status == 'cancelled'
+                      ? 'error--text'
+                      : i.status == 'processing'
+                      ? 'primary--text'
+                      : 'success--text'
+                  "
+                  >{{ i.status }}</span
+                >
+              </td>
 
               <td class="text-">
                 <v-icon @click="deleteWishlist(i.id)"
@@ -94,19 +108,9 @@ export default {
           to: '/dashboard',
         },
         {
-          icon: 'ri-lock-line',
-          text: 'Change Password',
-          to: '/change-password',
-        },
-        {
-          icon: 'ri-briefcase-line',
-          text: 'Upgrade to Wholesaler',
-          to: '/upgrade-wholesaler',
-        },
-        {
-          icon: 'ri-honour-line',
-          text: 'Become an Affiliate',
-          to: '/become-affiliate',
+          icon: 'ri-shopping-cart-line',
+          text: 'My Pending Orders',
+          to: '/my-pending-orders',
         },
         {
           icon: 'ri-shopping-cart-line',
@@ -114,16 +118,25 @@ export default {
           to: '/my-orders',
         },
         {
-          icon: 'ri-shopping-cart-line',
-          text: 'My Pending Orders',
-          to: '/my-pending-orders',
-        },
-        {
           icon: 'ri-heart-line',
           text: 'My Wishlist',
           to: '/my-wishlist',
         },
-
+        {
+          icon: 'ri-honour-line',
+          text: 'Become an Affiliate',
+          to: '/become-affiliate',
+        },
+        {
+          icon: 'ri-briefcase-line',
+          text: 'Upgrade to Wholesaler',
+          to: '/upgrade-wholesaler',
+        },
+        {
+          icon: 'ri-lock-line',
+          text: 'Change Password',
+          to: '/change-password',
+        },
         {
           icon: 'ri-logout-circle-line',
           text: 'Logout',
@@ -155,9 +168,7 @@ export default {
       const data = {
         id: id,
       }
-      confirm(
-        'Are you sure you want to cancel this order?'
-      ) &&
+      confirm('Are you sure you want to cancel this order?') &&
         (await this.$store
           .dispatch('order/cancelorder', data)
           .then((response) => {
@@ -170,7 +181,6 @@ export default {
 </script>
 <style lang="scss" scoped>
 .sidebar {
-
   background: transparent !important;
   .v-list-item:not(:first-child) {
     border-top: 1px solid #ddd;

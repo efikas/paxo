@@ -47,11 +47,15 @@
                   </nuxt-link>
                 </div>
               </td>
-              <td>&#8358;{{ (isAuthenticated
-                      ? user.role == 'wholesaler' || user.role == 'next_champ'
-                        ? i.product.wholesale_price
-                        : i.product.price
-                      : i.product.price) | formatPrice }}</td>
+              <td>
+                &#8358;{{
+                  (isAuthenticated
+                    ? user.role == 'wholesaler' || user.role == 'next_champ'
+                      ? i.product.wholesale_price
+                      : i.product.price
+                    : i.product.price) | formatPrice
+                }}
+              </td>
               <!-- <td>
             <div class="qty-box pa-2">
               <v-btn
@@ -102,19 +106,9 @@ export default {
           to: '/dashboard',
         },
         {
-          icon: 'ri-lock-line',
-          text: 'Change Password',
-          to: '/change-password',
-        },
-        {
-          icon: 'ri-briefcase-line',
-          text: 'Upgrade to Wholesaler',
-          to: '/upgrade-wholesaler',
-        },
-        {
-          icon: 'ri-honour-line',
-          text: 'Become an Affiliate',
-          to: '/become-affiliate',
+          icon: 'ri-shopping-cart-line',
+          text: 'My Pending Orders',
+          to: '/my-pending-orders',
         },
         {
           icon: 'ri-shopping-cart-line',
@@ -122,16 +116,25 @@ export default {
           to: '/my-orders',
         },
         {
-          icon: 'ri-shopping-cart-line',
-          text: 'My Pending Orders',
-          to: '/my-pending-orders',
-        },
-        {
           icon: 'ri-heart-line',
           text: 'My Wishlist',
           to: '/my-wishlist',
         },
-
+        {
+          icon: 'ri-honour-line',
+          text: 'Become an Affiliate',
+          to: '/become-affiliate',
+        },
+        {
+          icon: 'ri-briefcase-line',
+          text: 'Upgrade to Wholesaler',
+          to: '/upgrade-wholesaler',
+        },
+        {
+          icon: 'ri-lock-line',
+          text: 'Change Password',
+          to: '/change-password',
+        },
         {
           icon: 'ri-logout-circle-line',
           text: 'Logout',

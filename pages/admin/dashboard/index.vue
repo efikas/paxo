@@ -183,7 +183,6 @@
                         Paid on
                         {{ order_products.created_at | formatDate }}
                       </p>
-                      
                     </div>
                     <div>
                       <img src="~/static/assets/Paxo Logo Green.png" alt="" />
@@ -194,6 +193,10 @@
                     Customer: {{ order_products.user.first_name | capitalize }}
                     {{ order_products.user.last_name | capitalize }}
                   </h3>
+                  <p v-if="order_products.user">
+                    Wallet Balance:
+                    {{ order_products.user.balance | formatPrice }}
+                  </p>
                 </v-card>
                 <v-card class="pa-6 mt-8" flat outlined>
                   <v-row>
@@ -278,14 +281,16 @@
                         <td>{{ i.quantity }}</td>
                         <td>
                           &#8358;{{
-                            order_products.user.role == 'wholesaler' ||  order_products.user.role == 'next_champ' 
+                            order_products.user.role == 'wholesaler' ||
+                            order_products.user.role == 'next_champ'
                               ? i.wholesale_price
                               : i.price | formatPrice
                           }}
                         </td>
                         <td>
                           &#8358;{{
-                            order_products.user.role == 'wholesaler' ||  order_products.user.role == 'next_champ'
+                            order_products.user.role == 'wholesaler' ||
+                            order_products.user.role == 'next_champ'
                               ? i.quantity * i.wholesale_price
                               : (i.quantity * i.price) | formatPrice
                           }}
@@ -295,8 +300,13 @@
                         <td colspan="3" class="text-right font-weight-bold">
                           Delivery Fee:
                         </td>
-                        <td v-if="order_products.shipping" class="font-weight-bold">
-                          &#8358;{{ order_products.shipping.delivery_fee | formatPrice }}
+                        <td
+                          v-if="order_products.shipping"
+                          class="font-weight-bold"
+                        >
+                          &#8358;{{
+                            order_products.shipping.delivery_fee | formatPrice
+                          }}
                         </td>
                       </tr>
                       <tr>
@@ -361,6 +371,7 @@ export default {
         page: 1,
       }
       await this.$store.dispatch('auth/orders', data).then((response) => {
+        // console.log(response.data.data)
         this.orders = response.data.data
         this.loading = false
       })
