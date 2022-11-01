@@ -37,6 +37,9 @@
         <template v-slot:item.sn="{ item }">
           {{ brands.indexOf(item) + 1 }}
         </template>
+        <template v-slot:item.show_product="{ item }">
+          {{ item.show_product == 1 ? true: false }}
+        </template>
         <template v-slot:item.action="{ item }">
           <v-btn
             icon
@@ -96,6 +99,10 @@
             label="Publish Now?"
             v-model="form.status"
           ></v-checkbox>
+          <v-checkbox
+            label="Show on homepage?"
+            v-model="form.show_product"
+          ></v-checkbox>
           <v-btn
             large
             block
@@ -128,6 +135,7 @@ export default {
         { text: 'Slug', value: 'slug' },
         { text: 'Description', value: 'description' },
         { text: 'Published', value: 'status' },
+        { text: 'Show On Homepage', value: 'show_product' },
         { text: 'Actions', value: 'action' },
       ],
       brands: [],
@@ -162,6 +170,7 @@ export default {
     async getbrands() {
       this.loading = true
       await this.$store.dispatch('brand/all').then((response) => {
+        console.log(response)
         this.brands = response.data
         this.loading = false
       })
@@ -174,6 +183,7 @@ export default {
         formData.append('avatar', this.form.product_image)
         formData.append('description', this.form.description)
         formData.append('status', this.form.status ? 1 : 0)
+        formData.append('show_product', this.form.show_product ? 1 : 0)
         await this.$store
           .dispatch('brand/addnew', formData)
           .then((response) => {
@@ -199,6 +209,7 @@ export default {
         formData.append('avatar', this.form.product_image)
         formData.append('description', this.form.description)
         formData.append('status', this.form.status ? 1 : 0)
+        formData.append('show_product', this.form.show_product ? 1 : 0)
         formData.append('id', this.form.id)
         await this.$store
           .dispatch('brand/update', formData)

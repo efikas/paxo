@@ -10,7 +10,7 @@
             placeholder="Search"
             prepend-inner-icon="search"
             v-model="search"
-          >
+          ><span>{{ computeProduct }}</span>
           </v-text-field>
         </v-col>
         <v-col md="3" offset-md="6">
@@ -21,11 +21,10 @@
       </v-row>
       <v-data-table
         :loading="loading"
-        :items-per-page="80"
+        :items-per-page="perPage"
         hide-default-footer
         :items="products"
         :headers="headers"
-        :search="search"
       >
         <template v-slot:item.avatar="{ item }">
           <img :src="item.avatar" width="100" alt="" />
@@ -57,9 +56,13 @@
         </template>
       </v-data-table>
       <v-pagination
+        class="mt-16"
+        :length="pageinationLength"
+        :total-visible="7"
         v-model="page"
-        :length="length"
-        @input="getProducts()"
+        @input="toPage"
+        @next="next"
+        @previous="previous"
       ></v-pagination>
     </v-card>
   </v-container>
@@ -68,12 +71,27 @@
 export default {
   layout: 'admin',
   search: '',
+  computed: {
+    computeProduct() {
+      this.filtered_products = this.real_products.filter(item => {
+         return item.name.toLowerCase().indexOf(this.search.toLowerCase()) > -1
+      })
+      this.pageinationLength = Math.ceil(this.filtered_products.length / this.perPage)
+      this.toPage(1)
+
+      return ""
+    },
+  },
   data() {
     return {
       search: '',
       page: 1,
+      pageinationLength: 1,
+      perPage: 50,
       length: 1,
       products: [],
+      real_products: [],
+      filtered_products: [],
       loading: false,
       headers: [
         { text: 'Product Image', value: 'avatar' },
@@ -83,7 +101,7 @@ export default {
         { text: 'Price', value: 'price' },
         { text: 'Wholesales Price', value: 'wholesale_price' },
         // { text: 'Quantity in Stock', value: 'stock_quantity' },
-        { text: 'Status', value: 'status' },
+        // { text: 'Status', value: 'status' },
         { text: 'Actions', value: 'actions' },
       ],
     }
@@ -92,6 +110,19 @@ export default {
     this.getProducts()
   },
   methods: {
+    toPage(page){
+      this.page = page
+      let start = (this.perPage * (page - 1))
+      let end = (this.perPage * page)
+      this.products = this.filtered_products.slice(start, end);
+      window.scrollTo(0, 0);
+    },
+    next(){
+      this.toPage(this.page)
+    },
+    previous(){
+      this.toPage(this.page)
+    },
     async getProducts() {
       this.loading = true
       const data = {
@@ -109,8 +140,11 @@ export default {
       await this.$store
         .dispatch('products/allproducts', this.page)
         .then((response) => {
-          this.products = response.data.data
+          this.real_products = response.data
+          this.filtered_products = this.real_products
           this.length = response.data.last_page
+          this.pageinationLength = Math.ceil(this.filtered_products.length / this.perPage)
+          this.toPage(1)
           this.loading = false
         })
     },

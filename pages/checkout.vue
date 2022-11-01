@@ -36,7 +36,7 @@
             </v-col>
           </v-row>
           <v-text-field
-            v-if="userDetail.dob"
+            v-if="user.dob == '' || user.dob == undefined"
             label="Date of Birth"
             type="date"
             v-model="userDetail.dob"

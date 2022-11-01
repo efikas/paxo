@@ -4770,6 +4770,18 @@
   dependencies:
     "postcss" "^7.0.14"
 
+"idle-js@^0.1.3":
+  "integrity" "sha512-Hvd+OLMUWfVJUv/HoX7wtBgPwx2OdcEd2TzXcBQJyuINXcf7Ig2SgxRMuq2wZNkarf/+DrzV7NxwjKcexIfWBg=="
+  "resolved" "https://registry.npmjs.org/idle-js/-/idle-js-0.1.3.tgz"
+  "version" "0.1.3"
+
+"idle-vue@^2.0.5":
+  "integrity" "sha512-2UwNr8VZNg/AuNLBUEj2K3cdKYL1Er1EJobLHlVIqyrx/c0B1+DQi9x0B5rgZHH3fbTbM8QjmrgTse1k5sRaNg=="
+  "resolved" "https://registry.npmjs.org/idle-vue/-/idle-vue-2.0.5.tgz"
+  "version" "2.0.5"
+  dependencies:
+    "idle-js" "^0.1.3"
+
 "ieee754@^1.1.13", "ieee754@^1.1.4":
   "integrity" "sha512-dcyqhDvX1C46lXZcVqCpK+FtMRQVdIMN6/Df5js2zouUsqG7I6sFxitIC+7KYK29KdXOLHdu9zL4sFnoVQnqaA=="
   "resolved" "https://registry.npmjs.org/ieee754/-/ieee754-1.2.1.tgz"
@@ -9043,6 +9055,11 @@
   "integrity" "sha512-BXq3jwIagosjgNVae6tkHzzIk6a8MHFtzAdwhnV5VlvPTFxDCvIttgSiHWjdGoTJvXtmRu5HacExfdarRcFhog=="
   "resolved" "https://registry.npmjs.org/vue-hot-reload-api/-/vue-hot-reload-api-2.3.4.tgz"
   "version" "2.3.4"
+
+"vue-html-to-paper@^1.4.4":
+  "integrity" "sha512-5Stkm0jJDsC7A/WJWroxqxiASR1+9fcgVWy7AXv30uxdxTPOr7k1Z4KUklZJm7dkHR45tExVCMSOHuxrC22TEw=="
+  "resolved" "https://registry.npmjs.org/vue-html-to-paper/-/vue-html-to-paper-1.4.4.tgz"
+  "version" "1.4.4"
 
 "vue-image-zoomer@^1.4.0":
   "integrity" "sha512-Q9Gu6i8B1NWVmiLGKspdEqLHc5XdusKpKiFkdvIC657BVHfPbamt40cMk9tBQK/dtgJS1JReyTrrRQP1QTw/Hg=="

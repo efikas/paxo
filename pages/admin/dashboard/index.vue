@@ -171,162 +171,168 @@
         <v-container>
           <v-row align="center" justify="center">
             <v-col md="9">
-              <v-card class="pa-6" width="1000" outlined>
-                <v-card class="pa-6" flat outlined>
-                  <div class="d-flex justify-space-between">
-                    <div>
-                      <h2>Order details</h2>
-                      <h5>Order Number: {{ order_products.order_number }}</h5>
-                      <p>
-                        Payment Channel:
-                        {{ order_products.use_wallet ? 'Wallet' : 'Paystack' }}.
-                        Paid on
-                        {{ order_products.created_at | formatDate }}
-                      </p>
-                    </div>
-                    <div>
-                      <img src="~/static/assets/Paxo Logo Green.png" alt="" />
-                    </div>
-                  </div>
-
-                  <h3 v-if="order_products.user">
-                    Customer: {{ order_products.user.first_name | capitalize }}
-                    {{ order_products.user.last_name | capitalize }}
-                  </h3>
-                  <p v-if="order_products.user">
-                    Wallet Balance:
-                    {{ order_products.user.balance | formatPrice }}
-                  </p>
-                </v-card>
-                <v-card class="pa-6 mt-8" flat outlined>
-                  <v-row>
-                    <v-col md="2">
+              <div id="printMe">
+                <v-card class="pa-6" width="1000" outlined>
+                  <v-card class="pa-6" flat outlined>
+                    <div class="d-flex justify-space-between">
                       <div>
-                        <h5>General</h5>
+                        <h2>Order details</h2>
+                        <h5>Order Number: {{ order_products.order_number }}</h5>
                         <p>
-                          Date Created:
+                          Payment Channel:
+                          {{
+                            order_products.use_wallet ? 'Wallet' : 'Paystack'
+                          }}. Paid on
                           {{ order_products.created_at | formatDate }}
                         </p>
-                        <p>
-                          Status:
-                          <v-chip
-                            small
-                            :color="
-                              order_products.status == 'pending'
-                                ? 'error'
-                                : order_products.status == 'processing'
-                                ? 'warning'
-                                : 'success'
-                            "
+                      </div>
+                      <div>
+                        <img src="~/static/assets/Paxo Logo Green.png" alt="" />
+                      </div>
+                    </div>
+
+                    <h3 v-if="order_products.user">
+                      Customer:
+                      {{ order_products.user.first_name | capitalize }}
+                      {{ order_products.user.last_name | capitalize }}
+                    </h3>
+                    <p v-if="order_products.user">
+                      Wallet Balance:
+                      {{ order_products.user.balance | formatPrice }}
+                    </p>
+                  </v-card>
+                  <v-card class="pa-6 mt-8" flat outlined>
+                    <v-row>
+                      <v-col md="2">
+                        <div>
+                          <h5>General</h5>
+                          <p>
+                            Date Created:
+                            {{ order_products.created_at | formatDate }}
+                          </p>
+                          <p>
+                            Status:
+                            <v-chip
+                              small
+                              :color="
+                                order_products.status == 'pending'
+                                  ? 'error'
+                                  : order_products.status == 'processing'
+                                  ? 'warning'
+                                  : 'success'
+                              "
+                            >
+                              {{ order_products.status }}
+                            </v-chip>
+                          </p>
+                        </div>
+                      </v-col>
+                      <v-col md="3">
+                        <div>
+                          <h5>Billing</h5>
+                          {{ order_products.address }} {{ order_products.city }}
+
+                          <h5 class="mt-4">Email address</h5>
+                          {{ order_products.email }}
+                          <h5 class="mt-4">Phone Number</h5>
+                          {{ order_products.phone }}
+                        </div>
+                      </v-col>
+                      <v-col md="3">
+                        <div>
+                          <h5>Shipping</h5>
+                          <h5>Method:</h5>
+                          {{
+                            order_products.delivery_method == '0'
+                              ? 'Local Pick (3 Billings way, Oregun, Ikeja Lagos'
+                              : order_products.city +
+                                ', ' +
+                                (order_products.state
+                                  ? order_products.state
+                                  : '')
+                          }}
+                          <!-- {{ order_products.city }}, {{ order_products.state }} -->
+                          <h5 class="mt-4" v-if="order_products.coupon">
+                            Coupon
+                          </h5>
+                          {{ order_products.coupon }}
+                        </div>
+                      </v-col>
+                    </v-row>
+                  </v-card>
+                  <v-card class="pa-6 mt-8" flat outlined>
+                    <v-simple-table>
+                      <thead>
+                        <tr>
+                          <th>Product</th>
+                          <th>Quantity</th>
+                          <th>Price</th>
+                          <th>Total</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr v-for="i in order_products.product" :key="i.id">
+                          <td>
+                            <div class="d-flex align-center">
+                              <img
+                                :src="i.avatar"
+                                class="mr-3"
+                                width="60"
+                                height="60"
+                              />
+                              {{ i.name }}
+                            </div>
+                          </td>
+                          <td>{{ i.quantity }}</td>
+                          <td>
+                            &#8358;{{
+                              order_products.user.role == 'wholesaler' ||
+                              order_products.user.role == 'next_champ'
+                                ? i.wholesale_price
+                                : i.price | formatPrice
+                            }}
+                          </td>
+                          <td>
+                            &#8358;{{
+                              order_products.user.role == 'wholesaler' ||
+                              order_products.user.role == 'next_champ'
+                                ? i.quantity * i.wholesale_price
+                                : (i.quantity * i.price) | formatPrice
+                            }}
+                          </td>
+                        </tr>
+                        <tr>
+                          <td colspan="3" class="text-right font-weight-bold">
+                            Delivery Fee:
+                          </td>
+                          <td
+                            v-if="order_products.shipping"
+                            class="font-weight-bold"
                           >
-                            {{ order_products.status }}
-                          </v-chip>
-                        </p>
-                      </div>
-                    </v-col>
-                    <v-col md="3">
-                      <div>
-                        <h5>Billing</h5>
-                        {{ order_products.address }} {{ order_products.city }}
+                            &#8358;{{
+                              order_products.shipping.delivery_fee | formatPrice
+                            }}
+                          </td>
+                        </tr>
+                        <tr>
+                          <td colspan="3" class="text-right font-weight-bold">
+                            TOTAL:
+                          </td>
+                          <td class="font-weight-bold">
+                            &#8358;{{ order_products.total | formatPrice }}
+                          </td>
+                        </tr>
+                      </tbody>
+                    </v-simple-table>
 
-                        <h5 class="mt-4">Email address</h5>
-                        {{ order_products.email }}
-                        <h5 class="mt-4">Phone Number</h5>
-                        {{ order_products.phone }}
-                      </div>
-                    </v-col>
-                    <v-col md="3">
-                      <div>
-                        <h5>Shipping</h5>
-                        <h5>Method:</h5>
-                        {{
-                          order_products.delivery_method == '0'
-                            ? 'Local Pick (3 Billings way, Oregun, Ikeja Lagos'
-                            : order_products.city +
-                              ', ' +
-                              (order_products.state ? order_products.state : '')
-                        }}
-                        <!-- {{ order_products.city }}, {{ order_products.state }} -->
-                        <h5 class="mt-4" v-if="order_products.coupon">
-                          Coupon
-                        </h5>
-                        {{ order_products.coupon }}
-                      </div>
-                    </v-col>
-                  </v-row>
+                    <!-- {{order_products}} -->
+                  </v-card>
                 </v-card>
-                <v-card class="pa-6 mt-8" flat outlined>
-                  <v-simple-table>
-                    <thead>
-                      <tr>
-                        <th>Product</th>
-                        <th>Quantity</th>
-                        <th>Price</th>
-                        <th>Total</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr v-for="i in order_products.product" :key="i.id">
-                        <td>
-                          <div class="d-flex align-center">
-                            <img
-                              :src="i.avatar"
-                              class="mr-3"
-                              width="60"
-                              height="60"
-                            />
-                            {{ i.name }}
-                          </div>
-                        </td>
-                        <td>{{ i.quantity }}</td>
-                        <td>
-                          &#8358;{{
-                            order_products.user.role == 'wholesaler' ||
-                            order_products.user.role == 'next_champ'
-                              ? i.wholesale_price
-                              : i.price | formatPrice
-                          }}
-                        </td>
-                        <td>
-                          &#8358;{{
-                            order_products.user.role == 'wholesaler' ||
-                            order_products.user.role == 'next_champ'
-                              ? i.quantity * i.wholesale_price
-                              : (i.quantity * i.price) | formatPrice
-                          }}
-                        </td>
-                      </tr>
-                      <tr>
-                        <td colspan="3" class="text-right font-weight-bold">
-                          Delivery Fee:
-                        </td>
-                        <td
-                          v-if="order_products.shipping"
-                          class="font-weight-bold"
-                        >
-                          &#8358;{{
-                            order_products.shipping.delivery_fee | formatPrice
-                          }}
-                        </td>
-                      </tr>
-                      <tr>
-                        <td colspan="3" class="text-right font-weight-bold">
-                          TOTAL:
-                        </td>
-                        <td class="font-weight-bold">
-                          &#8358;{{ order_products.total | formatPrice }}
-                        </td>
-                      </tr>
-                    </tbody>
-                  </v-simple-table>
-
-                  <!-- {{order_products}} -->
-                  <div class="text-right mt-12">
-                    <v-btn @click="dialog = false">Close</v-btn>
-                    <v-btn class="primary" @click="printPage()">Print</v-btn>
-                  </div>
-                </v-card>
-              </v-card>
+              </div>
+              <div class="text-center mt-12">
+                <v-btn @click="dialog = false">Close</v-btn>
+                <v-btn class="primary" @click="printPage(order_products)">Print</v-btn>
+              </div>
             </v-col>
           </v-row>
         </v-container>
@@ -360,6 +366,15 @@ export default {
     }
   },
   methods: {
+    async printPage(value) {
+      // Pass the element id here
+      // await this.$htmlToPaper('printMe')
+      if(value == undefined || Array.isArray(value)){
+        return;
+      }
+      window.localStorage.setItem("print_value", JSON.stringify(value))
+      this.$router.push('/admin/orders/print')
+    },
     async getDashboard() {
       await this.$store.dispatch('auth/dashboard').then((response) => {
         this.dashboard = response.data
@@ -372,7 +387,7 @@ export default {
       }
       await this.$store.dispatch('auth/orders', data).then((response) => {
         // console.log(response.data.data)
-        this.orders = response.data.data
+        this.orders = response.data
         this.loading = false
       })
     },
@@ -388,10 +403,18 @@ export default {
           this.getOrders()
         })
     },
+    async getUsers() {
+      const data = {
+        page: this.page,
+      }
+      await this.$store.dispatch('users/wallet', data).then((response) => {
+      })
+    },
   },
   mounted() {
     this.getDashboard()
     this.getOrders()
+    this.getUsers()
   },
 }
 </script>

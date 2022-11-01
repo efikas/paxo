@@ -859,6 +859,34 @@
           </div>
         </div>
       </div>
+      <v-dialog
+        width="470"
+        v-model="paymentMethodDialog"
+        overlay-color="#36bdb4"
+        overlay-opacity="0.9"
+      >
+        <v-card class="pa-6 text-center">
+          <p class="mt-3">You have been idle for 60 seconds</p>
+
+          <v-btn outlined text @click="paymentMethodDialog = false"
+            >Cancel</v-btn
+          >
+        </v-card>
+      </v-dialog>
+      <v-dialog
+        width="470"
+        v-model="open1MinuteDialog"
+        overlay-color="#36bdb4"
+        overlay-opacity="0.9"
+      >
+        <v-card class="pa-6 text-center">
+          <p class="mt-3">Show this after 1 minute of leaving idle state</p>
+
+          <v-btn outlined text @click="close1MinuteDialog()"
+            >Cancel</v-btn
+          >
+        </v-card>
+      </v-dialog>
     </v-responsive>
   </v-app>
 </template>
@@ -870,6 +898,9 @@ export default {
   components: { SearchProducts },
   data() {
     return {
+      paymentMethodDialog: false,
+      open1MinuteDialog: false,
+      is1MinuteDue: false,
       showBrand: false,
       fab: false,
       drawer: null,
@@ -929,6 +960,11 @@ export default {
     }
   },
   methods: {
+    close1MinuteDialog() {
+      this.is1MinuteDue = false
+      this.open1MinuteDialog = false
+      this.paymentMethodDialog = false
+    },
     scroller() {
       if (window.scrollY > 500) {
         this.fab = true
@@ -1008,6 +1044,21 @@ export default {
     isAuthenticated: function () {
       this.isAuthenticated ? null : window.location.reload()
     },
+  },
+  onIdle() {
+    // this.paymentMethodDialog = true
+    // this.open1MinuteDialog = false
+    // this.is1MinuteDue = true
+  },
+  onActive() {
+    // this.paymentMethodDialog = false
+
+    // if (this.is1MinuteDue) {
+    //   let self = this
+    //   setTimeout(function () {
+    //     self.open1MinuteDialog = true
+    //   }, 10000)
+    // }
   },
   computed: {
     ...mapGetters('products', ['StoreCart', 'cartItem']),

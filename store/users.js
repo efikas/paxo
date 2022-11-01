@@ -1,11 +1,22 @@
 import Axios from 'axios'
 import { Store } from 'vuex'
 
-export const state = () => ({})
+export const state = () => ({
+  widRequests: 5,
+})
 
-export const mutations = {}
+export const mutations = {
+  SET_REQUEST_ITEM(state, item) {
+    state.widRequests = item
+  },
+  RESET_REQUEST_ITEM(state) {
+    state.widRequests = 0
+  },
+}
 
-export const getters = {}
+export const getters = {
+  widRequests: (state) => state.widRequests,
+}
 
 export const actions = {
   async addnew({ commit }, formData) {
@@ -74,13 +85,20 @@ export const actions = {
     return data
   },
 
-  async wallet({}, { page }) {
+  async wallet({ commit }, { page }) {
     let token = JSON.parse(window.localStorage.getItem('paxo')).auth.token
     const data = await this.$axios.$get('/admin/wallet/request?page=' + page, {
       headers: {
         Authorization: 'Bearer ' + token,
       },
     })
+
+    if (data.data != undefined){
+      let items = data.data.filter(item => item.status == 'pending')
+
+      commit("SET_REQUEST_ITEM", items.length)
+    }
+
     return data
   },
 

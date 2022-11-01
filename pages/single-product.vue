@@ -408,6 +408,7 @@
             :product_name="i.product.name"
             rating="5"
             :price="i.product.price"
+            :wholesale_price="i.product.wholesale_price"
             :image="i.product.avatar "  
             :badge="i.product.stock_status"
             :description="i.product.description"
@@ -585,28 +586,28 @@ import { VueImageZoomer } from 'vue-image-zoomer'
 
 export default {
   transition: 'default',
-   metaInfo() {
-        return {
-            title: `test name`,
-            meta: [
-              {
-            hid: 'description',
-            name: 'description',
-            content: 'Home page description'
-          },
-                // {name: 'description', content: this.product.name },
-                {property: 'og:title', content: ''},
-                {property: 'og:site_name', content: ''},
-                {property: 'og:description', content: this.product.name },
-                {property: 'og:type', content: ''},
-                {property: 'og:url', content: '' },
-                {property: 'og:image', content: this.product.avatar }    
-            ]
-        }
-    },
+  //  metaInfo() {
+  //       return {
+  //           title: `test name`,
+  //           meta: [
+  //             {
+  //           hid: 'description',
+  //           name: 'description',
+  //           content: 'Home page description'
+  //         },
+  //               // {name: 'description', content: this.product.name },
+  //               {property: 'og:title', content: ''},
+  //               {property: 'og:site_name', content: ''},
+  //               {property: 'og:description', content: this.product.name },
+  //               {property: 'og:type', content: ''},
+  //               {property: 'og:url', content: '' },
+  //               {property: 'og:image', content: this.product.avatar }    
+  //           ]
+  //       }
+  //   },
     head() {
       return {
-        title: `other namesnnnnnn`,
+        // title: `other namesnnnnnn`,
         meta: [
           {
             hid: 'description',
@@ -631,7 +632,7 @@ export default {
       ],
       passwordRules: [
         (v) => !!v || 'Password number is required',
-        (v) => v.length >= 8 || 'Password must be at least eight characters',
+        (v) => (v != undefined && v.length >= 8) || 'Password must be at least eight characters',
       ],
       panel: {},
       product: [],
@@ -833,9 +834,13 @@ export default {
         })
     },
     async buyNow() {
-      this.addToCart()
+     
       if (this.isAuthenticated) {
+        this.addToCart()
        this.$router.push('/shopping-cart')
+      }
+      else {
+        this.loginDialog = true
       }
     },
     async addToCart() {
@@ -875,7 +880,7 @@ export default {
           })
       }
       else {
-        this.$router.push('/login')
+        this.loginDialog = true
       }
     },
   },

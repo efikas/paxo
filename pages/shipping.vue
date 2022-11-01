@@ -302,7 +302,7 @@ export default {
     this.createReference()
     // (isAuthenticated ? (user.role == 'wholesaler' ? i.wholesale_price : i.price) : i.price) | formatPrice
     if (this.user.role == 'wholesaler' || this.user.role == 'next_champ') {
-      console.log(this.StoreCart)
+      // console.log(this.StoreCart)
       this.StoreCart.price = this.StoreCart.wholesale_price
     }
     this.calculateWeight()
@@ -573,13 +573,14 @@ export default {
         total_product: this.subtotal,
         code: this.code,
       }
-      console.log('datat to send', payload);
+      // console.log('datat to send', payload);
       await this.$store
         .dispatch('products/makeorder', payload)
         .then((response) => {
           this.$toast.success(response.message)
           // this.getUser()
           // this.getProfile()
+          // console.log(response)
           this.loading = false
           this.order = response.data
           const self = this
@@ -644,10 +645,11 @@ export default {
       await this.$store
         .dispatch('products/makeorder', payload)
         .then(async (response) => {
-          console.log('product saved', response)
+          // console.log('product saved', response)
           this.$toast.success(response.message)
           // this.getUser()
           // this.getProfile()
+          // console.log(response)
           this.loading = false
           this.order = response.data
           const self = this
@@ -656,7 +658,7 @@ export default {
             this.clickPaystack()
           } else {
             this.loading = true
-             console.log('order value', self.order);
+            //  console.log('order value', self.order);
             const data = {
               order_id: self.order.order.id,
               reference: 'null',

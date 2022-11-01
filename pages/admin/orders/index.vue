@@ -10,15 +10,14 @@
             dense
             placeholder="Search"
             prepend-inner-icon="search"
-          ></v-text-field>
+          ></v-text-field> <span>{{ computeOrder }}</span>
         </v-col>
       </v-row>
       <v-data-table
-        :search="search"
         :loading="loading"
         :items="orders"
         :headers="headers"
-        :items-per-page="15"
+        :items-per-page="perPage"
         hide-default-footer
       >
         <template v-slot:item.created_at="{ item }">
@@ -31,7 +30,7 @@
           &#8358;{{ item.total | formatPrice }}
         </template>
         <template v-slot:item.sn="{ item }">
-          {{ orders.indexOf(item) + 1 }}
+          {{ (page - 1) * perPage + orders.indexOf(item) + 1 }}
         </template>
         <template v-slot:item.status="{ item }">
           <v-chip
@@ -130,9 +129,13 @@
         </template>
       </v-data-table>
       <v-pagination
+      class="mt-16"
+        :length="pageinationLength"
+        :total-visible="7"
         v-model="page"
-        :length="length"
-        @input="getOrders()"
+        @input="toPage"
+        @next="next"
+        @previous="previous"
       ></v-pagination>
     </v-card>
 
@@ -166,6 +169,10 @@
                     Customer: {{ order_products.user.first_name | capitalize }}
                     {{ order_products.user.last_name | capitalize }}
                   </h3>
+                  <p v-if="order_products.user">
+                    Wallet Balance:
+                    {{ order_products.user.balance | formatPrice }}
+                  </p>
                 </v-card>
                 <v-card class="pa-6 mt-8" flat outlined>
                   <v-row>
@@ -289,7 +296,7 @@
                   <!-- {{order_products}} -->
                   <div class="text-right mt-12">
                     <v-btn @click="dialog = false">Close</v-btn>
-                    <v-btn class="primary" @click="printPage()">Print</v-btn>
+                    <v-btn class="primary" @click="printPage(order_products)">Print</v-btn>
                   </div>
                 </v-card>
               </v-card>
@@ -303,11 +310,17 @@
 <script>
 export default {
   layout: 'admin',
+  search: '',
   data() {
     return {
+      page: 1,
+      pageinationLength: 1,
+      perPage: 50,
       dialog: false,
       orders: [],
       order_products: null,
+      filtered_orders: [],
+      real_orders: [],
       loading: false,
       page: 1,
       length: 1,
@@ -362,10 +375,32 @@ export default {
 
       return ''
     },
+    computeOrder() {
+      this.filtered_orders = this.real_orders.filter(item => {
+        let searchTerm = "";
+        if(item.user != null && item.user.first_name != null ) searchTerm += " " + item.user.first_name
+        if(item.user != null && item.user.first_last != null ) searchTerm += " " + item.user.first_last
+        if(item.user != null && item.user.email != null ) searchTerm += " " + item.user.email
+        if(item.channel != null ) searchTerm += " " + item.channel
+        if(item.status != null ) searchTerm += " " + item.status
+
+         return searchTerm.indexOf(this.search.toString().toLowerCase()) > -1
+      })
+      this.pageinationLength = Math.ceil(this.filtered_orders.length / this.perPage)
+      this.toPage(1)
+
+      return ""
+    },
   },
   methods: {
-    printPage() {
-      window.print()
+    async printPage(value) {
+      // Pass the element id here
+      
+      if(value == undefined || Array.isArray(value)){
+        return;
+      }
+      window.localStorage.setItem("print_value", JSON.stringify(value))
+      this.$router.push('/admin/orders/print')
     },
     aggregateProduct(array, item) {
       return array.reduce(
@@ -374,15 +409,31 @@ export default {
         0
       )
     },
+    toPage(page){
+      this.page = page
+      let start = (this.perPage * (page - 1))
+      let end = (this.perPage * page)
+      this.orders = this.filtered_orders.slice(start, end);
+      window.scrollTo(0, 0);
+    },
+    next(){
+      this.toPage(this.page)
+    },
+    previous(){
+      this.toPage(this.page)
+    },
     async getOrders() {
       this.loading = true
       const data = {
         page: this.page,
       }
       await this.$store.dispatch('auth/orders', data).then((response) => {
-        console.log(response);
-        this.orders = response.data.data
-        this.length = response.data.last_page
+        // console.log(response)
+        this.real_orders = response.data
+        this.filtered_orders = this.real_orders
+        // this.length = response.data.last_page
+        this.pageinationLength = Math.ceil(this.filtered_orders.length / this.perPage)
+        this.toPage(1)
         this.loading = false
       })
     },

@@ -5,7 +5,6 @@ export default {
   ssr: false,
   loading: '~/components/loading.vue',
 
-
   // Global page headers (https://go.nuxtjs.dev/config-head)
   head: {
     titleTemplate: '%s - paxo',
@@ -14,49 +13,57 @@ export default {
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { hid: 'description', name: 'description', content: 'Shop Affordable Cosmetic Products' },
+      {
+        hid: 'description',
+        name: 'description',
+        content: 'Shop Affordable Cosmetic Products',
+      },
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
       {
         rel: 'stylesheet',
-        href:
-          'https://fonts.googleapis.com/css?family=Rubik:100,200,300,400,500,600,700|Material+Icons',
-          //https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;600;700&display=swap
+        href: 'https://fonts.googleapis.com/css?family=Rubik:100,200,300,400,500,600,700|Material+Icons',
+        //https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;600;700&display=swap
       },
       {
         rel: 'stylesheet',
-        href:
-          'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.css',
+        href: 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.css',
       },
     ],
     script: [
       {
         src: '/tagmanager.js',
-      }
+      },
     ],
     script: [
       {
         src: '/fbpixelcode.js',
-      }
-    ]
+      },
+    ],
   },
 
   // Global CSS (https://go.nuxtjs.dev/config-css)
-  css: ['~/assets/scss/main.scss', 'remixicon/fonts/remixicon.css', '~/assets/tailwind.css' ],
+  css: [
+    '~/assets/scss/main.scss',
+    'remixicon/fonts/remixicon.css',
+    '~/assets/tailwind.css',
+  ],
 
   // Plugins to run before rendering page (https://go.nuxtjs.dev/config-plugins)
   plugins: [
     // { src: '~plugins/ckeditor', ssr: false },
     { src: '~/plugins/localStorage.js', ssr: false },
     { src: '~/plugins/axios.js', ssr: false },
+    { src: '~/plugins/print.js', ssr: false },
+    { src: '~/plugins/idle.js', ssr: false }, 
     // { src: '~/plugins/vue-meta.js', ssr: true },
     '~/plugins/gtm',
     // '~/plugins/vue-tel-input',
     '~/plugins/filters',
     '~/plugins/lodash',
     '~/plugins/clipboard',
-    '~/plugins/datepicker'
+    '~/plugins/datepicker',
   ],
 
   // Auto import components (https://go.nuxtjs.dev/config-components)
@@ -106,7 +113,7 @@ export default {
   // Axios module configuration (https://go.nuxtjs.dev/config-axios)
   axios: {
     // baseURL: 'https://paxo.masterworkscaraross.io/api/v1',
-    baseURL: 'https://api.paxo.com.ng/api/v1'
+    baseURL: 'https://api.paxo.com.ng/api/v1',
   },
 
   // Vuetify module configuration (https://go.nuxtjs.dev/config-vuetify)
@@ -171,4 +178,19 @@ export default {
       )
     },
   },
+  serverMiddleware: [
+    {
+      // path: '/',
+      handler: (req, res, next) => {
+        const paths = ['/single-product']
+        console.log(req.originalUrl)
+
+        if (paths.includes(req.originalUrl)) {
+          // Will trigger the "traditional SPA mode"
+          res.spa = false
+        }
+        next()
+      },
+    },
+  ],
 }

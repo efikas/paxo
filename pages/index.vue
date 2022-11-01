@@ -153,8 +153,16 @@
       </div>
     </div>
 
-
+    <div class="pa-6 mt- top-products-container"  :class="{'px-6':$vuetify.breakpoint.mdAndUp,'px-4':$vuetify.breakpoint.smAndDown}">
+      
+      
     <v-row  :class="{'px-8':$vuetify.breakpoint.mdAndUp}">
+      <v-col md="6">
+        <p class="deal-text">Our Brands</p>
+        </v-col>
+        <v-col md="6" class="text-right">
+          <span class="deal-text-a text-right" href=""><nuxt-link to="/all-brands">See all brands</nuxt-link></span>
+        </v-col>
       <v-col md="4" v-for="i in adminBrands" :key="i.id">
         <v-img
           @click="$router.push('/brands/'+i.name+'?brandId='+i.id)"
@@ -166,7 +174,11 @@
           
         ></v-img>
       </v-col>
+      <v-col md="12" class="text-center">
+          <span class="deal-text-a text-center"><nuxt-link to="/all-brands">View more brands</nuxt-link></span>
+        </v-col>
     </v-row>
+    </div>
 
 
 
@@ -398,7 +410,7 @@ export default {
     },
     async getadminBrands() {
       await this.$store.dispatch('brand/allBrands').then((response) => {
-        this.adminBrands = response.data
+        this.adminBrands = response.data.filter(item => item.show_product == 1).splice(0, 9)
         this.loading = false
       })
     },
@@ -469,6 +481,20 @@ export default {
   font-size: 24px;
   font-weight: 400;
   margin-right: 70px;
+}
+
+a {
+  text-decoration: none;
+}
+.mr-0 {
+  margin-right: 0px;
+}
+
+.deal-text-a {
+  margin-bottom: 0;
+  font-size: 24px;
+  font-weight: 400;
+  text-decoration: none;
 }
 
 .download-app {

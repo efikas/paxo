@@ -464,7 +464,7 @@ export const actions = {
 
   async makeorder(
     { commit },
-    { shipping_id, address, city, state, lga, set_paid, product,email, phone, use_wallet, total, total_product, country, device, delivery_method, description, code , weight}
+    { shipping_id, address, city, state, lga, set_paid, product,email, phone, use_wallet, total, total_product, country, device, delivery_method, description, code , weight, dob}
   ) {
     let token = JSON.parse(window.localStorage.getItem('paxo')).auth.token
     const data = await this.$axios.$post(
@@ -476,7 +476,7 @@ export const actions = {
         set_paid,
         product,email,phone,
         use_wallet,
-        total, total_product, country, device, delivery_method, state, code, lga, weight, description
+        total, total_product, country, device, delivery_method, state, code, lga, weight, description, dob,
       },
       {
         headers: {

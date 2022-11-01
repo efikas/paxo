@@ -95,6 +95,7 @@ export default {
   data() {
     return {
       loading: false,
+      selectedItem: '',
       domain: window.location.host,
       menus: [
         {

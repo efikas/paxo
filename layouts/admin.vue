@@ -1,12 +1,24 @@
 <template>
   <v-app>
     <v-app-bar class="white" app>
-      <v-app-bar-nav-icon class="hidden-md-and-up" @click="drawer = !drawer"></v-app-bar-nav-icon>
-      <h3>Hi {{user.first_name}}!</h3>
+      <v-app-bar-nav-icon
+        class="hidden-md-and-up"
+        @click="drawer = !drawer"
+      ></v-app-bar-nav-icon>
+      <h3>Hi {{ user.first_name }}!</h3>
       <v-spacer></v-spacer>
-      <v-chip color="secondary" class="mx-3">{{user.role | capitalize}}</v-chip>
+      <v-badge
+        :color="widRequests > 0 ? 'error' : 'transparent'"
+        :content="widRequests"
+        style="margin-right: 30px; padding-right: 0px"
+        overlap
+      >
+        <v-chip color="secondary" class="mx-0">{{
+          user.role | capitalize
+        }}</v-chip>
+      </v-badge>
       <v-avatar>
-        <img src="../static/assets/avatar.jpg" alt="">
+        <img src="../static/assets/avatar.jpg" alt="" />
       </v-avatar>
       <v-btn icon to="/logout">
         <v-icon>logout</v-icon>
@@ -15,7 +27,6 @@
     <v-navigation-drawer v-model="drawer" dark app class="primary">
       <nuxt-link to="/admin/dashboard">
         <img src="../static/assets/logo-white.png" width="150px" alt="" />
-
       </nuxt-link>
       <v-list>
         <v-list-item
@@ -27,7 +38,15 @@
           exact
         >
           <v-list-item-action>
-            <v-icon>{{item.icon}}</v-icon>
+            <v-badge
+            v-if="item.title == 'Withdrawal Request'"
+              :color="widRequests ? 'error' : 'transparent'"
+              :content="widRequests"
+              overlap
+            >
+              <v-icon>{{ item.icon }}</v-icon>
+            </v-badge>
+            <v-icon v-else>{{ item.icon }}</v-icon>
           </v-list-item-action>
           <v-list-item-content>
             <v-list-item-title v-text="item.title" />
@@ -37,16 +56,16 @@
     </v-navigation-drawer>
     <v-main>
       <v-container fluid>
-        <nuxt/>
+        <nuxt />
       </v-container>
     </v-main>
   </v-app>
 </template>
 <script>
-import {mapGetters} from 'vuex'
+import { mapGetters } from 'vuex'
 export default {
   middleware: 'authenticated',
-  data () {
+  data() {
     return {
       items: [
         {
@@ -58,6 +77,11 @@ export default {
           icon: 'ri-product-hunt-line',
           title: 'Products',
           to: '/admin/products',
+        },
+        {
+          icon: 'ri-product-hunt-line',
+          title: 'Inventory',
+          to: '/admin/inventory',
         },
         {
           icon: 'ri-creative-commons-nd-line',
@@ -88,6 +112,11 @@ export default {
           icon: 'ri-shopping-cart-line',
           title: 'Orders',
           to: '/admin/orders',
+        },
+        {
+          icon: 'ri-truck-line',
+          title: 'Withdrawal Request',
+          to: '/admin/wallet',
         },
         {
           icon: 'ri-user-line',
@@ -141,23 +170,19 @@ export default {
           to: '/admin/rewards',
         },
         {
-          icon: 'ri-truck-line',
-          title: 'Withdrawal Request',
-          to: '/admin/wallet',
-        },
-
-        {
           icon: 'ri-logout-box-line',
           title: 'Logout',
           to: '/logout',
         },
       ],
-      drawer: null
+      drawer: null,
     }
   },
 
   computed: {
+    ...mapGetters('users', ['widRequests']),
     ...mapGetters('auth', ['user']),
-  }
+    
+  },
 }
 </script>

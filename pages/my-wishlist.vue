@@ -98,6 +98,7 @@ export default {
   data() {
     return {
       loading: false,
+      selectedItem: '',
       wishlist: [],
       menus: [
         {
