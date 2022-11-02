@@ -266,22 +266,36 @@
           transition="scale-transition"
         >
           <template v-slot:activator="{ attrs, on }">
-            <v-overlay
-              :z-index="0"
-              :opacity="0"
-              style="height: 10px"
-              class="mt-2 justify-end pr-16 mr-6"
-            >
-              <v-chip
-                style="border-radius: 3 height:4px "
-                dark
-                color="error"
-                class="pa-2"
-                small
-                id="WalletPrice"
-                >&#8358;{{ user.balance | formatPrice }}</v-chip
-              ></v-overlay
-            >
+            
+              <v-overlay
+                :z-index="0"
+                :opacity="0"
+                style="height: 10px"
+                class="mt-2 justify-end pr-16 mr-6"
+              ><v-tooltip bottom>
+                <template v-slot:activator="{ on, attrs }">
+                  <v-btn
+                      v-bind="attrs"
+                      v-on="on"
+                      icon
+                      style="height: 10px"
+                      ><v-chip
+                    style="border-radius: 3 height:4px "
+                    dark
+                    color="error"
+                    class="pa-2"
+                    small
+                    id="WalletPrice"
+                    >&#8358;{{ user.balance | formatPrice }}</v-chip
+                  >
+                      </v-btn
+                    >
+                  
+                </template>
+                <span>Wallet Balance</span> </v-tooltip>
+              </v-overlay>
+          
+
             <v-btn
               v-bind="attrs"
               v-on="on"
@@ -882,9 +896,7 @@
         <v-card class="pa-6 text-center">
           <p class="mt-3">You have been idle for 60 seconds. Do you want to continue shopping?</p>
 
-          <v-btn outlined text @click="close1MinuteDialog()"
-            >Cancel</v-btn
-          >
+          <v-btn outlined text @click="close1MinuteDialog()">Cancel</v-btn>
         </v-card>
       </v-dialog>
     </v-responsive>
@@ -1052,7 +1064,6 @@ export default {
   },
   onActive() {
     // this.paymentMethodDialog = false
-
     // if (this.is1MinuteDue) {
     //   let self = this
     //   setTimeout(function () {
