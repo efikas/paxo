@@ -175,8 +175,8 @@
         ></v-img>
       </v-col>
       <v-col md="12" class="text-center">
-          <span class="deal-text-a text-center"><nuxt-link to="/all-brands">View more brands</nuxt-link></span>
-        </v-col>
+        <v-btn text class="primary" to="/all-brands">View more brands</v-btn>
+      </v-col>
     </v-row>
     </div>
 

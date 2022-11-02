@@ -32,6 +32,10 @@
               Customer: {{ order_products.user.first_name | capitalize }}
               {{ order_products.user.last_name | capitalize }}
             </h3>
+            <p v-if="order_products.user">
+              Wallet Balance:
+              {{ order_products.user.balance | formatPrice }}
+            </p>
           </v-card>
           <v-card class="pa-6 mt-8" flat outlined>
             <v-row>
@@ -152,6 +156,9 @@
             </v-simple-table>
           </v-card>
         </v-card>
+        <div class="text-center mt-12">
+                <v-btn @click="goBack()">Close</v-btn>
+            </div>
       </v-col>
     </v-row>
   </v-container>
@@ -237,6 +244,9 @@ export default {
         0
       )
     },
+    goBack(){
+      this.$router.go(-1)
+    }
   },
 }
 </script>
