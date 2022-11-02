@@ -866,7 +866,7 @@
         overlay-opacity="0.9"
       >
         <v-card class="pa-6 text-center">
-          <p class="mt-3">You have been idle for 60 seconds</p>
+          <p class="mt-3">You have been idle for 60 seconds. Do you want to continue shopping?</p>
 
           <v-btn outlined text @click="paymentMethodDialog = false"
             >Cancel</v-btn
@@ -880,7 +880,7 @@
         overlay-opacity="0.9"
       >
         <v-card class="pa-6 text-center">
-          <p class="mt-3">Show this after 1 minute of leaving idle state</p>
+          <p class="mt-3">You have been idle for 60 seconds. Do you want to continue shopping?</p>
 
           <v-btn outlined text @click="close1MinuteDialog()"
             >Cancel</v-btn
