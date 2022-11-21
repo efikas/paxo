@@ -229,27 +229,16 @@ export default {
     },
   },
   mounted() {
+    this.subCategory = this.$route.query.subCategoryId;
     this.getSubCategories()
     this.getCategories()
     this.getbrands()
     this.getProducts()
-
-    this.subCategory = this.$route.query.subCategoryId;
+    // this.subCategory = this.$route.query.subCategoryId;
+    
   },
   data() {
     return {
-      // brand: '',
-      // page: 1,
-      // length: 1,
-      // range: [0, 10000],
-      // brands: [],
-      // categories: [],
-      // products: [],
-      // real_products: [],
-      // loading: true,
-      // pagename: location.pathname.split('/')[2],
-
-
       page: 1,
       pageinationLength: 1,
       perPage: 40,
