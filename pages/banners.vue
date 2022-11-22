@@ -213,7 +213,7 @@ export default {
   //   },
   // },
   mounted() {
-    this.brand = this.$route.query.bannerId,
+    this.bannerId = this.$route.query.bannerId,
     this.getCategories()
     this.getbrands()
     this.getProducts()
@@ -234,6 +234,7 @@ export default {
       category: "",
       subCategory: "",
       brand: "",
+      bannerId: "",
       selectedPrice: {},
       products: [],
       priceRange: [
@@ -285,6 +286,7 @@ export default {
         brand: this.brand,
         price: this.selectedPrice,
         availability: this.availability,
+        bannerId: this.bannerId,
       }
       await this.$store
         .dispatch('products/sectionproducts', data)
