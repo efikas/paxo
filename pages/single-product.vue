@@ -614,13 +614,18 @@ export default {
             name: 'description',
             content: this.product.name
           },
-          // {name: 'description', content: this.product.name },
-          {property: 'og:title', content: ''},
-          {property: 'og:site_name', content: ''},
-          {property: 'og:description', content: this.product.name },
-          {property: 'og:type', content: ''},
-          {property: 'og:url', content: '' },
-          {property: 'og:image', content: this.product.avatar }   
+          {property: 'og:title', content: this.product.name},
+          {property: 'og:site_name', content: 'paxo'},
+          {property: 'og:description', content: this.product.description },
+          {property: 'og:url', content: window.location.href },
+          {property: 'og:image', content: this.product.avatar },
+          {property: 'product:brand', content: this.product.name } ,  
+          {property: 'product:availability', content: this.product.stock_status } ,  
+          {property: 'product:condition', content: "new" } ,  
+          {property: 'product:price:amount', content: this.product.regular_price } ,  
+          {property: 'product:price:currency', content: "NGN" } ,  
+          {property: 'product:item_group_id', content: this.product.id } ,  
+          {property: 'product:retailer_item_id', content: this.product.id } ,  
         ]
       }
     },
