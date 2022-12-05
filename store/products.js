@@ -364,7 +364,7 @@ export const actions = {
     const data = await this.$axios.$get('/banner/top-product')
     return data
   },
-  async sectionproducts({}, { page, id, category, brand, availability, price, subcategory, section }) {
+  async sectionproducts({}, { page, id, category, brand, availability, price, subcategory, section, bannerId }) {
 //     products/filter
 //     section_id
 // brand_id
@@ -377,6 +377,13 @@ export const actions = {
       url = url + "category_id=" + category
       isInitiated = true;
     }
+
+    if(bannerId != "" && bannerId != undefined){
+      if(isInitiated){url = url + "&"}
+      url = url + "banner_id=" + bannerId
+      isInitiated = true;
+    }
+
     if(brand != "" && brand != undefined){
       if(isInitiated){url = url + "&"}
       url = url + "brand_id=" + brand

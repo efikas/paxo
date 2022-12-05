@@ -80,6 +80,9 @@
         headers: [
           { text: 'Product Image', value: 'avatar' },
           { text: 'Product Name', value: 'name' },
+          { text: 'Regular Price', value: 'regular_price' },
+          { text: 'Sale Price', value: 'sale_price' },
+          { text: 'Wholesale Price', value: 'wholesale_price' },
           { text: 'Quantity in Stock', value: 'stock_quantity' },
           { text: 'Actions', value: 'actions' },
         ],
