@@ -307,6 +307,22 @@ export const actions = {
     })
       return data;
   },
+  async updateProductsPrice({}, { formData }) {
+    let token = JSON.parse(window.localStorage.getItem('paxo')).auth.token
+    const data = await this.$axios.$post(
+      '/admin/change-price',
+      formData,
+      {
+        headers: {
+          Authorization: 'Bearer ' + token,
+        },
+      }
+    )
+    console.log(data)
+
+    return data
+  },
+
   async filter({}, { page,category,brand,price }) {
     var data
     data = await this.$axios.$get('/products/filter?category_id=' + category+ '&brand_id=' + brand+'&price='+price+ '&page='+page)
@@ -427,7 +443,6 @@ export const actions = {
     const data = await this.$axios.$get('/products/brand/' + id+'?page='+page)
     return data
   },
-
   async bannerproducts({}, { page, id }) {
     const data = await this.$axios.$get('/site-banners/single/' + id)
     return data
