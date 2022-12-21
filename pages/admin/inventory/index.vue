@@ -79,18 +79,6 @@
           <v-select
             dense
             outlined
-            label="Change Type"
-            required
-            :items="changeType"
-            item-text="name"
-            item-value="key"
-            v-model="form.type"
-            :rules="[(v) => !!v || 'This field is required']"
-          >
-          </v-select>
-          <v-select
-            dense
-            outlined
             label="Price Type"
             required
             :items="priceType"
@@ -100,6 +88,19 @@
             :rules="[(v) => !!v || 'This field is required']"
           >
           </v-select>
+          <v-select
+            v-if="form.priceType != 'sale_price'"
+            dense
+            outlined
+            label="Change Type"
+            required
+            :items="changeType"
+            item-text="name"
+            item-value="key"
+            v-model="form.type"
+          >
+          </v-select>
+          
           <v-text-field
             outlined
             dense
@@ -169,6 +170,7 @@ export default {
       length: 1,
       form: {
         products: [],
+        type: "decrease"
       },
       changeType: [
         {
@@ -181,6 +183,10 @@ export default {
         },
       ],
       priceType: [
+        {
+          name: 'Sale Price',
+          key: 'sale_price',
+        },
         {
           name: 'Regular Price',
           key: 'regular_price',
