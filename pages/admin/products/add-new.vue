@@ -84,7 +84,7 @@
             v-model="form.regular_price"
             required
             prefix="₦"
-            type="number"
+            type="number" 
             :rules="[(v) => !!v || 'This field is required']"
           >
           </v-text-field>

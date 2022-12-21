@@ -2,6 +2,9 @@ export default function ({ $axios, store, app, redirect }) {
   $axios.onError((error) => {
     try{
 
+      if(error.response.data.message == "You are not authorized to view this page"){
+        redirect('/login')
+      }
       const code = parseInt(error.response.status)
       if (code == 401) {
         redirect('/logout')

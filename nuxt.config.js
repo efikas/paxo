@@ -183,7 +183,8 @@ export default {
       // path: '/',
       handler: (req, res, next) => {
         const paths = ['/single-product']
-        console.log(req.originalUrl)
+        // console.log(req.originalUrl)
+        // console.log(res);
 
         if (paths.includes(req.originalUrl)) {
           // Will trigger the "traditional SPA mode"
