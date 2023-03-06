@@ -420,7 +420,7 @@ export default {
             this.loading = false
           })
           .catch((error) => {
-            console.log(error)
+            //console.log(error)
             this.$toast.error(error.response.data.message)
 
             this.loading = false

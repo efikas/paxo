@@ -176,7 +176,7 @@ export default {
           .split(' ')
           .slice(-1)
           .join(' ')),
-        console.log(this.form)
+        //console.log(this.form)
       await this.$store
         .dispatch('auth/register', this.form)
         .then((response) => {

@@ -107,7 +107,7 @@ export default {
       await this.$store
         .dispatch('products/wishlist')
         .then((response) => {
-          console.log(response.data)
+          //console.log(response.data)
           if (response.data) {
             this.wishlist = response.data.filter(item => item.product != undefined)
           }

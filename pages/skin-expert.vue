@@ -437,7 +437,7 @@ export default {
     },
     getSkinResult() {
       const array = Object.values(this.test)
-      console.log(array)
+      //console.log(array)
       if (array.length == 0) return null
       var modeMap = {}
       var maxEl = array[0],
@@ -452,7 +452,7 @@ export default {
         }
       }
       // return maxEl
-      console.log(maxEl)
+      //console.log(maxEl)
       this.skintype = maxEl
     },
     async getRecommendation() {

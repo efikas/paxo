@@ -170,7 +170,7 @@ export default {
     async getbrands() {
       this.loading = true
       await this.$store.dispatch('brand/all').then((response) => {
-        console.log(response)
+        //console.log(response)
         this.brands = response.data
         this.loading = false
       })
@@ -187,7 +187,7 @@ export default {
         await this.$store
           .dispatch('brand/addnew', formData)
           .then((response) => {
-            console.log(response);
+            //console.log(response);
             this.$toast.success(response.message)
             this.getbrands()
             this.$refs.addnew.reset()

@@ -130,7 +130,7 @@ export default {
     },
     loginWithFacebook() {
       this.$auth.loginWith('facebook').then((response) => {
-        console.log(response)
+        //console.log(response)
       })
     },
   },

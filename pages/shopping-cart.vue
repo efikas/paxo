@@ -209,7 +209,7 @@ export default {
     this.$store
       .dispatch('products/fetchcart')
       .then((response) => {
-        console.log(response);
+        //console.log(response);
         if (response.status == true) {
           this.calculateSubtotal()
           // if (this.StoreCart.length > 0) {
@@ -265,7 +265,7 @@ export default {
       }
     },
     isOutOfStock(item){
-      console.log(item)
+      //console.log(item)
       if(item.stock_status == 'outofstock'){
         return 'outofstock';
       }

@@ -252,7 +252,7 @@ export default {
       }
       // console.log(this.categories)
       // console.log(name[0])
-      console.log(this.subcategories)
+      //console.log(this.subcategories)
     },
     async getBrands() {
       await this.$store.dispatch('brand/all').then((response) => {
