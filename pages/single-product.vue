@@ -711,7 +711,7 @@ export default {
       )
     },
     encodedText() {
-      return encodeURIComponent('Paxo.com.ng')
+      return encodeURIComponent('paxobeauty.com')
     },
   },
   watch: {
