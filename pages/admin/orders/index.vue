@@ -10,7 +10,8 @@
             dense
             placeholder="Search"
             prepend-inner-icon="search"
-          ></v-text-field> <span>{{ computeOrder }}</span>
+          ></v-text-field>
+          <span>{{ computeOrder }}</span>
         </v-col>
       </v-row>
       <v-data-table
@@ -24,7 +25,9 @@
           {{ item.created_at | formatDateTime }}
         </template>
         <template v-slot:item.user="{ item }">
-          <p v-if="item.user">{{ item.user.first_name }} {{ item.user.last_name }}</p>
+          <p v-if="item.user">
+            {{ item.user.first_name }} {{ item.user.last_name }}
+          </p>
         </template>
         <template v-slot:item.total="{ item }">
           &#8358;{{ item.total | formatPrice }}
@@ -129,7 +132,7 @@
         </template>
       </v-data-table>
       <v-pagination
-      class="mt-16"
+        class="mt-16"
         :length="pageinationLength"
         :total-visible="7"
         v-model="page"
@@ -142,7 +145,7 @@
     <v-dialog fullscreen v-if="order_products" v-model="dialog">
       <v-card>
         <v-container>
-          <v-row align="center" justify="center" style="margin:auto;">
+          <v-row align="center" justify="center" style="margin: auto">
             <v-col md="9">
               <v-card class="pa-6" width="1000" outlined>
                 <v-card rd class="pa-6" flat outlined>
@@ -242,32 +245,33 @@
                       </tr>
                     </thead>
                     <tbody>
-                      <tr v-for="i in order_products.product" :key="i.id">
+                      <tr v-for="i in order_products.product" :key="normalizeProductObject(i).id">
                         <td>
                           <div class="d-flex align-center">
                             <img
-                              :src="i.avatar"
+                              :src="normalizeProductObject(i).avatar"
                               class="mr-3"
                               width="60"
                               height="60"
                             />
-                            {{ i.name }}
+                            {{ normalizeProductObject(i).name }}
                           </div>
                         </td>
-                        <td>{{ i.quantity }}</td>
+                        <td>{{ normalizeProductObject(i).quantity }}</td>
                         <td>
                           &#8358;{{
                             order_products.user.role == 'wholesaler' ||
                             order_products.user.role == 'wholesaler'
-                              ? i.wholesale_price
-                              : i.price | formatPrice
+                              ? normalizeProductObject(i).wholesale_price
+                              : normalizeProductObject(i).price | formatPrice
                           }}
                         </td>
                         <td>
                           &#8358;{{
-                            order_products.user.role == 'wholesaler' || order_products.user.role == 'next_champ'
-                              ? i.quantity * i.wholesale_price
-                              : (i.quantity * i.price) | formatPrice
+                            order_products.user.role == 'wholesaler' ||
+                            order_products.user.role == 'next_champ'
+                              ? normalizeProductObject(i).quantity * normalizeProductObject(i).wholesale_price
+                              : (normalizeProductObject(i).quantity * normalizeProductObject(i).price) | formatPrice
                           }}
                         </td>
                       </tr>
@@ -296,7 +300,9 @@
                   <!-- {{order_products}} -->
                   <div class="text-right mt-12">
                     <v-btn @click="dialog = false">Close</v-btn>
-                    <v-btn class="primary" @click="printPage(order_products)">Print</v-btn>
+                    <v-btn class="primary" @click="printPage(order_products)"
+                      >Print</v-btn
+                    >
                   </div>
                 </v-card>
               </v-card>
@@ -376,31 +382,43 @@ export default {
       return ''
     },
     computeOrder() {
-      this.filtered_orders = this.real_orders.filter(item => {
-        let searchTerm = "";
-        if(item.user != null && item.user.first_name != null ) searchTerm += " " + item.user.first_name
-        if(item.user != null && item.user.first_last != null ) searchTerm += " " + item.user.first_last
-        if(item.user != null && item.user.email != null ) searchTerm += " " + item.user.email
-        if(item.channel != null ) searchTerm += " " + item.channel
-        if(item.status != null ) searchTerm += " " + item.status
+      this.filtered_orders = this.real_orders.filter((item) => {
+        let searchTerm = ''
+        if (item.user != null && item.user.first_name != null)
+          searchTerm += ' ' + item.user.first_name
+        if (item.user != null && item.user.first_last != null)
+          searchTerm += ' ' + item.user.first_last
+        if (item.user != null && item.user.email != null)
+          searchTerm += ' ' + item.user.email
+        if (item.channel != null) searchTerm += ' ' + item.channel
+        if (item.status != null) searchTerm += ' ' + item.status
 
-         return searchTerm.indexOf(this.search.toString().toLowerCase()) > -1
+        return searchTerm.indexOf(this.search.toString().toLowerCase()) > -1
       })
-      this.pageinationLength = Math.ceil(this.filtered_orders.length / this.perPage)
+      this.pageinationLength = Math.ceil(
+        this.filtered_orders.length / this.perPage
+      )
       this.toPage(1)
 
-      return ""
+      return ''
     },
   },
   methods: {
     async printPage(value) {
       // Pass the element id here
-      
-      if(value == undefined || Array.isArray(value)){
-        return;
+
+      if (value == undefined || Array.isArray(value)) {
+        return
       }
-      window.localStorage.setItem("print_value", JSON.stringify(value))
+      window.localStorage.setItem('print_value', JSON.stringify(value))
       this.$router.push('/admin/orders/print')
+    },
+    normalizeProductObject(item){
+      if(item.name == undefined && item.product != undefined && item.product != null){
+        return {...item, ...item.product};
+      }
+
+      return item
     },
     aggregateProduct(array, item) {
       return array.reduce(
@@ -409,17 +427,17 @@ export default {
         0
       )
     },
-    toPage(page){
+    toPage(page) {
       this.page = page
-      let start = (this.perPage * (page - 1))
-      let end = (this.perPage * page)
-      this.orders = this.filtered_orders.slice(start, end);
-      window.scrollTo(0, 0);
+      let start = this.perPage * (page - 1)
+      let end = this.perPage * page
+      this.orders = this.filtered_orders.slice(start, end)
+      window.scrollTo(0, 0)
     },
-    next(){
+    next() {
       this.toPage(this.page)
     },
-    previous(){
+    previous() {
       this.toPage(this.page)
     },
     async getOrders() {
@@ -432,7 +450,9 @@ export default {
         this.real_orders = response.data
         this.filtered_orders = this.real_orders
         // this.length = response.data.last_page
-        this.pageinationLength = Math.ceil(this.filtered_orders.length / this.perPage)
+        this.pageinationLength = Math.ceil(
+          this.filtered_orders.length / this.perPage
+        )
         this.toPage(1)
         this.loading = false
       })
@@ -453,6 +473,4 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
-  
-</style>
+<style lang="scss" scoped></style>
