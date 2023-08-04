@@ -272,33 +272,33 @@
                         </tr>
                       </thead>
                       <tbody>
-                        <tr v-for="i in order_products.product" :key="i.id">
+                        <tr v-for="i in order_products.product" :key="normalizeProductObject(i).id">
                           <td>
                             <div class="d-flex align-center">
                               <img
-                                :src="i.avatar"
+                                :src="normalizeProductObject(i).avatar"
                                 class="mr-3"
                                 width="60"
                                 height="60"
                               />
-                              {{ i.name }}
+                              {{ normalizeProductObject(i).name }}
                             </div>
                           </td>
-                          <td>{{ i.quantity }}</td>
+                          <td>{{ normalizeProductObject(i).quantity }}</td>
                           <td>
                             &#8358;{{
                               order_products.user.role == 'wholesaler' ||
                               order_products.user.role == 'next_champ'
-                                ? i.wholesale_price
-                                : i.price | formatPrice
+                                ? normalizeProductObject(i).wholesale_price
+                                : normalizeProductObject(i).price | formatPrice
                             }}
                           </td>
                           <td>
                             &#8358;{{
                               order_products.user.role == 'wholesaler' ||
                               order_products.user.role == 'next_champ'
-                                ? i.quantity * i.wholesale_price
-                                : (i.quantity * i.price) | formatPrice
+                                ? normalizeProductObject(i).quantity * normalizeProductObject(i).wholesale_price
+                                : (normalizeProductObject(i).quantity * normalizeProductObject(i).price) | formatPrice
                             }}
                           </td>
                         </tr>
@@ -367,6 +367,13 @@ export default {
     }
   },
   methods: {
+    normalizeProductObject(item){
+      if(item.name == undefined && item.product != undefined && item.product != null){
+        return {...item, ...item.product};
+      }
+
+      return item
+    },
     async printPage(value) {
       // Pass the element id here
       // await this.$htmlToPaper('printMe')
