@@ -206,9 +206,9 @@
                         {{ order_products.address }} {{ order_products.city }}
 
                         <h5 class="mt-4">Email address</h5>
-                        {{ order_products.email }}
+                        {{ order_products.user.email }}
                         <h5 class="mt-4">Phone Number</h5>
-                        {{ order_products.phone }}
+                        {{ order_products.user.mobile }}
                       </div>
                     </v-col>
                     <v-col md="3">

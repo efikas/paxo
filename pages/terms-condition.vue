@@ -10,7 +10,7 @@
     <v-container>
       <h3 class="primary--text">I. Introduction</h3>
       <p>
-        Welcome to the Paxo.com.ng website.These terms and conditions apply to
+        Welcome to the paxobeauty.com website.These terms and conditions apply to
         the Site, and all of its divisions, subsidiaries.
       </p>
       <p>

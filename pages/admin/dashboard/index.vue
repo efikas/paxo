@@ -114,6 +114,7 @@
                 <v-list-item-title>View Order Details </v-list-item-title>
               </v-list-item-content>
             </v-list-item>
+            
             <v-list-item
               dense
               @click="updateOrder('confirmed', item.id)"

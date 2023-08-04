@@ -9,7 +9,7 @@
     <v-container>
       <h3 class="primary--text">Collection and use of personal information.</h3>
       <p>
-        Paxo.com.ng rightfully respects your privacy, which is why we work hard
+        Paxobeauty.com rightfully respects your privacy, which is why we work hard
         to ensure that your details stay safe and secure. Any personal data
         provided by you will be treated with the utmost care and responsibility.
         You can be rest assured that your information will not be sold to or
@@ -28,7 +28,7 @@
         of the following ways:
       </p>
       <ul>
-        <li>To deliver the products you have purchased from Paxo.com.ng</li>
+        <li>To deliver the products you have purchased from paxobeauty.com</li>
         <li>
           To update you on the delivery of your order and for customer support
           purposes
@@ -43,13 +43,13 @@
       </p>
       <p>
         You can update your personal information at any time by accessing your
-        account on Paxo.com.ng’s website. You can call our hotline on
+        account on Paxobeauty.com’s website. You can call our hotline on
         081-3611-7075 weekdays from 8am – 8pm or email our Customer Services
-        team anytime on sales@Paxo.com.ng We are here to support you! Security
+        team anytime on sales@Paxobeauty.com We are here to support you! Security
         of your personal information.
       </p>
       <h3 class="primary--text">
-        Paxo.com.ng ensures that all information collected will be safely and
+        Paxobeauty.com ensures that all information collected will be safely and
         securely stored.
       </h3>
       <p>We protect your personal information by:</p>
@@ -65,7 +65,7 @@
         </li>
       </ul>
       <p>
-        Paxo.com.ng uses 128 – bit SSL (secure sockets layer) encryption
+        Paxobeauty.com uses 128 – bit SSL (secure sockets layer) encryption
         technology when processing your financial details. 128-bit SSL
         encryption is approximated to take at least one Trillion years to break
         and is the industry standard.
@@ -74,20 +74,20 @@
       <p>
         We will not share your information with any other organizations other
         than related companies and those third parties that are directly related
-        to the delivery of the products you have purchased from Paxo.com.ng’s
+        to the delivery of the products you have purchased from paxobeauty.com’s
         website.
       </p>
       <p>
-        In exceptional circumstances Paxo.com.ng may be required to disclose
+        In exceptional circumstances paxobeauty.com may be required to disclose
         personal information, such as when there are grounds to believe that the
         disclosure is necessary to prevent a threat to life or health, or for
-        law enforcement purposes. Paxo.com.ng is committed to complying with the
+        law enforcement purposes. paxobeauty.com is committed to complying with the
         Promotion of Access to Information Act 2 of 2000 and its principles.
       </p>
       <h3 class="primary--text">Collection of non-personal information</h3>
       <p>
         As a means of improving our site, products and service to you, when you
-        visit Paxo.com.ng our company servers will automatically record
+        visit paxobeauty.com our company servers will automatically record
         information that your browser sends whenever you visit another website.
         This data may include:
       </p>
@@ -95,7 +95,7 @@
         <li>Your computer’s IP address.</li>
         <li>Browser type.</li>
         <li>Webpages you were visiting before you came to our site.</li>
-        <li>The pages that you visit with Paxo.com.ng</li>
+        <li>The pages that you visit with paxobeauty.com</li>
         <li>
           The time spent on those pages, items and information searched for on
           our site, access times and dates, and other statistics.
@@ -113,7 +113,7 @@
 
       <h3 class="primary--text">Changes to the privacy policy.</h3>
       <p>
-        Paxo.com.ng reserves the right to modify and change this Privacy Policy
+        paxobeauty.com reserves the right to modify and change this Privacy Policy
         at any time. Any changes to this policy will be published on our site.
       </p>
     </v-container>
