@@ -389,8 +389,8 @@ export default {
         //   this.form.sub_category[i] = i.subcategory_id
         // }
         this.getCategories(parseInt(details.section_id))
-        this.form.category = details.category.split(',').map(Number)
-        this.form.sub_category = details.subcategory.split(',').map(Number)
+        this.form.category = details.category.toString().split(',').map(Number)
+        this.form.sub_category = details.subcategory.toString().split(',').map(Number)
         this.getSubCategories(this.form.category)
         this.form.top_product = parseInt(details.top_product)
         this.pageloading = false
