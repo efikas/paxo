@@ -14,14 +14,7 @@
           </v-text-field>
         </v-col>
         <v-col md="3" offset-md="3">
-          <v-btn
-            class="primary"
-            @click="download"
-            block
-            text
-          >
-           Export
-          </v-btn>
+          <v-btn class="primary" @click="download" block text> Export </v-btn>
         </v-col>
         <v-col md="3">
           <v-btn
@@ -88,6 +81,81 @@
             :rules="[(v) => !!v || 'This field is required']"
           >
           </v-select>
+          <v-row v-if="form.priceType == 'sale_price'">
+            <v-col cols="12" sm="6" md="4">
+              <v-menu
+                ref="dialog_from"
+                v-model="modal1"
+                :close-on-content-click="false"
+                :return-value.sync="date"
+                transition="scale-transition"
+                offset-y
+                min-width="auto"
+              >
+                <template v-slot:activator="{ on, attrs }">
+                  <v-text-field
+                    v-model="form.duration_from"
+                    label="Duration Start Date"
+                    prepend-icon="mdi-calendar"
+                    readonly
+                    v-bind="attrs"
+                    v-on="on"
+                  ></v-text-field>
+                </template>
+                <v-date-picker v-model="form.duration_from" scrollable>
+                  <v-spacer></v-spacer>
+                  <v-btn text color="primary" @click="modal1 = false">
+                    Cancel
+                  </v-btn>
+                  <v-btn
+                    text
+                    color="primary"
+                    @click="$refs.dialog_from.save(form.duration_from)"
+                  >
+                    OK
+                  </v-btn>
+                </v-date-picker>
+              </v-menu>
+            </v-col>
+            <v-spacer></v-spacer>
+            <v-col cols="12" sm="6" md="4">
+              <v-menu
+                ref="dialog"
+                v-model="modal"
+                :close-on-content-click="false"
+                :return-value.sync="form.duration_to"
+                transition="scale-transition"
+                offset-y
+                min-width="auto"
+              >
+                <template v-slot:activator="{ on, attrs }">
+                  <v-text-field
+                    v-model="form.duration_to"
+                    label="Duration End Date"
+                    prepend-icon="mdi-calendar"
+                    readonly
+                    v-bind="attrs"
+                    v-on="on"
+                  ></v-text-field>
+                </template>
+                <v-date-picker v-model="form.duration_to" scrollable>
+                  <v-spacer></v-spacer>
+                  <v-btn text color="primary" @click="modal = false">
+                    Cancel
+                  </v-btn>
+                  <v-btn
+                    text
+                    color="primary"
+                    @click="$refs.dialog.save(form.duration_to)"
+                  >
+                    OK
+                  </v-btn>
+                </v-date-picker>
+              </v-menu>
+            </v-col>
+
+            <v-spacer></v-spacer>
+          </v-row>
           <v-select
             v-if="form.priceType != 'sale_price'"
             dense
@@ -100,7 +168,7 @@
             v-model="form.type"
           >
           </v-select>
-          
+
           <v-text-field
             outlined
             dense
@@ -130,7 +198,13 @@
             <!-- <pre class="language-json"><code>{{ value  }}</code></pre> -->
           </div>
 
-          <v-btn large block class="primary" :loading="loading" @click="updatePrices"
+          <v-btn
+            large
+            block
+            :disabled="validateSubmit"
+            class="primary"
+            :loading="loading"
+            @click="updatePrices"
             >Update Price</v-btn
           >
         </v-form>
@@ -140,7 +214,7 @@
 </template>
 <script>
 import Multiselect from 'vue-multiselect'
-import { jsontoexcel } from "vue-table-to-excel";
+import { jsontoexcel } from 'vue-table-to-excel'
 export default {
   layout: 'admin',
   search: '',
@@ -157,6 +231,24 @@ export default {
 
       return ''
     },
+
+    validateSubmit() {
+      if (this.form.products.length < 1) {
+        return true
+      }
+      if (this.form.priceChange == undefined || this.form.priceChange == '') {
+        return true
+      }
+      if (this.form.priceType == 'sale_price') {
+        if (
+          this.form.duration_to == undefined ||
+          this.form.duration_from == undefined
+        ) {
+          return true
+        }
+      }
+      return false
+    },
   },
   data() {
     return {
@@ -170,7 +262,7 @@ export default {
       length: 1,
       form: {
         products: [],
-        type: "decrease"
+        type: 'decrease',
       },
       changeType: [
         {
@@ -211,9 +303,15 @@ export default {
       ],
       json: {
         data: [],
-        head: ["Product Name", "Price", "Regular Price", "Wholesale Name", "Quantity in Stock"],
-        fileName: "inventory record.xls"
-      }
+        head: [
+          'Product Name',
+          'Price',
+          'Regular Price',
+          'Wholesale Name',
+          'Quantity in Stock',
+        ],
+        fileName: 'inventory record.xls',
+      },
     }
   },
   mounted() {
@@ -221,8 +319,8 @@ export default {
   },
   methods: {
     download() {
-      const { data, head, fileName } = this.json;
-      jsontoexcel.getXlsx(data, head, fileName);
+      const { data, head, fileName } = this.json
+      jsontoexcel.getXlsx(data, head, fileName)
     },
     toPage(page) {
       this.page = page
@@ -262,31 +360,39 @@ export default {
             this.filtered_products.length / this.perPage
           )
           this.toPage(1)
-          this.loading = false 
+          this.loading = false
 
-          this.real_products.forEach(item => {
-            this.json.data.push({ product_name: item.name, price: item.price, regular_price: item.regular_price, wholesale_price: item.wholesale_price, stock_quantity: item.stock_quantity },)
-          });
+          this.real_products.forEach((item) => {
+            this.json.data.push({
+              product_name: item.name,
+              price: item.price,
+              regular_price: item.regular_price,
+              wholesale_price: item.wholesale_price,
+              stock_quantity: item.stock_quantity,
+            })
+          })
         })
     },
     async updatePrices() {
       this.loading = true
-      let formData = this.form;
-      let iDs  = [] 
-      this.form.products.forEach(item => {
-        iDs.push(item.id);
-      });
-       
-      formData = {...formData, products: iDs}
-
-      await this.$store.dispatch('products/updateProductsPrice', {formData: formData}).then((response) => {
-        console.log(response)
-        if(response.status == true){
-          window.location.reload();
-        }
-        this.loading = false
+      let formData = this.form
+      let iDs = []
+      this.form.products.forEach((item) => {
+        iDs.push(item.id)
       })
-      },
+
+      formData = { ...formData, products: iDs }
+
+      await this.$store
+        .dispatch('products/updateProductsPrice', { formData: formData })
+        .then((response) => {
+          // console.log(response)
+          if (response.status == true) {
+            window.location.reload()
+          }
+          this.loading = false
+        })
+    },
   },
 }
 </script>

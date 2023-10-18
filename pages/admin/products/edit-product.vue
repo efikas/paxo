@@ -219,7 +219,7 @@
           </v-btn>
         </v-date-picker>
       </v-menu>
-    </v-col>
+          </v-col>
             <v-spacer></v-spacer>
             <v-col cols="12" sm="6" md="4">
               <v-dialog
