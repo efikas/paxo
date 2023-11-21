@@ -307,6 +307,16 @@ export const actions = {
     })
       return data;
   },
+
+  async dumpallproducts({}) {
+    let token = JSON.parse(window.localStorage.getItem('paxo')).auth.token
+    const data = await this.$axios.$get(`/all-product`, {
+      headers: {
+        Authorization: 'Bearer ' + token
+      }
+    })
+      return data;
+  },
   async updateProductsPrice({}, { formData }) {
     let token = JSON.parse(window.localStorage.getItem('paxo')).auth.token
     const data = await this.$axios.$post(
