@@ -352,7 +352,7 @@ export default {
   },
   methods: {
     makePaymentCallback(response) {
-      // console.log("Payment callback", response);
+      console.log("Payment callback updated", response);
 
       if(response.status == "successful" && response.charge_response_code == "00"){
         this.makeOrder();
