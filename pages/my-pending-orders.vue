@@ -78,7 +78,10 @@
               </td>
 
               <td class="text-">
-                <span @click="deleteWishlist(i.id)" :class="'error--text pointer'">
+                <span
+                  @click="deleteWishlist(i.id)"
+                  :class="'error--text pointer'"
+                >
                   Delete</span
                 >
                 <span @click="checkout(i)" class="pointer"> Checkout</span>
@@ -110,6 +113,30 @@
     >
       <i class="fas fa-money-bill-alt"></i> Make Payment
     </paystack>
+    <flutterwave-pay-button
+      :tx_ref="reference"
+      :amount="order.order_balance"
+      currency="NGN"
+      payment_options="card,ussd"
+      redirect_url=""
+      class="class-name"
+      :meta="{
+        counsumer_id: '7898',
+        consumer_mac: 'kjs9s8ss7dd',
+      }"
+      :customer="{
+        name: user.first_name + '  ' + user.last_name,
+        email: user.email,
+        phone_number: user.mobile,
+      }"
+      :customizations="{}"
+      :callback="makePaymentCallback"
+      :onclose="closedPaymentModal"
+      id="flutterwave"
+      style="visibility: hidden"
+    >
+      Make Payment
+    </flutterwave-pay-button>
     <!-- this dialog is used to handle only card payment -->
     <v-dialog
       width="400"
@@ -159,6 +186,13 @@
             </v-btn>
           </v-col>
         </v-row>
+        <v-col class="pb-0 text-center">
+          <v-radio-group v-model="completepaymentoption">
+            <v-radio label="Paystack Gateway" value="0"></v-radio>
+            <v-radio label="Polaris Gateway" value="1"></v-radio>
+          </v-radio-group>
+        </v-col>
+        <br />
 
         <p class="mt-3">
           Are you sure you want to proceed to paying for this order? Please note
@@ -166,7 +200,7 @@
         </p>
 
         <v-btn outlined text @click="walletDialog = false">Cancel</v-btn>
-        <v-btn class="primary" :loading="loading" @click="createOrder()"
+        <v-btn class="primary" :loading="loading" @click="createOrder2()"
           >Proceed</v-btn
         >
       </v-card>
@@ -192,7 +226,8 @@
                 <p class="ml-8">
                   Your Wallet Balance: &#8358;{{ user.balance | formatPrice }}
                 </p>
-                <v-radio label="Pay Online" value="0"></v-radio>
+                <v-radio label="Paystack Gateway" value="0"></v-radio>
+                <v-radio label="Polaris Gateway" value="2"></v-radio>
               </v-radio-group>
             </div>
           </v-col>
@@ -213,9 +248,11 @@
 <script>
 import { mapGetters } from 'vuex'
 import paystack from 'vue-paystack'
+import { FlutterwavePayButton } from 'flutterwave-vue-v3'
 export default {
   components: {
     paystack,
+    FlutterwavePayButton,
   },
   data() {
     return {
@@ -226,6 +263,7 @@ export default {
       selectedItem: '',
       subtotal: 0,
       paymentoption: '0',
+      completepaymentoption: '0',
       orders: [],
       order: { order_balance: 0 },
       myCheckoutOrder: {},
@@ -297,6 +335,20 @@ export default {
           console.log(error)
         })
     },
+    makePaymentCallback(response) {
+      console.log('Payment callback updated', response)
+
+      if (
+        response.status == 'successful' &&
+        response.charge_response_code == '00'
+      ) {
+        if (!this.use_wallet_card) {
+          this.makeOrder()
+        } else {
+          this.makeOrder2()
+        }
+      }
+    },
     callback: function (response) {
       if (!this.use_wallet_card) {
         this.makeOrder()
@@ -346,7 +398,12 @@ export default {
         order_id: this.order.id,
         reference: this.reference,
         amount: this.order.order_balance,
-        channel: this.paymentoption == '1' ? 'wallet' : 'card',
+        channel:
+          this.paymentoption == '1'
+            ? 'wallet'
+            : this.paymentoption == '2'
+            ? 'polaris'
+            : 'card',
         total_product: this.subtotal,
       }
       const self = this
@@ -362,7 +419,12 @@ export default {
               tax: '0.00',
               shipping: '0.00',
               coupon: self.code,
-              payment_method: self.paymentoption == '1' ? 'wallet' : 'card', // either 'card' or 'wallet'
+              payment_method:
+                self.paymentoption == '1'
+                  ? 'wallet'
+                  : self.paymentoption == '2'
+                  ? 'polaris'
+                  : 'card', // either 'card' or 'wallet'
               shipping_zone: 'SW', // geo-zone shipped to
               shipping_location: this.user.state, // state being shipped to
               shipping_tier: 'Local pickup', // see details below
@@ -393,11 +455,19 @@ export default {
     },
     async makeOrder2() {
       this.loading = true
+
+      let _channel = 'wallet'
+      if (this.use_wallet_card && this.completepaymentoption == '2') {
+        _channel = 'wallet_poaris'
+      } else if (this.use_wallet_card && this.completepaymentoption == '0') {
+        _channel = 'wallet_card'
+      }
+
       const data = {
         order_id: this.order.id,
         reference: this.reference,
         amount: this.order.order_balance,
-        channel: !this.use_wallet_card ? 'wallet' : 'wallet_card',
+        channel: _channel,
         total_product: this.subtotal,
       }
       const self = this
@@ -440,6 +510,13 @@ export default {
           console.log(error)
         })
     },
+    async createOrder2() {
+      if (this.completepaymentoption == '1') {
+          this.clickFlutterwave()
+        } else {
+          this.clickPaystack()
+        }
+    },
     async createOrder() {
       // console.log(this.user)
       this.order = this.myCheckoutOrder
@@ -449,6 +526,14 @@ export default {
           order_balance: this.order.total,
         }
         this.clickPaystack()
+        return
+      }
+      if (this.paymentoption == '2') {
+        this.order = {
+          ...this.order,
+          order_balance: this.order.total,
+        }
+        this.clickFlutterwave()
         return
       }
       if (this.paymentoption == '1') {
@@ -467,7 +552,12 @@ export default {
       if (this.order.order_balance > 0) {
         ///use paystack to pay for the excess amount on that the wallet can not handle
         this.use_wallet_card = true
-        this.clickPaystack()
+
+        // if (this.completepaymentoption == '1') {
+        //   this.clickFlutterwave()
+        // } else {
+        //   this.clickPaystack()
+        // }
       } else {
         /// Complete payment with only wallet
         // this.loading = true
@@ -519,6 +609,9 @@ export default {
     },
     clickPaystack() {
       document.getElementById('paystack').click()
+    },
+    clickFlutterwave() {
+      document.getElementById('flutterwave').click()
     },
     async getUser() {
       await this.$store.dispatch('auth/getuser').then((response) => {

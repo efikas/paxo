@@ -140,7 +140,7 @@
         </paystack>
         <flutterwave-pay-button
           :tx_ref="reference"
-          amount="10"
+          :amount="order.order_balance"
           currency="NGN"
           payment_options="card,ussd"
           redirect_url=""
@@ -276,11 +276,18 @@
               }}
             </v-btn>
           </v-col>
+          <v-col class="pb-0 text-center">
+          <v-radio-group v-model="completepaymentoption">
+            <v-radio label="Paystack Gateway" value="0"></v-radio>
+            <v-radio label="Polaris Gateway" value="1"></v-radio>
+          </v-radio-group>
+        </v-col>
+        <br />
         </v-row>
 
         <p class="mt-3">
           Are you sure you want to proceed to paying for this order? Please note
-          that this step is irreversible!
+          that this step is irreversible! 
         </p>
 
         <v-btn outlined text @click="walletDialog = false">Cancel</v-btn>
@@ -311,6 +318,7 @@ export default {
       loading: false,
       shippingMethods: [],
       shippingmethod: '',
+      completepaymentoption: '0',
       paymentoption: '0',
       order: [],
       shippingprice: 0,
@@ -466,7 +474,7 @@ export default {
               tax: '0.00',
               shipping: self.user.deliveryfee,
               coupon: self.code,
-              payment_method: self.paymentoption == '1' ? 'wallet' : 'card', // either 'card' or 'wallet'
+              payment_method: self.paymentoption == '1' ? 'wallet' : (self.paymentoption == '2') ? 'polaris' : 'card', // either 'card' or 'wallet'
               shipping_zone: 'SW', // geo-zone shipped to
               shipping_location: this.user.state, // state being shipped to
               shipping_tier: 'Local pickup', // see details below
@@ -520,11 +528,18 @@ export default {
     },
     async makeOrder2() {
       this.loading = true
+      let _channel = 'wallet'
+      if (this.use_wallet_card && this.completepaymentoption == '2') {
+        _channel = 'wallet_poaris'
+      } else if (this.use_wallet_card && this.completepaymentoption == '0') {
+        _channel = 'wallet_card'
+      }
+
       const data = {
         order_id: this.order.order.id,
         reference: this.reference,
         amount: this.order.order_balance,
-        channel: !this.use_wallet_card ? 'wallet' : 'wallet_card',
+        channel: _channel,
         total_product: this.subtotal,
       }
       const self = this
@@ -712,7 +727,7 @@ export default {
                   tax: '0.00',
                   shipping: self.user.deliveryfee,
                   coupon: self.code,
-                  payment_method: self.paymentoption == '1' ? 'wallet' : 'card', // either 'card' or 'wallet'
+                  payment_method: self.paymentoption == '1' ? 'wallet' : 'polaris', // either 'card' or 'wallet'
                   shipping_zone: 'SW', // geo-zone shipped to
                   shipping_location: this.user.state, // state being shipped to
                   shipping_tier: 'Local pickup', // see details below
@@ -772,7 +787,11 @@ export default {
           const self = this
           if (this.order.order_balance > 0) {
             this.use_wallet_card = true
-            this.clickPaystack()
+              if (this.completepaymentoption == '1') {
+                this.clickFlutterwave()
+              } else {
+                this.clickPaystack()
+              }
           } else {
             this.loading = true
             //  console.log('order value', self.order);
