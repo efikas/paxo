@@ -352,9 +352,11 @@ export default {
   },
   methods: {
     makePaymentCallback(response) {
-      console.log("Payment callback", response);
+      // console.log("Payment callback", response);
 
-      // this.makeOrder();
+      if(response.status == "successful" && response.charge_response_code == "00"){
+        this.makeOrder();
+      }
     },
     closedPaymentModal() {
       // console.log('payment modal is closed');
