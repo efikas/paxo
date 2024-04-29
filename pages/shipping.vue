@@ -147,7 +147,7 @@
           class="class-name"
           :meta="{
             counsumer_id: '7898',
-            consumer_mac: 'kjs9s8ss7dd' 
+            consumer_mac: 'kjs9s8ss7dd',
           }"
           :customer="{
             name: user.first_name + '  ' + user.last_name,
@@ -160,8 +160,8 @@
           id="flutterwave"
           style="visibility: hidden"
         >
-        Make Payment
-      </flutterwave-pay-button>
+          Make Payment
+        </flutterwave-pay-button>
       </v-col>
       <v-col md="4">
         <h3>Your Order</h3>
@@ -175,7 +175,13 @@
             </v-col>
           </v-row>
           <v-divider class="my-6"></v-divider>
-          <div class="" v-for="(i, index) in StoreCart.filter(item => item.stock_status != 'outofstock')" :key="index">
+          <div
+            class=""
+            v-for="(i, index) in StoreCart.filter(
+              (item) => item.stock_status != 'outofstock'
+            )"
+            :key="index"
+          >
             <p>
               {{ i.name }} <br />{{ i.quantity }} x &#8358;{{
                 (isAuthenticated
@@ -246,7 +252,10 @@
         </p>
 
         <v-btn outlined text @click="confirmDialog = false">Cancel</v-btn>
-        <v-btn class="primary" :loading="loading" @click="(paymentoption == '2')? createPolarisOrder() :createOrder()"
+        <v-btn
+          class="primary"
+          :loading="loading"
+          @click="createOrder()"
           >Proceed</v-btn
         >
       </v-card>
@@ -262,7 +271,11 @@
           Order Total: &#8358;
           {{ (subtotal + parseInt(user.deliveryfee)) | formatPrice }}
         </h3>
-        <v-row v-if="(subtotal + parseInt(user.deliveryfee) - parseInt(user.balance)) > 0">
+        <v-row
+          v-if="
+            subtotal + parseInt(user.deliveryfee) - parseInt(user.balance) > 0
+          "
+        >
           <v-col class="pb-0 text-center">
             <v-btn outlined text small
               >Wallet Payment: &#8358;{{ user.balance | formatPrice }}</v-btn
@@ -276,18 +289,18 @@
               }}
             </v-btn>
           </v-col>
-          <v-col class="pb-0 text-center">
+        </v-row>
+        <v-col class="pb-0 text-center">
           <v-radio-group v-model="completepaymentoption">
             <v-radio label="Paystack Gateway" value="0"></v-radio>
             <v-radio label="Polaris Gateway" value="1"></v-radio>
           </v-radio-group>
         </v-col>
         <br />
-        </v-row>
 
         <p class="mt-3">
           Are you sure you want to proceed to paying for this order? Please note
-          that this step is irreversible! 
+          that this step is irreversible!
         </p>
 
         <v-btn outlined text @click="walletDialog = false">Cancel</v-btn>
@@ -301,7 +314,7 @@
 <script>
 import { mapGetters } from 'vuex'
 import paystack from 'vue-paystack'
-import {FlutterwavePayButton} from "flutterwave-vue-v3";
+import { FlutterwavePayButton } from 'flutterwave-vue-v3'
 export default {
   transition: 'default',
   components: {
@@ -332,7 +345,6 @@ export default {
       channels: ['card', 'bank', 'ussd', 'qr', 'mobile_money', 'bank_transfer'],
       code: '',
       totalweight: null,
-     
     }
   },
   computed: {
@@ -360,10 +372,13 @@ export default {
   },
   methods: {
     makePaymentCallback(response) {
-      console.log("Payment callback updated", response);
+      console.log('Payment callback updated', response)
 
-      if(response.status == "successful" && response.charge_response_code == "00"){
-        this.makeOrder();
+      if (
+        response.status == 'successful' &&
+        response.charge_response_code == '00'
+      ) {
+        !this.use_wallet_card ? this.makeOrder() : this.makeOrder2()
       }
     },
     closedPaymentModal() {
@@ -383,12 +398,14 @@ export default {
     },
     calculateSubtotal() {
       this.subtotal = 0
-      if(this.StoreCart == null || this.StoreCart == undefined){
-        return;
+      if (this.StoreCart == null || this.StoreCart == undefined) {
+        return
       }
 
-      let inStoreCartItems = this.StoreCart.filter(item => item.stock_status != 'outofstock');
-      
+      let inStoreCartItems = this.StoreCart.filter(
+        (item) => item.stock_status != 'outofstock'
+      )
+
       for (var i = 0; i < inStoreCartItems.length; i++) {
         this.subtotal +=
           parseInt(inStoreCartItems[i].quantity) *
@@ -456,7 +473,12 @@ export default {
         order_id: this.order.order.id,
         reference: this.reference,
         amount: this.order.order_balance,
-        channel: this.paymentoption == '1' ? 'wallet' : (this.paymentoption == '2') ? 'polaris' : 'card',
+        channel:
+          this.paymentoption == '1'
+            ? 'wallet'
+            : this.paymentoption == '2'
+            ? 'polaris'
+            : 'card',
         total_product: this.subtotal,
       }
       const self = this
@@ -474,7 +496,12 @@ export default {
               tax: '0.00',
               shipping: self.user.deliveryfee,
               coupon: self.code,
-              payment_method: self.paymentoption == '1' ? 'wallet' : (self.paymentoption == '2') ? 'polaris' : 'card', // either 'card' or 'wallet'
+              payment_method:
+                self.paymentoption == '1'
+                  ? 'wallet'
+                  : self.paymentoption == '2'
+                  ? 'polaris'
+                  : 'card', // either 'card' or 'wallet'
               shipping_zone: 'SW', // geo-zone shipped to
               shipping_location: this.user.state, // state being shipped to
               shipping_tier: 'Local pickup', // see details below
@@ -509,7 +536,9 @@ export default {
               //     coupon: '', // leave empty.
               //   },
               // ], //expand this array if more product exists (make this expand based on number of items ordered)
-              items: self.StoreCart.filter(item => item.stock_status != 'outofstock'),
+              items: self.StoreCart.filter(
+                (item) => item.stock_status != 'outofstock'
+              ),
             },
           })
           // setTimeout(() => {
@@ -650,99 +679,44 @@ export default {
           this.loading = false
           this.order = response.data
           const self = this
-          this.order.order_balance > 0
-            ? this.clickPaystack()
-            : (window.dataLayer.push({
-                event: 'purchase',
-                ecommerce: {
-                  transaction_id: self.order.order.order_number, // Transaction ID. Required
-                  affiliation: 'Online Store', // default value is Online Store
-                  value: self.subtotal, // Total transaction value (does not include tax and shipping)
-                  tax: '0.00',
-                  shipping: self.user.deliveryfee,
-                  coupon: self.code,
-                  payment_method: self.paymentoption == '1' ? 'wallet' : 'card', // either 'card' or 'wallet'
-                  shipping_zone: 'SW', // geo-zone shipped to
-                  shipping_location: this.user.state, // state being shipped to
-                  shipping_tier: 'Local pickup', // see details below
-                  account_type:
-                    self.user.role == 'user' || self.user.role == 'staff'
-                      ? 'RETAILER'
-                      : 'WHOLESALER',
-                  customer_type: 'returning', // Add a code to tell whether this is a new customer or returning.
-                  gift_item: '', // This is boolean
-                  currency: 'NGN', // This value is constant
-                  items: self.StoreCart,
-                },
-              }),
+          if (this.order.order_balance > 0) {
+            if (this.paymentoption == '2') {
+              this.clickFlutterwave()
+            } else {
+              this.clickPaystack()
+            }
+          } else {
+            window.dataLayer.push({
+              event: 'purchase',
+              ecommerce: {
+                transaction_id: self.order.order.order_number, // Transaction ID. Required
+                affiliation: 'Online Store', // default value is Online Store
+                value: self.subtotal, // Total transaction value (does not include tax and shipping)
+                tax: '0.00',
+                shipping: self.user.deliveryfee,
+                coupon: self.code,
+                payment_method:
+                  self.paymentoption == '1'
+                    ? 'wallet'
+                    : self.paymentoption == '2'
+                    ? 'polaris'
+                    : 'card', // either 'card' or 'wallet'
+                shipping_zone: 'SW', // geo-zone shipped to
+                shipping_location: this.user.state, // state being shipped to
+                shipping_tier: 'Local pickup', // see details below
+                account_type:
+                  self.user.role == 'user' || self.user.role == 'staff'
+                    ? 'RETAILER'
+                    : 'WHOLESALER',
+                customer_type: 'returning', // Add a code to tell whether this is a new customer or returning.
+                gift_item: '', // This is boolean
+                currency: 'NGN', // This value is constant
+                items: self.StoreCart,
+              },
+            }),
               this.$store.commit('products/CLEAR_CART'),
-              this.$router.push('/thank-you'))
-        })
-        .catch((error) => {
-          console.log(error)
-          this.$toast.error(error.response.data.message)
-          this.loading = this.confirmDialog = false
-        })
-    },
-    async createPolarisOrder() {
-      this.loading = true
-      const payload = {
-        weight: this.totalweight,
-        shipping_id: this.user.shipping_id,
-        address: this.user.address,
-        delivery_method: this.user.deliveryMethod,
-        description: this.user.description,
-        country: 'Nigeria',
-        device: 'web',
-        dob: this.user.dob,
-        email: this.user.email,
-        phone: this.user.mobile,
-        city: this.user.city,
-        lga: this.user.lga?.name,
-        state: this.user.state?.name,
-        set_paid: 1,
-        use_wallet: parseInt(this.paymentoption),
-        product: this.StoreCart,
-        reference: this.reference,
-        total: this.subtotal + parseInt(this.user.deliveryfee),
-        total_product: this.subtotal,
-        code: this.code,
-      }
-      // console.log('datat to send', payload);
-      await this.$store
-        .dispatch('products/makeorder', payload)
-        .then((response) => {
-          this.$toast.success(response.message)
-          this.loading = false
-          this.order = response.data
-          const self = this
-          this.order.order_balance > 0
-            ? this.clickFlutterwave()
-            : (window.dataLayer.push({
-                event: 'purchase',
-                ecommerce: {
-                  transaction_id: self.order.order.order_number, // Transaction ID. Required
-                  affiliation: 'Online Store', // default value is Online Store
-                  value: self.subtotal, // Total transaction value (does not include tax and shipping)
-                  tax: '0.00',
-                  shipping: self.user.deliveryfee,
-                  coupon: self.code,
-                  payment_method: self.paymentoption == '1' ? 'wallet' : 'polaris', // either 'card' or 'wallet'
-                  shipping_zone: 'SW', // geo-zone shipped to
-                  shipping_location: this.user.state, // state being shipped to
-                  shipping_tier: 'Local pickup', // see details below
-                  account_type:
-                    self.user.role == 'user' || self.user.role == 'staff'
-                      ? 'RETAILER'
-                      : 'WHOLESALER',
-                  customer_type: 'returning', // Add a code to tell whether this is a new customer or returning.
-                  gift_item: '', // This is boolean
-                  currency: 'NGN', // This value is constant
-                  items: self.StoreCart,
-                },
-              }),
-              this.$store.commit('products/CLEAR_CART'),
-              this.$router.push('/thank-you'))
+              this.$router.push('/thank-you')
+          }
         })
         .catch((error) => {
           console.log(error)
@@ -787,11 +761,11 @@ export default {
           const self = this
           if (this.order.order_balance > 0) {
             this.use_wallet_card = true
-              if (this.completepaymentoption == '1') {
-                this.clickFlutterwave()
-              } else {
-                this.clickPaystack()
-              }
+            if (this.completepaymentoption == '1') {
+              this.clickFlutterwave()
+            } else {
+              this.clickPaystack()
+            }
           } else {
             this.loading = true
             //  console.log('order value', self.order);
