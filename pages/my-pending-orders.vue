@@ -218,14 +218,14 @@
             <h3>Payment Options</h3>
             <div class="contact-card pa-4">
               <v-radio-group v-model="paymentoption" required>
-                <v-radio
+                <!-- <v-radio
                   label="Pay with your wallet"
                   :disabled="user.balance == '0'"
                   value="1"
                 ></v-radio>
                 <p class="ml-8">
                   Your Wallet Balance: &#8358;{{ user.balance | formatPrice }}
-                </p>
+                </p> -->
                 <v-radio label="Paystack Gateway" value="0"></v-radio>
                 <v-radio label="Polaris Gateway" value="2"></v-radio>
               </v-radio-group>
