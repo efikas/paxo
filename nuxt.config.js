@@ -53,6 +53,7 @@ export default {
   // Plugins to run before rendering page (https://go.nuxtjs.dev/config-plugins)
   plugins: [
     // { src: '~plugins/ckeditor', ssr: false },
+    { src: '~/plugins/flutterwave.js', ssr: false },
     { src: '~/plugins/localStorage.js', ssr: false },
     { src: '~/plugins/axios.js', ssr: false },
     { src: '~/plugins/print.js', ssr: false },
@@ -113,7 +114,8 @@ export default {
   // Axios module configuration (https://go.nuxtjs.dev/config-axios)
   axios: {
     // baseURL: 'https://paxo.masterworkscaraross.io/api/v1',
-    baseURL: 'https://api.paxobeauty.com/api/v1',
+    baseURL: 'https://staging-api.paxobeauty.com/api/v1',
+    // baseURL: 'https://api.paxobeauty.com/api/v1',
   },
 
   // Vuetify module configuration (https://go.nuxtjs.dev/config-vuetify)

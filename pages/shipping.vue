@@ -89,12 +89,23 @@
               <p class="ml-8">
                 Your Wallet Balance: &#8358;{{ user.balance | formatPrice }}
               </p>
-              <v-radio label="Pay Online" value="0"></v-radio>
+              <v-radio label="Paystack Gateway" value="0"></v-radio>
+              <v-radio label="Polaris Gateway" value="2"></v-radio>
             </v-radio-group>
           </div>
 
           <v-btn
             v-if="paymentoption == '0'"
+            large
+            text
+            class="primary mt-12"
+            :loading="loading"
+            @click="$refs.form.validate() ? (confirmDialog = true) : null"
+            >Complete Order</v-btn
+          >
+
+          <v-btn
+            v-if="paymentoption == '2'"
             large
             text
             class="primary mt-12"
@@ -127,6 +138,30 @@
         >
           <i class="fas fa-money-bill-alt"></i> Make Payment
         </paystack>
+        <flutterwave-pay-button
+          :tx_ref="reference"
+          amount="10"
+          currency="NGN"
+          payment_options="card,ussd"
+          redirect_url=""
+          class="class-name"
+          :meta="{
+            counsumer_id: '7898',
+            consumer_mac: 'kjs9s8ss7dd' 
+          }"
+          :customer="{
+            name: user.first_name + '  ' + user.last_name,
+            email: user.email,
+            phone_number: user.mobile,
+          }"
+          :customizations="{}"
+          :callback="makePaymentCallback"
+          :onclose="closedPaymentModal"
+          id="flutterwave"
+          style="visibility: hidden"
+        >
+        Make Payment
+      </flutterwave-pay-button>
       </v-col>
       <v-col md="4">
         <h3>Your Order</h3>
@@ -211,7 +246,7 @@
         </p>
 
         <v-btn outlined text @click="confirmDialog = false">Cancel</v-btn>
-        <v-btn class="primary" :loading="loading" @click="createOrder()"
+        <v-btn class="primary" :loading="loading" @click="(paymentoption == '2')? createPolarisOrder() :createOrder()"
           >Proceed</v-btn
         >
       </v-card>
@@ -259,10 +294,12 @@
 <script>
 import { mapGetters } from 'vuex'
 import paystack from 'vue-paystack'
+import {FlutterwavePayButton} from "flutterwave-vue-v3";
 export default {
   transition: 'default',
   components: {
     paystack,
+    FlutterwavePayButton,
   },
   data() {
     return {
@@ -287,6 +324,7 @@ export default {
       channels: ['card', 'bank', 'ussd', 'qr', 'mobile_money', 'bank_transfer'],
       code: '',
       totalweight: null,
+     
     }
   },
   computed: {
@@ -313,8 +351,19 @@ export default {
     },
   },
   methods: {
+    makePaymentCallback(response) {
+      console.log("Payment callback", response);
+
+      // this.makeOrder();
+    },
+    closedPaymentModal() {
+      // console.log('payment modal is closed');
+    },
     clickPaystack() {
       document.getElementById('paystack').click()
+    },
+    clickFlutterwave() {
+      document.getElementById('flutterwave').click()
     },
     calculateShippingPrice() {
       // this.shippingprice = this.shippingMethods.find(
@@ -397,7 +446,7 @@ export default {
         order_id: this.order.order.id,
         reference: this.reference,
         amount: this.order.order_balance,
-        channel: this.paymentoption == '1' ? 'wallet' : 'card',
+        channel: this.paymentoption == '1' ? 'wallet' : (this.paymentoption == '2') ? 'polaris' : 'card',
         total_product: this.subtotal,
       }
       const self = this
@@ -586,6 +635,72 @@ export default {
           const self = this
           this.order.order_balance > 0
             ? this.clickPaystack()
+            : (window.dataLayer.push({
+                event: 'purchase',
+                ecommerce: {
+                  transaction_id: self.order.order.order_number, // Transaction ID. Required
+                  affiliation: 'Online Store', // default value is Online Store
+                  value: self.subtotal, // Total transaction value (does not include tax and shipping)
+                  tax: '0.00',
+                  shipping: self.user.deliveryfee,
+                  coupon: self.code,
+                  payment_method: self.paymentoption == '1' ? 'wallet' : 'card', // either 'card' or 'wallet'
+                  shipping_zone: 'SW', // geo-zone shipped to
+                  shipping_location: this.user.state, // state being shipped to
+                  shipping_tier: 'Local pickup', // see details below
+                  account_type:
+                    self.user.role == 'user' || self.user.role == 'staff'
+                      ? 'RETAILER'
+                      : 'WHOLESALER',
+                  customer_type: 'returning', // Add a code to tell whether this is a new customer or returning.
+                  gift_item: '', // This is boolean
+                  currency: 'NGN', // This value is constant
+                  items: self.StoreCart,
+                },
+              }),
+              this.$store.commit('products/CLEAR_CART'),
+              this.$router.push('/thank-you'))
+        })
+        .catch((error) => {
+          console.log(error)
+          this.$toast.error(error.response.data.message)
+          this.loading = this.confirmDialog = false
+        })
+    },
+    async createPolarisOrder() {
+      this.loading = true
+      const payload = {
+        weight: this.totalweight,
+        shipping_id: this.user.shipping_id,
+        address: this.user.address,
+        delivery_method: this.user.deliveryMethod,
+        description: this.user.description,
+        country: 'Nigeria',
+        device: 'web',
+        dob: this.user.dob,
+        email: this.user.email,
+        phone: this.user.mobile,
+        city: this.user.city,
+        lga: this.user.lga?.name,
+        state: this.user.state?.name,
+        set_paid: 1,
+        use_wallet: parseInt(this.paymentoption),
+        product: this.StoreCart,
+        reference: this.reference,
+        total: this.subtotal + parseInt(this.user.deliveryfee),
+        total_product: this.subtotal,
+        code: this.code,
+      }
+      // console.log('datat to send', payload);
+      await this.$store
+        .dispatch('products/makeorder', payload)
+        .then((response) => {
+          this.$toast.success(response.message)
+          this.loading = false
+          this.order = response.data
+          const self = this
+          this.order.order_balance > 0
+            ? this.clickFlutterwave()
             : (window.dataLayer.push({
                 event: 'purchase',
                 ecommerce: {

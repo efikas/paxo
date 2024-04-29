@@ -5,6 +5,19 @@
         <home-page-slider></home-page-slider>
       </v-col>
     </v-row>
+    <v-row justify="center" align="center">
+      <v-col md="10">
+        <a href="https://www.vulte.ng/signup?refCode=Paxobeauty123">
+        <v-img
+          class="brands-img"
+          :src="require('../static/assets/polaris_opening.png')"
+          @error="$event.target.src='../static/assets/paxo_icon_logo.png'"
+          lazy-src="https://res.cloudinary.com/spectrina/image/upload/v1660830145/Offer_Banner_1b_ugnb6t.png"
+          
+        ></v-img>
+        </a>
+      </v-col>
+    </v-row>
     <v-row :class="{'px-8':$vuetify.breakpoint.mdAndUp}" >
       <v-col md="6" v-for="i in banners.slice(banners.length - 2, banners.length + 2)" :key="i.id">
         <v-img
