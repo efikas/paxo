@@ -113,30 +113,6 @@
     >
       <i class="fas fa-money-bill-alt"></i> Make Payment
     </paystack>
-    <flutterwave-pay-button
-      :tx_ref="reference"
-      :amount="order.order_balance"
-      currency="NGN"
-      payment_options="card,ussd"
-      redirect_url=""
-      class="class-name"
-      :meta="{
-        counsumer_id: '7898',
-        consumer_mac: 'kjs9s8ss7dd',
-      }"
-      :customer="{
-        name: user.first_name + '  ' + user.last_name,
-        email: user.email,
-        phone_number: user.mobile,
-      }"
-      :customizations="{}"
-      :callback="makePaymentCallback"
-      :onclose="closedPaymentModal"
-      id="flutterwave"
-      style="visibility: hidden"
-    >
-      Make Payment
-    </flutterwave-pay-button>
     <!-- this dialog is used to handle only card payment -->
     <v-dialog
       width="400"
@@ -323,6 +299,27 @@ export default {
     this.getUserOrders()
   },
   methods: {
+    getPaymentData() {
+      return {
+        tx_ref: this.reference,
+        amount: this.order.order_balance,
+        currency: 'NGN',
+        payment_options: 'card,ussd',
+        redirect_url: '',
+        meta: {
+          counsumer_id: '7898',
+          consumer_mac: 'kjs9s8ss7dd',
+        },
+        customizations: {},
+        customer: {
+          name: this.user.first_name + '  ' + this.user.last_name,
+          email: this.user.email,
+          phone_number: this.user.mobile,
+        },
+        callback: this.makePaymentCallback,
+        onclose: this.closedPaymentModal,
+      }
+    },
     async getUserOrders() {
       await this.$store
         .dispatch('order/userpendingorders')
@@ -611,7 +608,7 @@ export default {
       document.getElementById('paystack').click()
     },
     clickFlutterwave() {
-      document.getElementById('flutterwave').click()
+      this.$payWithFlutterwave(this.getPaymentData())
     },
     async getUser() {
       await this.$store.dispatch('auth/getuser').then((response) => {
