@@ -138,7 +138,6 @@
         >
           <i class="fas fa-money-bill-alt"></i> Make Payment
         </paystack>
-     
       </v-col>
       <v-col md="4">
         <h3>Your Order</h3>
@@ -355,38 +354,38 @@ export default {
         !this.use_wallet_card ? this.makeOrder() : this.makeOrder2()
       }
     },
-    getPaymentData(){
+    getPaymentData() {
       return {
         tx_ref: this.reference,
         amount: this.order.order_balance,
-        currency: "NGN",
-        payment_options: "card,ussd",
-        redirect_url: "",
+        currency: 'NGN',
+        payment_options: 'card,ussd',
+        redirect_url: '',
         meta: {
           counsumer_id: '7898',
-            consumer_mac: 'kjs9s8ss7dd',
+          consumer_mac: 'kjs9s8ss7dd',
         },
         customizations: {},
         customer: {
           name: this.user.first_name + '  ' + this.user.last_name,
-            email: this.user.email,
-            phone_number: this.user.mobile,
+          email: this.user.email,
+          phone_number: this.user.mobile,
         },
         callback: this.makePaymentCallback,
-        onclose: this.closedPaymentModal
+        onclose: this.closedPaymentModal,
       }
     },
     closedPaymentModal() {
       // console.log('payment modal is closed');
     },
     getOrderBalance() {
-      return this.order.order_balance ?? "0";
+      return this.order.order_balance ?? '0'
     },
     clickPaystack() {
       document.getElementById('paystack').click()
     },
     clickFlutterwave() {
-      this.$payWithFlutterwave(this.getPaymentData());
+      this.$payWithFlutterwave(this.getPaymentData())
     },
     calculateShippingPrice() {
       // this.shippingprice = this.shippingMethods.find(
@@ -545,7 +544,9 @@ export default {
           this.getProfile()
           this.$router.push('/thank-you')
           this.$store.commit('products/CLEAR_CART')
-          this.getUser()
+          this.getUser().then((response) => {
+            location.reload()
+          })
           // },3000)
         })
         .catch((error) => {
@@ -628,7 +629,9 @@ export default {
           this.getProfile()
           this.$router.push('/thank-you')
           this.$store.commit('products/CLEAR_CART')
-          this.getUser()
+          this.getUser().then((response) => {
+            location.reload()
+          })
           // },3000)
         })
         .catch((error) => {
@@ -750,7 +753,7 @@ export default {
       await this.$store
         .dispatch('products/makeorder', payload)
         .then(async (response) => {
-          return response;
+          return response
         })
         .then(async (response) => {
           // console.log('product saved', response)
@@ -761,10 +764,10 @@ export default {
           this.loading = false
           this.order = {
             ...response.data,
-            order_balance: response.data.order_balance
+            order_balance: response.data.order_balance,
           }
-          
-          console.log(this.order);
+
+          console.log(this.order)
 
           const self = this
           if (this.order.order_balance > 0) {
@@ -814,7 +817,9 @@ export default {
                   this.getProfile()
                   this.$store.commit('products/CLEAR_CART'),
                     this.$router.push('/thank-you')
-                  this.getUser()
+                  this.getUser().then((response) => {
+                    location.reload()
+                  })
                 }, 3000)
                 // setTimeout(() => {
                 //   this.$toast.success(response.message)
