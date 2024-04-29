@@ -529,7 +529,7 @@ export default {
     async makeOrder2() {
       this.loading = true
       let _channel = 'wallet'
-      if (this.use_wallet_card && this.completepaymentoption == '2') {
+      if (this.use_wallet_card && this.completepaymentoption == '1') {
         _channel = 'wallet_poaris'
       } else if (this.use_wallet_card && this.completepaymentoption == '0') {
         _channel = 'wallet_card'
