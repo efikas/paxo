@@ -758,6 +758,10 @@ export default {
           // console.log(response)
           this.loading = false
           this.order = response.data
+          this.order = {
+          ...this.order,
+          order_balance: this.order.total,
+        }
           const self = this
           if (this.order.order_balance > 0) {
             this.use_wallet_card = true
