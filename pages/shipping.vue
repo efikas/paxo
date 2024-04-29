@@ -138,30 +138,7 @@
         >
           <i class="fas fa-money-bill-alt"></i> Make Payment
         </paystack>
-        <flutterwave-pay-button
-          :tx_ref="reference"
-          :amount="order.order_balance"
-          currency="NGN"
-          payment_options="card,ussd"
-          redirect_url=""
-          class="class-name"
-          :meta="{
-            counsumer_id: '7898',
-            consumer_mac: 'kjs9s8ss7dd',
-          }"
-          :customer="{
-            name: user.first_name + '  ' + user.last_name,
-            email: user.email,
-            phone_number: user.mobile,
-          }"
-          :customizations="{}"
-          :callback="makePaymentCallback"
-          :onclose="closedPaymentModal"
-          id="flutterwave"
-          style="visibility: hidden"
-        >
-          Make Payment
-        </flutterwave-pay-button>
+     
       </v-col>
       <v-col md="4">
         <h3>Your Order</h3>
@@ -252,10 +229,7 @@
         </p>
 
         <v-btn outlined text @click="confirmDialog = false">Cancel</v-btn>
-        <v-btn
-          class="primary"
-          :loading="loading"
-          @click="createOrder()"
+        <v-btn class="primary" :loading="loading" @click="createOrder()"
           >Proceed</v-btn
         >
       </v-card>
@@ -381,14 +355,38 @@ export default {
         !this.use_wallet_card ? this.makeOrder() : this.makeOrder2()
       }
     },
+    getPaymentData(){
+      return {
+        tx_ref: this.reference,
+        amount: this.order.order_balance,
+        currency: "NGN",
+        payment_options: "card,ussd",
+        redirect_url: "",
+        meta: {
+          counsumer_id: '7898',
+            consumer_mac: 'kjs9s8ss7dd',
+        },
+        customizations: {},
+        customer: {
+          name: this.user.first_name + '  ' + this.user.last_name,
+            email: this.user.email,
+            phone_number: this.user.mobile,
+        },
+        callback: this.makePaymentCallback,
+        onclose: this.closedPaymentModal
+      }
+    },
     closedPaymentModal() {
       // console.log('payment modal is closed');
+    },
+    getOrderBalance() {
+      return this.order.order_balance ?? "0";
     },
     clickPaystack() {
       document.getElementById('paystack').click()
     },
     clickFlutterwave() {
-      document.getElementById('flutterwave').click()
+      this.$payWithFlutterwave(this.getPaymentData());
     },
     calculateShippingPrice() {
       // this.shippingprice = this.shippingMethods.find(
@@ -678,6 +676,7 @@ export default {
           // console.log(response)
           this.loading = false
           this.order = response.data
+
           const self = this
           if (this.order.order_balance > 0) {
             if (this.paymentoption == '2') {
@@ -751,17 +750,22 @@ export default {
       await this.$store
         .dispatch('products/makeorder', payload)
         .then(async (response) => {
+          return response;
+        })
+        .then(async (response) => {
           // console.log('product saved', response)
           this.$toast.success(response.message)
           // this.getUser()
           // this.getProfile()
           // console.log(response)
           this.loading = false
-          this.order = response.data
           this.order = {
-          ...this.order,
-          order_balance: this.order.total,
-        }
+            ...response.data,
+            order_balance: response.data.order_balance
+          }
+          
+          console.log(this.order);
+
           const self = this
           if (this.order.order_balance > 0) {
             this.use_wallet_card = true
