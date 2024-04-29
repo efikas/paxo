@@ -6,8 +6,8 @@
       </v-col>
     </v-row>
     <v-row justify="center" align="center">
-      <v-col md="10">
-        <a href="https://www.vulte.ng/signup?refCode=Paxobeauty123">
+      <v-col>
+        <a href="https://www.vulte.ng/signup?refCode=Paxobeauty123" target="_blank">
         <v-img
           class="brands-img"
           :src="require('../static/assets/polaris_opening.png')"

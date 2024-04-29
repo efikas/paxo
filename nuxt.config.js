@@ -114,8 +114,8 @@ export default {
   // Axios module configuration (https://go.nuxtjs.dev/config-axios)
   axios: {
     // baseURL: 'https://paxo.masterworkscaraross.io/api/v1',
-    // baseURL: 'https://staging-api.paxobeauty.com/api/v1',
-    baseURL: 'https://api.paxobeauty.com/api/v1',
+    baseURL: 'https://staging-api.paxobeauty.com/api/v1',
+    // baseURL: 'https://api.paxobeauty.com/api/v1',
   },
 
   // Vuetify module configuration (https://go.nuxtjs.dev/config-vuetify)
