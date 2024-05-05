@@ -245,6 +245,7 @@ export default {
   },
   methods: {
     calculateSubtotal() {
+      console.log(this.StoreCart);
       this.subtotal = 0
       if(this.StoreCart == null || this.StoreCart == undefined){
         return;

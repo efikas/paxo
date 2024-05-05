@@ -540,6 +540,23 @@ export const actions = {
     return data
   },
 
+  async getorderproducts({ commit }, { product_id }) {
+    let token = JSON.parse(window.localStorage.getItem('paxo')).auth.token
+    const data = await this.$axios.$post(
+      '/product/orders',
+      {
+        product_id
+      },
+      {
+        headers: {
+          Authorization: 'Bearer ' + token,
+        },
+      }
+    )
+
+    return data
+  },
+
   async storeorderwallet({ commit }, { order_id, reference, amount, channel, total_product }) {
     let token = JSON.parse(window.localStorage.getItem('paxo')).auth.token
     const data = await this.$axios.$post(
