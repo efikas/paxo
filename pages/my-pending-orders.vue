@@ -100,7 +100,7 @@
       </v-col>
     </v-row>
     <paystack
-      :amount="order.order_balance * 100"
+      :amount="subtotal * 100"
       :email="user.email"
       :paystackkey="paystackkey"
       :reference="reference"
@@ -233,6 +233,7 @@ export default {
   data() {
     return {
       loading: false,
+      loadingRecord: false,
       confirmDialog: false,
       walletDialog: false,
       paymentMethodDialog: false,
@@ -241,6 +242,7 @@ export default {
       paymentoption: '0',
       completepaymentoption: '0',
       orders: [],
+      states: [],
       order: { order_balance: 0 },
       myCheckoutOrder: {},
       paystackkey: 'pk_live_7c02e6083d7879d591e497d97392bf4a3e4697f5',
@@ -295,14 +297,15 @@ export default {
   computed: {
     ...mapGetters('auth', ['user']),
   },
-  mounted() {
+  async mounted() {
     this.getUserOrders()
+    await this.getStates()
   },
   methods: {
     getPaymentData() {
       return {
         tx_ref: this.reference,
-        amount: this.order.order_balance,
+        amount: this.subtotal,
         currency: 'NGN',
         payment_options: 'card,ussd',
         redirect_url: '',
@@ -388,6 +391,10 @@ export default {
       this.subtotal = item.total
       this.reference = item.order_number
       this.paymentMethodDialog = true
+
+      console.log(item)
+
+      this.getUpdatedProductsrecord(item)
     },
     async makeOrder() {
       this.loading = true
@@ -507,12 +514,110 @@ export default {
           console.log(error)
         })
     },
+    async getStates() {
+      await this.$store.dispatch('states/states').then((response) => {
+        this.states = response.data
+      })
+    },
+    async getUpdatedProductsrecord(order) {
+      this.loadingRecord = true
+      console.log(order.product)
+      if (order.product.length > 0) {
+        let ids = order.product.map((item) => item.id)
+        const self = this
+        await this.$store
+          .dispatch('products/getorderproducts', { product_id: ids })
+          .then(async (response) => {
+            this.loadingRecord = false
+            // console.log(response)
+            this.calculateSubtotal(order, response)
+          })
+          .catch((error) => {
+            // this.loadingRecord = false;
+            this.$toast.error(error.response.data.message)
+            console.log(error)
+          })
+      }
+    },
     async createOrder2() {
       if (this.completepaymentoption == '1') {
-          this.clickFlutterwave()
-        } else {
-          this.clickPaystack()
+        this.clickFlutterwave()
+      } else {
+        this.clickPaystack()
+      }
+    },
+    async calculateSubtotal(order, products) {
+      let subtotal = 0
+      let deliveryfee = 0
+      let checkoutItems = order.product
+      if (products == null || products == undefined) {
+        return
+      }
+
+      // console.log(order.delivery_method)
+
+      if (order.delivery_method == '1') {
+        // get delivery price
+        let lga = ''
+        let state = this.states.filter((item) => item.name == order.state)
+        if (state.length > 0) {
+          state = state[0]
+          if (state.lga.length > 0 && order.lga != '') {
+            let _lga = state.lga.filter((item) => item.name == order.lga)
+            if (_lga.length > 0) {
+              lga = _lga[0]
+            }
+          }
+
+          const data = {
+            state_id: state.id,
+            lga_id: lga.id ?? '',
+            weight: order.weight,
+          }
+          await this.$store
+            .dispatch('delivery/deliveryfee', data)
+            .then((response) => {
+              deliveryfee = parseInt(response.data.delivery_fee.toString())
+            })
+            .catch((error) => {
+              this.$toast.error(error.response.data.message)
+            })
         }
+      }
+
+      for (var i = 0; i < checkoutItems.length; i++) {
+        let _product = products.filter(
+          (_item) => _item.id === checkoutItems[i].id
+        )
+
+        if (_product.length > 0) {
+          subtotal +=
+            parseInt(checkoutItems[i].quantity) *
+            parseInt(
+              this.isAuthenticated
+                ? this.user.role == 'wholesaler' ||
+                  this.user.role == 'next_champ'
+                  ? _product[0].wholesale_price
+                  : _product[0].price
+                : _product[0].price
+            )
+        }
+      }
+
+      if (subtotal > 0) {
+        // console.log('subtotal = ' + (subtotal + deliveryfee))
+        // console.log('deliveryfee = ' + parseInt(deliveryfee))
+       
+        this.order = Object.assign({}, this.order, {
+          ...this.order,
+          order_balance: subtotal + deliveryfee,
+        });
+
+        this.subtotal = subtotal + deliveryfee;
+
+        // this.$set(this.order, 'order_balance', subtotal + deliveryfee + 5000)
+        // console.log('deliveryfee = ' + this.order.order_balance)
+      }
     },
     async createOrder() {
       // console.log(this.user)

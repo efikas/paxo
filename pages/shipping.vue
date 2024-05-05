@@ -394,6 +394,7 @@ export default {
       this.total = parseInt(this.subtotal) + parseInt(this.user.deliveryfee)
     },
     calculateSubtotal() {
+      // console.log(this.StoreCart);
       this.subtotal = 0
       if (this.StoreCart == null || this.StoreCart == undefined) {
         return

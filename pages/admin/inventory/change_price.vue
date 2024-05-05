@@ -57,7 +57,6 @@
                 ref="dialog"
                 v-model="modal"
                 :close-on-content-click="false"
-                :return-value.sync="form.duration_to"
                 transition="scale-transition"
                 offset-y
                 min-width="auto"
@@ -297,15 +296,15 @@ export default {
 
       formData = { ...formData, products: iDs }
 
-    //   await this.$store
-    //     .dispatch('products/updateProductsPrice', { formData: formData })
-    //     .then((response) => {
-    //       // console.log(response)
-    //       if (response.status == true) {
-    //         window.location.reload()
-    //       }
-    //       this.loading = false
-    //     })
+      await this.$store
+        .dispatch('products/updateProductsPrice', { formData: formData })
+        .then((response) => {
+          // console.log(response)
+          if (response.status == true) {
+            window.location.reload()
+          }
+          this.loading = false
+        })
     },
   },
 }
