@@ -105,512 +105,20 @@
         </v-list>
       </v-navigation-drawer>
 
-      <v-app-bar app color="" style="" class="top-top" id="banner">
-        <p style="font-size: 12px">
-          Get a discount on your first order<br />
-          <span class="hidden-md-and-up">Use Code: <b>FIRSTGIFT</b></span>
-        </p>
-        <div
-          style="
-            background: white;
-            border: 2px dashed #000;
-            font-size: 12px;
-            margin-top: -15px;
-          "
-          class="pa-0 hidden-sm-and-down px-1 ml-3"
-          :class="{ 'mx-3': $vuetify.breakpoint.smAndDown }"
-        >
-          Use Code: <b>FIRSTGIFT</b>
-        </div>
-        <v-spacer></v-spacer>
-        <!-- <v-btn
-          class="secondary hidden-sm-and-down"
-          v-scroll-to="'#download'"
-          small
-          text
-          style="margin-top: -15px"
-        >
-          <v-icon size="18">smartphone</v-icon>
-          DOWNLOAD APP</v-btn
-        > -->
-        <p class="hidden-sm-and-down">
-          <!-- <v-btn class="secondary" small text>DOWNLOAD</v-btn> -->
-          DOWNLOAD APP:&emsp;
-          <a
-            style="color: #333"
-            href="https://apps.apple.com/ng/app/paxo-beauty/id1534936621"
-            target="_blank"
-            >IOS</a
-          >
-          &emsp;
-          <a
-            style="color: #333"
-            href="https://play.google.com/store/apps/details?id=com.paxo.shop"
-            target="_blank"
-            >ANDROID</a
-          >
-        </p>
+      <!-- Discount bar -->
+      <DiscountMenu />
+      <!-- Search Menu -->
+      <SearchMenu />
 
-        <v-btn
-          class="secondary hidden-md-and-up"
-          @click="getApp()"
-          small
-          text
-          style="margin-top: -15px"
-        >
-          <v-icon size="18">smartphone</v-icon>
-          GET APP</v-btn
-        >
-        <!-- <v-fab-transition>
-            <v-btn color="primary" dark absolute bottom right fab>
-              <v-icon>mdi-plus</v-icon>
-            </v-btn>
-          </v-fab-transition> -->
-      </v-app-bar>
-      <v-app-bar
-        app
-        id="navbar"
-        flat
-        class="white elevation-1 mt-12"
-        :class="{
-          'mt-12': $vuetify.breakpoint.mdAndUp,
-          'px-4': $vuetify.breakpoint.mdAndUp,
-        }"
-        style="border-bottom: 1px solid #000"
-        height="70px"
-      >
-        <v-app-bar-nav-icon
-          class="hidden-md-and-up"
-          @click.stop="drawer = !drawer"
-        />
-        <div style="width: 45%" class="mt-3 hidden-sm-and-down">
-          <search-products />
-        </div>
-        <v-spacer class="hidden-md-and-up" />
-
-        <nuxt-link to="/">
-          <img src="../static/assets/Paxo logo Size G.png" width="107" alt="" />
-        </nuxt-link>
-
-        <v-spacer />
-        <nuxt-link
-          class="nav-btn-small hidden-sm-and-down mx-3"
-          to="/paxo-reward"
-          >Paxo Reward</nuxt-link
-        >
-        <nuxt-link class="nav-btn-small hidden-sm-and-down mx-3" to="/offers"
-          >Offers</nuxt-link
-        >
-
-        <!-- <nuxt-link class="nav-btn-small hidden-sm-and-down mx-3" to="/stories"
-          >Blog</nuxt-link
-        > -->
-        <nuxt-link
-          to="/skin-expert"
-          class="nav-btn-small hidden-sm-and-down mx-3"
-          >Skin Expert</nuxt-link
-        >
-        <!-- <nuxt-link
-          to="/track-order"
-          class="nav-btn-small hidden-sm-and-down mx-3"
-          >Track Order</nuxt-link
-        > -->
-
-        <div v-if="!isAuthenticated" class="hidden-sm-and-down">
-          <nuxt-link to="/login" class="nav-btn-small mx-3">Sign in</nuxt-link>
-          |
-          <nuxt-link to="/register" class="nav-btn-small mx-3"
-            >Sign up</nuxt-link
-          >
-        </div>
-
-        <!-- <v-menu
-          bottom
-          left
-          offset-y
-          max-width="350"
-          max-height="300"
-          origin="top right"
-          transition="scale-transition"
-        >
-          <template v-slot:activator="{ attrs, on }">
-            <v-btn v-bind="attrs" v-on="on" icon class="ml-5"
-              ><v-icon>more_horiz</v-icon></v-btn
-            >
-          </template>
-
-          <v-list class="py-0">
-            <v-list-item @click="newDialog = true" class="py-0 my-0">
-              <v-list-item-content class="py-0 my-0">
-                <v-list-item-title>
-                  <img src="~/static/assets/edit-alt.png" alt="" /> Edit
-                </v-list-item-title>
-              </v-list-item-content>
-            </v-list-item>
-            <v-list-item @click="deleteDialog = true" class="py-0 my-0">
-              <v-list-item-content class="py-0 my-0">
-                <v-list-item-title>
-                  <img src="~/static/assets/delete-alt.png" alt="" /> Delete
-                </v-list-item-title>
-              </v-list-item-content>
-            </v-list-item>
-          </v-list>
-        </v-menu> -->
-        <v-menu
-          v-if="isAuthenticated"
-          bottom
-          left
-          class=""
-          offset-y
-          origin="top right"
-          transition="scale-transition"
-        >
-          <template v-slot:activator="{ attrs, on }">
-            
-              <v-overlay
-                :z-index="0"
-                :opacity="0"
-                style="height: 10px"
-                class="mt-2 justify-end pr-16 mr-6"
-              ><v-tooltip bottom>
-                <template v-slot:activator="{ on, attrs }">
-                  <v-btn
-                      v-bind="attrs"
-                      v-on="on"
-                      icon
-                      style="height: 10px"
-                      ><v-chip
-                    style="border-radius: 3 height:4px "
-                    dark
-                    color="error"
-                    class="pa-2"
-                    small
-                    id="WalletPrice"
-                    >&#8358;{{ user.balance | formatPrice }}</v-chip
-                  >
-                      </v-btn
-                    >
-                  
-                </template>
-                <span>Wallet Balance</span> </v-tooltip>
-              </v-overlay>
-          
-
-            <v-btn
-              v-bind="attrs"
-              v-on="on"
-              class="ml-4"
-              icon
-              outlined
-              depressed
-            >
-              <v-icon>ri-user-line</v-icon></v-btn
-            >
-          </template>
-
-          <v-list dense width="250px" class="py-0">
-            <v-list-item dense to="/dashboard" class="py-0 my-0">
-              <v-list-item-content class="py-0 my-0">
-                <v-list-item-title>Account Informations </v-list-item-title>
-              </v-list-item-content>
-            </v-list-item>
-            <v-list-item dense to="/my-orders" class="py-0 my-0">
-              <v-list-item-content class="py-0 my-0">
-                <v-list-item-title>My Orders </v-list-item-title>
-              </v-list-item-content>
-            </v-list-item>
-            <v-list-item dense to="/my-wishlist" class="py-0 my-0">
-              <v-list-item-content class="py-0 my-0">
-                <v-list-item-title>My Wishlist </v-list-item-title>
-              </v-list-item-content>
-            </v-list-item>
-            <v-list-item dense to="/become-affiliate" class="py-0 my-0">
-              <v-list-item-content class="py-0 my-0">
-                <v-list-item-title>Become an Affiliate </v-list-item-title>
-              </v-list-item-content>
-            </v-list-item>
-            <v-list-item dense to="/upgrade-wholesaler" class="py-0 my-0">
-              <v-list-item-content class="py-0 my-0">
-                <v-list-item-title>Upgrade to Wholesaler </v-list-item-title>
-              </v-list-item-content>
-            </v-list-item>
-            <v-list-item dense to="/change-password" class="py-0 my-0">
-              <v-list-item-content class="py-0 my-0">
-                <v-list-item-title>Change Password </v-list-item-title>
-              </v-list-item-content>
-            </v-list-item>
-            <v-list-item dense to="/logout">
-              <v-list-item-content>
-                <v-list-item-title>Logout </v-list-item-title>
-              </v-list-item-content>
-            </v-list-item>
-          </v-list>
-        </v-menu>
-
-        <v-badge
-          :color="cartItem ? 'error' : 'transparent'"
-          :content="cartItem"
-          overlap
-        >
-          <v-btn
-            v-if="isAuthenticated"
-            to="/shopping-cart"
-            icon
-            class="primary--text ml-4"
-            outlined
-            depressed
-          >
-            <v-icon color="">ri-shopping-cart-2-fill</v-icon>
-          </v-btn>
-          <v-btn
-            v-else
-            to="/login"
-            icon
-            class="primary--text ml-4"
-            outlined
-            depressed
-          >
-            <v-icon color="">ri-shopping-cart-2-fill</v-icon>
-          </v-btn>
-        </v-badge>
-        <!-- <v-row class="ml-5 hidden-sm-and-down" style="">
-          <v-col class="py-0 ma-0">
-             <v-btn text class="mt-2">Skin Expert</v-btn>
-             <v-btn text>Login</v-btn>
-
-          </v-col>
-          <v-col class="pa-0 ma-0">
-            <v-badge color="error" content="0" overlap>
-              <v-btn icon class="primary--text" outlined depressed>
-                <v-icon color="">ri-heart-fill</v-icon>
-              </v-btn>
-            </v-badge>
-          </v-col>
-          <v-col class="pa-0 ma-0">
-            <v-badge
-              :color="cartItem ? 'error' : 'transparent'"
-              :content="cartItem"
-              overlap
-            >
-              <v-btn
-                to="/shopping-cart"
-                icon
-                class="primary--text"
-                outlined
-                depressed
-              >
-                <v-icon color="">ri-shopping-cart-2-fill</v-icon>
-              </v-btn>
-            </v-badge>
-          </v-col>
-          <v-col class="pa-0 ma-0" v-if="isAuthenticated">
-            <v-menu
-              bottom
-              left
-              offset-y
-              origin="top right"
-              transition="scale-transition"
-            >
-              <template v-slot:activator="{ attrs, on }">
-              
-                <v-btn v-bind="attrs" v-on="on" icon outlined>
-                  <v-icon>ri-user-line</v-icon></v-btn
-                >
-              </template>
-
-              <v-list dense width="150px" class="py-0">
-                <v-list-item dense to="/profile" class="py-0 my-0">
-                  <v-list-item-content class="py-0 my-0">
-                    <v-list-item-title>My Account </v-list-item-title>
-                  </v-list-item-content>
-                </v-list-item>
-
-                <v-list-item dense to="/logout">
-                  <v-list-item-content>
-                    <v-list-item-title>Logout </v-list-item-title>
-                  </v-list-item-content>
-                </v-list-item>
-              </v-list>
-            </v-menu>
-          </v-col>
-          <v-col class="pa-0 ma-0" v-else>
-            <nuxt-link class="auth-btn" to="/login">Login</nuxt-link> <br />
-            <nuxt-link class="auth-btn" to="/register">Register</nuxt-link>
-          </v-col>
-        </v-row> -->
-        <!-- tested -->
-      </v-app-bar>
+      <!-- Divider -->
       <v-divider light class="black mt-12"></v-divider>
-      <div
-        fixed
-        style="height: 50px; position: fixed; z-index: 1; width: 100%"
-        flat
-        class="
-          white
-          px-3
-          d-lg-flex d-md-flex
-          justify-space-between
-          align-center
-          second-nav
-          hidden-sm-and-down
-        "
-      >
-        <v-menu
-          open-on-hover
-          bottom
-          v-model="showBrand"
-          offset-y
-          :close-on-content-click="false"
-          origin="top left"
-          open-delay="500"
-          max-width="100vw"
-          class="elevation-0"
-        >
-          <template v-slot:activator="{ attrs, on }">
-            <v-btn class="nav-btn-brand px-3" v-bind="attrs" v-on="on" text>
-              Brands</v-btn
-            >
-          </template>
 
-          <v-list
-            dense
-            flat
-            style="width: 100vw"
-            min-height="400px"
-            max-height="400px"
-            class="py-0 elevation-0"
-          >
-            <v-row>
-              <v-col cols="12" class="pa-8">
-                <div class="d-flex justify-space-between">
-                  <v-btn
-                    @click="orderedBrands = _.orderBy(brands, 'name')"
-                    icon
-                    small
-                    >All</v-btn
-                  >
-                  <v-btn icon small>#</v-btn>
-                  <v-btn @click="sortBrands('a')" icon small>A</v-btn>
-                  <v-btn @click="sortBrands('b')" icon small>B</v-btn>
-                  <v-btn @click="sortBrands('c')" icon small>C</v-btn>
-                  <v-btn @click="sortBrands('d')" icon small>D</v-btn>
-                  <v-btn @click="sortBrands('e')" icon small>E</v-btn>
-                  <v-btn @click="sortBrands('f')" icon small>F</v-btn>
-                  <v-btn @click="sortBrands('g')" icon small>G</v-btn>
-                  <v-btn @click="sortBrands('h')" icon small>H</v-btn>
-                  <v-btn @click="sortBrands('i')" icon small>I</v-btn>
-                  <v-btn @click="sortBrands('j')" icon small>J</v-btn>
-                  <v-btn @click="sortBrands('k')" icon small>K</v-btn>
-                  <v-btn @click="sortBrands('l')" icon small>L</v-btn>
-                  <v-btn @click="sortBrands('m')" icon small>M</v-btn>
-                  <v-btn @click="sortBrands('n')" icon small>N</v-btn>
-                  <v-btn @click="sortBrands('o')" icon small>O</v-btn>
-                  <v-btn @click="sortBrands('p')" icon small>P</v-btn>
-                  <v-btn @click="sortBrands('q')" icon small>Q</v-btn>
-                  <v-btn @click="sortBrands('r')" icon small>R</v-btn>
-                  <v-btn @click="sortBrands('s')" icon small>S</v-btn>
-                  <v-btn @click="sortBrands('t')" icon small>T</v-btn>
-                  <v-btn @click="sortBrands('u')" icon small>U</v-btn>
-                  <v-btn @click="sortBrands('v')" icon small>V</v-btn>
-                  <v-btn @click="sortBrands('w')" icon small>W</v-btn>
-                  <v-btn @click="sortBrands('x')" icon small>X</v-btn>
-                  <v-btn @click="sortBrands('y')" icon small>Y</v-btn>
-                  <v-btn @click="sortBrands('z')" icon small>Z</v-btn>
-                </div>
-                <v-divider></v-divider>
-              </v-col>
-            </v-row>
-            <div class="brands-container pa-10 pt-0">
-              <div
-                v-for="(i, index) in brandlength"
-                :key="index"
-                style="width: 300px"
-                class="brands"
-              >
-                <div class="sub-menu">
-                  <a
-                    href="javascript:void(0)"
-                    class="nav-"
-                    @click="
-                      ;(showBrand = false),
-                        $router.push('/brands/' + j.name + '?brandId=' + j.id)
-                    "
-                    v-for="j in orderedBrands.slice(
-                      index * brandsize,
-                      index * brandsize + brandsize
-                    )"
-                    :key="j.id"
-                    style="text-decoration: none; margin-bottom: 0 !important"
-                  >
-                    <p class="" style="font-size: 13px">
-                      {{ j.name }}
-                    </p></a
-                  >
-                </div>
-              </div>
-            </div>
-          </v-list>
-        </v-menu>
-        <v-menu
-          v-for="(i, index) in sections.slice(0, 12)"
-          :key="index"
-          open-on-hover
-          bottom
-          offset-y
-          origin="top left"
-          open-delay="500"
-          max-width="100vw"
-          class="elevation-0"
-        >
-          <template v-slot:activator="{ attrs, on }">
-            <v-btn
-              class="nav-btn px-3 pt-3"
-              :to="'/section/' + i.name + '?sectionId=' + i.id"
-              v-bind="attrs"
-              v-on="on"
-              text
-            >
-              {{ i.name }}</v-btn
-            >
-          </template>
 
-          <v-list
-            dense
-            flat
-            style="width: 100vw"
-            min-height="400px"
-            class="pb-0 pt-8 elevation-0"
-          >
-            <v-row>
-              <v-col
-                md="2"
-                v-for="(j, index) in i.category"
-                :key="index"
-                class="px-8 pt-0 pb-3"
-              >
-                <p v-if="i.category.length == 0">No categories found</p>
-                <nuxt-link
-                  :to="'/category/' + j.name + '?categoryId=' + j.id"
-                  style="text-decoration: none; margin-bottom: 0 !important"
-                >
-                  <p
-                    class="primary--text font-weight-bold"
-                    style="font-size: 13px"
-                  >
-                    {{ j.name }}
-                  </p></nuxt-link
-                >
-                <div v-for="k in j.subcategory" :key="k.id" class="sub-menu">
-                  <nuxt-link
-                    :to="'/subcategory/' + k.name + '?subCategoryId=' + k.id"
-                    >{{ k.name }}</nuxt-link
-                  >
-                </div>
-              </v-col>
-            </v-row>
-          </v-list>
-        </v-menu>
-      </div>
+      <!-- Main menu -->
+      <MainMenu />
+
+
+      <!-- App bar for medium screens -->
       <v-app-bar
         height="100"
         fixed
@@ -668,6 +176,8 @@
           </v-col>
         </v-row>
       </v-app-bar>
+      
+      <!-- Floating whatsapp for mobile Only -->
       <v-btn
         fab
         href="https://api.whatsapp.com/send/?phone=2348146907099&text&app_absent=0"
@@ -708,6 +218,8 @@
       >
         <v-icon>keyboard_arrow_up</v-icon>
       </v-btn>
+      
+      <!-- News Letter -->
       <v-main
         class="pt-0"
         :class="
@@ -773,6 +285,8 @@
           </v-row>
         </div>
       </v-main>
+
+      <!-- Footer -->
       <div height="400" class="white--text footer pt-8">
         <v-row
           dense
@@ -781,40 +295,8 @@
             'px-2': $vuetify.breakpoint.smAndDown,
           }"
         >
-          <v-col cols="6" sm="3" md="4">
-            <h4 class="mb-4">Contact Us</h4>
-            <p>Call us 24/7</p>
-            <a href="tel:2348146907099">
-              <h3 class="primary--text">234 814 690 7099</h3>
-            </a>
-            <a href="mailto:info@paxo.com.ng">info@paxo.com.ng</a>
-
-            <p class="mb-12">No 3, Billings Way, Oregun Ikeja, Lagos</p>
-          </v-col>
-          <v-col md="3" sm="3" cols="6">
-            <h4 class="mb-4">Quick Links</h4>
-            <nuxt-link to="/paxo-reward">
-              <p>Paxo Rewards</p>
-            </nuxt-link>
-            <nuxt-link to="/stories">
-              <p>Blog</p>
-            </nuxt-link>
-            <!-- <nuxt-link to="/login">
-              <p>Sign In</p>
-            </nuxt-link>
-            <nuxt-link to="/register">
-              <p>Sign Up</p>
-            </nuxt-link> -->
-            <nuxt-link to="/privacy-policy">
-              <p>Privacy Policy</p>
-            </nuxt-link>
-            <nuxt-link to="/terms-condition">
-              <p>Terms & Conditions</p>
-            </nuxt-link>
-            <!-- <p>FAQs</p> -->
-          </v-col>
-          <v-col md="3" sm="3" cols="6">
-            <h4 class="mb-4">Company</h4>
+        <v-col md="2" sm="4" cols="6">
+            <h4 class="mb-4">Information</h4>
             <nuxt-link to="/about-us">
               <p>About Us</p>
             </nuxt-link>
@@ -823,7 +305,56 @@
             <nuxt-link to="/contact-us">
               <p>Contact Us</p>
             </nuxt-link>
-            <h4 class="mt-8">Socials</h4>
+          </v-col>
+        <v-col md="2" sm="4" cols="6">
+            <h4 class="mb-4">Our Services</h4>
+            <nuxt-link to="/paxo-reward">
+              <p>Paxo Rewards</p>
+            </nuxt-link>
+            <nuxt-link to="/skin-expert">
+              <p>Skin Expert</p>
+            </nuxt-link>
+            <nuxt-link to="/next-champ">
+              <p>Next Champ</p>
+            </nuxt-link>
+            <!-- <nuxt-link to="/stories">
+              <p>Blog</p>
+            </nuxt-link>-->
+            <!-- <p>FAQs</p> -->
+          </v-col>
+          
+          <v-col md="2" sm="4" cols="6">
+            <h4 class="mb-4">My Account</h4>
+            <nuxt-link to="/upgrade-wholesaler">
+              <p>Upgrade to Wholesaler</p>
+            </nuxt-link>
+            <nuxt-link to="/track-order">
+              <p>Track Order</p>
+            </nuxt-link>
+            <nuxt-link to="/my-wishlist">
+              <p>My Wishlist</p>
+            </nuxt-link>
+          </v-col>
+          <v-col cols="6" sm="3" md="3">
+            <h4 class="mb-4">Contact Us</h4>
+            <p>Call us 24/7</p>
+            <a href="tel:2348146907099" class="mb-3">
+              <h5 class="primary--text" style="font-size: 1.2rem">234 814 690 7099</h5>
+            </a>
+            <p class="mt-3"><a href="mailto:info@paxo.com.ng" style="color: white">info@paxo.com.ng</a></p>
+
+            <p class="mb-12 mt-1">No 3, Billings Way, Oregun Ikeja, Lagos</p>
+          </v-col>
+          <v-col cols="6" sm="3" md="3">
+            <h4 class="mb-4">Payment methods</h4>
+            <div>
+              <img src="../static/assets/visa.png" width="50" alt="" />
+              <img src="../static/assets/mastercard2.png" width="50" alt="" />
+              <img src="../static/assets/bank_transfer.png" width="50" alt="" />
+              <img src="../static/assets/paystack.png" width="50" alt="" />
+              <img src="../static/assets/credpal.png" width="50" alt="" />
+            </div>
+            <h5 class="mt-3" style="font-size: 1.0rem">Follow us</h5>
             <v-btn icon href="https://facebook.com/paxobeauty" target="_blank">
               <v-icon color="white">ri-facebook-fill</v-icon>
             </v-btn>
@@ -845,34 +376,31 @@
               <v-icon color="white">ri-youtube-fill</v-icon>
             </v-btn>
           </v-col>
-          <v-col md="2" sm="3" cols="6">
-            <h4 class="mb-4">Business</h4>
-            <!-- <p>Our Press</p>
-            <p>Checkout</p> -->
-            <nuxt-link to="/track-order">
-              <p>Track Order</p>
-            </nuxt-link>
-            <nuxt-link to="/dashboard">
-              <p>My account</p>
-            </nuxt-link>
-            <nuxt-link to="/store">
-              <p>Shop</p>
-            </nuxt-link>
-          </v-col>
+          
+         
         </v-row>
         <div style="clear: both"></div>
         <div>
           <v-divider class="mt-5"></v-divider>
         </div>
-        <div class="footer-bottom text-center px-6">
-          <div class="text-center">
-            <p>© {{ new Date().getFullYear() }} Paxo. All Rights Reserved</p>
-          </div>
+        <div class="footer-bottom text-center px-6 pt-6 flex align-center justify-space-between">
+          <nuxt-link to="/my-wishlist">
+            <p>© Paxo Beauty {{ new Date().getFullYear() }}. All Rights Reserved</p>
+            </nuxt-link>
+            <v-spacer />
+                <nuxt-link to="/privacy-policy" style="margin-right: 20px">
+                  <p>Privacy</p>
+                </nuxt-link>
+                <nuxt-link to="/terms-condition">
+                  <p>Terms & Conditions</p>
+                </nuxt-link>
           <div>
             <!-- <p>We Using Safe Payment For:</p> -->
           </div>
         </div>
       </div>
+
+      <!-- Dialogs -->
       <v-dialog
         width="470"
         v-model="paymentMethodDialog"
@@ -880,7 +408,9 @@
         overlay-opacity="0.9"
       >
         <v-card class="pa-6 text-center">
-          <p class="mt-3">You have been idle for 60 seconds. Do you want to continue shopping?</p>
+          <p class="mt-3">
+            You have been idle for 60 seconds. Do you want to continue shopping?
+          </p>
 
           <v-btn outlined text @click="paymentMethodDialog = false"
             >Cancel</v-btn
@@ -894,7 +424,9 @@
         overlay-opacity="0.9"
       >
         <v-card class="pa-6 text-center">
-          <p class="mt-3">You have been idle for 60 seconds. Do you want to continue shopping?</p>
+          <p class="mt-3">
+            You have been idle for 60 seconds. Do you want to continue shopping?
+          </p>
 
           <v-btn outlined text @click="close1MinuteDialog()">Cancel</v-btn>
         </v-card>
@@ -906,8 +438,11 @@
 <script>
 import { mapGetters } from 'vuex'
 import SearchProducts from '~/components/SearchProducts.vue'
+import DiscountMenu from './components/discountmenu.vue'
+import SearchMenu from './components/searchmenu.vue'
+import MainMenu from './components/mainmenu.vue'
 export default {
-  components: { SearchProducts },
+  components: { SearchProducts, DiscountMenu, SearchMenu, MainMenu },
   data() {
     return {
       paymentMethodDialog: false,
@@ -1124,21 +659,6 @@ a {
   text-decoration: none;
 }
 
-.brands-container {
-  display: flex;
-  flex-flow: row;
-  min-height: 392px;
-  scroll-behavior: smooth;
-  -webkit-overflow-scrolling: touch;
-  &::-webkit-scrollbar {
-    display: none;
-  }
-  overflow-x: scroll !important;
-  .brands {
-    flex: 0 0 auto;
-  }
-}
-
 .nav-btn {
   color: #000;
   background: none;
@@ -1169,17 +689,10 @@ a {
     color: #ff4e50;
   }
 }
-.sub-menu a {
-  text-decoration: none;
-  color: #000;
-  font-size: 14px;
-  &:hover {
-    color: #ff4e50;
-  }
-}
+
 .newsletter {
   // background: #444;
-  padding: 65px 0;
+  padding: 20px 3%;
   border-top: 1px solid #e1e1e1;
   border-bottom: 1px solid #e1e1e1;
   h3 {
@@ -1190,11 +703,13 @@ a {
   p {
     font-size: 14px;
     line-height: 1.6em;
-    color: #666;
+    // color: #666;
+    color: black;
   }
 }
 .footer {
-  background-color: #000;
+  background-color: #8C8D94;
+  padding: 20px 3% !important;
   h4 {
     font-size: 16px;
     margin-bottom: 30px;
@@ -1232,10 +747,7 @@ a {
   margin-top: 119px !important;
   box-shadow: 0 2px 2px 0 rgb(0 0 0 / 10%) !important;
 }
-.top-top {
-  background-color: #36bdb4 !important;
-  // opacity: 0.8;
-}
+
 @media only screen and (max-width: 768px) {
   .second-nav {
     margin-top: 71px !important;

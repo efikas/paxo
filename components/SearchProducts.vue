@@ -59,19 +59,22 @@
         <v-autocomplete
           v-model="product"
           :items="products"
-
           :search-input.sync="productSearch"
           hide-no-data
           item-text="name"
           item-value="id"
           prepend-inner-icon="search"
           outlined
-          dense @change="goToProduct(product.id)"
+          dense 
+          @change="goToProduct(product.id)"
           class="pt-6"
+          input-class="search-box"
+          :input-attrs="{'class': 'search-box'}"
           append-icon=""
           placeholder="Search for your products"
           clearable
           return-object
+
         ></v-autocomplete>
       </v-col>
       <v-col md="4" cols="2" class="px-0 pt-7" :class="{'py-0' : $vuetify.breakpoint.smAndDown}">
@@ -225,5 +228,11 @@ export default {
 <style lang="scss" scoped>
 .search-btn {
   height: 40px !important;
+}
+
+.search-box {
+  border: none;
+  border: solid 1px #33333333 !important;
+  border-radius: 40px !important;
 }
 </style>
