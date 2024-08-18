@@ -28,6 +28,11 @@ export default {
       },
       {
         rel: 'stylesheet',
+        href: 'https://fonts.googleapis.com/css?family=Rubik',
+        //https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;600;700&display=swap
+      },
+      {
+        rel: 'stylesheet',
         href: 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.css',
       },
     ],
@@ -49,6 +54,9 @@ export default {
     'remixicon/fonts/remixicon.css',
     '~/assets/tailwind.css',
   ],
+  styleResources: {
+    scss: '~/assets/scss/variables.scss'
+  },
 
   // Plugins to run before rendering page (https://go.nuxtjs.dev/config-plugins)
   plugins: [

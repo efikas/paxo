@@ -234,9 +234,11 @@
           fluid
           px-0
           :pa-0="$vuetify.breakpoint.mdAndUp"
-          :pt-120="$vuetify.breakpoint.mdAndUp"
+          :pt-0="$vuetify.breakpoint.xlAndUp"
+          :pt-120="$vuetify.breakpoint.lgAndDown"
           :pt-100="$vuetify.breakpoint.smAndDown"
         >
+        <!-- :pt-120="$vuetify.breakpoint.mdAndUp" -->
           <nuxt />
         </v-container>
         <div class="newsletter mt-8">
@@ -636,6 +638,19 @@ export default {
   },
 }
 </script>
+<style lang="scss">
+body {
+  font-family: 'Rubik';
+}
+.p3p {
+  padding: 0px 3% !important;
+}
+
+.br-all-5 {
+  border-radius: 5px !important;
+}
+</style>
+
 <style lang="scss" scoped>
 // .v-list-item{
 //   &:hover{

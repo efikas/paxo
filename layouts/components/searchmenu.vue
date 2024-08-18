@@ -3,13 +3,12 @@
     app
     id="navbar"
     flat
-    class="white elevation-1 mt-12 search-bar"
+    class="white elevation-0 mt-12 search-bar"
     :class="{
       'mt-12': $vuetify.breakpoint.mdAndUp,
       'px-4': $vuetify.breakpoint.mdAndUp,
     }"
-    style="border-bottom: 1px solid #000"
-    height="70px"
+    height="72px"
   >
     <v-app-bar-nav-icon
       class="hidden-md-and-up"
@@ -96,7 +95,7 @@
       transition="scale-transition"
     >
       <template v-slot:activator="{ attrs, on }">
-        <v-overlay
+        <!-- <v-overlay
           :z-index="0"
           :opacity="0"
           style="height: 10px"
@@ -117,10 +116,10 @@
             </template>
             <span>Wallet Balance</span>
           </v-tooltip>
-        </v-overlay>
+        </v-overlay> -->
 
-        <v-btn v-bind="attrs" v-on="on" class="ml-4" icon outlined depressed>
-          <v-icon>ri-user-line</v-icon></v-btn
+        <v-btn v-bind="attrs" v-on="on" class="ml-4" icon depressed>
+          <v-icon>mdi-account-circle-outline</v-icon></v-btn
         >
       </template>
 
@@ -172,11 +171,11 @@
         v-if="isAuthenticated"
         to="/shopping-cart"
         icon
-        class="primary--text ml-4"
-        outlined
+        class="ml-2"
+        outlinedh
         depressed
       >
-        <v-icon color="">ri-shopping-cart-2-fill</v-icon>
+        <v-icon color="">mdi-shopping-outline</v-icon>
       </v-btn>
       <v-btn
         v-else

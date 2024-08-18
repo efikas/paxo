@@ -1,7 +1,7 @@
 <template>
   <div
     fixed
-    style="height: 50px; position: fixed; z-index: 1; width: 100%"
+    style="height: 50px; position: fixed; z-index: 2; width: 100%; border-top: 2px solid rgba(16, 2, 2, 0.1) !important"
     flat
     class="
       white
@@ -229,7 +229,7 @@
     >
       <template v-slot:activator="{ attrs, on }">
         <v-btn
-          class="nav-btn px-3 pt-3"
+          class="nav-btn px-3 pt-4"
           v-bind="attrs"
           v-on="on"
           text
@@ -249,7 +249,7 @@
       class="elevation-0"
     >
       <template v-slot:activator="{ attrs, on }">
-        <v-btn class="nav-btn px-3 pt-3" v-bind="attrs" v-on="on" text to="">
+        <v-btn class="nav-btn px-3 pt-4" v-bind="attrs" v-on="on" text to="/shop-all">
           SHOP ALL</v-btn
         >
       </template>
@@ -265,11 +265,11 @@
     >
       <template v-slot:activator="{ attrs, on }">
         <v-btn
-          class="nav-btn px-3 pt-3"
+          class="nav-btn px-3 pt-4"
           v-bind="attrs"
           v-on="on"
           text
-          to="/skin-expert"
+          to="/new"
         >
           NEW</v-btn
         >
@@ -286,7 +286,7 @@
     >
       <template v-slot:activator="{ attrs, on }">
         <v-btn
-          class="nav-btn px-3 pt-3"
+          class="nav-btn px-3 pt-4"
           v-bind="attrs"
           v-on="on"
           text
@@ -307,7 +307,7 @@
     >
       <template v-slot:activator="{ attrs, on }">
         <v-btn
-          class="nav-btn px-3 pt-3"
+          class="nav-btn px-3 pt-4"
           v-bind="attrs"
           v-on="on"
           text
@@ -449,7 +449,6 @@ export default {
       this.paymentMethodDialog = false
     },
     getAlphabetHeading(mainList, currentIndex) {
-      console.log(currentIndex)
       if (mainList.length < 1) {
         return false;
       } else if (currentIndex == 0) {

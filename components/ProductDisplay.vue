@@ -5,6 +5,7 @@
         <nuxt-link :to="'/single-product?product_id=' + product_id">
           <v-img
             :src="image"
+            class="product-image"
             width="100%"
             lazy-src="https://res.cloudinary.com/spectrina/image/upload/v1660831137/Icon_1b_f5502u.png"
           >
@@ -99,19 +100,7 @@
             {{ product_name }}
           </nuxt-link>
         </div>
-        <v-rating
-          dense
-          small
-          color="orange"
-          :value="parseInt(rating)"
-        ></v-rating>
-        <div class="product-price d-flex justify-space-between text-right">
-          <del
-            v-if="product_object.onsale == '1'"
-            style="color: #bbb; font-size"
-            >&#8358;{{ regular_price | formatPrice }}</del
-          >
-          <p v-else></p>
+        <div class="product-price d-flex justify-space-between text-right mt-1">
           &#8358;{{
             (isAuthenticated
               ? user.role == 'wholesaler' || user.role == 'next_champ'
@@ -119,6 +108,20 @@
                 : price
               : price) | formatPrice
           }}
+          <del
+            v-if="product_object.onsale == '1'"
+            style="color: #bbb; font-size:0.8rem"
+            >&#8358;{{ regular_price | formatPrice }}</del
+          >
+          <p v-else></p>
+        </div>
+        <div class="d-flex">
+          <v-rating
+          dense
+          small
+          color="orange"
+          :value="parseInt(rating)"
+        > {{rating}}</v-rating> <span style="margin-left: 2px; margin-top: 2px; font-size:0.8rem">({{rating}})</span>
         </div>
       </div>
     </v-hover>
@@ -386,10 +389,14 @@ a {
 .product-box {
   position: relative;
   padding: 20px 20px 0;
+  border-radius: 10px 10px;
 
   max-width: 250px;
   &:hover {
     border: 1px solid #d9d9d9;
+  }
+  .product-image {
+    border-radius: 10px 10px;
   }
   .vendor {
     display: block;

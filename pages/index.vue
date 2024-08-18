@@ -1,11 +1,11 @@
 <template>
-  <div>
+  <div class="main-div">
     <v-row>
       <v-col md="12">
         <home-page-slider></home-page-slider>
       </v-col>
     </v-row>
-    <v-row justify="center" align="center">
+    <!-- <v-row justify="center" align="center">
       <v-col>
         <a href="https://www.vulte.ng/signup?refCode=Paxobeauty123" target="_blank">
         <v-img
@@ -17,8 +17,8 @@
         ></v-img>
         </a>
       </v-col>
-    </v-row>
-    <v-row :class="{'px-8':$vuetify.breakpoint.mdAndUp}" >
+    </v-row> -->
+    <!-- <v-row :class="{'px-8':$vuetify.breakpoint.mdAndUp}" >
       <v-col md="6" v-for="i in banners.slice(banners.length - 2, banners.length + 2)" :key="i.id">
         <v-img
           @click="$router.push('/banners/'+i.slug+'?t=Offers&bannerId='+i.id)"
@@ -30,8 +30,8 @@
           
         ></v-img>
       </v-col>
-    </v-row>
-    <v-row justify="center" align="center">
+    </v-row> -->
+    <!-- <v-row justify="center" align="center">
       <v-col md="10">
         <nuxt-link to="/offers">
         <v-img
@@ -44,72 +44,59 @@
 
         </nuxt-link>
       </v-col>
-    </v-row>
-    
-   <v-row class="mt-10 " :class="{'px-8':$vuetify.breakpoint.mdAndUp,'px-4':$vuetify.breakpoint.smAndDown}">
-      <v-col md="6" cols="9" class="py-0 ma-0">
-        <p class="deal-text">Deal of the Day</p>
-      </v-col>
-      <v-col md="6" cols="3" class="text-right py-0 ma-0">
-        <v-btn class="primary" text to="/offers" small>View All</v-btn>
-      </v-col>
-      <!-- <v-col md="12" class="py-0 ma-0">
-        <v-divider></v-divider>
-      </v-col> -->
-    </v-row>
-    <!-- <v-row :class="{'px-8':$vuetify.breakpoint.mdAndUp,'px-4':$vuetify.breakpoint.smAndDown}">
-      <v-col
-        md="2"
-        sm="4"
-        cols="6"
-        v-for="i in 18"
-        :key="i"
-        v-if="products.length == 0"
-      >
-        <v-skeleton-loader type="card"> </v-skeleton-loader>
-      </v-col>
-      <v-col cols="6" sm="4" md="2" v-for="(i, index) in products" :key="index">
-        <v-skeleton-loader type="card" v-if="products.length == 0" lazy-src="https://res.cloudinary.com/spectrina/image/upload/v1660750038/logo9_auto_x5_gsrixv.png">
-        </v-skeleton-loader>
-        <product-display
-          :vendor="i.brand ? i.brand.name : null"
-          :product_name="i.name"
-          rating="5"
-          :price="i.price"
-          :image="i.avatar"
-          :badge="i.stock_status"
-          :description="i.description"
-          :short_description="i.short_description"
-          :product_object="i"
-          :product_id="i.id"
-          lazy-src="https://res.cloudinary.com/spectrina/image/upload/v1660830145/Offer_Banner_1b_ugnb6t.png"
-        />
-      </v-col>
     </v-row> -->
 
-   <div class="d-flex justify-space-between" style="position: absolute; margin-top: 200px; z-index: 1; width: 100vw;">
+    <!-- DEALS OF THE DAY -->
+
+    <v-row
+      class="mt-10 p3p"
+      :class="{
+        'px-8': $vuetify.breakpoint.mdAndUp,
+        'px-4': $vuetify.breakpoint.smAndDown,
+      }"
+    >
+      <v-col cols="12" class="py-0 ma-0">
+        <p class="deal-text text-center">Deal of the Day</p>
+        <p class="text-center">
+          <a href="/offers" style="color: black"
+            >View all <v-icon small>arrow_forward</v-icon></a
+          >
+        </p>
+      </v-col>
+    </v-row>
+
+    <!-- <div class="d-flex justify-space-between p3p" style="position: absolute; margin-top: 200px; z-index: 1; width: 100vw;">
       <v-btn class="primary" dark icon @click="scrollRightDeal()"><v-icon>arrow_back</v-icon> </v-btn>
       <v-btn icon class="primary" dark @click="scrollLeftDeal()"><v-icon>arrow_forward</v-icon> </v-btn>
-    </div>
-    <div class="pa-6 mt-0 top-products-container"  :class="{'px-6':$vuetify.breakpoint.mdAndUp,'px-4':$vuetify.breakpoint.smAndDown}">
-      <!-- <p class="deal-text">Top Products</p> -->
-      <div class="top-products" id="dealday" style="position: relative;">
-        <v-card
-          width="200"
-          flat
-          class="mx-4 product"
-          v-for="i in 15"
+    </div> -->
+    <div
+      class="pa-6 mt-0 top-products-container p3p"
+      :class="{
+        'px-6': $vuetify.breakpoint.mdAndUp,
+        'px-4': $vuetify.breakpoint.smAndDown,
+      }"
+    >
+      <v-row class="mt-6 p3p" justify="center">
+        <v-col
+          class="text-left"
+          md="2"
+          cols="12"
+          v-for="i in 6"
           :key="i"
           v-if="products.length == 0"
         >
           <v-skeleton-loader type="card"> </v-skeleton-loader>
-        </v-card>
-        <div
-          class="mx-0 product"
-          v-for="(i, index) in products.slice(0, 10)"
+        </v-col>
+
+        <v-col
+          class="text-left"
+          md="2"
+          cols="12"
+          v-for="(i, index) in products.slice(0, 6)"
           :key="index"
         >
-          <product-display v-if="i"
+          <product-display
+            v-if="i"
             :vendor="i.brand ? i.brand.name : null"
             :product_name="i.name"
             rating="5"
@@ -123,29 +110,52 @@
             :product_object="i"
             :product_id="i.id"
           />
-        </div>
-      </div>
+        </v-col>
+      </v-row>
     </div>
-    <div class="d-flex justify-space-between" style="position: absolute; margin-top: 200px; z-index: 1; width: 100vw;">
-      <v-btn class="primary" dark icon @click="scrollRight()"><v-icon>arrow_back</v-icon> </v-btn>
-      <v-btn icon class="primary" dark @click="scrollLeft()"><v-icon>arrow_forward</v-icon> </v-btn>
-    </div>
-    <div class="pa-6 mt- top-products-container"  :class="{'px-6':$vuetify.breakpoint.mdAndUp,'px-4':$vuetify.breakpoint.smAndDown}">
-      <p class="deal-text">Top Products</p>
-      <div class="top-products" id="topproducts" style="position: relative;">
-        <v-card
-          width="200"
-          flat
-          class="mx-4 product"
-          v-for="i in 15"
+
+    <!-- TOP PRODUCTS -->
+
+    <v-row
+      class="mt-10 p3p"
+      :class="{
+        'px-8': $vuetify.breakpoint.mdAndUp,
+        'px-4': $vuetify.breakpoint.smAndDown,
+      }"
+    >
+      <v-col cols="12" class="py-0 ma-0">
+        <p class="deal-text text-center">Top Products</p>
+        <p class="text-center">
+          <a href="" style="color: black"
+            >View all <v-icon small>arrow_forward</v-icon></a
+          >
+        </p>
+      </v-col>
+    </v-row>
+    <div
+      class="pa-6 mt-0 top-products-container p3p"
+      :class="{
+        'px-6': $vuetify.breakpoint.mdAndUp,
+        'px-4': $vuetify.breakpoint.smAndDown,
+      }"
+    >
+      <v-row class="mt-6 p3p" justify="center">
+        <v-col
+          class="text-left"
+          md="2"
+          cols="12"
+          v-for="i in 6"
           :key="i"
-          v-if="topproducts.length == 0"
+          v-if="products.length == 0"
         >
           <v-skeleton-loader type="card"> </v-skeleton-loader>
-        </v-card>
-        <div
-          class="mx-0 product"
-          v-for="(i, index) in topproducts"
+        </v-col>
+
+        <v-col
+          class="text-left"
+          md="2"
+          cols="12"
+          v-for="(i, index) in topproducts.slice(0, 6)"
           :key="index"
         >
           <product-display
@@ -162,40 +172,98 @@
             :product_object="i"
             :product_id="i.id"
           />
-        </div>
-      </div>
+        </v-col>
+      </v-row>
     </div>
 
-    <div class="pa-6 mt- top-products-container"  :class="{'px-6':$vuetify.breakpoint.mdAndUp,'px-4':$vuetify.breakpoint.smAndDown}">
-      
-      
-    <v-row  :class="{'px-8':$vuetify.breakpoint.mdAndUp}">
-      <v-col md="6">
-        <p class="deal-text">Our Brands</p>
-        </v-col>
-        <v-col md="6" class="text-right">
-          <span class="deal-text-a text-right" href=""><nuxt-link to="/all-brands">See all brands</nuxt-link></span>
-        </v-col>
-      <v-col md="4" v-for="i in adminBrands" :key="i.id">
-        <v-img
-          @click="$router.push('/brands/'+i.name+'?brandId='+i.id)"
-          class="brands-img elevation-2" :class="{ 'h-200' : $vuetify.breakpoint.smAndDown}"
-          height="250"
-          :src="i.avatar"
-          @error="$event.target.src='../static/assets/paxo_icon_logo.png'"
-          lazy-src="https://res.cloudinary.com/spectrina/image/upload/v1660830349/Brand_Banner_1b_gax3tp.png"
-          
-        ></v-img>
-      </v-col>
-      <v-col md="12" class="text-center">
-        <v-btn text class="primary" to="/all-brands">View more brands</v-btn>
+    <!-- NEW ARIVAL -->
+
+    <v-row
+      class="mt-10 p3p"
+      :class="{
+        'px-8': $vuetify.breakpoint.mdAndUp,
+        'px-4': $vuetify.breakpoint.smAndDown,
+      }"
+    >
+      <v-col cols="12" class="py-0 ma-0">
+        <p class="deal-text text-center">New Arrivals</p>
+        <p class="text-center">
+          <a href="" style="color: black"
+            >View all <v-icon small>arrow_forward</v-icon></a
+          >
+        </p>
       </v-col>
     </v-row>
+    <v-row class="mt-6 p3p" justify="center">
+      <v-col
+        class="text-left"
+        md="2"
+        cols="12"
+        v-for="(i, index) in new_products.slice(0, 6)"
+        :key="index"
+      >
+        <!-- <new-arrival
+          :product_name="i.product.name"
+          :price="i.product.price"
+          :image="i.product.avatar"
+          :id="i.product.id"
+        /> -->
+
+        <product-display
+          :vendor="i.brand ? i.brand.name : null"
+          :product_name="i.name"
+          rating="5"
+          :price="i.price"
+          :regular_price="i.regular_price"
+          :wholesale_price="i.wholesale_price"
+          :image="i.avatar"
+          :badge="i.stock_status"
+          :description="i.description"
+          :short_description="i.short_description"
+          :product_object="i"
+          :product_id="i.id"
+        />
+        <!-- <new-arrival
+          :product_name="i.name"
+          :price="i.price"
+          :image="i.avatar"
+          :id="i.id"
+        /> -->
+      </v-col>
+    </v-row>
+
+    <!-- OUR BRANDS -->
+
+    <div
+      class="pa-6 mt-10 top-products-container p3p"
+      :class="{
+        'px-6': $vuetify.breakpoint.mdAndUp,
+        'px-4': $vuetify.breakpoint.smAndDown,
+      }"
+    >
+      <v-row :class="{ 'px-8': $vuetify.breakpoint.mdAndUp }">
+        <v-col cols="12" class="py-0 ma-0">
+          <p class="deal-text text-center">OUR BRANDS</p>
+          <p class="text-center">
+            <a href="/all-brands" style="color: black"
+              >View all <v-icon small>arrow_forward</v-icon></a
+            >
+          </p>
+        </v-col>
+
+        <v-col md="4" v-for="i in adminBrands.slice(0, 6)" :key="i.id">
+          <v-img
+            @click="$router.push('/brands/' + i.name + '?brandId=' + i.id)"
+            class="brands-img elevation-2"
+            :class="{ 'h-200': $vuetify.breakpoint.smAndDown }"
+            height="250"
+            :src="i.avatar"
+            @error="$event.target.src = '../static/assets/paxo_icon_logo.png'"
+            lazy-src="https://res.cloudinary.com/spectrina/image/upload/v1660830349/Brand_Banner_1b_gax3tp.png"
+          ></v-img>
+        </v-col>
+      </v-row>
     </div>
-
-
-
-
 
     <!-- <v-row :class="{'px-8':$vuetify.breakpoint.mdAndUp}">
       <v-col md="4" v-for="i in brands.slice(11, 40)" :key="i.id">
@@ -210,16 +278,50 @@
       </v-col>
     </v-row> -->
 
-    <div style="background-color: #f5f5f5" class=" py-16 mt-7" :class="{'pa-10':$vuetify.breakpoint.mdAndUp,'px-4':$vuetify.breakpoint.smAndDown}">
-      <h3 style="font-size: 20px; font-weight: 400">TOP BRANDS</h3>
-      <v-row class="mt-6">
+    <v-row justify="center" align="center" class="mt-6">
+      <v-col md="12">
+        <nuxt-link to="">
+          <v-img
+            class="brands-img"
+            :src="require('../static/assets/glow_budget.png')"
+            @error="$event.target.src = '../static/assets/paxo_icon_logo.png'"
+            lazy-src="https://res.cloudinary.com/spectrina/image/upload/v1660830145/Offer_Banner_1b_ugnb6t.png"
+          ></v-img>
+        </nuxt-link>
+      </v-col>
+    </v-row>
+
+    <div
+      class="py-16 mt-7 brand-container"
+      justify="center"
+      :class="{
+        'pa-10': $vuetify.breakpoint.mdAndUp,
+        'px-4': $vuetify.breakpoint.smAndDown,
+      }"
+    >
+      <!-- <h3 style="font-size: 20px; font-weight: 400">TOP BRANDS</h3> -->
+
+      <v-card
+        v-for="i in topbrands"
+        :key="i.id"
+        class="pa brand-card text-center"
+        justify="center"
+        flat
+        :to="'/brands/' + i.name + '?brandId=' + i.brand_id"
+      >
+        <v-img
+          class="brands-imgj"
+          :src="i.avatar"
+          @error="$event.target.src = '../static/assets/paxo_icon_logo.png'"
+          lazy-src="https://res.cloudinary.com/spectrina/image/upload/v1660830349/Brand_Banner_1b_gax3tp.png"
+        >
+        </v-img>
+      </v-card>
+      <!-- <v-row class="mt-6">
         <v-col v-for="i in topbrands" :key="i.id" md="3" cols="12">
-          <v-card class="pa" height="99.4" flat :to="'/brands/'+i.name+'?brandId='+i.brand_id">
+          <v-card class="pa brand-card text-center" justify="center" flat :to="'/brands/'+i.name+'?brandId='+i.brand_id">
             <v-img
-              class="brands-img"
-              height="95"
-              contain
-              width="100%"
+              class="brands-imgj"
               :src="i.avatar"
               @error="$event.target.src='../static/assets/paxo_icon_logo.png'"
               lazy-src="https://res.cloudinary.com/spectrina/image/upload/v1660830349/Brand_Banner_1b_gax3tp.png"
@@ -228,11 +330,38 @@
             </v-img>
           </v-card>
         </v-col>
-      </v-row>
+      </v-row> -->
     </div>
-    
 
-    <div style="background-color: #f5f5f5" class="pa-10 py-16 mt-7" :class="{'px-10':$vuetify.breakpoint.mdAndUp,'px-4':$vuetify.breakpoint.smAndDown}">
+    <v-row justify="center" align="center" class="mt-6">
+      <v-col md="12">
+        <nuxt-link to="">
+          <v-img
+            class="brands-img"
+            :src="require('../static/assets/download_banner.png')"
+            @error="$event.target.src = '../static/assets/paxo_icon_logo.png'"
+            lazy-src="https://res.cloudinary.com/spectrina/image/upload/v1660830145/Offer_Banner_1b_ugnb6t.png"
+          ></v-img>
+        </nuxt-link>
+      </v-col>
+    </v-row>
+
+    <!-- <v-row justify="center" align="center">
+      <v-col md="10">
+        <nuxt-link to="/offers">
+        <v-img
+          class="brands-img"
+          :src="require('../static/assets/banner.jpeg')"
+          @error="$event.target.src='../static/assets/paxo_icon_logo.png'"
+          lazy-src="https://res.cloudinary.com/spectrina/image/upload/v1660830145/Offer_Banner_1b_ugnb6t.png"
+          
+        ></v-img>
+
+        </nuxt-link>
+      </v-col>
+    </v-row> -->
+
+    <!-- <div style="background-color: #f5f5f5" class="pa-10 py-16 mt-7" :class="{'px-10':$vuetify.breakpoint.mdAndUp,'px-4':$vuetify.breakpoint.smAndDown}">
       <h3 style="font-size: 20px; font-weight: 400">TOP CATEGORIES</h3>
       <v-row class="mt-6">
         <v-col v-for="i in categories.slice(0,8)" :key="i.id" :class="{'mt-4':$vuetify.breakpoint.mdAndUp}" md="3" cols="12">
@@ -248,9 +377,9 @@
           </v-card>
         </v-col>
       </v-row>
-    </div>
+    </div> -->
 
-    <v-row class="pa-8" :class="{'px-8':$vuetify.breakpoint.mdAndUp,'px-4':$vuetify.breakpoint.smAndDown}">
+    <!-- <v-row class="pa-8" :class="{'px-8':$vuetify.breakpoint.mdAndUp,'px-4':$vuetify.breakpoint.smAndDown}">
       <v-col md="6">
         <h3 style="font-size: 20px; font-weight: 400">TOP STORIES</h3>
       </v-col>
@@ -277,55 +406,39 @@
 
       </nuxt-link>
       </v-col>
-    </v-row>
+    </v-row> -->
 
-    <v-row class="mt-16 py-16 download-app" id="download" >
-      <!-- <v-col class="pb-0">
-        <img src="../static/assets/app.png" alt="" />
-      </v-col> -->
+    <v-row class="mt-16 py-16 download-app" id="download">
       <v-col md="12" class="pb-0">
         <div class="text-center">
           <h3>Download Paxo App Now!</h3>
           <p class="text-center">
-            Shopping fastly and easily more with our app.<br> Get a link to download
-            the app on your phone
+            Shopping fastly and easily more with our app.<br />
+            Get a link to download the app on your phone
           </p>
 
-
-          <a href="https://play.google.com/store/apps/details?id=com.paxo.shop" target="_blank" rel="noopener noreferrer">
+          <a
+            href="https://play.google.com/store/apps/details?id=com.paxo.shop"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             <img src="../static/assets/google-play.png" alt="" />
           </a>
-          <a href="https://apps.apple.com/ng/app/paxo-beauty/id1534936621" class="ml-5" target="_blank" rel="noopener noreferrer">
+          <a
+            href="https://apps.apple.com/ng/app/paxo-beauty/id1534936621"
+            class="ml-5"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             <img src="../static/assets/appstore.png" alt="" />
           </a>
-
         </div>
       </v-col>
     </v-row>
-    <div class="section-header mt-16">
-      <h3>Hot New Arrivals</h3>
-    </div>
-    <v-row class="mt-6">
-      <v-col class="text-left" md="3" cols="12" v-for="(i, index) in new_products.slice(0, 9)" :key="index">
-        <!-- <new-arrival
-          :product_name="i.product.name"
-          :price="i.product.price"
-          :image="i.product.avatar"
-          :id="i.product.id"
-        /> -->
-        <new-arrival
-          :product_name="i.name"
-          :price="i.price"
-          :image="i.avatar"
-          :id="i.id"
-        />
-      </v-col>
-    </v-row>
-
   </div>
 </template>
 <script>
-import {mapGetters} from 'vuex'
+import { mapGetters } from 'vuex'
 import ProductDisplay from '@/components/ProductDisplay'
 import HomePageSlider from '@/components/HomePageSlider'
 import NewArrival from '~/components/NewArrival.vue'
@@ -336,7 +449,6 @@ export default {
     ProductDisplay,
     NewArrival,
     HomePageSlider,
-    
   },
   data() {
     return {
@@ -351,8 +463,7 @@ export default {
       loading: true,
       blogs: [],
       categories: [],
-      banners: []
-      
+      banners: [],
     }
   },
   computed: {
@@ -369,10 +480,9 @@ export default {
     this.getadminBrands()
     this.getBanners()
     this.fetchCart()
-
   },
   methods: {
-     scrollLeft() {
+    scrollLeft() {
       var elmnt = document.getElementById('topproducts')
       elmnt.scrollLeft += 700
     },
@@ -392,7 +502,6 @@ export default {
       this.loading = true
       await this.$store.dispatch('banner/allbanner').then((response) => {
         this.banners = response.data
-
       })
     },
     async getTopCategories() {
@@ -411,7 +520,6 @@ export default {
       this.loading = true
       await this.$store.dispatch('blog/all').then((response) => {
         this.blogs = response.data
-
       })
     },
 
@@ -423,14 +531,15 @@ export default {
     },
     async getadminBrands() {
       await this.$store.dispatch('brand/allBrands').then((response) => {
-        this.adminBrands = response.data.filter(item => item.show_product == 1).splice(0, 9)
+        this.adminBrands = response.data
+          .filter((item) => item.show_product == 1)
+          .splice(0, 9)
         this.loading = false
       })
     },
-    async fetchCart(){
-      if(this.isAuthenticated){
-        this.$store
-          .dispatch('products/fetchcart')
+    async fetchCart() {
+      if (this.isAuthenticated) {
+        this.$store.dispatch('products/fetchcart')
       }
     },
     async getProducts() {
@@ -448,7 +557,7 @@ export default {
         page: this.page,
         category: '',
         brand: '',
-        price: ''
+        price: '',
       }
       await this.$store.dispatch('products/all', data).then((response) => {
         // console.log(response);
@@ -475,6 +584,9 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
+.p3p {
+  padding: 0px 3% !important;
+}
 .features-box {
   border: 1px solid #d9d9d9;
   .feature-title {
@@ -491,9 +603,9 @@ export default {
 }
 .deal-text {
   margin-bottom: 0;
-  font-size: 24px;
+  font-size: 020px;
   font-weight: 400;
-  margin-right: 70px;
+  // margin-right: 70px;
 }
 
 a {
@@ -557,6 +669,25 @@ a {
     }
   }
 }
+.brand-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+.brand-card {
+  border-radius: 100px;
+  height: 200px;
+  width: 200px;
+  background-image: url('../static/assets/ellipse.png');
+  background-repeat: no-repeat;
+  background-size: cover;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  margin: 10px 10px;
+}
 .brands-img,
 .cat-card {
   cursor: pointer;
@@ -585,5 +716,4 @@ a {
     z-index: 1;
   }
 }
-
 </style>

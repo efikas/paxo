@@ -1,17 +1,7 @@
 <template>
 
   <div>
-    <p class="py-2 pl-3">
-      <nuxt-link to="/"> Home </nuxt-link> /
-      <nuxt-link
-        v-if="product.brand"
-        :to="`/brands/${product.brand.name}?brandId=${product.brand.id}`"
-      >
-        {{ product.brand ? product.brand.name : null }}
-      </nuxt-link>
-      /
-      {{ product.name }}
-    </p>
+    
     <v-container v-if="loading">
       <v-overlay color="white" :opacity="1" :value="loading">
         <v-progress-circular color="primary" indeterminate size="50" width="8">
@@ -19,31 +9,83 @@
       </v-overlay>
     </v-container>
     <v-container v-else>
-      <v-row :class="{ 'px-4': $vuetify.breakpoint.smAndDown }">
-        <v-col md="4" cols="12">
+     
+      <v-row :class="{ 'px-4': $vuetify.breakpoint.smAndDown, 'page-body': $vuetify.breakpoint.mdAndUp }">
+      <v-col cols="8" offset="2">
+        <div :class="{'page-bodyk': $vuetify.breakpoint.mdAndUp }">
+          <p class="py-2">
+            <nuxt-link to="/"> Home </nuxt-link> /
+            <nuxt-link
+              v-if="product.brand"
+              :to="`/brands/${product.brand.name}?brandId=${product.brand.id}`"
+            >
+              {{ product.brand ? product.brand.name : null }}
+            </nuxt-link>
+            /
+            {{ product.name }}
+          </p>
+        </div>
+
+      <v-row>
+        <v-col md="5" cols="12">
         
           <v-img :src="product.avatar" 
           width="100%" style="cursor: zoom-in;" alt="" @error="$event.target.src='../static/assets/paxo_icon_logo.png'"
           lazy-src="https://res.cloudinary.com/spectrina/image/upload/v1660831137/Icon_1b_f5502u.png" ></v-img>
          
-          
+          <div class="d-flex flex-row py-2 px-5 policy mt-3">
+            <div class="d-flex flex-row flex-1-0 align-center justify-center">
+              <img src="../static/assets/tabler_award.png" width="30" height="30" alt="" class="mr-2" />
+              <div class="d-flex flex-column flex-1-0 align-items-center justify-content-center">
+                <span class="f-10">Authentic Products</span>
+                <span class="f-10">Sourced directly from brands</span>
+              </div>
+            </div>
+            <v-divider vertical thickness="4" class="mx-2"></v-divider>
+            <div class="d-flex flex-row flex-1-0 align-center justify-center">
+              <img src="../static/assets/prime_box.png" width="30" height="30" alt="" class="mr-2" />
+              <div class="d-flex flex-column flex-1-0 align-items-center justify-content-center">
+                <span class="f-10">Return Policy</span>
+                <span class="f-10">On only damaged goods</span>
+              </div>
+            </div>
+          </div>
         </v-col>
-        <v-col md="8">
+        <v-col md="7">
           <div class="product-details">
-            <h2>{{ product.name }}</h2>
             <p style="display: flex">
-              Brand: {{ product.brand ? product.brand.name : null }} |
-              <v-rating color="orange" dense small :value="5"></v-rating> (1
-              review)
+              Brand: {{ product.brand ? product.brand.name : null }}</p>
+            <h2 class="primary--text">{{ product.name }}</h2>
+            <p style="display: flex">
+              <v-rating color="orange" dense small :value="5"></v-rating> &nbsp;&nbsp;  38 ratings & 1
+              review
             </p>
-            <v-divider></v-divider>
+
+           <p> <v-btn
+            outlined
+            small
+            :color="(product.stock_status != 'outofstock') ? 'primary' : 'error'"
+            :class="(product.stock_status != 'outofstock') ? 'primary-text' : 'error-text'"
+            class="mb-2 br-all-5 text-caption" 
+            >
+            <v-icon small> {{ (product.stock_status != 'outofstock') ? 'mdi-check-circle-outline' : 'mdi-close-circle-outline'}} </v-icon>
+            &nbsp;&nbsp;{{ (product.stock_status != 'outofstock') ? 'In Stock' : 'Out of Stock'}}</v-btn>
+          </p>
+            <v-btn
+            :loading="loading"
+            @click="isAuthenticated ? copyLink() : (loginDialog = true)"
+            outlined
+            small
+            color="primary"
+            class="mb-2 br-all-5" 
+            >
+            <v-icon small>mdi-share-variant</v-icon>
+            &nbsp;
+            <span style="color:black" class="text-caption">Refer this product</span></v-btn>
+            <!-- <v-divider></v-divider> -->
             <div class="price mt-5">
-              <del v-if="product.onsale == '1'"
-                >&#8358;{{ product.regular_price || 0 | formatPrice }}</del
-              >
               <p
                 class="sale-price"
-                :class="product.onsale == '1' ? 'ml-5' : null"
               >
                 &#8358;{{
                   (isAuthenticated
@@ -53,54 +95,33 @@
                     : product.price) || 0 | formatPrice
                 }}
               </p>
-              
+              <del v-if="product.onsale == '1'"
+              :class="product.onsale == '1' ? 'ml-5' : null"
+                >&#8358;{{ product.regular_price || 0 | formatPrice }}</del
+              >
             </div>
-            <!-- <p>Sold by: <span class="font-weight-bold"> {{product.brand}}</span></p> -->
-            <p>{{ product.short_description }}
-             
-            
-            
-            
-            </p>
-            <!-- <div v-html="product.description">
-
-            </div> -->
-            
-         
-          <v-btn
-            
-            :loading="loading"
-            @click="isAuthenticated ? copyLink() : (loginDialog = true)"
-            x-small
-            text
-            class="primary mb-2" 
-          
-            >Refer this product</v-btn>
-            
-          
-            <v-divider></v-divider>
-            <v-row class="my-3  " justify="end" align="end">
+            <div class="text-caption">inclusive of all taxes</div>
+            <div class="mt-3"><span class="text-caption paxo-gift px-4 py-2">Get a Free Gift on All Orders for New customers to Paxo Beauty!</span></div>
+           
+            <v-row class="my-3 " justify="end" align="end">
               <v-col md="2" cols="6">
-                <p>Quantity</p>
-                <div class="qty-box pa-2">
+                <div class="qty-box pa-2 br-all-5">
                   <v-btn @click="decreaseQuantity()" icon small
-                    ><v-icon>ri-subtract-fill</v-icon></v-btn
+                  color="bg-grey-darken-2"
+                  :class="(quantity > 1) ? 'primary' : 'grey'"
+                    ><v-icon style="color:white">ri-subtract-fill</v-icon></v-btn
                   >
-                  <p class="ma-0">{{ quantity }}</p>
-                  <v-btn icon small @click="increaseQuantity()"
-                    ><v-icon>ri-add-fill</v-icon></v-btn
+                  <p class="ma-0 mt-1">{{ quantity }}</p>
+                  <v-btn class="primary text-white" icon small @click="increaseQuantity()"
+                    ><v-icon style="color:white">ri-add-fill</v-icon></v-btn
                   >
-                 
-
-
-       
                 </div>
                 
                    
               </v-col>
-              <v-col  class="12">
-              <div style="padding-left: 22px" class="text-left">
-              <v-tooltip bottom>
+              <v-col  md="10" cols="6">
+              <div style="padding-left: 30px" class="text-left">
+              <!-- <v-tooltip bottom>
                   <template v-slot:activator="{ on, attrs }">
                     <v-btn
                       @click="
@@ -109,14 +130,14 @@
                       v-bind="attrs"
                       v-on="on"
                       icon
-                      ><v-icon>ri-heart-line</v-icon></v-btn
+                      ><v-icon>ri-heart-line</v-icon> </v-btn
                     >
                   </template>
                   <span>Add to Wishlist</span>
-                </v-tooltip>
+              </v-tooltip>
+                 -->
                 
-                
-               <v-tooltip bottom>
+               <!-- <v-tooltip bottom>
                   <template v-slot:activator="{ on, attrs }">
                     <v-btn
                       @click="
@@ -130,15 +151,25 @@
                     >
                   </template>
                   <span>Share</span>
-                </v-tooltip>
+                </v-tooltip> -->
+
+                <v-btn
+                v-if="product.stock_status != 'outofstock'"
+                @click="addToCart()"
+                color="primary"
+                class="primary mb-2 br-all-5 mx-6" 
+                block
+                >
+                <v-icon small>mdi-shopping-outline</v-icon>
+                &nbsp;
+                <span style="color:white" class="text-caption"> &nbsp; Add to Cart &nbsp; &nbsp;</span></v-btn>               
               </div>
               
               </v-col>
               
             </v-row>
-            <v-row class="pb-6 ">
+            <!-- <v-row class="pb-6 ">
             <v-col class="12" >
-                <!-- {{product.stock_status}} -->
                 <v-chip
                   color="error"
                   large
@@ -161,186 +192,182 @@
              
               </v-col>
             
-            </v-row>
-            <v-divider></v-divider>
-            
-<div >
-               <v-expansion-panels focusable flat>
-    <v-expansion-panel  
-    >
-      <v-expansion-panel-header>Description</v-expansion-panel-header>
-      
-      <v-expansion-panel-content>
-        <div v-html="product.description || ''"></div>
-      </v-expansion-panel-content>
-    </v-expansion-panel>
-    <v-expansion-panel   
-    >
-      <v-expansion-panel-header>How To Use</v-expansion-panel-header>
-      
-      <v-expansion-panel-content>
-        <div v-html="product.how_to_use || ''"></div>
-      </v-expansion-panel-content>
-    </v-expansion-panel>
-    <v-expansion-panel  
-    >
-      <v-expansion-panel-header>Ingredients</v-expansion-panel-header>
-      
-      <v-expansion-panel-content>
-        <div v-html="product.ingridient || ''"></div>
-      </v-expansion-panel-content>
-    </v-expansion-panel>
-  
-  </v-expansion-panels>
-</div>
-
-
-
- 
+            </v-row> -->
           </div>
+        </v-col>
 
-        
 
-      <v-tabs class="pa-6">
-              <v-tabs-slider></v-tabs-slider>
-              
-              
-              <v-tab >Recent Reviews</v-tab>
 
-             
-
-              <v-tab-item >
+        <v-col sm="8">
+          <div class="product-detailsf">
+              <div>
+                <v-expansion-panels flat multiple v-model="panels">
+                  <v-expansion-panel>
+                    <v-expansion-panel-header>Product Description</v-expansion-panel-header>
                 
-                <div
-                  v-for="(i, index) in product.reviews"
-                  :key="index"
-                  style="border-bottom: 1px solid #ddd"
-                  class="py-4"
-                >
-                  <h4 class="font-weight-bold">"{{ i.content }}"</h4>
-                  <p>-- {{ i.name }}</p>
-                </div>
-                <v-row class="reviews mt-10">
-                  <v-col md="5" cols="12">
-                    <h1>4.00</h1>
-                    <v-rating
-                      dense
-                      small
-                      color="orange"
-                      :value="4"
-                      readonly
-                    ></v-rating>
-                    <p class="mb-6">1 review</p>
+                        <v-expansion-panel-content>
+                          <div v-html="product.description || ''"></div>
+                        </v-expansion-panel-content>
+                        <v-divider color="primary"></v-divider>
+                    </v-expansion-panel>
+                    <v-divider></v-divider>
+                  <v-expansion-panel>
+                  <v-expansion-panel-header>How To Use</v-expansion-panel-header>
+                    <v-expansion-panel-content>
+                      <div v-html="product.how_to_use || ''"></div>
+                    </v-expansion-panel-content>
+                    <v-divider color="primary"></v-divider>
+                  </v-expansion-panel>
+                  <v-expansion-panel> 
+                    <v-expansion-panel-header>Ingredients</v-expansion-panel-header>
+                    <v-expansion-panel-content>
+                      <div v-html="product.ingridient || ''"></div>
+                    </v-expansion-panel-content>
+                    <v-divider color="primary"></v-divider>
+                  </v-expansion-panel>
+                  <v-expansion-panel> 
+                    <v-expansion-panel-header>Reviews ({{ (product.reviews != undefinded)? product.reviews.length : 0 }})</v-expansion-panel-header>
+                    <v-expansion-panel-content>
+                      <div
+                      v-for="(i, index) in product.reviews"
+                      :key="index"
+                      style="border-bottom: 1px solid #ddd"
+                      class="py-4"
+                    >
+                      <p>{{ i.name }} - <i>{{ i.created_at }}</i></p>
+                      <p>{{ i.content }}</p>
+                    </div>
+                    <v-row class="reviews mt-10">
+                      <!-- <v-col md="5" cols="12">
+                        <h1>4.00</h1>
+                        <v-rating
+                          dense
+                          small
+                          color="orange"
+                          :value="4"
+                          readonly
+                        ></v-rating>
+                        <p class="mb-6">1 review</p>
 
-                    <div class="d-flex">
-                      <p class="pa-0 ma-0">5<i class="ri-star-line"></i></p>
-                      <v-progress-linear
-                        class="mt-2 mx-3"
-                        style="max-width: 260px"
-                        height="8"
-                      ></v-progress-linear>
-                      <p>100%</p>
-                    </div>
+                        <div class="d-flex">
+                          <p class="pa-0 ma-0">5<i class="ri-star-line"></i></p>
+                          <v-progress-linear
+                            class="mt-2 mx-3"
+                            style="max-width: 260px"
+                            height="8"
+                          ></v-progress-linear>
+                          <p>100%</p>
+                        </div>
 
-                    <div class="d-flex">
-                      <p class="pa-0 ma-0">4<i class="ri-star-line"></i></p>
-                      <v-progress-linear
-                        class="mt-2 mx-3"
-                        style="max-width: 260px"
-                        height="8"
-                      ></v-progress-linear>
-                      <p>0</p>
-                    </div>
-                    <div class="d-flex">
-                      <p class="pa-0 ma-0">3<i class="ri-star-line"></i></p>
-                      <v-progress-linear
-                        class="mt-2 mx-3"
-                        style="max-width: 260px"
-                        height="8"
-                      ></v-progress-linear>
-                      <p>0</p>
-                    </div>
-                    <div class="d-flex">
-                      <p class="pa-0 ma-0">2<i class="ri-star-line"></i></p>
-                      <v-progress-linear
-                        class="mt-2 mx-3"
-                        style="max-width: 260px"
-                        height="8"
-                      ></v-progress-linear>
-                      <p>0</p>
-                    </div>
-                    <div class="d-flex">
-                      <p class="pa-0 ma-0">1<i class="ri-star-line"></i></p>
-                      <v-progress-linear
-                        class="mt-2 mx-3"
-                        style="max-width: 260px"
-                        height="8"
-                      ></v-progress-linear>
-                      <p>0</p>
-                    </div>
-                  </v-col>
-                  <v-col>
-                    <h5>SUBMIT YOUR REVIEW</h5>
-                    <p>
-                      Your email address will not be published. Required fields
-                      are marked *
-                    </p>
-                    <p class="font-weight-bold d-flex">
-                      Your rating of this product
-                      <v-rating
-                        :value="5"
-                        class="ml-4"
-                        color="orange"
-                        small
-                        dense
-                      ></v-rating>
-                    </p>
-                    <v-form v-model="valid" ref="form" lazy-validation>
-                      <v-textarea
-                        v-model="form.content"
-                        required
-                        :rules="[(v) => !!v || 'This field is required']"
-                        placeholder="Write your review here"
-                        outlined
-                      ></v-textarea>
-                      <v-row>
-                        <v-col cols="12" md="6">
-                          <v-text-field
-                            v-model="form.name"
+                        <div class="d-flex">
+                          <p class="pa-0 ma-0">4<i class="ri-star-line"></i></p>
+                          <v-progress-linear
+                            class="mt-2 mx-3"
+                            style="max-width: 260px"
+                            height="8"
+                          ></v-progress-linear>
+                          <p>0</p>
+                        </div>
+                        <div class="d-flex">
+                          <p class="pa-0 ma-0">3<i class="ri-star-line"></i></p>
+                          <v-progress-linear
+                            class="mt-2 mx-3"
+                            style="max-width: 260px"
+                            height="8"
+                          ></v-progress-linear>
+                          <p>0</p>
+                        </div>
+                        <div class="d-flex">
+                          <p class="pa-0 ma-0">2<i class="ri-star-line"></i></p>
+                          <v-progress-linear
+                            class="mt-2 mx-3"
+                            style="max-width: 260px"
+                            height="8"
+                          ></v-progress-linear>
+                          <p>0</p>
+                        </div>
+                        <div class="d-flex">
+                          <p class="pa-0 ma-0">1<i class="ri-star-line"></i></p>
+                          <v-progress-linear
+                            class="mt-2 mx-3"
+                            style="max-width: 260px"
+                            height="8"
+                          ></v-progress-linear>
+                          <p>0</p>
+                        </div>
+                      </v-col> -->
+                      <v-col>
+                        <h5>WRITE YOUR REVIEW</h5>
+                        <p>
+                          Required fields are marked *
+                        </p>
+                        <p class="font-weight-bold d-flex">
+                          Overall Rating *
+                          <v-rating
+                            :value="5"
+                            class="ml-4"
+                            color="orange"
+                            small
+                            dense
+                          ></v-rating>
+                        </p>
+                        
+                        <v-form v-model="valid" ref="form" lazy-validation>
+                          <v-container>
+                          <v-textarea
+                            v-model="form.content"
                             required
                             :rules="[(v) => !!v || 'This field is required']"
-                            placeholder="Your name"
+                            placeholder="Write your review here"
                             outlined
+                            rounded
+                          ></v-textarea>
+                          <v-row>
+                            <v-col cols="12" md="6">
+                              <v-text-field
+                                v-model="form.name"
+                                required
+                                :rules="[(v) => !!v || 'This field is required']"
+                                placeholder="Nickname"
+                                label="Nickname *"
+                                outlined
+                              >
+                              </v-text-field>
+                            </v-col>
+                            <v-col md="6">
+                              <v-text-field
+                                v-model="form.email"
+                                required
+                                :rules="[(v) => !!v || 'This field is required']"
+                                placeholder="Email"
+                                label="Email *"
+                                class="br-all-5"
+                                outlined
+                                rounded
+                              >
+                              </v-text-field>
+                            </v-col>
+                          </v-row>
+                          <v-btn
+                            class="primary br-all-5"
+                            rounded
+                            :loading="loading"
+                            @click="$refs.form.validate() ? submitReview() : null"
+                            text
+                            x-large
+                            >Submit Review</v-btn
                           >
-                          </v-text-field>
-                        </v-col>
-                        <v-col md="6">
-                          <v-text-field
-                            v-model="form.email"
-                            required
-                            :rules="[(v) => !!v || 'This field is required']"
-                            placeholder="Your email"
-                            outlined
-                          >
-                          </v-text-field>
-                        </v-col>
-                      </v-row>
-                      <v-btn
-                        class="secondary"
-                        :loading="loading"
-                        @click="$refs.form.validate() ? submitReview() : null"
-                        block
-                        text
-                        x-large
-                        >Submit Review</v-btn
-                      >
-                    </v-form>
-                  </v-col>
-                </v-row>
-              </v-tab-item>
-            </v-tabs>
-
-     
+                        </v-container>
+                        </v-form>
+                      </v-col>
+                    </v-row>
+                    </v-expansion-panel-content>
+                    <v-divider color="primary-color"></v-divider>
+                  </v-expansion-panel>
+                
+                </v-expansion-panels>
+            </div>
+          </div>
         </v-col>
         <v-col class="hidden-sm-and-down">
           <!-- <div class="features-widget">
@@ -363,6 +390,8 @@
           </div> -->
           <!-- <p>Sell on Paxo? <nuxt-link to="/register">Register now</nuxt-link></p> -->
         </v-col>
+      </v-row>
+      </v-col>
       </v-row>
 
         <v-col class="hidden-sm-and-down">
@@ -387,21 +416,21 @@
           <!-- <p>Sell on Paxo? <nuxt-link to="/register">Register now</nuxt-link></p> -->
         </v-col>
       </v-row>
-      <v-row>
-        <v-col cols="12">
-          <h1>Related Products</h1>
+      <v-row class="mt-5" justify="center">
+        <v-col cols="12" >
+          <h3>Related Products</h3>
           <v-divider></v-divider>
         </v-col>
         <v-col
-          v-for="i in relatedproduct"
+          v-for="i in relatedproduct.slice(0, 6)"
           :key="i"
           class="pa-8"
           :class="{
             'px-8': $vuetify.breakpoint.mdAndUp,
             'px-4': $vuetify.breakpoint.smAndDown,
           }"
-          md="3"
-          cols="6"
+          md="2"
+          cols="12"
         >
           <product-display
             :vendor="i.product.brand ? i.product.brand.name : null"
@@ -547,7 +576,7 @@
 
           <v-col
           align="center"
-      justify="center"
+          justify="center"
           >
           <v-btn
           fab
@@ -640,6 +669,7 @@ export default {
         (v) => (v != undefined && v.length >= 8) || 'Password must be at least eight characters',
       ],
       panel: {},
+      panels: [0, 1, 2, 3],
       product: [],
       relatedproduct: [],
       AccItems: [
@@ -893,6 +923,29 @@ export default {
 
 </script>
 <style lang="scss" scoped>
+.policy {
+ background-color: $grey;
+ border-radius: 10px;
+}
+
+.paxo-gift {
+ background-color: $grey;
+ margin-top: 15px;
+}
+
+.primary-color {
+ color: $default;
+}
+.f-10 {
+  font-size: 0.6rem;
+}
+.grey {
+  background-color: grey !important;
+}
+.page-body {
+  padding: 0px 10% !important;
+}
+
 h5 {
   font-size: 16px;
   font-weight: 600;
@@ -929,7 +982,7 @@ p {
   }
 }
 .qty-box {
-  border: 0.5px solid #666;
+  border: 0.5px solid $default;
   display: flex;
   justify-content: space-between;
   width: 120px;
@@ -963,8 +1016,12 @@ p {
 a {
   text-decoration: none;
 }
+.v-expansion-panel.v-expansion-panel--active.v-expansion-panel--next-active.v-item--active {
+  z-index: "" !important;
+}
 .v-expansion-panel-header {
-  
+  // font-weight: bold;
+  font-size: 1.2rem;
 }
 </style>
 
