@@ -924,17 +924,17 @@ export default {
 </script>
 <style lang="scss" scoped>
 .policy {
- background-color: $grey;
+ background-color: #6666661A;
  border-radius: 10px;
 }
 
 .paxo-gift {
- background-color: $grey;
+ background-color: #6666661A;
  margin-top: 15px;
 }
 
 .primary-color {
- color: $default;
+ color: #00C3B7;
 }
 .f-10 {
   font-size: 0.6rem;
@@ -982,7 +982,7 @@ p {
   }
 }
 .qty-box {
-  border: 0.5px solid $default;
+  border: 0.5px solid #00C3B7;
   display: flex;
   justify-content: space-between;
   width: 120px;
