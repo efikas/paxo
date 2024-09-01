@@ -47,10 +47,10 @@
           >Track Order</nuxt-link
         > -->
 
-    <div v-if="!isAuthenticated" class="hidden-sm-and-down">
-      <nuxt-link to="/login" class="nav-btn-small mx-3">Sign in</nuxt-link>
+    <div v-if="!isAuthenticated" class="hidden-sm-and-down mr-5">
+      <nuxt-link to="/login" class="nav-btn-small mx-3" style="text-decoration: none; color: black">Sign In</nuxt-link>
       |
-      <nuxt-link to="/register" class="nav-btn-small mx-3">Sign up</nuxt-link>
+      <nuxt-link to="/register" class="nav-btn-small mx-3" style="text-decoration: none; color: black">Sign Up</nuxt-link>
     </div>
 
     <!-- <v-menu
@@ -167,26 +167,10 @@
       :content="cartItem"
       overlap
     >
-      <v-btn
-        v-if="isAuthenticated"
-        to="/shopping-cart"
-        icon
-        class="ml-2"
-        outlinedh
-        depressed
-      >
+      
+      <a :href="(isAuthenticated) ? '/shopping-cart' : '/login'">
         <v-icon color="">mdi-shopping-outline</v-icon>
-      </v-btn>
-      <v-btn
-        v-else
-        to="/login"
-        icon
-        class="primary--text ml-4"
-        outlined
-        depressed
-      >
-        <v-icon color="">ri-shopping-cart-2-fill</v-icon>
-      </v-btn>
+      </a>
     </v-badge>
     <!-- <v-row class="ml-5 hidden-sm-and-down" style="">
           <v-col class="py-0 ma-0">
@@ -286,6 +270,9 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
+.btn-active{
+  background-color: white !important;
+}
 @media only screen and (min-width: 768px) {
   .search-bar {
     padding-left: 3% !important;

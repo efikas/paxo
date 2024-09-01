@@ -11,17 +11,17 @@
     <v-container v-else>
      
       <v-row :class="{ 'px-4': $vuetify.breakpoint.smAndDown, 'page-body': $vuetify.breakpoint.mdAndUp }">
-      <v-col cols="8" offset="2">
+      <v-col cols="10" offset="1">
         <div :class="{'page-bodyk': $vuetify.breakpoint.mdAndUp }">
           <p class="py-2">
-            <nuxt-link to="/"> Home </nuxt-link> /
+            <nuxt-link to="/"> Home </nuxt-link> &nbsp;>&nbsp;
             <nuxt-link
               v-if="product.brand"
               :to="`/brands/${product.brand.name}?brandId=${product.brand.id}`"
             >
               {{ product.brand ? product.brand.name : null }}
             </nuxt-link>
-            /
+            &nbsp;>&nbsp;
             {{ product.name }}
           </p>
         </div>
@@ -33,9 +33,9 @@
           width="100%" style="cursor: zoom-in;" alt="" @error="$event.target.src='../static/assets/paxo_icon_logo.png'"
           lazy-src="https://res.cloudinary.com/spectrina/image/upload/v1660831137/Icon_1b_f5502u.png" ></v-img>
          
-          <div class="d-flex flex-row py-2 px-5 policy mt-3">
+          <div class="d-flex flex-row py-3 px-3 policy mt-3">
             <div class="d-flex flex-row flex-1-0 align-center justify-center">
-              <img src="../static/assets/tabler_award.png" width="30" height="30" alt="" class="mr-2" />
+              <img src="../static/assets/tabler_award.png" width="20" height="20" alt="" class="mr-2" />
               <div class="d-flex flex-column flex-1-0 align-items-center justify-content-center">
                 <span class="f-10">Authentic Products</span>
                 <span class="f-10">Sourced directly from brands</span>
@@ -43,7 +43,7 @@
             </div>
             <v-divider vertical thickness="4" class="mx-2"></v-divider>
             <div class="d-flex flex-row flex-1-0 align-center justify-center">
-              <img src="../static/assets/prime_box.png" width="30" height="30" alt="" class="mr-2" />
+              <img src="../static/assets/prime_box.png" width="20" height="20" alt="" class="mr-2" />
               <div class="d-flex flex-column flex-1-0 align-items-center justify-content-center">
                 <span class="f-10">Return Policy</span>
                 <span class="f-10">On only damaged goods</span>
@@ -55,8 +55,8 @@
           <div class="product-details">
             <p style="display: flex">
               Brand: {{ product.brand ? product.brand.name : null }}</p>
-            <h2 class="primary--text">{{ product.name }}</h2>
-            <p style="display: flex">
+            <h3 class="primary--text">{{ product.name }}</h3>
+            <p style="display: flex" class="mt-2">
               <v-rating color="orange" dense small :value="5"></v-rating> &nbsp;&nbsp;  38 ratings & 1
               review
             </p>
@@ -77,13 +77,13 @@
             outlined
             small
             color="primary"
-            class="mb-2 br-all-5" 
+            class="mb-1 br-all-5" 
             >
             <v-icon small>mdi-share-variant</v-icon>
             &nbsp;
             <span style="color:black" class="text-caption">Refer this product</span></v-btn>
             <!-- <v-divider></v-divider> -->
-            <div class="price mt-5">
+            <div class="price mt-3">
               <p
                 class="sale-price"
               >
@@ -101,7 +101,7 @@
               >
             </div>
             <div class="text-caption">inclusive of all taxes</div>
-            <div class="mt-3"><span class="text-caption paxo-gift px-4 py-2">Get a Free Gift on All Orders for New customers to Paxo Beauty!</span></div>
+            <div class="mt-3 text-caption paxo-gift px-4 py-2">Get a Free Gift on All Orders for New customers to Paxo Beauty!</div>
            
             <v-row class="my-3 " justify="end" align="end">
               <v-col md="2" cols="6">
@@ -426,7 +426,7 @@
           :key="i"
           class="pa-8"
           :class="{
-            'px-8': $vuetify.breakpoint.mdAndUp,
+            'px-2': $vuetify.breakpoint.mdAndUp,
             'px-4': $vuetify.breakpoint.smAndDown,
           }"
           md="2"
@@ -937,7 +937,7 @@ export default {
  color: #00C3B7;
 }
 .f-10 {
-  font-size: 0.6rem;
+  font-size: 0.5rem;
 }
 .grey {
   background-color: grey !important;

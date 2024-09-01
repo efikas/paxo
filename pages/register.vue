@@ -2,8 +2,8 @@
   <div>
     <v-container :pa-16="$vuetify.breakpoint.mdAndUp">
       <v-row justify="center" align="center">
-        <v-col md="5">
-          <div class="text-center py-5">
+        <v-col md="8">
+          <!-- <div class="text-center py-5">
             <p>
               <nuxt-link
                 :to="
@@ -21,105 +21,163 @@
                 >Register</nuxt-link
               >
             </p>
-          </div>
-          <v-card flat class="pa-8">
-            <p>Register an Account</p>
-            <v-form lazy-validation v-model="valid" ref="register">
-              <v-text-field
-                outlined
-                required
-                v-model="form.full_name"
-                :rules="(v) => !!v || 'This field is required'"
-                placeholder="Jane Thomas"
-              ></v-text-field>
-              <!-- <v-text-field
-                outlined
-                required
-                v-model="form.last_name"
-                :rules="(v) => !!v || 'This field is required'"
-                placeholder="Last Name"
-              ></v-text-field> -->
-              <v-text-field
-                outlined
-                required
-                @input="phoneerror = ''"
-                :error-messages="phoneerror"
-                v-model="form.mobile"
-                :rules="(v) => !!v || 'This field is required'"
-                placeholder="Mobile"
-              ></v-text-field>
-              <v-text-field
-                outlined
-                required
-                @input="emailerror = ''"
-                :error-messages="emailerror"
-                v-model="form.email"
-                :rules="emailRules"
-                placeholder="Email address"
-              ></v-text-field>
-              <!-- <v-menu
-                v-model="menu1"
-                :close-on-content-click="false"
-                max-width="290"
-              >
-                <template v-slot:activator="{ on }">
+          </div> -->
+          <v-card flat>
+            <h3 class="text-center py-4" style="background-color: #14adac33">
+              Sign Up
+            </h3>
+            <v-form lazy-validation v-model="valid" ref="register" class="pa-8">
+              <v-row justify="center" align="center">
+                <v-col md="6">
                   <v-text-field
                     outlined
                     required
-                    :rules="[(v) => !!v || 'Date of birth  is required']"
-                    :value="form.dob"
-                    clearable
-                    placeholder="Date of Birth"
-                    readonly
-                    v-on="on"
+                    v-model="form.first_name"
+                    :rules="(v) => !!v || 'This field is required'"
+                    placeholder="Jane"
+                    label="First Name"
+                    color="green"
+                    base-color="purple"
+                    rounded
+                    tile="false"
+                    shaped
                   ></v-text-field>
-                </template>
-                <v-date-picker
-                  light
-                  v-model="form.dob"
-                  @change="menu1 = false"
-                ></v-date-picker>
-              </v-menu> -->
-              <v-select
-                outlined
-                :items="[
-                  { text: 'Male', value: 'male' },
-                  { text: 'Female', value: 'female' },
-                  { text: 'Others', value: 'others' },
-                ]"
-                v-model="form.sex"
-                placeholder="Gender"
-                required
-                :rules="[(v) => !!v || 'This field is required']"
-              ></v-select>
-              <v-text-field
-                type="password"
-                placeholder="Password"
-                outlined
-                v-model="form.password"
-                required
-                :rules="passwordRules"
-              ></v-text-field>
-              <v-text-field
-                outlined
-                required
-                v-model="form.password_confirmation"
-                :rules="passwordConfirmRules"
-                placeholder="Confirm Password"
-                type="password"
-              ></v-text-field>
+                </v-col>
+                <v-col md="6">
+                  <v-text-field
+                    outlined
+                    required
+                    v-model="form.last_name"
+                    :rules="(v) => !!v || 'This field is required'"
+                    placeholder="Thomas"
+                    label="Last Name"
+                  ></v-text-field>
+                </v-col>
+                <v-col md="6">
+                  <v-text-field
+                    outlined
+                    required
+                    @input="emailerror = ''"
+                    :error-messages="emailerror"
+                    v-model="form.email"
+                    :rules="emailRules"
+                    placeholder="Email address"
+                    label="Email Address"
+                  ></v-text-field>
+                </v-col>
+                <v-col md="6">
+                  <v-text-field
+                    outlined
+                    required
+                    @input="phoneerror = ''"
+                    :error-messages="phoneerror"
+                    v-model="form.mobile"
+                    :rules="(v) => !!v || 'This field is required'"
+                    placeholder="Mobile"
+                    label="Phone Number"
+                  ></v-text-field>
+                </v-col>
+                <v-col md="6">
+                  <v-menu
+                    v-model="menu1"
+                    :close-on-content-click="false"
+                    max-width="290"
+                  >
+                    <template v-slot:activator="{ on }">
+                      <v-text-field
+                        outlined
+                        required
+                        :rules="[(v) => !!v || 'Date of birth  is required']"
+                        :value="form.dob"
+                        clearable
+                        placeholder="Date of Birth"
+                        label="Date of Birth"
+                        readonly
+                        v-on="on"
+                      ></v-text-field>
+                    </template>
+                    <v-date-picker
+                      light
+                      v-model="form.dob"
+                      @change="menu1 = false"
+                    ></v-date-picker>
+                  </v-menu>
+                </v-col>
+                <v-col md="6">
+                  <v-select
+                    outlined
+                    :items="[
+                      { text: 'Male', value: 'male' },
+                      { text: 'Female', value: 'female' },
+                      { text: 'Others', value: 'others' },
+                    ]"
+                    v-model="form.sex"
+                    placeholder="Gender"
+                    label="Gender"
+                    required
+                    :rules="[(v) => !!v || 'This field is required']"
+                  ></v-select>
+                </v-col>
+                <v-col md="6">
+                  <v-text-field
+                    type="password"
+                    placeholder="Password"
+                    label="Password"
+                    outlined
+                    v-model="form.password"
+                    required
+                    :rules="passwordRules"
+                  ></v-text-field>
+                </v-col>
+                <v-col md="6">
+                  <v-text-field
+                    outlined
+                    required
+                    v-model="form.password_confirmation"
+                    :rules="passwordConfirmRules"
+                    placeholder="Confirm Password"
+                    label="Confirm Password"
+                    type="password"
+                  ></v-text-field>
+                </v-col>
+              </v-row>
 
-              <v-btn
-                block
-                :loading="loading"
-                @click="$refs.register.validate() ? register() : null"
-                large
-                text
-                class="primary mb-4"
-                >Register</v-btn
-              >
-              Already have an account? <nuxt-link to="/login">Login</nuxt-link>
+              <div class="text-center px-12 text-caption">
+                <v-btn
+                  :loading="loading"
+                  @click="$refs.register.validate() ? register() : null"
+                  large
+                  text
+                  class="primary mb-4 br-all-5"
+                  >&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;Sign Up&nbsp; &nbsp; &nbsp;
+                  &nbsp; &nbsp;</v-btn
+                >
+              </div>
+
+              <div class="text-center px-4 text-caption">
+                By Clicking “Sign Up” you certify that you agree to Paxo
+                Beauty’s
+                <span class="font-weight-bold">Terms and Conditions</span> and
+                <span class="font-weight-bold">Privacy Policy.</span>
+              </div>
             </v-form>
+            <div
+              class="text-center py-4 text-caption"
+              style="background-color: #14adac33"
+            >
+              Already have an account?
+              <nuxt-link
+                :to="
+                  '/login' +
+                  ($route.query.next ? '?next=' + $route.query.next : '')
+                "
+                ><span
+                  class="font-weight-bold text-caption text-decoration-none"
+                  style="color: black"
+                  >Log In</span
+                ></nuxt-link
+              ><br />
+            </div>
           </v-card>
         </v-col>
       </v-row>
@@ -168,15 +226,15 @@ export default {
   methods: {
     async register() {
       this.loading = true
-      ;(this.form.first_name = this.form.full_name
-        .split(' ')
-        .slice(0, -1)
-        .join(' ')),
-        (this.form.last_name = this.form.full_name
-          .split(' ')
-          .slice(-1)
-          .join(' ')),
-        //console.log(this.form)
+      // (this.form.first_name = this.form.full_name
+      //   .split(' ')
+      //   .slice(0, -1)
+      //   .join(' ')),
+      //   (this.form.last_name = this.form.full_name
+      //     .split(' ')
+      //     .slice(-1)
+      //     .join(' ')),
+      //console.log(this.form)
       await this.$store
         .dispatch('auth/register', this.form)
         .then((response) => {

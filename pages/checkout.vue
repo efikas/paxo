@@ -1,14 +1,24 @@
 <template>
   <v-container>
-    <div class="text-center pb-16">
-      <h1>Checkout Information</h1>
-    </div>
-    <v-row>
-      <v-col md="8" cols="12">
-        <h3>Contact Information</h3>
+    <h4 class="font-weight-medium mt-8">
+      Checkout
+    </h4>
+    <v-divider color="#00C3B7"></v-divider>
+    <v-row class="mt-4 mb-10"  :class="{ 'px-4': $vuetify.breakpoint.smAndDown, 'p10p': $vuetify.breakpoint.mdAndUp }">
+      <v-col md="6" cols="12">
+        <h4>Your Information</h4>
         <v-form v-model="valid" lazy-validation ref="form">
-          <v-row>
-            <v-col>
+          <v-row class="mt-4">
+            <v-col cols="12">
+              <p class="mb-0">Full name *</p>
+              <v-text-field
+                outlined
+                v-model="userDetail.fullname"
+                @change="updateUserDetail('fullname', userDetail.fullname)"
+                required
+                :rules="[(v) => !!v || 'This field is required']"
+                placeholder="Full name"
+              ></v-text-field>
               <p class="mb-0">Email address *</p>
               <v-text-field
                 outlined
@@ -18,12 +28,10 @@
                 :rules="[(v) => !!v || 'This field is required']"
                 placeholder="Email"
               ></v-text-field>
-              <v-checkbox
+              <!-- <v-checkbox
                 class="my-0"
                 label="Keep me up to date on news and exclusive offers?"
-              ></v-checkbox>
-            </v-col>
-            <v-col>
+              ></v-checkbox> -->
               <p class="mb-0">Phone number *</p>
               <v-text-field
                 outlined
@@ -45,15 +53,15 @@
             outlined
           >
           </v-text-field>
-          <p class="mb-0">Order Notes (Optional)</p>
+          <!-- <p class="mb-0">Order Notes (Optional)</p>
           <v-textarea
             v-model="userDetail.description"
             @change="updateUserDetail('description', userDetail.description)"
             placeholder="Order Note"
             outlined
-          ></v-textarea>
+          ></v-textarea> -->
 
-          <h3 class="mt-8">Delivery Information</h3>
+          <h3 class="mt-4">Delivery Information</h3>
           <p>Please select your preferred delivery method</p>
           <v-radio-group
             v-model="userDetail.deliveryMethod"
@@ -65,8 +73,12 @@
           >
             <v-radio
               value="0"
-              label="Local Pickup (3 Billings Way, Oregun, Ikeja beside Fan Milk)"
-            ></v-radio>
+              label=""
+            >
+            <template v-slot:label>
+              <div>Local Pickup  <div class="text--disabled text-caption">(3 Billings Way, Oregun, Ikeja beside Fan Milk)</div></div>
+            </template>
+          </v-radio>
             <v-radio value="1" label="Home Delivery"></v-radio>
           </v-radio-group>
           <div v-if="userDetail.deliveryMethod == '1'">
@@ -99,34 +111,24 @@
                 </v-text-field>
               </v-col>
             </v-row>
-            <p class="mb-0">Address</p>
+            <p class="mb-0">Full Address</p>
             <v-text-field
-              placeholder="Address"
+              placeholder="Street number, name ..."
               v-model="userDetail.address"
               @change="updateUserDetail('address', userDetail.address)"
               required
               :rules="[(v) => !!v || 'This field is required']"
               outlined
             ></v-text-field>
-            <p class="mb-0">Apartment</p>
+            <!-- <p class="mb-0">Apartment</p>
             <v-text-field
               placeholder="Apartment, Suite, etc (optional)"
               @change="updateUserDetail('apartment', userDetail.apartment)"
               v-model="userDetail.apartment"
               outlined
-            ></v-text-field>
+            ></v-text-field> -->
             <v-row>
-              <v-col>
-                <p class="mb-0">City</p>
-                <v-text-field
-                  placeholder="City"
-                  v-model="userDetail.city"
-                  @change="updateUserDetail('city', userDetail.city)"
-                  required
-                  :rules="[(v) => !!v || 'This field is required']"
-                  outlined
-                >
-                </v-text-field>
+              <v-col :cols="(lgas.length > 0) ? '6' : '12'" class="mb-0 mt-0">
                 <p class="mb-0">State</p>
                 <v-select
                   placeholder="State"
@@ -141,17 +143,7 @@
                 >
                 </v-select>
               </v-col>
-
-              <v-col>
-                <p class="mb-0">Nearest Bus-stop</p>
-                <v-text-field
-                  placeholder="Nearest Bus-stop"
-                  v-model="userDetail.post_code"
-                  @change="updateUserDetail('post_code', userDetail.post_code)"
-                  outlined
-                >
-                </v-text-field>
-
+              <v-col cols="6" class="mb-0 mt-0">
                 <p class="mb-0" v-if="lgas.length > 0">Local Government</p>
                 <v-select
                   placeholder="LGA"
@@ -168,12 +160,36 @@
                 </v-select>
               </v-col>
             </v-row>
+            <v-row class="mb-0 mt-0">
+              <v-col class="mb-0 mt-0">
+                 <p class="mb-0">City</p>
+                <v-text-field
+                  placeholder="City"
+                  v-model="userDetail.city"
+                  @change="updateUserDetail('city', userDetail.city)"
+                  required
+                  :rules="[(v) => !!v || 'This field is required']"
+                  outlined
+                >
+                </v-text-field>
+              </v-col>
+              <v-col>
+                <p class="mb-0">Nearest Bus-stop</p>
+                <v-text-field
+                  placeholder="Nearest Bus-stop"
+                  v-model="userDetail.post_code"
+                  @change="updateUserDetail('post_code', userDetail.post_code)"
+                  outlined
+                >
+                </v-text-field>
+              </v-col>
+            </v-row>
           </div>
           <!-- <v-checkbox
             class="my-0"
             label="Save this information for next time"
           ></v-checkbox> -->
-          <v-row class="mt-16">
+          <!-- <v-row class="mt-16">
             <v-col>
               <nuxt-link to="shopping-cart">
                 <v-icon>ri-arrow-left-line</v-icon> Return to shopping cart
@@ -198,13 +214,14 @@
                 >Continue to shipping</v-btn
               >
             </v-col>
-          </v-row>
+          </v-row> -->
         </v-form>
       </v-col>
-      <v-col md="4">
-        <h3>Your Order</h3>
+      <v-col md="6">
         <div class="checkout-order">
-          <v-row>
+          <h4 class="font-weight-bold">Your Order</h4>
+          <v-divider color="black" class="mb-4"></v-divider>
+          <!-- <v-row>
             <v-col>
               <h5>product</h5>
             </v-col>
@@ -212,39 +229,60 @@
               <h5>total</h5>
             </v-col>
           </v-row>
-          <v-divider class="my-6"></v-divider>
-          <div
-            class=""
-            v-for="(i, index) in StoreCart.filter(
-              (item) => item.stock_status != 'outofstock'
-            )"
-            :key="index"
-          >
-            <p>
-              {{ i.name }} <br />{{ i.quantity }} x &#8358;{{
-                (isAuthenticated
-                  ? userDetail.role == 'wholesaler' ||
-                    userDetail.role == 'next_champ'
-                    ? i.wholesale_price
-                    : i.price
-                  : i.price) | formatPrice
-              }}
-            </p>
-            <v-divider class="pb-6"></v-divider>
+          <v-divider class="my-6"></v-divider> -->
+          <div 
+          v-for="(i, index) in StoreCart.filter(
+              (item) => item.stock_status != 'outofstock')" :key="index" class="d-flex my-2 br-all-5 product-item">
+                <div style="width: 100%;">
+                  <v-row>
+                    <v-col cols="10"  class="pky-3">
+                      <div class="d-flex align-center" >
+                        <img :src="i.avatar" width="60px" alt="" class="br-all-5" />
+                        <div class="d-flex flex-column ml-4 mr-4">
+                          <div class="text-caption text-black">{{ i.name }}</div>
+                          <div class="text-caption mt-2">
+                            &#8358;{{
+                              (isAuthenticated
+                                ? user.role == 'wholesaler' || user.role == 'next_champ'
+                                  ? i.wholesale_price
+                                  : i.price
+                                : i.price) | formatPrice
+                            }}</div>
+                        </div>
+                      </div>
+                    </v-col>
+                    <v-col cols="2"  class="py-3 d-flex align-center">
+                    <span class="text-caption text-center">x {{ parseInt(i.quantity) }}</span>
+                    </v-col>
+                  </v-row>
+                </div>
           </div>
-          <div>
-            <v-row>
-              <v-col>
-                <h5>subtotal</h5>
-              </v-col>
-              <v-col class="text-right">
-                &#8358;{{ subtotal | formatPrice }}
-              </v-col>
-            </v-row>
-            <v-divider class="my-6"></v-divider>
+          <div class="shopping-total pa-10">
+                  <div class="header">
+                    <p>Subtotal</p>
+                    <p>&#8358;{{ subtotal | formatPrice }}</p>
+                  </div>
+                  <div class="header">
+                    <p>Discount on coupon code</p>
+                    <p>0%</p>
+                  </div>
+                  <v-divider class="mb-6"></v-divider>
+                  <div class="header mb-6">
+                    <p class="font-weight-bold">Total</p>
+                    <p class="font-weight-bold">&#8358;{{ subtotal | formatPrice }}</p>
+                  </div>
+                  <v-btn class="primary black--text br-all-5" large block text
+                  @click="
+                  $refs.form.validate()
+                    ? userDetail.deliveryMethod == '1'
+                      ? computeDeliveryFee()
+                      : ((userDetail.deliveryfee = 0),
+                        updateUserDetail('deliveryfee', 0),
+                        $router.push('/shipping'))
+                    : null
+                "
+                  ><span style="color: white">Proceed to Shipping</span></v-btn>
           </div>
-          <h3>Shipping</h3>
-          <p>Calculated at next step</p>
         </div>
       </v-col>
     </v-row>
@@ -364,6 +402,10 @@ p {
   color: #000;
   font-size: 14px;
 }
+.product-item {
+  background-color: #F2F2F266;
+  padding: 10px 10px;
+}
 h5 {
   font-size: 14px;
   color: #000;
@@ -374,9 +416,27 @@ a {
   text-decoration: none;
 }
 .checkout-order {
-  padding: 30px 20px;
+  padding: 10px 20px 30px 20px;
   margin-bottom: 10px;
   border-radius: 4px;
-  border: 2px solid #eaeaea;
+  border: 2px dotted #36bdb4;
+}
+.shopping-total {
+  margin-bottom: 30px;
+  padding: 30px 35px;
+  background-color: #f1f1f1;
+  border: 0px solid #bfbfbf;
+  border-radius: 10px;
+  p {
+    font-size: 14px !important;
+    color: #000000de !important;
+  }
+
+  .header {
+    font-size: 16px !important;
+    color: #666 !important;
+    display: flex;
+    justify-content: space-between;
+  }
 }
 </style>

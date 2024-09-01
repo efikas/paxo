@@ -28,19 +28,21 @@
         </p>
         <p class="hidden-sm-and-down">
           <img src="../../static/assets/track.png"  alt="" />
-          <div class="text-xs">Track&emsp;</div>
+          <div class="text-xs">Track Order&emsp;</div>
         </p>
-        <p class="hidden-sm-and-down">
+        <p class="hidden-sm-and-down" style="font-size: 0.9rem">
           DOWNLOAD APP:&emsp;
           <a
-            style="color: #333"
+            style="color: #333; text-decoration:none"
             href="https://apps.apple.com/ng/app/paxo-beauty/id1534936621"
             target="_blank"
             >IOS</a
           >
           &emsp;
+          <!-- <v-divider vertical thickness="4" class="mx-2l"></v-divider>
+          &emsp; -->
           <a
-            style="color: #333"
+            style="color: #333; text-decoration:none"
             href="https://play.google.com/store/apps/details?id=com.paxo.shop"
             target="_blank"
             >ANDROID</a

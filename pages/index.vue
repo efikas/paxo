@@ -56,7 +56,7 @@
       }"
     >
       <v-col cols="12" class="py-0 ma-0">
-        <p class="deal-text text-center">Deal of the Day</p>
+        <p class="deal-text text-center">Deals</p>
         <p class="text-center">
           <a href="/offers" style="color: black"
             >View all <v-icon small>arrow_forward</v-icon></a
@@ -677,8 +677,8 @@ a {
 }
 .brand-card {
   border-radius: 100px;
-  height: 200px;
-  width: 200px;
+  height: 120px;
+  width: 120px;
   background-image: url('../static/assets/ellipse.png');
   background-repeat: no-repeat;
   background-size: cover;

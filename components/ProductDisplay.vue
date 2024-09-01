@@ -218,11 +218,10 @@
         </v-row>
       </v-card>
     </v-dialog>
-    <v-dialog v-model="loginDialog" width="450px">
-      <v-card class="pa-8">
-        <h2 class="text-center mb-8">Login to Continue</h2>
-        <v-divider></v-divider>
-        <v-form lazy-validation v-model="valid" ref="login">
+    <v-dialog v-model="loginDialog" width="500px">
+      <v-card >
+        <h3 class="text-center py-4" style="background-color: #14ADAC33;">Login to Continue</h3>
+        <v-form lazy-validation v-model="valid" ref="login" class="py-8 px-10">
           <v-text-field
             v-model="form.email"
             outlined
@@ -241,20 +240,25 @@
             outlined
           ></v-text-field>
           <v-checkbox label="Remember me" class="my-0"></v-checkbox>
-          <v-btn
+          <div class="text-center px-12 text-caption"><v-btn
             block
             :loading="loading"
             @click="$refs.login.validate() ? login() : null"
             large
             text
-            class="primary mb-4"
-            >Login</v-btn
-          >
-          <div class="text-center">
-            No account yet? <nuxt-link to="/register">Register here</nuxt-link
+            class="primary mb-4 br-all-5"
+            >Log In</v-btn
+          ></div>
+
+          <div class="text-center px-4 text-caption">
+          By Clicking “Sign in” you certify that you agree to Paxo Beauty’s <span class="font-weight-bold">Terms and Conditions</span> and
+          <span class="font-weight-bold">Privacy Policy.</span></div> 
+          
+        </v-form>
+        <div class="text-center py-4" style="background-color: #14ADAC33;">
+            Don't have an account? <nuxt-link to="/register"><span class="font-weight-bold" style="color: black;">Sign Up</span></nuxt-link
             ><br />
           </div>
-        </v-form>
       </v-card>
     </v-dialog>
   </div>
@@ -388,7 +392,7 @@ a {
 }
 .product-box {
   position: relative;
-  padding: 20px 20px 0;
+  padding: 5px 5px 0;
   border-radius: 10px 10px;
 
   max-width: 250px;

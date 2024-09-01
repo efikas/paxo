@@ -349,7 +349,7 @@
           </v-col>
           <v-col cols="6" sm="3" md="3">
             <h4 class="mb-4">Payment methods</h4>
-            <div>
+            <div class="d-flex">
               <img src="../static/assets/visa.png" width="50" alt="" />
               <img src="../static/assets/mastercard2.png" width="50" alt="" />
               <img src="../static/assets/bank_transfer.png" width="50" alt="" />
@@ -645,9 +645,20 @@ body {
 .p3p {
   padding: 0px 3% !important;
 }
+.p10p {
+  padding: 0px 10% !important;
+}
 
 .br-all-5 {
   border-radius: 5px !important;
+}
+
+.text-black {
+  color: black !important;
+}
+
+.text-base-color {
+  color: #36bdb4 !important;
 }
 </style>
 

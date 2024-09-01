@@ -2,8 +2,8 @@
   <div>
     <v-container :pa-16="$vuetify.breakpoint.mdAndUp">
       <v-row justify="center" align="center">
-        <v-col md="5">
-          <div class="text-center py-5">
+        <v-col md="6">
+          <!-- <div class="text-center py-5">
             <p>
               <nuxt-link
                 :to="
@@ -21,10 +21,11 @@
                 >Register</nuxt-link
               >
             </p>
-          </div>
-          <v-card flat class="pa-8">
-            <p>Log In Your Account</p>
-            <v-form lazy-validation v-model="valid" ref="login">
+          </div> -->
+          <v-card flat >
+            <!-- <p>Log In Your Account</p> -->
+            <h3 class="text-center py-4" style="background-color: #14ADAC33;">Log In</h3>
+            <v-form lazy-validation v-model="valid" ref="login" class="pa-8">
               <v-text-field
                 v-model="form.email"
                 outlined
@@ -42,20 +43,24 @@
                 placeholder="Please enter your password"
                 outlined
               ></v-text-field>
-              <v-checkbox label="Remember me" class="my-0"></v-checkbox>
+              <div class="d-flex justify-space-between">
+                <v-checkbox label="Remember me" class="my-0 text-caption"></v-checkbox>
+                <nuxt-link to="/forgot-password" class="text-captionk my-1 text-decoration-none">Forgot Password</nuxt-link>
+              </div>
+              <div class="text-center px-12 text-caption">
               <v-btn
                 block
                 :loading="loading"
                 @click="$refs.login.validate() ? login() : null"
                 large
                 text
-                class="primary mb-4"
+                class="primary mb-4 br-all-5"
                 >Login</v-btn
               >
-              <div class="text-center">
-                <nuxt-link to="/forgot-password">Forgot Password</nuxt-link
-                ><br />
-              </div>
+            </div>
+            <div class="text-center px-2 text-caption">
+          By Clicking “Sign in” you certify that you agree to Paxo Beauty’s <span class="font-weight-bold">Terms and Conditions</span> and
+          <span class="font-weight-bold">Privacy Policy.</span></div> 
               <!-- <v-btn
                 class="red mt-4"
                 @click="loginWithGoogle()"
@@ -75,6 +80,13 @@
                 Twitter</v-btn
               > -->
             </v-form>
+            <div class="text-center py-4 text-caption" style="background-color: #14ADAC33;">
+            Don't have an account? <nuxt-link :to="
+                  '/register' +
+                  ($route.query.next ? '?next=' + $route.query.next : '')
+                "><span class="font-weight-bold text-caption text-decoration-none" style="color: black;">Sign Up</span></nuxt-link
+            ><br />
+          </div>
           </v-card>
         </v-col>
       </v-row>

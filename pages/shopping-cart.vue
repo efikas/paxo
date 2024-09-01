@@ -1,9 +1,11 @@
 <template>
   <v-container>
-    <div class="text-center pb-4">
-      <h1>Shopping Cart</h1>
-    </div>
-    <v-simple-table id="shopTable">
+    <h3 class="font-weight-medium mt-8">
+      Shopping Cart
+    </h3>
+    <v-divider color="#00C3B7"></v-divider>
+
+    <!-- <v-simple-table id="shopTable">
       <thead>
         <tr>
           <th>PRODUCT</th>
@@ -14,17 +16,15 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="(i, index) in StoreCart" :key="index">
+        <tr v-for="(i, index) in StoreCart" :key="index" class="table-row">
           <td class="py-5">
             <div class="d-flex align-center">
               <img :src="i.avatar" width="100px" alt="" />
-              
               <nuxt-link :to="'/single-product?product_id=' + i.id">
                 <p class="ml-8">{{ i.name }}</p>
               </nuxt-link>
             </div>
           </td>
-
           <td>
             &#8358;{{
               (isAuthenticated
@@ -34,10 +34,7 @@
                 : i.price) | formatPrice
             }}
           </td>
-
           <td>
-            <!-- outofstock -->
-            <!-- instock -->
             <v-chip v-if="isOutOfStock(i) == 'outofstock'"
               :class="'error'"
               style="float: right; border-radius: 0;"
@@ -80,8 +77,7 @@
           </td>
           <td class="text-right">
             <v-icon @click="removeItem(index, i), calculateSubtotal()"
-              >ri-close-line</v-icon
-            >
+              >ri-close-line</v-icon>
           </td>
         </tr>
         <tr v-if="StoreCart.length == 0">
@@ -90,7 +86,92 @@
           </td>
         </tr>
       </tbody>
-    </v-simple-table>
+    </v-simple-table> -->
+    
+    <div class="mt-5" id="shopTable" :class="{ 'px-4': $vuetify.breakpoint.smAndDown, 'p10p': $vuetify.breakpoint.mdAndUp }">
+      <v-row>
+          <v-col md="6">Product</v-col>
+          <v-col md="2">Price</v-col>
+          <v-col md="2">Quantity</v-col>
+          <v-col md="2">Total</v-col>
+      </v-row>
+      <v-divider></v-divider>
+      
+      <v-row v-if="StoreCart.length == 0">
+        <v-col md="12" class="d-flex align-center text-center pa-10">
+          <p>Your cart is empty!</p>
+        </v-col>
+      </v-row>
+
+      <div v-for="(i, index) in StoreCart" :key="index" class="d-flex"  :class="{'half-faded': isOutOfStock(i) == 'outofstock'}">
+      <div style="width: 100%">
+        <v-row class="table-row">
+          <v-col md="6" class="py-3"><div class="d-flex align-center">
+              <img :src="i.avatar" width="100px" alt="" class="br-all-5" />
+              <nuxt-link :to="'/single-product?product_id=' + i.id">
+                <p class="ml-8">{{ i.name }}</p>
+              </nuxt-link>
+            </div></v-col>
+          <v-col md="2" class="d-flex align-center">
+            &#8358;{{
+              (isAuthenticated
+                ? user.role == 'wholesaler' || user.role == 'next_champ'
+                  ? i.wholesale_price
+                  : i.price
+                : i.price) | formatPrice
+            }}</v-col>
+          <v-col md="2" class="d-flex align-center"> 
+              <v-btn v-if="isOutOfStock(i) == 'outofstock'"
+                outlined
+                small
+                color="error"
+                class="br-all-5 text-caption error-text" 
+                >
+                <v-icon small> mdi-close-circle-outline</v-icon>
+                &nbsp;&nbsp;Out of Stock</v-btn>
+              
+            <div v-else class="qty-box pa-2 br-all-5">
+              <v-btn
+                icon
+                small
+                :class="(i.quantity > 1) ? 'primary' : 'grey'"
+                @click="
+                  i.quantity > 1 ? updateQuantity(i.quantity - 1, i) : null
+                "
+                ><v-icon style="color:white">ri-subtract-fill</v-icon></v-btn
+              >
+              <p class="ma-0">{{ i.quantity }}</p>
+              <v-btn
+              class="primary"
+                @click="
+                  i.quantity + 1 > i.stock_quantity
+                    ? $toast.error('Out of stock')
+                    : updateQuantity(i.quantity + 1, i)"
+                icon
+                small
+                ><v-icon style="color:white">ri-add-fill</v-icon></v-btn
+              >
+            </div>
+          </v-col>
+          <v-col md="2" class="d-flex align-center">
+            <span v-if="isOutOfStock(i) != 'outofstock'"> &#8358;{{
+              (parseInt(
+                isAuthenticated
+                  ? user.role == 'wholesaler' || user.role == 'next_champ'
+                    ? i.wholesale_price
+                    : i.price
+                  : i.price
+              ) *
+                parseInt(i.quantity))
+                | formatPrice
+            }}</span></v-col>
+      </v-row>
+      </div>
+      <div class="ml-3 d-flex align-center"><v-icon color="error"  @click="removeItem(index, i), calculateSubtotal()"
+              >{{ (isOutOfStock(i) == 'outofstock') ? 'mdi-delete' : 'mdi-delete-outline'}}</v-icon></div>
+    </div>
+     
+    </div>
     <v-card class="mx-auto" id="shopList" tile>
       <v-list-item three-line v-for="(i, index) in StoreCart" :key="index">
         <v-list-item-content>
@@ -169,30 +250,29 @@
       </v-list-item>
     </v-card>
 
-    <v-row class="mt-8">
+    <v-row class="mt-8" :class="{ 'px-4': $vuetify.breakpoint.smAndDown, 'p10p': $vuetify.breakpoint.mdAndUp }">
       <v-col md="3">
-        <v-btn @click="$router.go(-1)" class="secondary" block text large>
+        <!-- <v-btn @click="$router.go(-1)" class="secondary" block text large>
           <v-icon>ri-arrow-left-line</v-icon> Back to Shop</v-btn
-        >
+        > -->
       </v-col>
-      <v-col offset-md="5" md="4">
-        <div class="shopping-total pa-5">
+      <v-col offset-md="4" md="5">
+        <div class="shopping-total pa-5 mr-6">
           <div class="header">
             <p>Subtotal</p>
             <p>&#8358;{{ subtotal | formatPrice }}</p>
           </div>
           <v-divider class="mb-6"></v-divider>
-          <div class="pb-6" v-for="(i, index) in StoreCart.filter(item => isOutOfStock(item) != 'outofstock')" :key="index">
+          <!-- <div class="pb-6" v-for="(i, index) in StoreCart.filter(item => isOutOfStock(item) != 'outofstock')" :key="index">
             <p>
               {{ i.name }} <br />
               x {{ i.quantity }}
             </p>
             <v-divider></v-divider>
-          </div>
+          </div> -->
+          <v-btn class="primary black--text br-all-5" large block text to="/checkout"
+          ><span style="color: white">Proceed to Checkout</span></v-btn>
         </div>
-        <v-btn class="primary black--text" large block text to="/checkout"
-          >Proceed to Checkout</v-btn
-        >
       </v-col>
     </v-row>
   </v-container>
@@ -324,13 +404,30 @@ export default {
   },
 }
 </script>
+<style lang="scss">
+.v-data-table#shopTable table {
+  // border-collapse: separate !important; 
+  border-spacing: 3rem !important;
+
+  
+}
+</style>
+
 <style lang="scss" scoped>
 h1 {
   font-size: 48px;
   font-weight: 600;
 }
+
+.half-faded * {
+  opacity: .7;
+}
+
+
 thead {
-  background-color: #f1f1f1;
+  // background-color: #f1f1f1;
+  background-color: white;
+  border-bottom: solid 2px grey;
   th {
     font-size: 14px !important;
     color: #000 !important;
@@ -339,8 +436,16 @@ thead {
 }
 td {
   font-size: 16px !important;
+  // background-color: white !important;
   color: #8193a5;
 }
+.table-row {
+    border: 2px solid  #66666633;
+    margin-top: 30px !important;
+    margin-bottom: 10px !important;
+    border-radius: 0.4rem !important;
+}
+
 
 .qty-box {
   border: 0.5px solid #666;
@@ -360,7 +465,8 @@ a {
   margin-bottom: 30px;
   padding: 30px 35px;
   background-color: #f1f1f1;
-  border: 1px solid #bfbfbf;
+  border: 0px solid #bfbfbf;
+  border-radius: 10px;
   p {
     font-size: 14px !important;
     color: #000000de !important;
