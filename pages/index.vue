@@ -55,11 +55,21 @@
         'px-4': $vuetify.breakpoint.smAndDown,
       }"
     >
-      <v-col cols="12" class="py-0 ma-0">
+      <v-col
+        cols="12"
+        class="py-0 ma-0"
+        :class="{
+          '': $vuetify.breakpoint.mdAndUp,
+          'd-flex justify-space-between': $vuetify.breakpoint.smAndDown,
+        }"
+      >
         <p class="deal-text text-center">Deals</p>
         <p class="text-center">
           <a href="/offers" style="color: black"
-            >View all <v-icon small>arrow_forward</v-icon></a
+            >View all
+            <v-icon small class="hidden-small-and-down"
+              >arrow_forward</v-icon
+            ></a
           >
         </p>
       </v-col>
@@ -91,7 +101,7 @@
         <v-col
           class="text-left"
           md="2"
-          cols="12"
+          cols="6"
           v-for="(i, index) in products.slice(0, 6)"
           :key="index"
         >
@@ -123,7 +133,14 @@
         'px-4': $vuetify.breakpoint.smAndDown,
       }"
     >
-      <v-col cols="12" class="py-0 ma-0">
+      <v-col
+        cols="12"
+        class="py-0 ma-0"
+        :class="{
+          '': $vuetify.breakpoint.mdAndUp,
+          'd-flex justify-space-between': $vuetify.breakpoint.smAndDown,
+        }"
+      >
         <p class="deal-text text-center">Top Products</p>
         <p class="text-center">
           <a href="" style="color: black"
@@ -154,7 +171,7 @@
         <v-col
           class="text-left"
           md="2"
-          cols="12"
+          cols="6"
           v-for="(i, index) in topproducts.slice(0, 6)"
           :key="index"
         >
@@ -185,7 +202,14 @@
         'px-4': $vuetify.breakpoint.smAndDown,
       }"
     >
-      <v-col cols="12" class="py-0 ma-0">
+      <v-col
+        cols="12"
+        class="py-0 ma-0"
+        :class="{
+          '': $vuetify.breakpoint.mdAndUp,
+          'd-flex justify-space-between': $vuetify.breakpoint.smAndDown,
+        }"
+      >
         <p class="deal-text text-center">New Arrivals</p>
         <p class="text-center">
           <a href="" style="color: black"
@@ -198,7 +222,7 @@
       <v-col
         class="text-left"
         md="2"
-        cols="12"
+        cols="6"
         v-for="(i, index) in new_products.slice(0, 6)"
         :key="index"
       >
@@ -242,7 +266,14 @@
       }"
     >
       <v-row :class="{ 'px-8': $vuetify.breakpoint.mdAndUp }">
-        <v-col cols="12" class="py-0 ma-0">
+        <v-col
+          cols="12"
+          class="py-0 ma-0"
+          :class="{
+            '': $vuetify.breakpoint.mdAndUp,
+            'd-flex justify-space-between': $vuetify.breakpoint.smAndDown,
+          }"
+        >
           <p class="deal-text text-center">OUR BRANDS</p>
           <p class="text-center">
             <a href="/all-brands" style="color: black"
@@ -291,14 +322,15 @@
       </v-col>
     </v-row>
 
-    <div
-      class="py-16 mt-7 brand-container"
-      justify="center"
-      :class="{
-        'pa-10': $vuetify.breakpoint.mdAndUp,
-        'px-4': $vuetify.breakpoint.smAndDown,
-      }"
-    >
+    <div class="brand-container-scroll px-5">
+      <div
+        class="py-8 brand-container"
+        justify="center"
+        :class="{
+          'pa-10': $vuetify.breakpoint.mdAndUp,
+          'ml-10': $vuetify.breakpoint.smAndDown,
+        }"
+      >
       <!-- <h3 style="font-size: 20px; font-weight: 400">TOP BRANDS</h3> -->
 
       <v-card
@@ -332,19 +364,7 @@
         </v-col>
       </v-row> -->
     </div>
-
-    <v-row justify="center" align="center" class="mt-6">
-      <v-col md="12">
-        <nuxt-link to="">
-          <v-img
-            class="brands-img"
-            :src="require('../static/assets/download_banner.png')"
-            @error="$event.target.src = '../static/assets/paxo_icon_logo.png'"
-            lazy-src="https://res.cloudinary.com/spectrina/image/upload/v1660830145/Offer_Banner_1b_ugnb6t.png"
-          ></v-img>
-        </nuxt-link>
-      </v-col>
-    </v-row>
+    </div>
 
     <!-- <v-row justify="center" align="center">
       <v-col md="10">
@@ -408,21 +428,32 @@
       </v-col>
     </v-row> -->
 
-    <v-row class="mt-16 py-16 download-app" id="download">
-      <v-col md="12" class="pb-0">
-        <div class="text-center">
-          <h3>Download Paxo App Now!</h3>
-          <p class="text-center">
-            Shopping fastly and easily more with our app.<br />
-            Get a link to download the app on your phone
+    <v-row class="mt-1 p5p download-app" id="download">
+      <v-col md="4" cols="12" class="d-flex align-center">
+        <div class="px-5">
+          <h3 class="font-weight-bold">Download Paxo App Now!</h3>
+          <p class="mt-5">
+            Shopping for skincare products on the go with ease with our mobile
+            app.
           </p>
-
+          <p class="mt-5">Get a link to download the app on your phone</p>
+        </div>
+      </v-col>
+      <v-col md="4" cols="12" class="pb-0">
+        <img src="../static/assets/app_display.png" alt="" />
+      </v-col>
+      <v-col md="4" cols="12" class="pb-0 d-flex align-center">
+        <div class="d-flex align-center">
           <a
             href="https://play.google.com/store/apps/details?id=com.paxo.shop"
             target="_blank"
             rel="noopener noreferrer"
           >
-            <img src="../static/assets/google-play.png" alt="" />
+            <img
+              src="../static/assets/download_android.png"
+              alt=""
+              width="250px"
+            />
           </a>
           <a
             href="https://apps.apple.com/ng/app/paxo-beauty/id1534936621"
@@ -430,7 +461,7 @@
             target="_blank"
             rel="noopener noreferrer"
           >
-            <img src="../static/assets/appstore.png" alt="" />
+            <img src="../static/assets/download_ios.png" alt="" width="250px" />
           </a>
         </div>
       </v-col>
@@ -623,16 +654,24 @@ a {
 }
 
 .download-app {
-  background-color: #f8f8f8;
+  // background-color: #f8f8 f8;
+  background: rgb(255, 255, 255);
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 1) 15%,
+    rgba(0, 195, 183, 0.5) 50%,
+    rgba(255, 255, 255, 1) 85%
+  );
   h3 {
     margin-bottom: 12px;
     font-size: 30px;
     font-weight: 300;
     margin-top: 0;
+    font-weight: 'bold';
   }
   p {
-    font-size: 16px;
-    color: #666;
+    font-size: 20px;
+    // color: #666;
     // max-width: 400px;
   }
 }
@@ -714,6 +753,30 @@ a {
     padding: 13% 2% !important;
     width: 100%;
     z-index: 1;
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  .brand-container-scroll {
+      max-width: 100%;
+      overflow-x: auto;
+      overflow-y: hidden;
+    }
+  .product-box {
+   
+    .brand-card {
+      border-radius: 100px;
+      height: 80px;
+      width: 80px;
+      background-image: url('../static/assets/ellipse.png');
+      background-repeat: no-repeat;
+      background-size: cover;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      margin: 10px 10px;
+    }
   }
 }
 </style>

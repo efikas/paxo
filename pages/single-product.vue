@@ -10,8 +10,8 @@
     </v-container>
     <v-container v-else>
      
-      <v-row :class="{ 'px-4': $vuetify.breakpoint.smAndDown, 'page-body': $vuetify.breakpoint.mdAndUp }">
-      <v-col cols="10" offset="1">
+      <v-row :class="{ 'px-1': $vuetify.breakpoint.smAndDown, 'page-body': $vuetify.breakpoint.mdAndUp }">
+      <v-col cols="12" offset-md="1" md="10">
         <div :class="{'page-bodyk': $vuetify.breakpoint.mdAndUp }">
           <p class="py-2">
             <nuxt-link to="/"> Home </nuxt-link> &nbsp;>&nbsp;
@@ -119,9 +119,19 @@
                 
                    
               </v-col>
-              <v-col  md="10" cols="6">
-              <div style="padding-left: 30px" class="text-left">
-              <!-- <v-tooltip bottom>
+              <v-col md="10" cols="6">
+                <v-btn
+                v-if="product.stock_status != 'outofstock'"
+                @click="addToCart()"
+                color="primary"
+                class="primary mb-2 br-all-5 mx-5" 
+                style="width: 150px;"
+                >
+                <v-icon small>mdi-shopping-outline</v-icon>
+                &nbsp;
+                <span style="color:white" class="text-caption"> &nbsp; Add to Cart &nbsp; &nbsp;</span></v-btn>
+             <!-- <div class="text-left">
+               <v-tooltip bottom>
                   <template v-slot:activator="{ on, attrs }">
                     <v-btn
                       @click="
@@ -151,19 +161,10 @@
                     >
                   </template>
                   <span>Share</span>
-                </v-tooltip> -->
+                </v-tooltip> 
 
-                <v-btn
-                v-if="product.stock_status != 'outofstock'"
-                @click="addToCart()"
-                color="primary"
-                class="primary mb-2 br-all-5 mx-6" 
-                block
-                >
-                <v-icon small>mdi-shopping-outline</v-icon>
-                &nbsp;
-                <span style="color:white" class="text-caption"> &nbsp; Add to Cart &nbsp; &nbsp;</span></v-btn>               
-              </div>
+                              
+              </div>-->
               
               </v-col>
               
@@ -237,7 +238,7 @@
                       <p>{{ i.name }} - <i>{{ i.created_at }}</i></p>
                       <p>{{ i.content }}</p>
                     </div>
-                    <v-row class="reviews mt-10">
+                    <v-row class="reviews mt-10 pa-0">
                       <!-- <v-col md="5" cols="12">
                         <h1>4.00</h1>
                         <v-rating
@@ -296,7 +297,7 @@
                           <p>0</p>
                         </div>
                       </v-col> -->
-                      <v-col>
+                      <v-col class="pa-0">
                         <h5>WRITE YOUR REVIEW</h5>
                         <p>
                           Required fields are marked *
@@ -313,7 +314,7 @@
                         </p>
                         
                         <v-form v-model="valid" ref="form" lazy-validation>
-                          <v-container>
+                          <!-- <v-container> -->
                           <v-textarea
                             v-model="form.content"
                             required
@@ -357,19 +358,19 @@
                             x-large
                             >Submit Review</v-btn
                           >
-                        </v-container>
+                        <!-- </v-container> -->
                         </v-form>
                       </v-col>
                     </v-row>
                     </v-expansion-panel-content>
-                    <v-divider color="primary-color"></v-divider>
+                    <v-divider color="primary-color" class="mt-4"></v-divider>
                   </v-expansion-panel>
                 
                 </v-expansion-panels>
             </div>
           </div>
         </v-col>
-        <v-col class="hidden-sm-and-down">
+        <!-- <v-col class="hidden-sm-and-down"> -->
           <!-- <div class="features-widget">
             <p>
               <v-icon size="30" class="mr-4">ri-global-line</v-icon> Shipping
@@ -389,12 +390,12 @@
             </p>
           </div> -->
           <!-- <p>Sell on Paxo? <nuxt-link to="/register">Register now</nuxt-link></p> -->
-        </v-col>
+        <!-- </v-col> -->
       </v-row>
       </v-col>
       </v-row>
 
-        <v-col class="hidden-sm-and-down">
+        <!-- <v-col class="hidden-sm-and-down"> -->
           <!-- <div class="features-widget">
             <p>
               <v-icon size="30" class="mr-4">ri-global-line</v-icon> Shipping
@@ -414,7 +415,7 @@
             </p>
           </div> -->
           <!-- <p>Sell on Paxo? <nuxt-link to="/register">Register now</nuxt-link></p> -->
-        </v-col>
+        <!-- </v-col> -->
       </v-row>
       <v-row class="mt-5" justify="center">
         <v-col cols="12" >
@@ -422,15 +423,15 @@
           <v-divider></v-divider>
         </v-col>
         <v-col
-          v-for="i in relatedproduct.slice(0, 6)"
-          :key="i"
+          v-for="(i, index) in relatedproduct.slice(0, 6)"
+          :key="index"
           class="pa-8"
           :class="{
             'px-2': $vuetify.breakpoint.mdAndUp,
             'px-4': $vuetify.breakpoint.smAndDown,
           }"
           md="2"
-          cols="12"
+          cols="6"
         >
           <product-display
             :vendor="i.product.brand ? i.product.brand.name : null"

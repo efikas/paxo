@@ -1,5 +1,5 @@
 <template>
-     <v-app-bar app color="" style="" class="top-top" id="banner">
+     <v-app-bar app color="" style="" class="top-top hidden-sm-and-down" id="banner">
         <p style="font-size: 12px">
           Get a discount on your first order<br />  
           <span class="hidden-md-and-up">Use Code: <b>FIRSTGIFT</b></span>
@@ -7,7 +7,7 @@
         <div
           style="
             background: white;
-            border: 2px dashed #000;
+            border: 2px dashed #36bdb4;
             font-size: 12px;
             margin-top: -15px;
           "

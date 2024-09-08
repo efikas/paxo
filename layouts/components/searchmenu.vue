@@ -3,7 +3,7 @@
     app
     id="navbar"
     flat
-    class="white elevation-0 mt-12 search-bar"
+    class="white elevation-0 search-bar"
     :class="{
       'mt-12': $vuetify.breakpoint.mdAndUp,
       'px-4': $vuetify.breakpoint.mdAndUp,
@@ -126,37 +126,38 @@
       <v-list dense width="250px" class="py-0">
         <v-list-item dense to="/dashboard" class="py-0 my-0">
           <v-list-item-content class="py-0 my-0">
-            <v-list-item-title>Account Informations </v-list-item-title>
+            <v-list-item-title class="text-right">Account Information</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
         <v-list-item dense to="/my-orders" class="py-0 my-0">
           <v-list-item-content class="py-0 my-0">
-            <v-list-item-title>My Orders </v-list-item-title>
+            <v-list-item-title class="text-right">My Orders</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
         <v-list-item dense to="/my-wishlist" class="py-0 my-0">
           <v-list-item-content class="py-0 my-0">
-            <v-list-item-title>My Wishlist </v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-        <v-list-item dense to="/become-affiliate" class="py-0 my-0">
-          <v-list-item-content class="py-0 my-0">
-            <v-list-item-title>Become an Affiliate </v-list-item-title>
+            <v-list-item-title class="text-right">My Wishlist</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
         <v-list-item dense to="/upgrade-wholesaler" class="py-0 my-0">
           <v-list-item-content class="py-0 my-0">
-            <v-list-item-title>Upgrade to Wholesaler </v-list-item-title>
+            <v-list-item-title class="text-right">Upgrade to Wholesaler</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
-        <v-list-item dense to="/change-password" class="py-0 my-0">
+        <v-list-item dense to="/become-affiliate" class="py-0 my-0">
           <v-list-item-content class="py-0 my-0">
-            <v-list-item-title>Change Password </v-list-item-title>
+            <v-list-item-title class="text-right">Become an Affiliate</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
+        <!-- <v-list-item dense to="/change-password" class="py-0 my-0">
+          <v-list-item-content class="py-0 my-0">
+            <v-list-item-title class="text-right">Change Password </v-list-item-title>
+          </v-list-item-content>
+        </v-list-item> -->
+        <v-divider></v-divider>
         <v-list-item dense to="/logout">
           <v-list-item-content>
-            <v-list-item-title>Logout </v-list-item-title>
+            <v-list-item-title class="text-right red--text">Log Out</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
       </v-list>

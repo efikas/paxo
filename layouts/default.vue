@@ -111,12 +111,10 @@
       <SearchMenu />
 
       <!-- Divider -->
-      <v-divider light class="black mt-12"></v-divider>
-
+      <v-divider light class="black mt-12 hidden-sm-and-down"></v-divider>
 
       <!-- Main menu -->
       <MainMenu />
-
 
       <!-- App bar for medium screens -->
       <v-app-bar
@@ -128,8 +126,9 @@
         }"
         flat
         class="white px-3 hidden-md-and-up"
+        style="top: -50px"
       >
-        <v-row class="pt-3 mt-">
+        <v-row class="pt-0 mt-0">
           <v-col cols="3">
             <v-btn
               class="nav-btn font-weight-medium px-3 pb-0"
@@ -176,7 +175,7 @@
           </v-col>
         </v-row>
       </v-app-bar>
-      
+
       <!-- Floating whatsapp for mobile Only -->
       <v-btn
         fab
@@ -218,7 +217,7 @@
       >
         <v-icon>keyboard_arrow_up</v-icon>
       </v-btn>
-      
+
       <!-- News Letter -->
       <v-main
         class="pt-0"
@@ -238,9 +237,10 @@
           :pt-120="$vuetify.breakpoint.lgAndDown"
           :pt-100="$vuetify.breakpoint.smAndDown"
         >
-        <!-- :pt-120="$vuetify.breakpoint.mdAndUp" -->
+          <!-- :pt-120="$vuetify.breakpoint.mdAndUp" -->
           <nuxt />
         </v-container>
+       
         <div class="newsletter mt-8">
           <v-row
             :class="{
@@ -250,40 +250,152 @@
             justify="center"
             align="center"
           >
-            <v-col cols="12" md="5">
+            
+            <v-col cols="12" md="5" v-if="showGetGlowing">
+              <h2>Get Glowing with Our Beauty Newsletter</h2>
+            </v-col>
+            <v-col cols="12" md="5" v-else>
               <h3>Newsletter</h3>
               <p>Subcribe to get information about products and coupons</p>
             </v-col>
             <v-col cols="12" md="7">
               <v-form lazy-validation ref="form" v-model="valid">
-                <v-row>
-                  <v-col cols="8" md="9" class="pr-0">
+                <v-row class="mt-2">
+                  <v-col cols="12" class="pr-0">
                     <v-text-field
                       placeholder="Email address"
                       outlined
                       v-model="form.email"
                       required
                       :rules="emailRules"
-                    ></v-text-field>
-                  </v-col>
-                  <v-col cols="3" md="3" class="pl-0">
-                    <v-btn
-                      class="primary"
-                      block
-                      height="56"
+                      class="template-subscribe"
+                    >
+                    <template v-slot:append>
+                      <v-btn
+                      class="primary br-all-10"
+                      blockg
+                      height="54"
+                      
                       @click="
                         $refs.form.validate() ? subscribeNewsletter() : null
                       "
-                      dark
+                      darkg
                       :loading="loading"
-                      style="border-radius: 0 5px 5px 0"
                       text
+                      style="margin-top: 0.5px; margin-top: 0.5px; margin-right: 0.5px;"
                       >Subscribe</v-btn
                     >
+                    </template>
+                  </v-text-field>
                   </v-col>
                 </v-row>
               </v-form>
             </v-col>
+          </v-row>
+        </div>
+        <div class="" v-if="showGetGlowing">
+          <v-row
+            class="py-7"
+            :class="{
+              'px-10 px-8': $vuetify.breakpoint.mdAndUp,
+              'px-2': $vuetify.breakpoint.smAndDown,
+            }"
+          >
+            <v-col  md="2" cols="6">
+              <div class="d-flex flex-row flex-1-0 align-center justify-center">
+                <img
+                  src="../static/assets/free_shipping.png"
+                  width="30"
+                  height="30"
+                  alt=""
+                  class="mr-2"
+                />
+                <div
+                  class="
+                    d-flex
+                    flex-column flex-1-0
+                    align-items-center
+                    justify-content-center
+                  "
+                >
+                  <span class="f-10 text-body-2">Free Shipping</span>
+                  <span class="f-10 text-caption"
+                    >On orders above #500,000</span
+                  >
+                </div>
+              </div>
+            </v-col>
+            <v-col md="2" cols="6">
+              <div class="d-flex flex-row flex-1-0 align-center justify-center">
+                <img
+                  src="../static/assets/authentic.png"
+                  width="30"
+                  height="30"
+                  alt=""
+                  class="mr-2"
+                />
+                <div
+                  class="
+                    d-flex
+                    flex-column flex-1-0
+                    align-items-center
+                    justify-content-center
+                  "
+                >
+                  <span class="f-10 text-body-2">Authentic Products</span>
+                  <span class="f-10 text-caption"
+                    >Sourced directly from brands</span
+                  >
+                </div>
+              </div>
+            </v-col>
+            <v-col cols="6" md="2">
+              <div class="d-flex flex-row flex-1-0 align-center justify-center">
+                <img
+                  src="../static/assets/return_policy.png"
+                  width="30"
+                  height="30"
+                  alt=""
+                  class="mr-2"
+                />
+                <div
+                  class="
+                    d-flex
+                    flex-column flex-1-0
+                    align-items-center
+                    justify-content-center
+                  "
+                >
+                  <span class="f-10 text-body-2">Return Policy</span>
+                  <span class="f-10 text-caption">On only damaged goods</span>
+                </div>
+              </div>
+            </v-col>
+            <v-col cols="6" md="2">
+              <div class="d-flex flex-row flex-1-0 align-center justify-center">
+                <img
+                  src="../static/assets/brands-100.png"
+                  width="30"
+                  height="30"
+                  alt=""
+                  class="mr-2"
+                />
+                <div
+                  class="
+                    d-flex
+                    flex-column flex-1-0
+                    align-items-center
+                    justify-content-center
+                  "
+                >
+                  <span class="f-10 text-body-2">100+ Brands</span>
+                  <span class="f-10 text-caption"
+                    >Over 1,000 Genuine Products</span
+                  >
+                </div>
+              </div>
+            </v-col>
+            <v-col cols="12" md="4"> </v-col>
           </v-row>
         </div>
       </v-main>
@@ -297,7 +409,7 @@
             'px-2': $vuetify.breakpoint.smAndDown,
           }"
         >
-        <v-col md="2" sm="4" cols="6">
+          <v-col md="2" cols="12">
             <h4 class="mb-4">Information</h4>
             <nuxt-link to="/about-us">
               <p>About Us</p>
@@ -308,7 +420,7 @@
               <p>Contact Us</p>
             </nuxt-link>
           </v-col>
-        <v-col md="2" sm="4" cols="6">
+          <v-col md="2" cols="12">
             <h4 class="mb-4">Our Services</h4>
             <nuxt-link to="/paxo-reward">
               <p>Paxo Rewards</p>
@@ -324,8 +436,8 @@
             </nuxt-link>-->
             <!-- <p>FAQs</p> -->
           </v-col>
-          
-          <v-col md="2" sm="4" cols="6">
+
+          <v-col md="2" cols="12">
             <h4 class="mb-4">My Account</h4>
             <nuxt-link to="/upgrade-wholesaler">
               <p>Upgrade to Wholesaler</p>
@@ -337,26 +449,44 @@
               <p>My Wishlist</p>
             </nuxt-link>
           </v-col>
-          <v-col cols="6" sm="3" md="3">
+          <v-col cols="12" md="3">
             <h4 class="mb-4">Contact Us</h4>
             <p>Call us 24/7</p>
             <a href="tel:2348146907099" class="mb-3">
-              <h5 class="primary--text" style="font-size: 1.2rem">234 814 690 7099</h5>
+              <h5 class="primary--text" style="font-size: 1.2rem">
+                234 814 690 7099
+              </h5>
             </a>
-            <p class="mt-3"><a href="mailto:info@paxo.com.ng" style="color: white">info@paxo.com.ng</a></p>
+            <p class="mt-3">
+              <a href="mailto:info@paxo.com.ng" style="color: white"
+                >info@paxo.com.ng</a
+              >
+            </p>
 
             <p class="mb-12 mt-1">No 3, Billings Way, Oregun Ikeja, Lagos</p>
           </v-col>
           <v-col cols="6" sm="3" md="3">
             <h4 class="mb-4">Payment methods</h4>
             <div class="d-flex">
-              <img src="../static/assets/visa.png" width="50" alt="" />
-              <img src="../static/assets/mastercard2.png" width="50" alt="" />
-              <img src="../static/assets/bank_transfer.png" width="50" alt="" />
-              <img src="../static/assets/paystack.png" width="50" alt="" />
+              <img src="../static/assets/visa.png" width="50" alt="" /> &nbsp;
+              <img
+                src="../static/assets/mastercard2.png"
+                width="50"
+                alt=""
+              />&nbsp;
+              <img
+                src="../static/assets/bank_transfer.png"
+                width="50"
+                alt=""
+              />&nbsp;
+              <img
+                src="../static/assets/paystack.png"
+                width="50"
+                alt=""
+              />&nbsp;
               <img src="../static/assets/credpal.png" width="50" alt="" />
             </div>
-            <h5 class="mt-3" style="font-size: 1.0rem">Follow us</h5>
+            <h5 class="mt-3" style="font-size: 1rem">Follow us</h5>
             <v-btn icon href="https://facebook.com/paxobeauty" target="_blank">
               <v-icon color="white">ri-facebook-fill</v-icon>
             </v-btn>
@@ -378,26 +508,40 @@
               <v-icon color="white">ri-youtube-fill</v-icon>
             </v-btn>
           </v-col>
-          
-         
         </v-row>
         <div style="clear: both"></div>
         <div>
           <v-divider class="mt-5"></v-divider>
         </div>
-        <div class="footer-bottom text-center px-6 pt-6 flex align-center justify-space-between">
+        <div
+          class="
+            footer-bottom
+            text-center
+            px-6
+            pt-6
+            flex
+            align-center
+            justify-space-between
+          "
+          :class="{
+            'flex-row': $vuetify.breakpoint.mdAndUp,
+            'flex-column': $vuetify.breakpoint.smAndDown,
+          }"
+        >
           <nuxt-link to="/my-wishlist">
-            <p>© Paxo Beauty {{ new Date().getFullYear() }}. All Rights Reserved</p>
+            <p>
+              © Paxo Beauty {{ new Date().getFullYear() }}. All Rights Reserved
+            </p>
+          </nuxt-link>
+          <v-spacer />
+         
+          <div class="d-flex flex-row">
+            <nuxt-link to="/privacy-policy" style="margin-right: 20px">
+              <p>Privacy</p>
             </nuxt-link>
-            <v-spacer />
-                <nuxt-link to="/privacy-policy" style="margin-right: 20px">
-                  <p>Privacy</p>
-                </nuxt-link>
-                <nuxt-link to="/terms-condition">
-                  <p>Terms & Conditions</p>
-                </nuxt-link>
-          <div>
-            <!-- <p>We Using Safe Payment For:</p> -->
+            <nuxt-link to="/terms-condition">
+              <p>Terms & Conditions</p>
+            </nuxt-link>
           </div>
         </div>
       </div>
@@ -447,6 +591,8 @@ export default {
   components: { SearchProducts, DiscountMenu, SearchMenu, MainMenu },
   data() {
     return {
+      showGetGlowing: false,
+
       paymentMethodDialog: false,
       open1MinuteDialog: false,
       is1MinuteDue: false,
@@ -509,6 +655,22 @@ export default {
     }
   },
   methods: {
+    manageTemplateComponent() {
+      let newPages = [
+        '/',
+        '/single-product',
+        '/shopping-cart',
+        '/checkout',
+        '/shipping',
+      ]
+      const currentUrl = new URL(window.location.href)
+
+      if (newPages.includes(currentUrl.pathname)) {
+        this.showGetGlowing = true
+      } else {
+        this.showGetGlowing = false
+      }
+    },
     close1MinuteDialog() {
       this.is1MinuteDue = false
       this.open1MinuteDialog = false
@@ -593,6 +755,9 @@ export default {
     isAuthenticated: function () {
       this.isAuthenticated ? null : window.location.reload()
     },
+    '$route': function () {
+      this.manageTemplateComponent()
+    },
   },
   onIdle() {
     // this.paymentMethodDialog = true
@@ -623,8 +788,14 @@ export default {
     brandlength() {
       return Math.ceil(this.brands.length / 7)
     },
+
+    brandlength() {
+      return Math.ceil(this.brands.length / 7)
+    },
   },
+
   mounted() {
+    this.manageTemplateComponent()
     // this.stickyNav()
   },
 
@@ -638,6 +809,29 @@ export default {
   },
 }
 </script>
+<style>
+
+.v-text-field--outlined fieldset{
+  border-radius: 10px !important;
+  /* border-bottom-left-radius: inherit; */
+}
+
+.template-subscribe .v-input__slot {
+  padding-right: 0px !important;
+}
+
+.template-subscribe .v-input__append-inner {
+  margin-top: 0px !important;
+}
+
+.br-all-10 {
+  border-radius: 10px !important;
+}
+
+.p5p {
+  padding: 0px 5% !important;
+}
+</style>
 <style lang="scss">
 body {
   font-family: 'Rubik';
@@ -734,7 +928,7 @@ a {
   }
 }
 .footer {
-  background-color: #8C8D94;
+  background-color: #8c8d94;
   padding: 20px 3% !important;
   h4 {
     font-size: 16px;

@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-row>
-      <v-col md="6" cols="10" :class="{'py-0' : $vuetify.breakpoint.smAndDown}" class="px-0 pt-1">
+      <v-col md="6" cols="12" :class="{'py-0' : $vuetify.breakpoint.smAndDown}" class="px-0 pt-1">
         <!-- {{ productSearch }} -->
         <!-- <v-text-field v-model="productSearch" dense outlined placeholder="Search for your choice products" ></v-text-field> -->
         <!-- <v-autocomplete
@@ -68,20 +68,54 @@
           dense 
           @change="goToProduct(product.id)"
           class="pt-6"
+          :class="(productSearch ?? '').length == 0 ? 'template-subscribe' : ''"
           input-class="search-box"
           :input-attrs="{'class': 'search-box'}"
           append-icon=""
-          placeholder="Search for your products"
+          placeholder="Search for products"
           clearable
           return-object
-
-        ></v-autocomplete>
+        >
+        <template v-slot:append v-if="(productSearch ?? '').length == 0">
+          <v-divider vertical thickness="6" class="my-2"></v-divider>
+          <v-btn icon class="search-btn" :to="'search?str='+productSearch"
+          ><v-icon>mdi-filter-variant</v-icon></v-btn
+        >
+        </template>
+        <!-- <template v-slot:selection="{ attr, on, item, selected }">
+            <v-chip
+              v-bind="attr"
+              :input-value="selected"
+              color="blue-grey"
+              class="white--text"
+              v-on="on"
+            >
+              <v-icon left>mdi-coin</v-icon>
+              <span v-text="item.billername"></span>
+            </v-chip>
+          </template> -->
+          <template v-slot:item="{ item }">
+            <v-list-item-avatar
+              color="primary"
+              class="headline font-weight- white--text"
+              :rounded="false"
+            >
+              <img :src="item.avatar" alt="" />
+            </v-list-item-avatar>
+            <v-list-item-content>
+              <v-list-item-title v-text="item.name"></v-list-item-title>
+            </v-list-item-content>
+            <v-list-item-action>
+              <v-icon>mdi-coin</v-icon>
+            </v-list-item-action>
+          </template>
+      </v-autocomplete>
       </v-col>
-      <v-col md="4" cols="2" class="px-0 pt-7" :class="{'py-0' : $vuetify.breakpoint.smAndDown}">
-        <v-btn class="primary search-btn" :to="'search?str='+productSearch" text
+      <!-- <v-col md="4" cols="2" class="px-0 pt-7" :class="{'py-0' : $vuetify.breakpoint.smAndDown}">
+        <v-btn class="primary search-btn" :to="'search?str='+productSearch" 
           ><v-icon>search</v-icon></v-btn
         >
-      </v-col>
+      </v-col> -->
     </v-row>
     <!-- <v-dialog
       transition="scroll-y-transition"

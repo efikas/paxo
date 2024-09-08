@@ -1,32 +1,15 @@
 <template>
   <v-container pt-16>
-    <v-row>
+    <v-row :class="{
+              'p10p': $vuetify.breakpoint.mdAndUp,
+              'px-4': $vuetify.breakpoint.smAndDown,
+    }">
       <v-col md="4">
-        <div style="display: flex">
-          <v-avatar size="60">
-            <img src="../static/assets/avatar.jpg" alt="" />
-          </v-avatar>
-          <div class="ml-6">
-            <p class="mb-0 pb-0">Hello</p>
-            <h4>{{ user.first_name }} {{ user.last_name }}</h4>
-          </div>
-        </div>
-        <v-list class="mt-7 sidebar py-0" outlined>
-          <v-list-item-group v-model="selectedItem" color="primary">
-            <v-list-item :to="item.to" v-for="(item, i) in menus" :key="i">
-              <v-list-item-icon>
-                <v-icon v-text="item.icon"></v-icon>
-              </v-list-item-icon>
-              <v-list-item-content>
-                <v-list-item-title v-text="item.text"></v-list-item-title>
-              </v-list-item-content>
-            </v-list-item>
-          </v-list-item-group>
-        </v-list>
+        <UserSideBar />
       </v-col>
       <v-col md="8">
-        <h2>Become an Affiliate</h2>
-        <v-divider></v-divider>
+        <h2 class="font-weight-bold">Become an Affiliate</h2>
+        <v-divider color="#14ADAC99"></v-divider>
         <p class="mt-8">
           Being an Affiliate on PAXO means you can earn whenever people you
           refer make purchases on the Paxo platform.
@@ -35,7 +18,7 @@
           However, there are conditions to be met in order to start enjoying
           this benefit.
         </p>
-        <h3 class="mt-6 primary--text">
+        <h3 class="mt-6 font-weight-bold">
           Referral/Affiliate Logic for points (Web App)
         </h3>
 
@@ -64,7 +47,9 @@
                 @click="copyLink()"
                 type="submit"
                 value="Subscribe"
-                style="margin-top: -8px"
+                height="50px"
+                style="margin-top: -15px; margin-right: -10px"
+                class="br-all-10"
               >
                 Copy
               </v-btn>
@@ -91,54 +76,14 @@
 </template>
 <script>
 import { mapGetters } from 'vuex'
+import UserSideBar from '~/components/UserSideBar.vue'
 export default {
+  components: { UserSideBar },
   data() {
     return {
       loading: false,
       selectedItem: '',
       domain: window.location.host,
-      menus: [
-        {
-          icon: 'ri-user-line',
-          text: 'Account Information',
-          to: '/dashboard',
-        },
-        {
-          icon: 'ri-shopping-cart-line',
-          text: 'My Pending Orders',
-          to: '/my-pending-orders',
-        },
-        {
-          icon: 'ri-shopping-cart-line',
-          text: 'My Orders / Transactions',
-          to: '/my-orders',
-        },
-        {
-          icon: 'ri-heart-line',
-          text: 'My Wishlist',
-          to: '/my-wishlist',
-        },
-        {
-          icon: 'ri-honour-line',
-          text: 'Become an Affiliate',
-          to: '/become-affiliate',
-        },
-        {
-          icon: 'ri-briefcase-line',
-          text: 'Upgrade to Wholesaler',
-          to: '/upgrade-wholesaler',
-        },
-        {
-          icon: 'ri-lock-line',
-          text: 'Change Password',
-          to: '/change-password',
-        },
-        {
-          icon: 'ri-logout-circle-line',
-          text: 'Logout',
-          to: '/logout',
-        },
-      ],
     }
   },
   computed: {

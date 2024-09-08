@@ -1,38 +1,115 @@
 <template>
   <v-container pt-16>
-    <v-row>
+    <v-row :class="{
+              'p5p': $vuetify.breakpoint.mdAndUp,
+              'px-4': $vuetify.breakpoint.smAndDown,
+  }">
       <v-col md="4">
-        <div style="display: flex">
-          <v-avatar size="60">
-            <img src="../static/assets/avatar.jpg" alt="" />
-          </v-avatar>
-          <div class="ml-6">
-            <p class="mb-0 pb-0">Hello</p>
-            <h4>{{ user.first_name }} {{ user.last_name }}</h4>
-          </div>
-        </div>
-        <v-list class="mt-7 sidebar py-0" outlined>
-          <v-list-item-group v-model="selectedItem" color="primary">
-            <v-list-item :to="item.to" v-for="(item, i) in menus" :key="i">
-              <v-list-item-icon>
-                <v-icon v-text="item.icon"></v-icon>
-              </v-list-item-icon>
-              <v-list-item-content>
-                <v-list-item-title v-text="item.text"></v-list-item-title>
-              </v-list-item-content>
-            </v-list-item>
-          </v-list-item-group>
-        </v-list>
+        <UserSideBar />
       </v-col>
       <v-col md="8">
-        <h2>My Pending Orders</h2>
-        <v-divider></v-divider>
-        <v-simple-table>
+        <h3 class="font-weight-bold">Pending Orders</h3>
+        <v-divider color="#14ADAC99"></v-divider>
+        <div
+          class="mt-5"
+          id="shopTable"
+        >
+          <v-row class="body-2">
+            <v-col md="6">Product</v-col>
+            <v-col md="2">Delivery Address</v-col>
+            <v-col md="2">Total</v-col>
+            <v-col md="2">Status</v-col>
+          </v-row>
+          <!-- <v-divider></v-divider> -->
+
+          <v-row v-if="orders.length == 0">
+            <v-col md="12" class="d-flex align-center text-center pa-10">
+              <p>Your pending order is empty!</p>
+            </v-col>
+          </v-row>
+
+          <div v-for="(i, index) in orders" :key="index" class="d-flex">
+            <div style="width: 100%">
+              <v-row class="table-row">
+                <v-col md="6" class="py-3">
+                  <div
+                    class="d-flex align-center"
+                    v-if="(i.product ?? []).length > 0"
+                  >
+                    <img
+                      :src="i.product[0].avatar"
+                      width="100px"
+                      alt=""
+                      class="br-all-5"
+                    />
+                    <div class="ml-8 ">
+                    <nuxt-link
+                      :to="'/single-product?product_id=' + i.product[0].id"
+                    >
+                      <p class="body-2" style="color: black">{{ i.product[0].name }}</p>
+                    </nuxt-link>
+
+                    <v-btn
+                      v-if="isOutOfStock(i.product[0]) == 'outofstock'"
+                      outlined
+                      small
+                      color="error"
+                      class="br-all-5 text-caption error-text"
+                    >
+                    </v-btn>
+                    <v-btn
+                      v-else
+                      outlined
+                      small
+                      color="primary"
+                      class="br-all-5 text-caption primary-text"
+                    >
+                      <v-icon small> mdi-check-circle-outline</v-icon>
+                      &nbsp;&nbsp;In Stock</v-btn
+                    >
+                  </div>
+                  </div>
+                </v-col>
+                <v-col md="2" class="d-flex align-center body-2">
+                  {{ i.address }}, {{ i.city }}, {{ i.state }}
+                </v-col>
+                <v-col
+                  md="2"
+                  class="d-flex align-center body-2 font-weight-bold"
+                >
+                  &#8358;{{ i.total | formatPrice }}
+                </v-col>
+                <v-col md="2" class="d-flex align-center body-2">
+                  <span
+                    :class="
+                      i.status == 'pending'
+                        ? 'warning--text'
+                        : i.status == 'cancelled'
+                        ? 'error--text'
+                        : i.status == 'processing'
+                        ? 'primary--text'
+                        : 'success--text'
+                    "
+                    >{{ i.status }}</span
+                  >
+                </v-col>
+              </v-row>
+            </div>
+            <div class="ml-3 d-flex align-center body-2">
+              <v-icon
+                color="error"
+                @click="deletePendingOrder(i.id)"
+                >mdi-delete-outline</v-icon
+              >
+            </div>
+          </div>
+        </div>
+
+        <!-- <v-simple-table>
           <thead>
             <tr>
               <th>PRODUCT</th>
               <th>DELIVERY ADDRESS</th>
-              <!-- <th>ORDER NUMBER</th> -->
               <th>TOTAL</th>
               <th>STATUS</th>
               <th>ACTION</th>
@@ -60,7 +137,6 @@
               </td>
 
               <td>{{ i.address }}, {{ i.city }}, {{ i.state }}</td>
-              <!-- <td>{{i.order_number}}</td> -->
               <td>&#8358;{{ i.total | formatPrice }}</td>
               <td>
                 <span
@@ -79,15 +155,12 @@
 
               <td class="text-">
                 <span
-                  @click="deleteWishlist(i.id)"
+                  @click="deletePendingOrder(i.id)"
                   :class="'error--text pointer'"
                 >
                   Delete</span
                 >
                 <span @click="checkout(i)" class="pointer"> Checkout</span>
-                <!-- <v-icon @click="deleteWishlist(i.id)"
-                  >ri-delete-bin-line</v-icon
-                > -->
               </td>
             </tr>
             <tr v-if="orders.length == 0">
@@ -96,7 +169,7 @@
               </td>
             </tr>
           </tbody>
-        </v-simple-table>
+        </v-simple-table> -->
       </v-col>
     </v-row>
     <paystack
@@ -223,12 +296,14 @@
 </template>
 <script>
 import { mapGetters } from 'vuex'
+import UserSideBar from '~/components/UserSideBar.vue'
 import paystack from 'vue-paystack'
 import { FlutterwavePayButton } from 'flutterwave-vue-v3'
 export default {
   components: {
     paystack,
     FlutterwavePayButton,
+    UserSideBar,
   },
   data() {
     return {
@@ -250,48 +325,7 @@ export default {
       reference: '',
       channels: ['card', 'bank', 'ussd', 'qr', 'mobile_money', 'bank_transfer'],
       code: '',
-      menus: [
-        {
-          icon: 'ri-user-line',
-          text: 'Account Information',
-          to: '/dashboard',
-        },
-        {
-          icon: 'ri-shopping-cart-line',
-          text: 'My Pending Orders',
-          to: '/my-pending-orders',
-        },
-        {
-          icon: 'ri-shopping-cart-line',
-          text: 'My Orders / Transactions',
-          to: '/my-orders',
-        },
-        {
-          icon: 'ri-heart-line',
-          text: 'My Wishlist',
-          to: '/my-wishlist',
-        },
-        {
-          icon: 'ri-honour-line',
-          text: 'Become an Affiliate',
-          to: '/become-affiliate',
-        },
-        {
-          icon: 'ri-briefcase-line',
-          text: 'Upgrade to Wholesaler',
-          to: '/upgrade-wholesaler',
-        },
-        {
-          icon: 'ri-lock-line',
-          text: 'Change Password',
-          to: '/change-password',
-        },
-        {
-          icon: 'ri-logout-circle-line',
-          text: 'Logout',
-          to: '/logout',
-        },
-      ],
+     
     }
   },
   computed: {
@@ -302,6 +336,17 @@ export default {
     await this.getStates()
   },
   methods: {
+    isOutOfStock(item) {
+      if (item.stock_status == 'outofstock') {
+        return 'outofstock'
+      }
+
+      if (item.stock_quantity < item.quantity) {
+        return 'outofstock'
+      }
+
+      return ''
+    },
     getPaymentData() {
       return {
         tx_ref: this.reference,
@@ -369,7 +414,7 @@ export default {
 
       this.reference = `PAXO_WEB_${text}`
     },
-    async deleteWishlist(id) {
+    async deletePendingOrder(id) {
       const data = {
         id: id,
       }
@@ -755,6 +800,14 @@ td {
 .pointer {
   cursor: pointer;
 }
+
+.table-row {
+  border: 2px solid #66666633 !important;
+  margin-top: 20px !important;
+  margin-bottom: 10px !important;
+  border-radius: 0.4rem !important;
+}
+
 
 .qty-box {
   border: 0.5px solid #666;

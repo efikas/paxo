@@ -475,4 +475,10 @@ p {
     color: #000 !important;
   }
 }
+
+@media only screen and (max-width: 768px) {
+  .product-box {
+    // max-width: 350px;
+  }
+}
 </style>

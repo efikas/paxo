@@ -23,7 +23,7 @@
       class="elevation-0"
     >
       <template v-slot:activator="{ attrs, on }">
-        <v-btn class="nav-btn px-3 pt-3" v-bind="attrs" v-on="on" text>
+        <v-btn class="nav-btn px-3 pt-3 font-weight-bold" v-bind="attrs" v-on="on" text>
           <img src="../../static/assets/shop_cat.png" alt="" />
           SHOP CATEGORIES</v-btn
         >
@@ -75,15 +75,16 @@
               dense
               flat
               style="width: 100vw"
-              min-height="400px"
-              class="pb-0 pt-8 elevation-0"
+              min-height="200px"
+              class="pb-0 pt-0 elevation-0"
             >
               <v-row>
                 <v-col
                   md="2"
                   v-for="(j, index) in i.category"
                   :key="index"
-                  class="px-8 pt-0 pb-3"
+                  class="px-8 pt-8 pb-3"
+                  :style="(index % 2 == 0)? 'background-color: #F0F0F0; height: 100%' : 'height: 100%'"
                 >
                   <p v-if="i.category.length == 0">No categories found</p>
                   <nuxt-link
@@ -124,7 +125,7 @@
       class="elevation-0"
     >
       <template v-slot:activator="{ attrs, on }">
-        <v-btn class="nav-btn px-3 pt-3" v-bind="attrs" v-on="on" text>
+        <v-btn class="nav-btn px-3 pt-3 font-weight-bold" v-bind="attrs" v-on="on" text>
           BRANDS</v-btn
         >
       </template>
@@ -132,13 +133,13 @@
       <v-list
         dense
         flat
-        style="width: 100vw; background-color: white"
+        style="width: 100vw; background-color: white; padding: 0px 0px !important;"
         min-height="400px"
         max-height="400px"
         class="py-0 px-0 elevation-0"
       >
-        <v-row>
-          <v-col cols="3" class="pa-8k">
+        <v-row class="py-0 px-0">
+          <v-col cols="3" class="py-0 px-0">
             <!-- <div class="d-flex justify-space-between">
               <v-btn
                 @click="orderedBrands = _.orderBy(brands, 'name')"
@@ -176,37 +177,46 @@
             </div>
             <v-divider></v-divider> -->
             <div height="400px">
-            <div class="brands-container pa-10 pt-0k">
-              <div
-                class="brands"
-              >
-                <div class="sub-menu">
-                  <div
-                    v-for="(j, _index) in orderedBrands"
-                    :key="j.id"
-                  >
-                  <div style="color: #14ADAC;" v-if="getAlphabetHeading(orderedBrands, _index) == true"> {{ j.name.charAt(0).toUpperCase() }}</div>
-                    <a
-                      href="javascript:void(0)"
-                      class="nav-"
-                      @click="
-                        ;(showBrand = false),
-                          $router.push('/brands/' + j.name + '?brandId=' + j.id)
-                      "
-                      style="
-                        text-decoration: none;
-                        margin-bottom: 0 !important;
-                        color: black;
-                      "
+              <div class="brands-container pa-10 pt-0">
+                <div
+                  class="brands py-5"
+                >
+                <v-text-field
+                  style="width: 300px;"
+                  prepend-inner-icon="search"
+                  clearable
+                  v-model="filterText"
+                  @input="filterBrands"
+                  placeholder="Search your brand"
+                >
+                </v-text-field>
+                  <div class="sub-menu">
+                    <div
+                      v-for="(j, _index) in filteredOrderedBrands"
+                      :key="j.id"
                     >
-                      <p class="" style="font-size: 13px">
-                        {{ j.name }}
-                      </p></a
-                    >
+                    <div style="color: #14ADAC;" v-if="getAlphabetHeading(filteredOrderedBrands, _index) == true"> {{ j.name.charAt(0).toUpperCase() }}</div>
+                      <a
+                        href="javascript:void(0)"
+                        class="nav-"
+                        @click="
+                          ;(showBrand = false),
+                            $router.push('/brands/' + j.name + '?brandId=' + j.id)
+                        "
+                        style="
+                          text-decoration: none;
+                          margin-bottom: 0 !important;
+                          color: black;
+                        "
+                      >
+                        <p class="" style="font-size: 13px">
+                          {{ j.name }}
+                        </p></a
+                      >
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
             </div>
           </v-col>
 
@@ -229,7 +239,7 @@
     >
       <template v-slot:activator="{ attrs, on }">
         <v-btn
-          class="nav-btn px-3 pt-4"
+          class="nav-btn px-3 pt-4 font-weight-bold"
           v-bind="attrs"
           v-on="on"
           text
@@ -249,7 +259,7 @@
       class="elevation-0"
     >
       <template v-slot:activator="{ attrs, on }">
-        <v-btn class="nav-btn px-3 pt-4" v-bind="attrs" v-on="on" text to="/shop-all">
+        <v-btn class="nav-btn px-3 pt-4 font-weight-bold" v-bind="attrs" v-on="on" text to="/shop-all">
           SHOP ALL</v-btn
         >
       </template>
@@ -265,7 +275,7 @@
     >
       <template v-slot:activator="{ attrs, on }">
         <v-btn
-          class="nav-btn px-3 pt-4"
+          class="nav-btn px-3 pt-4 font-weight-bold"
           v-bind="attrs"
           v-on="on"
           text
@@ -286,7 +296,7 @@
     >
       <template v-slot:activator="{ attrs, on }">
         <v-btn
-          class="nav-btn px-3 pt-4"
+          class="nav-btn px-3 pt-4 font-weight-bold"
           v-bind="attrs"
           v-on="on"
           text
@@ -307,7 +317,7 @@
     >
       <template v-slot:activator="{ attrs, on }">
         <v-btn
-          class="nav-btn px-3 pt-4"
+          class="nav-btn px-3 pt-4 font-weight-bold"
           v-bind="attrs"
           v-on="on"
           text
@@ -392,6 +402,8 @@ export default {
       searchDialog: null,
       pageloading: true,
       orderedBrands: [],
+      filteredOrderedBrands: [],
+      filterText: '',
       brands: [],
       brandsize: 7,
       sections: [],
@@ -507,6 +519,7 @@ export default {
         this.brands = response.data
         // this.pageloading = false
         this.orderedBrands = _.orderBy(this.brands, 'name')
+        this.filteredOrderedBrands = _.orderBy(this.brands, 'name')
       })
     },
     async getSections() {
@@ -535,7 +548,18 @@ export default {
         return brand.name[0].toLowerCase() === alpha
       })
       this.orderedBrands = startsWithN
-      console.log(startsWithN)
+      this.filteredOrderedBrands = startsWithN
+      // console.log(startsWithN)
+    },
+
+    filterBrands: function(event) {
+      if(this.filterText == null || this.filterText.length == 0){
+        this.filteredOrderedBrands = [...this.orderedBrands];
+      }
+      else {
+        this.filteredOrderedBrands = [...this.orderedBrands.filter((brand) => brand.name.toLowerCase().includes(this.filterText.toLowerCase()))]
+      }
+      
     },
   },
   watch: {
@@ -607,7 +631,7 @@ export default {
 .brands-container {
   display: flex;
   flex-flow: row;
-  background-color: grey !important;
+  background-color: #F0F0F0 !important;
   height: 400px;
   // min-height: 1000px;
   scroll-behavior: smooth;
