@@ -143,7 +143,7 @@
       >
         <p class="deal-text text-center">Top Products</p>
         <p class="text-center">
-          <a href="" style="color: black"
+          <a href="shop-all" style="color: black"
             >View all <v-icon small>arrow_forward</v-icon></a
           >
         </p>
@@ -212,7 +212,7 @@
       >
         <p class="deal-text text-center">New Arrivals</p>
         <p class="text-center">
-          <a href="" style="color: black"
+          <a href="/new" style="color: black"
             >View all <v-icon small>arrow_forward</v-icon></a
           >
         </p>

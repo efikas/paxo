@@ -23,6 +23,7 @@
     "lodash": "^4.17.21",
     "mdb-vue-ui-kit": "^2.0.0",
     "mdbootstrap": "^4.20.0",
+    "mixpanel-browser": "^2.55.1",
     "moment": "^2.29.1",
     "nuxt": "^2.14.6",
     "postcss": "^8",

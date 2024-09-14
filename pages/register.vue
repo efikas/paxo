@@ -185,6 +185,7 @@
   </div>
 </template>
 <script>
+import mixpanel from "mixpanel-browser";
 import { mapGetters } from 'vuex'
 export default {
   transition: 'default',
@@ -240,6 +241,11 @@ export default {
         .then((response) => {
           this.$toast.success(response.message)
           this.loading = false
+          mixpanel.init("e8933091d8272d61b9c4c16a619ab0e2", {track_pageview: true});
+          mixpanel.track("Sign up", {
+            user_email: this.form.email,
+          });
+
           this.$router.push(
             this.$route.query.next ? '/' + this.$route.query.next : '/dashboard'
           )

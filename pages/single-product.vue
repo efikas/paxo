@@ -612,6 +612,9 @@
 <script>
 import { mapGetters } from 'vuex'
 import { VueImageZoomer } from 'vue-image-zoomer'
+import mixpanel from 'mixpanel-browser';
+
+
 
 
 export default {
@@ -733,6 +736,11 @@ export default {
     }
     this.getSingleProduct()
     this.getRelatedProduct()
+    mixpanel.init("e8933091d8272d61b9c4c16a619ab0e2", {track_pageview: true});
+    mixpanel.track("Product view", {
+      product_id: this.$route.query.product_id,
+      location: "",
+    });
   },
   computed: {
     ...mapGetters('auth', ['isAuthenticated', 'user']),

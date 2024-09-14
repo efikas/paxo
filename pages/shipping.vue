@@ -327,6 +327,8 @@
 import { mapGetters } from 'vuex'
 import paystack from 'vue-paystack'
 import { FlutterwavePayButton } from 'flutterwave-vue-v3'
+import mixpanel from "mixpanel-browser";
+
 export default {
   transition: 'default',
   components: {
@@ -582,6 +584,7 @@ export default {
           this.$toast.success(response.message)
           this.loading = this.confirmDialog = false
           this.getProfile()
+          this.registerEvent()
           this.$router.push('/thank-you')
           this.$store.commit('products/CLEAR_CART')
           this.getUser().then((response) => {
@@ -667,6 +670,7 @@ export default {
           this.$toast.success(response.message)
           this.loading = this.confirmDialog = false
           this.getProfile()
+          this.registerEvent()
           this.$router.push('/thank-you')
           this.$store.commit('products/CLEAR_CART')
           this.getUser().then((response) => {
@@ -757,6 +761,7 @@ export default {
               },
             }),
               this.$store.commit('products/CLEAR_CART'),
+              this.registerEvent()
               this.$router.push('/thank-you')
           }
         })
@@ -855,6 +860,7 @@ export default {
                 })
                 setTimeout(() => {
                   this.getProfile()
+                  this.registerEvent()
                   this.$store.commit('products/CLEAR_CART'),
                     this.$router.push('/thank-you')
                   this.getUser().then((response) => {
@@ -898,6 +904,14 @@ export default {
         // this.states = response.data
       })
     },
+
+    registerEvent(){
+      mixpanel.init("e8933091d8272d61b9c4c16a619ab0e2", {track_pageview: true});
+      mixpanel.track("Product Purchase", {
+        products: this.StoreCart,
+        location: "",
+      });
+    }
   },
 }
 </script>

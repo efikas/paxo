@@ -94,6 +94,8 @@
   </div>
 </template>
 <script>
+import mixpanel from "mixpanel-browser";
+
 export default {
   transition: 'default',
   middleware: 'isauth',
@@ -120,6 +122,11 @@ export default {
         .then((response) => {
           this.$toast.success(response.message)
           this.loading = false
+
+          mixpanel.init("e8933091d8272d61b9c4c16a619ab0e2", {track_pageview: true});
+          mixpanel.track("Sign in", {
+            user_email: this.form.email,
+          });
 
           if (this.$route.query.next) {
             this.$router.push('/' + this.$route.query.next)

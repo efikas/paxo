@@ -19,90 +19,187 @@
         fixed
         v-model="drawer"
         dark
-        class="primary hidden-md-and-up"
+        class="hidden-md-and-up side-nav"
+        style="background-color: white"
       >
-        <v-list>
-          <v-list-item
-            v-for="(item, i) in items"
-            :key="i"
-            :to="item.to"
-            router
-            :class="
-              (isAuthenticated && item.title == 'Sign in') ||
-              (isAuthenticated && item.title == 'Sign Up')
-                ? 'hidden-sm-and-down'
-                : null
-            "
-            exact
-          >
-            <v-list-item-action>
-              <v-icon>{{ item.icon }}</v-icon>
-            </v-list-item-action>
-            <v-list-item-content>
-              <v-list-item-title v-text="item.title" />
-            </v-list-item-content>
-          </v-list-item>
-        </v-list>
+        <div class="d-flex flex-column justify-space-between" style="height: 100%">
+          <div class="">
+            <div class="primary" style="height: 80px"></div>
+            <v-list class="py-0">
+              <v-list-item
+                v-for="(item, i) in items"
+                :key="i"
+                :to="item.to"
+                router
+                :class="
+                  (isAuthenticated && item.title == 'Sign in') ||
+                  (isAuthenticated && item.title == 'Sign Up')
+                    ? 'hidden-sm-and-down'
+                    : null
+                "
+                exact
+              >
+                <v-list-item-action>
+                  <v-icon>{{ item.icon }}</v-icon>
+                </v-list-item-action>
+                <v-list-item-content>
+                  <v-list-item-title v-text="item.title" />
+                  <v-list-item-subtitle
+                    v-text="item.subtitle"
+                    style="font-size: 0.6rem"
+                  />
+                </v-list-item-content>
+              </v-list-item>
+            </v-list>
+              <v-divider class="primary mt-5 mb-5"></v-divider>
+            <v-list width="250px" class="py-0" v-if="!isAuthenticated">
+              <v-list-item to="/contact-us" class="py-0 my-0">
+                <v-list-item-action>
+                  <v-icon>mdi-whatsapp</v-icon>
+                </v-list-item-action>
+                <v-list-item-content class="py-0 my-0">
+                  <v-list-item-title
+                    >Customer Support
+                  </v-list-item-title>
+                </v-list-item-content>
+              </v-list-item>
+              <v-list-item to="/privacy-policy" class="py-0 my-0">
+                <v-list-item-action>
+                  <v-icon>mdi-security</v-icon>
+                </v-list-item-action>
+                <v-list-item-content class="py-0 my-0">
+                  <v-list-item-title
+                    >Privacy Policy
+                  </v-list-item-title>
+                </v-list-item-content>
+              </v-list-item>
+              <v-list-item to="/terms-condition" class="py-0 my-0">
+                <v-list-item-action>
+                  <v-icon>mdi-file-outline</v-icon>
+                </v-list-item-action>
+                <v-list-item-content class="py-0 my-0">
+                  <v-list-item-title
+                    >Terms & Conditions
+                  </v-list-item-title>
+                </v-list-item-content>
+              </v-list-item>
+              <v-list-item to="/about-us" class="py-0 my-0">
+                <v-list-item-action>
+                  <v-icon>mdi-information-outline</v-icon>
+                </v-list-item-action>
+                <v-list-item-content class="py-0 my-0">
+                  <v-list-item-title
+                    >About Us
+                  </v-list-item-title>
+                </v-list-item-content>
+              </v-list-item>
+            </v-list>
 
-        <v-list width="250px" class="py-0" v-if="isAuthenticated">
-          <v-list-item to="/dashboard" class="py-0 my-0">
-            <v-list-item-action>
-              <v-icon>person</v-icon>
-            </v-list-item-action>
-            <v-list-item-content class="py-0 my-0">
-              <v-list-item-title>Account Information </v-list-item-title>
-            </v-list-item-content>
-          </v-list-item>
-          <v-list-item to="/my-orders" class="py-0 my-0">
-            <v-list-item-action>
-              <v-icon>favorite_border</v-icon>
-            </v-list-item-action>
-            <v-list-item-content class="py-0 my-0">
-              <v-list-item-title>My Orders </v-list-item-title>
-            </v-list-item-content>
-          </v-list-item>
-          <v-list-item to="/my-wishlist" class="py-0 my-0">
-            <v-list-item-action>
-              <v-icon>favorite_border</v-icon>
-            </v-list-item-action>
-            <v-list-item-content class="py-0 my-0">
-              <v-list-item-title>My Wishlist </v-list-item-title>
-            </v-list-item-content>
-          </v-list-item>
-          <v-list-item to="/become-affiliate" class="py-0 my-0">
-            <v-list-item-action>
-              <v-icon>group_work</v-icon>
-            </v-list-item-action>
-            <v-list-item-content class="py-0 my-0">
-              <v-list-item-title>Become an Affiliate </v-list-item-title>
-            </v-list-item-content>
-          </v-list-item>
-          <v-list-item to="/upgrade-wholesaler" class="py-0 my-0">
-            <v-list-item-action>
-              <v-icon>receipt</v-icon>
-            </v-list-item-action>
-            <v-list-item-content class="py-0 my-0">
-              <v-list-item-title>Upgrade to Wholesaler </v-list-item-title>
-            </v-list-item-content>
-          </v-list-item>
-          <v-list-item to="/change-password" class="py-0 my-0">
-            <v-list-item-action>
-              <v-icon>password</v-icon>
-            </v-list-item-action>
+            <v-list width="250px" class="py-0" v-if="isAuthenticated">
+              <v-list-item to="/dashboard" class="py-0 my-0">
+                <v-list-item-action>
+                  <v-icon>person</v-icon>
+                </v-list-item-action>
+                <v-list-item-content class="py-0 my-0">
+                  <v-list-item-title
+                    >Account Information
+                  </v-list-item-title>
+                </v-list-item-content>
+              </v-list-item>
+              <v-list-item to="/my-orders" class="py-0 my-0">
+                <v-list-item-action>
+                  <v-icon>favorite_border</v-icon>
+                </v-list-item-action>
+                <v-list-item-content class="py-0 my-0">
+                  <v-list-item-title
+                    >My Orders
+                  </v-list-item-title>
+                </v-list-item-content>
+              </v-list-item>
+              <v-list-item to="/my-wishlist" class="py-0 my-0">
+                <v-list-item-action>
+                  <v-icon>favorite_border</v-icon>
+                </v-list-item-action>
+                <v-list-item-content class="py-0 my-0">
+                  <v-list-item-title>My Wishlist </v-list-item-title>
+                </v-list-item-content>
+              </v-list-item>
+              <v-list-item to="/become-affiliate" class="py-0 my-0">
+                <v-list-item-action>
+                  <v-icon>group_work</v-icon>
+                </v-list-item-action>
+                <v-list-item-content class="py-0 my-0">
+                  <v-list-item-title>Become an Affiliate </v-list-item-title>
+                </v-list-item-content>
+              </v-list-item>
+              <v-list-item to="/upgrade-wholesaler" class="py-0 my-0">
+                <v-list-item-action>
+                  <v-icon>receipt</v-icon>
+                </v-list-item-action>
+                <v-list-item-content class="py-0 my-0">
+                  <v-list-item-title>Upgrade to Wholesaler </v-list-item-title>
+                </v-list-item-content>
+              </v-list-item>
+              <v-list-item to="/change-password" class="py-0 my-0">
+                <v-list-item-action>
+                  <v-icon>password</v-icon>
+                </v-list-item-action>
 
-            <v-list-item-content class="py-0 my-0">
-              <v-list-item-title>Change Password </v-list-item-title>
-            </v-list-item-content>
-          </v-list-item>
-          <v-list-item to="/logout">
-            <v-list-item-action>
-              <v-icon>logout</v-icon>
-            </v-list-item-action>
-            <v-list-item-content>
-              <v-list-item-title>Logout </v-list-item-title>
-            </v-list-item-content>
-          </v-list-item>
-        </v-list>
+                <v-list-item-content class="py-0 my-0">
+                  <v-list-item-title>Change Password </v-list-item-title>
+                </v-list-item-content>
+              </v-list-item>
+              <v-list-item to="/logout">
+                <v-list-item-action>
+                  <v-icon>logout</v-icon>
+                </v-list-item-action>
+                <v-list-item-content>
+                  <v-list-item-title>Logout </v-list-item-title>
+                </v-list-item-content>
+              </v-list-item>
+            </v-list>
+            <v-divider class="primary mt-5 mb-5"></v-divider>
+            <div class="px-3">
+              <h5 class="mt-3" style="font-size: 1rem">Follow us</h5>
+            <v-btn icon href="https://facebook.com/paxobeauty" target="_blank">
+              <v-icon color="black">ri-facebook-fill</v-icon>
+            </v-btn>
+            <v-btn icon href="https://instagram.com/paxobeauty" target="_blank">
+              <v-icon color="black">ri-instagram-fill</v-icon>
+            </v-btn>
+            <v-btn
+              icon
+              href="https://api.whatsapp.com/send/?phone=2348146907099&text&app_absent=0"
+              target="_blank"
+            >
+              <v-icon color="black">ri-whatsapp-fill</v-icon>
+            </v-btn>
+            <v-btn
+              icon
+              href="https://www.youtube.com/channel/UCoK_tl8YDxh-JDBfeO9RTuQ"
+              target="_blank"
+            >
+              <v-icon color="white">ri-youtube-fill</v-icon>
+            </v-btn>
+
+            </div>
+            
+          </div>
+          <div class="primary" style="height: 80px" v-if="!isAuthenticated">
+              <v-list width="250px" class="py-0 mt-5" >
+              <v-list-item to="/login" class="py-0 my-0">
+                <v-list-item-action>
+                  <v-icon style="color: white !important;">person</v-icon>
+                </v-list-item-action>
+                <v-list-item-content class="py-0 my-0">
+                  <v-list-item-title style="color: white !important;"
+                    >Sign in / Sign up
+                  </v-list-item-title>
+                </v-list-item-content>
+              </v-list-item>
+            </v-list>
+            </div>
+        </div>
       </v-navigation-drawer>
 
       <!-- Discount bar -->
@@ -240,7 +337,7 @@
           <!-- :pt-120="$vuetify.breakpoint.mdAndUp" -->
           <nuxt />
         </v-container>
-       
+
         <div class="newsletter mt-8">
           <v-row
             :class="{
@@ -250,7 +347,6 @@
             justify="center"
             align="center"
           >
-            
             <v-col cols="12" md="5" v-if="showGetGlowing">
               <h2>Get Glowing with Our Beauty Newsletter</h2>
             </v-col>
@@ -270,23 +366,26 @@
                       :rules="emailRules"
                       class="template-subscribe"
                     >
-                    <template v-slot:append>
-                      <v-btn
-                      class="primary br-all-10"
-                      blockg
-                      height="54"
-                      
-                      @click="
-                        $refs.form.validate() ? subscribeNewsletter() : null
-                      "
-                      darkg
-                      :loading="loading"
-                      text
-                      style="margin-top: 0.5px; margin-top: 0.5px; margin-right: 0.5px;"
-                      >Subscribe</v-btn
-                    >
-                    </template>
-                  </v-text-field>
+                      <template v-slot:append>
+                        <v-btn
+                          class="primary br-all-10"
+                          blockg
+                          height="54"
+                          @click="
+                            $refs.form.validate() ? subscribeNewsletter() : null
+                          "
+                          darkg
+                          :loading="loading"
+                          text
+                          style="
+                            margin-top: 0.5px;
+                            margin-top: 0.5px;
+                            margin-right: 0.5px;
+                          "
+                          >Subscribe</v-btn
+                        >
+                      </template>
+                    </v-text-field>
                   </v-col>
                 </v-row>
               </v-form>
@@ -301,7 +400,7 @@
               'px-2': $vuetify.breakpoint.smAndDown,
             }"
           >
-            <v-col  md="2" cols="6">
+            <v-col md="2" cols="6">
               <div class="d-flex flex-row flex-1-0 align-center justify-center">
                 <img
                   src="../static/assets/free_shipping.png"
@@ -534,7 +633,7 @@
             </p>
           </nuxt-link>
           <v-spacer />
-         
+
           <div class="d-flex flex-row">
             <nuxt-link to="/privacy-policy" style="margin-right: 20px">
               <p>Privacy</p>
@@ -582,6 +681,7 @@
 </template>
 
 <script>
+import mixpanel from "mixpanel-browser";
 import { mapGetters } from 'vuex'
 import SearchProducts from '~/components/SearchProducts.vue'
 import DiscountMenu from './components/discountmenu.vue'
@@ -616,42 +716,48 @@ export default {
       loading: false,
       items: [
         {
-          icon: 'home',
-          title: 'Home',
+          icon: 'mdi-package-variant-closed',
+          title: 'Shop All',
+          subtitle: 'The best of products just for you.',
           to: '/',
         },
         {
-          icon: 'login',
-          title: 'Sign in',
-          to: '/login',
+          icon: 'mdi-handshake-outline',
+          title: 'Deals',
+          subtitle: 'Explore various discounts and promos.',
+          to: '/offers',
         },
         {
-          icon: 'app_registration',
-          title: 'Sign Up',
-          to: '/register',
+          icon: 'mdi-package-variant-closed',
+          title: 'New',
+          subtitle: 'Explore our new products.',
+          to: '/new',
         },
 
         {
-          icon: 'medication',
+          icon: 'mdi-star-outline',
+          title: 'Paxo Beauty Rewards',
+          subtitle: 'Paxo reward program. Shop and win.',
+          to: '/paxo-reward',
+        },
+        {
+          icon: 'mdi-professional-hexagon',
           title: 'Skin Expert',
+          subtitle: 'Radiant results for glowing outcomes.',
           to: '/skin-expert',
         },
-        {
-          icon: 'trending_up',
-          title: 'Track Order',
-          to: '/track-order',
-        },
-        {
-          icon: 'spa',
-          title: 'About Us',
-          to: '/about-us',
-        },
-        {
-          icon: 'contact_support',
-          title: 'Contact Us',
-          to: '/contact-us',
-        },
+        // {
+        //   icon: 'spa',
+        //   title: 'About Us',
+        //   to: '/about-us',
+        // },
+        // {
+        //   icon: 'contact_support',
+        //   title: 'Contact Us',
+        //   to: '/contact-us',
+        // },
       ],
+      
     }
   },
   methods: {
@@ -755,7 +861,7 @@ export default {
     isAuthenticated: function () {
       this.isAuthenticated ? null : window.location.reload()
     },
-    '$route': function () {
+    $route: function () {
       this.manageTemplateComponent()
     },
   },
@@ -796,6 +902,7 @@ export default {
 
   mounted() {
     this.manageTemplateComponent()
+    mixpanel.init("e8933091d8272d61b9c4c16a619ab0e2", {track_pageview: true});
     // this.stickyNav()
   },
 
@@ -809,9 +916,8 @@ export default {
   },
 }
 </script>
-<style>
-
-.v-text-field--outlined fieldset{
+<style lang="scss">
+.v-text-field--outlined fieldset {
   border-radius: 10px !important;
   /* border-bottom-left-radius: inherit; */
 }
@@ -830,6 +936,19 @@ export default {
 
 .p5p {
   padding: 0px 5% !important;
+}
+
+// .side-nav > .v-list-item__content {
+.side-nav {
+  i.v-icon {
+    color: black !important;
+  }
+  .v-list-item__title {
+    color: black !important;
+  }
+  .v-list-item__subtitle {
+    color: black !important;
+  }
 }
 </style>
 <style lang="scss">
