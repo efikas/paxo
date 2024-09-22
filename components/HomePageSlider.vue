@@ -54,6 +54,26 @@ export default {
   }
 }
 </script>
+<style lang="scss">
+.v-carousel__controls__item.v-btn.v-btn--icon {
+    background-color: #ebece9; /* Background color of non-active ones */
+    height: 15px; /* Height you want */
+    width: 15px; /* Width you want */
+    border-radius: 10px !important; /* Remove default border radius */
+}
+  
+.v-carousel__controls__item.v-btn.v-btn--icon.v-btn--active {
+    background-color: #36bdb4; /* Colour for active one */
+}
+
+.v-carousel__controls__item.v-btn.v-btn--icon:hover {
+    background-color: #36bdb4; /* You might also want to customise the hover effect */
+}
+
+.v-btn__content .v-icon {
+    // display: none; /* Removes the default icon */
+}
+</style>
 <style lang="scss" scoped>
 .v-carousel__controls__item.v-btn.v-btn--icon {
     background-color: red !important; /* Background color of non-active ones */
