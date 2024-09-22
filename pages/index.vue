@@ -65,10 +65,16 @@
       >
         <p class="deal-text text-center font-weight-500">DEALS</p>
         <p class="text-center">
-          <v-hover v-slot="{ hover }" class="hidden-small-and-down">
+          <v-hover
+            v-slot="{ hover }"
+            :class="{
+              '': $vuetify.breakpoint.mdAndUp,
+              'd-none': $vuetify.breakpoint.smAndDown,
+            }"
+          >
             <v-btn
-              to="/offers"
-              class="ma-1 br-all-5"
+              to="/deals"
+              class="ma-1 br-all-5 hidden-small-and-down"
               :class="hover ? 'primary' : 'normal'"
               :outlined="!hover"
               :plain="{
@@ -81,7 +87,7 @@
             </v-btn>
           </v-hover>
 
-          <a href="offers" style="color: black" class="hidden-md-and-up"
+          <a href="/deals" style="color: black" class="hidden-md-and-up"
             >View all</a
           >
         </p>
@@ -119,7 +125,7 @@
           }"
           md="auto"
           cols="6"
-          v-for="(i, index) in products.slice(0, 5)"
+          v-for="(i, index) in products.slice(0, ($vuetify.breakpoint.smAndDown)? 6: 5)"
           :key="index"
         >
           <product-display
@@ -160,7 +166,13 @@
       >
         <p class="deal-text text-center">TOP PRODUCTS</p>
         <p class="text-center">
-          <v-hover v-slot="{ hover }" class="hidden-small-and-down">
+          <v-hover
+            v-slot="{ hover }"
+            :class="{
+              '': $vuetify.breakpoint.mdAndUp,
+              'd-none': $vuetify.breakpoint.smAndDown,
+            }"
+          >
             <v-btn
               to="/shop-all"
               class="ma-1 br-all-5"
@@ -209,7 +221,7 @@
           }"
           md="auto"
           cols="6"
-          v-for="(i, index) in topproducts.slice(0, 5)"
+          v-for="(i, index) in topproducts.slice(0, ($vuetify.breakpoint.smAndDown)? 6: 5)"
           :key="index"
         >
           <product-display
@@ -249,7 +261,13 @@
       >
         <p class="deal-text text-center font-weight-500">NEW ARRIVALS</p>
         <p class="text-center">
-          <v-hover v-slot="{ hover }" class="hidden-small-and-down">
+          <v-hover
+            v-slot="{ hover }"
+            :class="{
+              '': $vuetify.breakpoint.mdAndUp,
+              'd-none': $vuetify.breakpoint.smAndDown,
+            }"
+          >
             <v-btn
               to="/new"
               class="ma-1 br-all-5"
@@ -287,7 +305,7 @@
           }"
           md="auto"
           cols="6"
-          v-for="(i, index) in new_products.slice(0, 5)"
+          v-for="(i, index) in new_products.slice(0, ($vuetify.breakpoint.smAndDown)? 6: 5)"
           :key="index"
         >
           <!-- <new-arrival
@@ -341,7 +359,13 @@
         >
           <p class="deal-text text-center font-weight-500">OUR BRANDS</p>
           <p class="text-center">
-            <v-hover v-slot="{ hover }" class="hidden-small-and-down">
+            <v-hover
+              v-slot="{ hover }"
+              :class="{
+                '': $vuetify.breakpoint.mdAndUp,
+                'd-none': $vuetify.breakpoint.smAndDown,
+              }"
+            >
               <v-btn
                 to="/all-brands"
                 class="ma-1 br-all-5"
@@ -407,7 +431,10 @@
 
     <v-row class="mt-12 p5p download-app" id="download">
       <v-col md="4" cols="12" class="d-flex align-center">
-        <div class="px-6" :class="{'ml-12 pl-12':$vuetify.breakpoint.mdAndUp}">
+        <div
+          class="px-6"
+          :class="{ 'ml-12 pl-12': $vuetify.breakpoint.mdAndUp }"
+        >
           <h3 class="font-weight-bold mt-7" style="font-size: 24px">
             Glow on <br />a Budget
           </h3>

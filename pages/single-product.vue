@@ -423,7 +423,7 @@
           <v-divider></v-divider>
         </v-col>
         <v-col
-          v-for="(i, index) in relatedproduct.slice(0, 6)"
+          v-for="(i, index) in relatedproduct.slice(0, ($vuetify.breakpoint.smAndDown)? 6: 5)"
           :key="index"
           class="pa-8"
           :class="{
