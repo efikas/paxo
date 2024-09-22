@@ -417,7 +417,7 @@
           <!-- <p>Sell on Paxo? <nuxt-link to="/register">Register now</nuxt-link></p> -->
         <!-- </v-col> -->
       </v-row>
-      <v-row class="mt-5" justify="center">
+      <v-row class="mt-5">
         <v-col cols="12" >
           <h3>Related Products</h3>
           <v-divider></v-divider>
@@ -427,10 +427,10 @@
           :key="index"
           class="pa-8"
           :class="{
-            'px-2': $vuetify.breakpoint.mdAndUp,
+            'px-2 custom5cols': $vuetify.breakpoint.mdAndUp,
             'px-4': $vuetify.breakpoint.smAndDown,
           }"
-          md="2"
+          md="auto"
           cols="6"
         >
           <product-display

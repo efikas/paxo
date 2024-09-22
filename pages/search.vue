@@ -16,7 +16,14 @@
       </v-col>
     </v-row>
     <v-row v-else>
-      <v-col md="3" v-for="i in products" :key="i.id">
+      <v-col 
+      :class="{
+            custom5cols: $vuetify.breakpoint.mdAndUp,
+            '': $vuetify.breakpoint.smAndDown,
+          }"
+          md="auto"
+      cols="6" 
+      v-for="i in products" :key="i.id">
         <product-display
           :vendor="i.brand ? i.brand.name : null"
           :product_name="i.name"

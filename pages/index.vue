@@ -63,13 +63,26 @@
           'd-flex justify-space-between': $vuetify.breakpoint.smAndDown,
         }"
       >
-        <p class="deal-text text-center">Deals</p>
+        <p class="deal-text text-center font-weight-500">DEALS</p>
         <p class="text-center">
-          <a href="/offers" style="color: black"
-            >View all
-            <v-icon small class="hidden-small-and-down"
-              >arrow_forward</v-icon
-            ></a
+          <v-hover v-slot="{ hover }" class="hidden-small-and-down">
+            <v-btn
+              to="/offers"
+              class="ma-1 br-all-5"
+              :class="hover ? 'primary' : 'normal'"
+              :outlined="!hover"
+              :plain="{
+                false: $vuetify.breakpoint.mdAndUp,
+                true: $vuetify.breakpoint.smAndDown,
+              }"
+            >
+              <span>View all</span>
+              <v-icon small class="hidden-small-and-down">arrow_forward</v-icon>
+            </v-btn>
+          </v-hover>
+
+          <a href="offers" style="color: black" class="hidden-md-and-up"
+            >View all</a
           >
         </p>
       </v-col>
@@ -100,9 +113,13 @@
 
         <v-col
           class="text-left"
-          md="2"
+          :class="{
+            custom5cols: $vuetify.breakpoint.mdAndUp,
+            '': $vuetify.breakpoint.smAndDown,
+          }"
+          md="auto"
           cols="6"
-          v-for="(i, index) in products.slice(0, 6)"
+          v-for="(i, index) in products.slice(0, 5)"
           :key="index"
         >
           <product-display
@@ -129,7 +146,7 @@
     <v-row
       class="mt-10 p3p"
       :class="{
-        'px-8': $vuetify.breakpoint.mdAndUp,
+        'px-6': $vuetify.breakpoint.mdAndUp,
         'px-4': $vuetify.breakpoint.smAndDown,
       }"
     >
@@ -141,10 +158,26 @@
           'd-flex justify-space-between': $vuetify.breakpoint.smAndDown,
         }"
       >
-        <p class="deal-text text-center">Top Products</p>
+        <p class="deal-text text-center">TOP PRODUCTS</p>
         <p class="text-center">
-          <a href="shop-all" style="color: black"
-            >View all <v-icon small>arrow_forward</v-icon></a
+          <v-hover v-slot="{ hover }" class="hidden-small-and-down">
+            <v-btn
+              to="/shop-all"
+              class="ma-1 br-all-5"
+              :class="hover ? 'primary' : 'normal'"
+              :outlined="!hover"
+              :plain="{
+                false: $vuetify.breakpoint.mdAndUp,
+                true: $vuetify.breakpoint.smAndDown,
+              }"
+            >
+              <span>View all</span>
+              <v-icon small class="hidden-small-and-down">arrow_forward</v-icon>
+            </v-btn>
+          </v-hover>
+
+          <a href="shop-all" style="color: black" class="hidden-md-and-up"
+            >View all</a
           >
         </p>
       </v-col>
@@ -170,9 +203,13 @@
 
         <v-col
           class="text-left"
-          md="2"
+          :class="{
+            custom5cols: $vuetify.breakpoint.mdAndUp,
+            '': $vuetify.breakpoint.smAndDown,
+          }"
+          md="auto"
           cols="6"
-          v-for="(i, index) in topproducts.slice(0, 6)"
+          v-for="(i, index) in topproducts.slice(0, 5)"
           :key="index"
         >
           <product-display
@@ -210,51 +247,79 @@
           'd-flex justify-space-between': $vuetify.breakpoint.smAndDown,
         }"
       >
-        <p class="deal-text text-center">New Arrivals</p>
+        <p class="deal-text text-center font-weight-500">NEW ARRIVALS</p>
         <p class="text-center">
-          <a href="/new" style="color: black"
-            >View all <v-icon small>arrow_forward</v-icon></a
+          <v-hover v-slot="{ hover }" class="hidden-small-and-down">
+            <v-btn
+              to="/new"
+              class="ma-1 br-all-5"
+              :class="hover ? 'primary' : 'normal'"
+              :outlined="!hover"
+              :plain="{
+                false: $vuetify.breakpoint.mdAndUp,
+                true: $vuetify.breakpoint.smAndDown,
+              }"
+            >
+              <span>View all</span>
+              <v-icon small class="hidden-small-and-down">arrow_forward</v-icon>
+            </v-btn>
+          </v-hover>
+
+          <a href="new" style="color: black" class="hidden-md-and-up"
+            >View all</a
           >
         </p>
       </v-col>
     </v-row>
-    <v-row class="mt-6 p3p" justify="center">
-      <v-col
-        class="text-left"
-        md="2"
-        cols="6"
-        v-for="(i, index) in new_products.slice(0, 6)"
-        :key="index"
-      >
-        <!-- <new-arrival
+    <div
+      class="pa-6 mt-0 top-products-container p3p"
+      :class="{
+        'px-6': $vuetify.breakpoint.mdAndUp,
+        'px-4': $vuetify.breakpoint.smAndDown,
+      }"
+    >
+      <v-row class="pa-6 mt-0 p3p" justify="center">
+        <v-col
+          class="text-left"
+          :class="{
+            custom5cols: $vuetify.breakpoint.mdAndUp,
+            '': $vuetify.breakpoint.smAndDown,
+          }"
+          md="auto"
+          cols="6"
+          v-for="(i, index) in new_products.slice(0, 5)"
+          :key="index"
+        >
+          <!-- <new-arrival
           :product_name="i.product.name"
           :price="i.product.price"
           :image="i.product.avatar"
           :id="i.product.id"
         /> -->
 
-        <product-display
-          :vendor="i.brand ? i.brand.name : null"
-          :product_name="i.name"
-          rating="5"
-          :price="i.price"
-          :regular_price="i.regular_price"
-          :wholesale_price="i.wholesale_price"
-          :image="i.avatar"
-          :badge="i.stock_status"
-          :description="i.description"
-          :short_description="i.short_description"
-          :product_object="i"
-          :product_id="i.id"
-        />
-        <!-- <new-arrival
+          <product-display
+            :vendor="i.brand ? i.brand.name : null"
+            :product_name="i.name"
+            rating="5"
+            :price="i.price"
+            :regular_price="i.regular_price"
+            :wholesale_price="i.wholesale_price"
+            :image="i.avatar"
+            :badge="i.stock_status"
+            :description="i.description"
+            :short_description="i.short_description"
+            :product_object="i"
+            :product_id="i.id"
+          />
+          <!-- <new-arrival
           :product_name="i.name"
           :price="i.price"
           :image="i.avatar"
           :id="i.id"
         /> -->
-      </v-col>
-    </v-row>
+        </v-col>
+      </v-row>
+    </div>
 
     <!-- OUR BRANDS -->
 
@@ -274,10 +339,28 @@
             'd-flex justify-space-between': $vuetify.breakpoint.smAndDown,
           }"
         >
-          <p class="deal-text text-center">OUR BRANDS</p>
+          <p class="deal-text text-center font-weight-500">OUR BRANDS</p>
           <p class="text-center">
-            <a href="/all-brands" style="color: black"
-              >View all <v-icon small>arrow_forward</v-icon></a
+            <v-hover v-slot="{ hover }" class="hidden-small-and-down">
+              <v-btn
+                to="/all-brands"
+                class="ma-1 br-all-5"
+                :class="hover ? 'primary' : 'normal'"
+                :outlined="!hover"
+                :plain="{
+                  false: $vuetify.breakpoint.mdAndUp,
+                  true: $vuetify.breakpoint.smAndDown,
+                }"
+              >
+                <span>View all</span>
+                <v-icon small class="hidden-small-and-down"
+                  >arrow_forward</v-icon
+                >
+              </v-btn>
+            </v-hover>
+
+            <a href="/all-brands" style="color: black" class="hidden-md-and-up"
+              >View all</a
             >
           </p>
         </v-col>
@@ -309,7 +392,7 @@
       </v-col>
     </v-row> -->
 
-    <v-row justify="center" align="center" class="mt-6">
+    <!-- <v-row justify="center" align="center" class="mt-6">
       <v-col md="12">
         <nuxt-link to="">
           <v-img
@@ -320,9 +403,32 @@
           ></v-img>
         </nuxt-link>
       </v-col>
+    </v-row> -->
+
+    <v-row class="mt-12 p5p download-app" id="download">
+      <v-col md="4" cols="12" class="d-flex align-center">
+        <div class="px-6" :class="{'ml-12 pl-12':$vuetify.breakpoint.mdAndUp}">
+          <h3 class="font-weight-bold mt-7" style="font-size: 24px">
+            Glow on <br />a Budget
+          </h3>
+          <p class="mt-2" style="font-size: 16px">
+            Shopping Our <br />Affordable Skincare <br />Essentials Now
+          </p>
+          <p class="mt-5" style="font-size: 14px">
+            <v-icon color="black">mdi-arrow-right-circle-outline</v-icon>
+          </p>
+        </div>
+      </v-col>
+      <v-col md="6" cols="12" class="pb-0 pt-0">
+        <div class="glow-image"></div>
+        <!-- <img src="../static/assets/glow.png" style="height: 300px; width: auto" alt="" /> -->
+      </v-col>
+      <v-col md="3" cols="12" class="pb-0 pt-0 my-0 d-flex align-center">
+        <div class="d-flex align-center"></div>
+      </v-col>
     </v-row>
 
-    <div class="brand-container-scroll px-5">
+    <div class="brand-container-scroll px-5 py-3">
       <div
         class="py-8 brand-container"
         justify="center"
@@ -331,112 +437,40 @@
           'ml-10': $vuetify.breakpoint.smAndDown,
         }"
       >
-      <!-- <h3 style="font-size: 20px; font-weight: 400">TOP BRANDS</h3> -->
+        <!-- <h3 style="font-size: 20px; font-weight: 400">TOP BRANDS</h3> -->
 
-      <v-card
-        v-for="i in topbrands"
-        :key="i.id"
-        class="pa brand-card text-center"
-        justify="center"
-        flat
-        :to="'/brands/' + i.name + '?brandId=' + i.brand_id"
-      >
-        <v-img
-          class="brands-imgj"
-          :src="i.avatar"
-          @error="$event.target.src = '../static/assets/paxo_icon_logo.png'"
-          lazy-src="https://res.cloudinary.com/spectrina/image/upload/v1660830349/Brand_Banner_1b_gax3tp.png"
+        <v-card
+          v-for="i in topbrands"
+          :key="i.id"
+          class="pa brand-card text-center"
+          justify="center"
+          flat
+          :to="'/brands/' + i.name + '?brandId=' + i.brand_id"
         >
-        </v-img>
-      </v-card>
-      <!-- <v-row class="mt-6">
-        <v-col v-for="i in topbrands" :key="i.id" md="3" cols="12">
-          <v-card class="pa brand-card text-center" justify="center" flat :to="'/brands/'+i.name+'?brandId='+i.brand_id">
-            <v-img
-              class="brands-imgj"
-              :src="i.avatar"
-              @error="$event.target.src='../static/assets/paxo_icon_logo.png'"
-              lazy-src="https://res.cloudinary.com/spectrina/image/upload/v1660830349/Brand_Banner_1b_gax3tp.png"
-          
-            >
-            </v-img>
-          </v-card>
-        </v-col>
-      </v-row> -->
+          <v-img
+            class="brands-imgj"
+            :src="i.avatar"
+            @error="$event.target.src = '../static/assets/paxo_icon_logo.png'"
+            lazy-src="https://res.cloudinary.com/spectrina/image/upload/v1660830349/Brand_Banner_1b_gax3tp.png"
+          >
+          </v-img>
+        </v-card>
+      </div>
     </div>
-    </div>
-
-    <!-- <v-row justify="center" align="center">
-      <v-col md="10">
-        <nuxt-link to="/offers">
-        <v-img
-          class="brands-img"
-          :src="require('../static/assets/banner.jpeg')"
-          @error="$event.target.src='../static/assets/paxo_icon_logo.png'"
-          lazy-src="https://res.cloudinary.com/spectrina/image/upload/v1660830145/Offer_Banner_1b_ugnb6t.png"
-          
-        ></v-img>
-
-        </nuxt-link>
-      </v-col>
-    </v-row> -->
-
-    <!-- <div style="background-color: #f5f5f5" class="pa-10 py-16 mt-7" :class="{'px-10':$vuetify.breakpoint.mdAndUp,'px-4':$vuetify.breakpoint.smAndDown}">
-      <h3 style="font-size: 20px; font-weight: 400">TOP CATEGORIES</h3>
-      <v-row class="mt-6">
-        <v-col v-for="i in categories.slice(0,8)" :key="i.id" :class="{'mt-4':$vuetify.breakpoint.mdAndUp}" md="3" cols="12">
-          <v-card class="pa-5 cat-card" flat :to="'/category/' + i.name + '?categoryId=' + i.id">
-            <v-row justify="center" align="center">
-              <v-col cols="8">
-                <p class="mt-2">{{i.name}}</p>
-              </v-col>
-              <v-col class="text-right">
-                <v-icon small color="#ff4e50">arrow_forward_ios</v-icon>
-              </v-col>
-            </v-row>
-          </v-card>
-        </v-col>
-      </v-row>
-    </div> -->
-
-    <!-- <v-row class="pa-8" :class="{'px-8':$vuetify.breakpoint.mdAndUp,'px-4':$vuetify.breakpoint.smAndDown}">
-      <v-col md="6">
-        <h3 style="font-size: 20px; font-weight: 400">TOP STORIES</h3>
-      </v-col>
-      <v-col class="text-right">
-        <v-btn text class="primary" to="/stories">Visit Our Blog</v-btn>
-      </v-col>
-    </v-row>
-    <v-row :class="{'px-8':$vuetify.breakpoint.mdAndUp,'px-4':$vuetify.breakpoint.smAndDown}">
-      <v-col md="3" v-for="i in blogs.slice(0,4)" :key="i.id">
-      <nuxt-link :to="'/blog/'+i.title+'?blogid='+i.id">
-        <v-img
-          class="blog-container"
-          :src="i.avatar" height="320"
-          @error="$event.target.src='../static/assets/paxo_icon_logo.png'"
-          lazy-src="https://res.cloudinary.com/spectrina/image/upload/v1660831137/Icon_1b_f5502u.png"
-          
-        >
-          <div class="blog-title white--text">
-
-            <p class="font-weight-bold">{{i.title}}</p>
-            <v-btn :to="'/blog/'+i.title+'?blogid='+i.id" class="primary" small text>Read More</v-btn>
-          </div>
-        </v-img>
-
-      </nuxt-link>
-      </v-col>
-    </v-row> -->
 
     <v-row class="mt-1 p5p download-app" id="download">
       <v-col md="4" cols="12" class="d-flex align-center">
         <div class="px-5">
-          <h3 class="font-weight-bold">Download Paxo App Now!</h3>
-          <p class="mt-5">
+          <h3 class="font-weight-bold" style="font-size: 20px">
+            Download Paxo App Now!
+          </h3>
+          <p class="mt-5" style="font-size: 14px">
             Shopping for skincare products on the go with ease with our mobile
             app.
           </p>
-          <p class="mt-5">Get a link to download the app on your phone</p>
+          <p class="mt-5" style="font-size: 14px">
+            Get a link to download the app on your phone
+          </p>
         </div>
       </v-col>
       <v-col md="4" cols="12" class="pb-0">
@@ -656,6 +690,7 @@ a {
 .download-app {
   // background-color: #f8f8 f8;
   background: rgb(255, 255, 255);
+  // height: 200px;
   background: linear-gradient(
     90deg,
     rgba(255, 255, 255, 1) 15%,
@@ -714,6 +749,13 @@ a {
   align-items: center;
   justify-content: center;
 }
+.glow-image {
+  height: 100%;
+  width: 100%;
+  background-image: url('../static/assets/glow.png');
+  background-repeat: no-repeat;
+  background-size: cover;
+}
 .brand-card {
   border-radius: 100px;
   height: 120px;
@@ -758,12 +800,11 @@ a {
 
 @media only screen and (max-width: 768px) {
   .brand-container-scroll {
-      max-width: 100%;
-      overflow-x: auto;
-      overflow-y: hidden;
-    }
+    max-width: 100%;
+    overflow-x: auto;
+    overflow-y: hidden;
+  }
   .product-box {
-   
     .brand-card {
       border-radius: 100px;
       height: 80px;

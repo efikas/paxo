@@ -115,11 +115,17 @@
             <div></div>
           </v-col>
           <v-row class="mt-0">
-            <v-col 
-            md="2"
+            <v-col
+              :class="{
+                custom5cols: $vuetify.breakpoint.mdAndUp,
+                '': $vuetify.breakpoint.smAndDown,
+              }"
+              md="auto"
               sm="6"
-              cols="6" 
-            v-for="(i, index) in products" :key="index">
+              cols="6"
+              v-for="(i, index) in products"
+              :key="index"
+            >
               <product-display
                 :product_name="i.name"
                 rating="5"

@@ -23,7 +23,7 @@
       class="elevation-0"
     >
       <template v-slot:activator="{ attrs, on }">
-        <v-btn class="nav-btn px-3 pt-3 font-weight-bold" v-bind="attrs" v-on="on" text>
+        <v-btn class="nav-btn px-3 pt-3 font-weight-500" v-bind="attrs" v-on="on" text>
           <img src="../../static/assets/shop_cat.png" alt="" />
           SHOP CATEGORIES</v-btn
         >
@@ -92,7 +92,7 @@
                     style="text-decoration: none; margin-bottom: 0 !important"
                   >
                     <p
-                      class="primary--text font-weight-bold"
+                      class="primary--text font-weight-500"
                       style="font-size: 13px"
                     >
                       {{ j.name }}
@@ -125,7 +125,7 @@
       class="elevation-0"
     >
       <template v-slot:activator="{ attrs, on }">
-        <v-btn class="nav-btn px-3 pt-3 font-weight-bold" v-bind="attrs" v-on="on" text>
+        <v-btn class="nav-btn px-3 pt-3 font-weight-500" v-bind="attrs" v-on="on" text>
           BRANDS</v-btn
         >
       </template>
@@ -239,7 +239,7 @@
     >
       <template v-slot:activator="{ attrs, on }">
         <v-btn
-          class="nav-btn px-3 pt-4 font-weight-bold"
+          class="nav-btn px-3 pt-4 font-weight-500"
           v-bind="attrs"
           v-on="on"
           text
@@ -259,7 +259,7 @@
       class="elevation-0"
     >
       <template v-slot:activator="{ attrs, on }">
-        <v-btn class="nav-btn px-3 pt-4 font-weight-bold" v-bind="attrs" v-on="on" text to="/shop-all">
+        <v-btn class="nav-btn px-3 pt-4 font-weight-500" v-bind="attrs" v-on="on" text to="/shop-all">
           SHOP ALL</v-btn
         >
       </template>
@@ -275,7 +275,7 @@
     >
       <template v-slot:activator="{ attrs, on }">
         <v-btn
-          class="nav-btn px-3 pt-4 font-weight-bold"
+          class="nav-btn px-3 pt-4 font-weight-500"
           v-bind="attrs"
           v-on="on"
           text
@@ -296,7 +296,7 @@
     >
       <template v-slot:activator="{ attrs, on }">
         <v-btn
-          class="nav-btn px-3 pt-4 font-weight-bold"
+          class="nav-btn px-3 pt-4 font-weight-500"
           v-bind="attrs"
           v-on="on"
           text
@@ -317,7 +317,7 @@
     >
       <template v-slot:activator="{ attrs, on }">
         <v-btn
-          class="nav-btn px-3 pt-4 font-weight-bold"
+          class="nav-btn px-3 pt-4 font-weight-500"
           v-bind="attrs"
           v-on="on"
           text

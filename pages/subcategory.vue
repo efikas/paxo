@@ -9,7 +9,6 @@
     </v-container>
     <v-container fluid v-else>
       <v-row class="mt-4" :class="{ 'px-4': $vuetify.breakpoint.smAndDown }">
-       
         <v-col md="12 p3p">
           <v-row>
             <v-col md="9">
@@ -27,8 +26,19 @@
           <v-divider color="#00C3B7"></v-divider>
 
           <v-col md="12" class="hidden-sm-and-down pl-6 mt-6">
-            <div class="category pa-0 d-flex flex-row justify-content-center align-center">
-              <h4 class="mb-6 ma- mr-2" style="width: 120px">FILTER BY <v-icon>mdi-filter-variant</v-icon></h4>
+            <div
+              class="
+                category
+                pa-0
+                d-flex
+                flex-row
+                justify-content-center
+                align-center
+              "
+            >
+              <h4 class="mb-6 ma- mr-2" style="width: 120px">
+                FILTER BY <v-icon>mdi-filter-variant</v-icon>
+              </h4>
               <v-select
                 id="mySelect"
                 :items="brands"
@@ -98,21 +108,22 @@
                 outlined
                 clearable
               ></v-select>
-    
             </div>
-              <div>
-            </div>
+            <div></div>
           </v-col>
           <v-row class="mt-0">
             <v-col
-            md="2"
+              :class="{
+                custom5cols: $vuetify.breakpoint.mdAndUp,
+                '': $vuetify.breakpoint.smAndDown,
+              }"
+              md="auto"
               sm="6"
-              cols="6" 
+              cols="6"
               v-for="(i, index) in products"
               :key="index"
             >
-
-            <product-display
+              <product-display
                 :product_name="i.name"
                 rating="5"
                 :price="i.price"
@@ -144,7 +155,7 @@
         </v-col>
       </v-row>
       <v-pagination
-      class="mt-16"
+        class="mt-16"
         :length="pageinationLength"
         :total-visible="7"
         v-model="page"
@@ -159,23 +170,26 @@
 export default {
   computed: {
     pageName() {
-      let dCate = this.subCategories.filter(item => item.id == this.subCategory);
-       if(dCate.length > 0){
-        let newUrlIS =  window.location.origin + `/subcategory/${dCate[0].name}?subCategoryId=${this.subCategory}`;
-        window.history.pushState({}, null, newUrlIS);
-        return dCate[0].name;
-       }
+      let dCate = this.subCategories.filter(
+        (item) => item.id == this.subCategory
+      )
+      if (dCate.length > 0) {
+        let newUrlIS =
+          window.location.origin +
+          `/subcategory/${dCate[0].name}?subCategoryId=${this.subCategory}`
+        window.history.pushState({}, null, newUrlIS)
+        return dCate[0].name
+      }
       return location.pathname.split('/')[2]
     },
   },
   mounted() {
-    this.subCategory = this.$route.query.subCategoryId;
+    this.subCategory = this.$route.query.subCategoryId
     this.getSubCategories()
     this.getCategories()
     this.getbrands()
     this.getProducts()
     // this.subCategory = this.$route.query.subCategoryId;
-    
   },
   data() {
     return {
@@ -186,25 +200,23 @@ export default {
       brands: [],
       categories: [],
       subCategories: [],
-      avalabilities: [
-        {id: "instock", name: "Exclude out of stock"}
-      ],
-      availability: "",
-      category: "",
-      subCategory: "",
-      brand: "",
+      avalabilities: [{ id: 'instock', name: 'Exclude out of stock' }],
+      availability: '',
+      category: '',
+      subCategory: '',
+      brand: '',
       selectedPrice: {},
       products: [],
       priceRange: [
-        { start: '1', end: '1000'},
-        { start: '1000', end: '2000'},
-        { start: '2000', end: '3000'},
-        { start: '3000', end: '4000'},
-        { start: '4000', end: '5000'},
-        { start: '5000', end: '10000'},
-        { start: '10000', end: '20000'},
-        { start: '20000', end: '50000'},
-        { start: '50000', end: '100000'},
+        { start: '1', end: '1000' },
+        { start: '1000', end: '2000' },
+        { start: '2000', end: '3000' },
+        { start: '3000', end: '4000' },
+        { start: '4000', end: '5000' },
+        { start: '5000', end: '10000' },
+        { start: '10000', end: '20000' },
+        { start: '20000', end: '50000' },
+        { start: '50000', end: '100000' },
       ],
       real_products: [],
       loading: true,
@@ -234,17 +246,17 @@ export default {
         this.categories = response.data
       })
     },
-    toPage(page){
+    toPage(page) {
       this.page = page
-      let start = (this.perPage * (page - 1))
-      let end = (this.perPage * page)
-      this.products = this.real_products.slice(start, end);
-      window.scrollTo(0, 0);
+      let start = this.perPage * (page - 1)
+      let end = this.perPage * page
+      this.products = this.real_products.slice(start, end)
+      window.scrollTo(0, 0)
     },
-    next(){
+    next() {
       this.toPage(this.page)
     },
-    previous(){
+    previous() {
       this.toPage(this.page)
     },
     async getProducts() {
@@ -261,16 +273,17 @@ export default {
       await this.$store
         .dispatch('products/sectionproducts', data)
         .then((response) => {
-          if(Array.isArray(response.data)){
+          if (Array.isArray(response.data)) {
             this.real_products = response.data
-          }
-          else {
-            if(response.data != null){
-             this.real_products = Object.values(response.data)
+          } else {
+            if (response.data != null) {
+              this.real_products = Object.values(response.data)
             }
           }
-          
-          this.pageinationLength = Math.ceil(this.real_products.length / this.perPage)
+
+          this.pageinationLength = Math.ceil(
+            this.real_products.length / this.perPage
+          )
           this.toPage(1)
           this.loading = false
           // this.filterPrice()

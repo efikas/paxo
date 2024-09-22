@@ -18,7 +18,7 @@
             >
           </v-img>
         </nuxt-link>
-        <v-expand-transition>
+        <!-- <v-expand-transition>
           <v-card
             flat
             class="
@@ -89,13 +89,10 @@
               </template>
               <span>Refer Product</span>
             </v-tooltip>
-            <!-- <v-btn icon small
-              ><v-icon small>ri-exchange-funds-line</v-icon></v-btn
-            > -->
           </v-card>
-        </v-expand-transition>
-        <div class="vendor">{{ vendor }}</div>
-        <div class="product-title">
+        </v-expand-transition> -->
+        <!-- <div class="vendor">{{ vendor }}</div> -->
+        <div class="product-title mt-3">
           <nuxt-link :to="'/single-product?product_id=' + product_id">
             {{ product_name }}
           </nuxt-link>
@@ -110,19 +107,51 @@
           }}
           <del
             v-if="product_object.onsale == '1'"
-            style="color: #bbb; font-size:0.8rem"
+            style="color: #bbb; font-size: 0.8rem"
             >&#8358;{{ regular_price | formatPrice }}</del
           >
           <p v-else></p>
         </div>
         <div class="d-flex">
-          <v-rating
-          dense
-          small
-          color="orange"
-          :value="parseInt(rating)"
-        > {{rating}}</v-rating> <span style="margin-left: 2px; margin-top: 2px; font-size:0.8rem">({{rating}})</span>
+          <v-rating dense small color="orange" :value="parseInt(rating)">
+            {{ rating }}</v-rating
+          >
+          <span style="margin-left: 2px; margin-top: 2px; font-size: 0.8rem"
+            >({{ rating }})</span
+          >
         </div>
+        <transition name="fade" mode="out-in">
+          <div class="d-flex mt-3 pr-1" v-if="hover">
+            <v-tooltip bottom>
+              <template v-slot:activator="{ on, attrs }">
+                <v-btn
+                  icon
+                  color="#36bdb4"
+                  class="mr-2"
+                  v-bind="attrs"
+                  v-on="on"
+                  @click="
+                    isAuthenticated ? addToWishList() : (loginDialog = true)
+                  "
+                  ><v-icon>ri-heart-line</v-icon></v-btn
+                >
+              </template>
+              <span>Add to Wishlist</span>
+            </v-tooltip>
+            <v-btn
+              :loading="loading"
+              outlined
+              color="primary"
+              class="mb-1 br-all-10"
+            >
+              <v-icon style="color: black" small>mdi-shopping-outline</v-icon>
+              &nbsp;
+              <span style="color: black" class="text-caption"
+                >Add to cart</span
+              ></v-btn
+            >
+          </div>
+        </transition>
       </div>
     </v-hover>
     <v-dialog v-model="dialog" width="1200">
@@ -219,8 +248,10 @@
       </v-card>
     </v-dialog>
     <v-dialog v-model="loginDialog" width="500px">
-      <v-card >
-        <h3 class="text-center py-4" style="background-color: #14ADAC33;">Login to Continue</h3>
+      <v-card>
+        <h3 class="text-center py-4" style="background-color: #14adac33">
+          Login to Continue
+        </h3>
         <v-form lazy-validation v-model="valid" ref="login" class="py-8 px-10">
           <v-text-field
             v-model="form.email"
@@ -240,25 +271,32 @@
             outlined
           ></v-text-field>
           <v-checkbox label="Remember me" class="my-0"></v-checkbox>
-          <div class="text-center px-12 text-caption"><v-btn
-            block
-            :loading="loading"
-            @click="$refs.login.validate() ? login() : null"
-            large
-            text
-            class="primary mb-4 br-all-5"
-            >Log In</v-btn
-          ></div>
+          <div class="text-center px-12 text-caption">
+            <v-btn
+              block
+              :loading="loading"
+              @click="$refs.login.validate() ? login() : null"
+              large
+              text
+              class="primary mb-4 br-all-5"
+              >Log In</v-btn
+            >
+          </div>
 
           <div class="text-center px-4 text-caption">
-          By Clicking “Sign in” you certify that you agree to Paxo Beauty’s <span class="font-weight-bold">Terms and Conditions</span> and
-          <span class="font-weight-bold">Privacy Policy.</span></div> 
-          
-        </v-form>
-        <div class="text-center py-4" style="background-color: #14ADAC33;">
-            Don't have an account? <nuxt-link to="/register"><span class="font-weight-bold" style="color: black;">Sign Up</span></nuxt-link
-            ><br />
+            By Clicking “Sign in” you certify that you agree to Paxo Beauty’s
+            <span class="font-weight-bold">Terms and Conditions</span> and
+            <span class="font-weight-bold">Privacy Policy.</span>
           </div>
+        </v-form>
+        <div class="text-center py-4" style="background-color: #14adac33">
+          Don't have an account?
+          <nuxt-link to="/register"
+            ><span class="font-weight-bold" style="color: black"
+              >Sign Up</span
+            ></nuxt-link
+          ><br />
+        </div>
       </v-card>
     </v-dialog>
   </div>
@@ -295,7 +333,9 @@ export default {
       ],
       passwordRules: [
         (v) => !!v || 'Password number is required',
-        (v) => (v != undefined && v.length >= 8) || 'Password must be at least eight characters',
+        (v) =>
+          (v != undefined && v.length >= 8) ||
+          'Password must be at least eight characters',
       ],
     }
   },
@@ -367,18 +407,16 @@ export default {
         await this.$store
           .dispatch('products/savecart', data)
           .then((response) => {
-            if(response.status == true){
+            if (response.status == true) {
               this.$store.dispatch('products/addToCart', this.product_object)
               this.$toast.success('Product added to cart successfully!')
               // this.$toast.success(response.success.message)
             }
-            
           })
           .catch((error) => {
             // this.$toast.error(error.response.data.error.message)
           })
-      }
-      else {
+      } else {
         this.$router.push('/login')
       }
     },
@@ -397,7 +435,7 @@ a {
 
   max-width: 250px;
   &:hover {
-    border: 1px solid #d9d9d9;
+    border: 1px dotted #36bdb4;
   }
   .product-image {
     border-radius: 10px 10px;
@@ -474,6 +512,16 @@ p {
   p {
     color: #000 !important;
   }
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 2s;
+  transform: translateY(1)
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  opacity: 0;
+  transform: translateY(1)
 }
 
 @media only screen and (max-width: 768px) {

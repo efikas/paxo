@@ -3,8 +3,6 @@
     <!-- <home-page-slider></home-page-slider> -->
     <v-container fluid>
       <v-row class="mt-4" :class="{ 'px-4': $vuetify.breakpoint.smAndDown }">
-       
-
         <v-col md="12 p3p">
           <!-- <h1 class="font-weight-medium">{{ !loading ? ((products.length > 0) ? 'Brand: '+ products[0].brand.name : 'No Products Found') : null}}</h1> -->
           <h1 class="font-weight-bold">
@@ -19,8 +17,19 @@
           <v-divider color="#00C3B7"></v-divider>
 
           <v-col md="12" class="hidden-sm-and-down pl-6 mt-6">
-            <div class="category pa-0 d-flex flex-row justify-content-center align-center">
-              <h4 class="mb-6 ma- mr-2" style="width: 120px">FILTER BY <v-icon>mdi-filter-variant</v-icon></h4>
+            <div
+              class="
+                category
+                pa-0
+                d-flex
+                flex-row
+                justify-content-center
+                align-center
+              "
+            >
+              <h4 class="mb-6 ma- mr-2" style="width: 120px">
+                FILTER BY <v-icon>mdi-filter-variant</v-icon>
+              </h4>
               <v-select
                 id="mySelect"
                 :items="brands"
@@ -90,17 +99,21 @@
                 outlined
                 clearable
               ></v-select>
-    
             </div>
-              <div>
-            </div>
+            <div></div>
           </v-col>
           <v-row class="mt-0">
-            <v-col 
-              md="2"
+            <v-col
+              :class="{
+                custom5cols: $vuetify.breakpoint.mdAndUp,
+                '': $vuetify.breakpoint.smAndDown,
+              }"
+              md="auto"
               sm="6"
-              cols="6" 
-            v-for="(i, index) in products" :key="index">
+              cols="6"
+              v-for="(i, index) in products"
+              :key="index"
+            >
               <!-- {{i}} -->
               <!-- :vendor="i.product.brand.name" -->
               <!-- <product-display

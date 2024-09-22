@@ -938,6 +938,10 @@ export default {
   padding: 0px 5% !important;
 }
 
+.font-weight-500 {
+  font-weight: 500 !important;
+}
+
 // .side-nav > .v-list-item__content {
 .side-nav {
   i.v-icon {
@@ -949,6 +953,11 @@ export default {
   .v-list-item__subtitle {
     color: black !important;
   }
+}
+.custom5cols {
+  width: 20% !important;
+  max-width: 20% !important;
+  flex-basis: 20% !important;
 }
 </style>
 <style lang="scss">
