@@ -26,82 +26,82 @@
           <v-divider color="#00C3B7"></v-divider>
 
           <v-col md="12" class="hidden-sm-and-down pl-6 mt-6">
-          <div class="category pa-0 d-flex flex-row justify-content-center align-center">
-            <h4 class="mb-6 ma- mr-2" style="width: 120px">FILTER BY <v-icon>mdi-filter-variant</v-icon></h4>
-            <v-select
-              id="mySelect"
-              :items="brands"
-              label="Brands"
-              item-text="name"
-              item-value="id"
-              class="rounded-lg mr-3"
-              v-model="brand"
-              @change="getProducts()"
-              rounded
-              outlined
-              shaped
-              color="primary"
-              clearable
-            ></v-select>
-            <v-select
-              :items="categories"
-              label="Category"
-              item-text="name"
-              item-value="id"
-              v-model="category"
-              @change="getProducts()"
-              class="rounded-lg mr-3"
-              outlined
-              clearable
-            ></v-select>
-            <v-select
-              :items="subCategories"
-              label="Sub-category"
-              item-text="name"
-              item-value="id"
-              v-model="subCategory"
-              @change="getProducts()"
-              class="rounded-lg mr-3"
-              outlined
-              clearable
-            ></v-select>
-            <v-select
-              :items="priceRange"
-              label="Price"
-              v-model="selectedPrice"
-              @change="getProducts()"
-              :item-text="(i) => `₦${i.start} to ₦${i.end}`"
-              :item-value="(i) => i"
-              class="rounded-lg mr-3"
-              outlined
-              clearable
-            ></v-select>
-            <v-select
-              :items="avalabilities"
-              v-model="availability"
-              label="Availability"
-              item-text="name"
-              item-value="id"
-              @change="getProducts()"
-              class="rounded-lg mr-3"
-              outlined
-              clearable
-            ></v-select>
-            <v-select
-              :items="[]"
-              label="Sort By"
-              item-text="name"
-              @change="getProducts()"
-              item-value="id"
-              class="rounded-lg mr-3"
-              outlined
-              clearable
-            ></v-select>
-  
-          </div>
-          <div>
-          </div>
-        </v-col>
+            <div class="category pa-0 d-flex flex-row justify-content-center align-center">
+              <h4 class="mb-6 ma- mr-2" style="width: 120px">FILTER BY <v-icon>mdi-filter-variant</v-icon></h4>
+              <v-select
+                id="mySelect"
+                :items="brands"
+                label="Brands"
+                item-text="name"
+                item-value="id"
+                class="rounded-lg mr-3"
+                v-model="brand"
+                @change="getProducts()"
+                rounded
+                outlined
+                shaped
+                color="primary"
+                clearable
+              ></v-select>
+              <v-select
+                :items="categories"
+                label="Category"
+                item-text="name"
+                item-value="id"
+                v-model="category"
+                @change="getProducts()"
+                class="rounded-lg mr-3"
+                outlined
+                clearable
+              ></v-select>
+              <v-select
+                :items="subCategories"
+                label="Sub-category"
+                item-text="name"
+                item-value="id"
+                v-model="subCategory"
+                @change="getProducts()"
+                class="rounded-lg mr-3"
+                outlined
+                clearable
+              ></v-select>
+              <v-select
+                :items="priceRange"
+                label="Price"
+                v-model="selectedPrice"
+                @change="getProducts()"
+                :item-text="(i) => `₦${i.start} to ₦${i.end}`"
+                :item-value="(i) => i"
+                class="rounded-lg mr-3"
+                outlined
+                clearable
+              ></v-select>
+              <v-select
+                :items="avalabilities"
+                v-model="availability"
+                label="Availability"
+                item-text="name"
+                item-value="id"
+                @change="getProducts()"
+                class="rounded-lg mr-3"
+                outlined
+                clearable
+              ></v-select>
+              <v-select
+                :items="[]"
+                label="Sort By"
+                item-text="name"
+                @change="getProducts()"
+                item-value="id"
+                class="rounded-lg mr-3"
+                outlined
+                clearable
+              ></v-select>
+    
+            </div>
+              <div>
+            </div>
+          </v-col>
           <v-row class="mt-0">
             <!-- {{category}} -->
             <v-col
@@ -172,7 +172,7 @@
   
         page: 1,
         pageinationLength: 1,
-        perPage: 40,
+        perPage: 42,
         range: [0, 10000],
         brands: [],
         categories: [],
@@ -247,7 +247,7 @@
           availability: this.availability,
         }
         await this.$store
-          .dispatch('products/sectionproducts', data)
+          .dispatch('products/newproducts', data)
           .then((response) => {
             if (Array.isArray(response.data)) {
               this.real_products = response.data
@@ -264,43 +264,6 @@
             this.loading = false
             // this.filterPrice()
           })
-      },
-      async getProducts() {
-        // const data = {
-        //   page: this.page,
-        //   category: this.category,
-        //   brand: this.brand,
-        //   price: this.range
-        // }
-        const data = {
-          page: this.page,
-          id: this.$route.query.sectionId,
-          subcategory: this.subCategory,
-          section: this.$route.query.sectionId,
-          category: this.category,
-          brand: this.brand,
-          price: this.selectedPrice,
-          availability: this.availability,
-        }
-        await this.$store.dispatch('products/offers', data).then((response) => {
-          // this.products = this.real_products = response.data.data
-          // this.length = response.data.last_page
-          // this.loading = false
-          // this.filterPrice()
-          if (Array.isArray(response.data)) {
-            this.real_products = response.data
-          } else {
-            if (response.data != null) {
-              this.real_products = Object.values(response.data)
-            }
-          }
-  
-          this.pageinationLength = Math.ceil(
-            this.real_products.length / this.perPage
-          )
-          this.toPage(1)
-          this.loading = false
-        })
       },
     },
   }

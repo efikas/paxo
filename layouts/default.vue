@@ -260,11 +260,11 @@
           <v-col cols="3">
             <v-btn
               class="nav-btn font-weight-medium px-3"
-              to="/offers"
+              to="/deals"
               block
               text
             >
-              Offers</v-btn
+              Deals</v-btn
             >
           </v-col>
           <v-col cols="12" style="margin-top: -30px">
@@ -725,7 +725,7 @@ export default {
           icon: 'mdi-handshake-outline',
           title: 'Deals',
           subtitle: 'Explore various discounts and promos.',
-          to: '/offers',
+          to: '/deals',
         },
         {
           icon: 'mdi-package-variant-closed',

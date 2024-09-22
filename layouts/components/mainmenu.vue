@@ -243,7 +243,7 @@
           v-bind="attrs"
           v-on="on"
           text
-          to="/offers"
+          to="/deals"
         >
           DEALS</v-btn
         >

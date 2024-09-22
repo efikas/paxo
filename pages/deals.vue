@@ -18,7 +18,7 @@
             {{
               !loading
                 ? products.length > 0
-                  ? 'Shop All'
+                  ? 'Deals'
                   : 'No Products Found'
                 : null
             }}
@@ -35,7 +35,7 @@
               item-value="id"
               class="rounded-lg mr-3"
               v-model="brand"
-              @change="getShopAllProducts()"
+              @change="getProducts()"
               rounded
               outlined
               shaped
@@ -48,7 +48,7 @@
               item-text="name"
               item-value="id"
               v-model="category"
-              @change="getShopAllProducts()"
+              @change="getProducts()"
               class="rounded-lg mr-3"
               outlined
               clearable
@@ -59,7 +59,7 @@
               item-text="name"
               item-value="id"
               v-model="subCategory"
-              @change="getShopAllProducts()"
+              @change="getProducts()"
               class="rounded-lg mr-3"
               outlined
               clearable
@@ -68,7 +68,7 @@
               :items="priceRange"
               label="Price"
               v-model="selectedPrice"
-              @change="getShopAllProducts()"
+              @change="getProducts()"
               :item-text="(i) => `₦${i.start} to ₦${i.end}`"
               :item-value="(i) => i"
               class="rounded-lg mr-3"
@@ -81,7 +81,7 @@
               label="Availability"
               item-text="name"
               item-value="id"
-              @change="getShopAllProducts()"
+              @change="getProducts()"
               class="rounded-lg mr-3"
               outlined
               clearable
@@ -90,7 +90,7 @@
               :items="[]"
               label="Sort By"
               item-text="name"
-              @change="getShopAllProducts()"
+              @change="getProducts()"
               item-value="id"
               class="rounded-lg mr-3"
               outlined
@@ -99,6 +99,146 @@
   
           </div>
           <div>
+  
+            <!-- <v-expansion-panels focusable flat accordion>
+              <v-expansion-panel>
+                <v-expansion-panel-header expand-icon="mdi-menu-down"
+                  >Brand
+                </v-expansion-panel-header>
+  
+                <v-expansion-panel-content style="overflow: scroll; height: 50vh">
+                  <div>
+                    <v-checkbox
+                      v-for="(i, index) in brands"
+                      :value="i.id"
+                      v-model="brand"
+                      @change="getProducts()"
+                      :key="index"
+                      :label="i.name"
+                      class="ma-0 pa-0"
+                    ></v-checkbox>
+                  </div>
+                </v-expansion-panel-content>
+              </v-expansion-panel>
+              <v-divider></v-divider>
+              <v-expansion-panel>
+                <v-expansion-panel-header expand-icon="mdi-menu-down"
+                  >Category</v-expansion-panel-header
+                >
+  
+                <v-expansion-panel-content
+                  class="px-1 mt-2"
+                  style="overflow: scroll; height: 50vh; border-style: none"
+                >
+                  <div>
+                    <v-checkbox
+                      v-for="(i, index) in categories"
+                      :key="index"
+                      :value="i.id"
+                      v-model="category"
+                      :label="i.name"
+                      @change="getProducts()"
+                      class="ma-0 pa-0"
+                    ></v-checkbox>
+                  </div>
+                </v-expansion-panel-content>
+              </v-expansion-panel>
+              <v-divider></v-divider>
+              <v-expansion-panel>
+                <v-expansion-panel-header expand-icon="mdi-menu-down"
+                  >Subcategory</v-expansion-panel-header
+                >
+  
+                <v-expansion-panel-content
+                  class="px-1 mt-2"
+                  style="overflow: scroll; height: 50vh; border-style: none"
+                >
+                  <div>
+                    <v-checkbox
+                      v-for="(i, index) in subCategories"
+                      :key="index"
+                      :value="i.id"
+                      v-model="subCategory"
+                      :label="i.name"
+                      @change="getProducts()"
+                      class="ma-0 pa-0"
+                    ></v-checkbox>
+                  </div>
+                </v-expansion-panel-content>
+              </v-expansion-panel>
+              <v-divider></v-divider>
+              <v-expansion-panel>
+                <v-expansion-panel-header expand-icon="mdi-menu-down"
+                  >Availability</v-expansion-panel-header
+                >
+  
+                <v-expansion-panel-content
+                  class="px-1 mt-2"
+                  style="overflow: scroll; height: 60px"
+                >
+                  <div>
+                    <v-checkbox
+                      v-for="(i, index) in avalabilities"
+                      :value="i.id"
+                      v-model="availability"
+                      @change="getProducts()"
+                      :key="index"
+                      :label="i.name"
+                      class="ma-0 pa-0"
+                    ></v-checkbox>
+                  </div>
+                </v-expansion-panel-content>
+              </v-expansion-panel>
+              <v-divider></v-divider>
+              <v-expansion-panel>
+                <v-expansion-panel-header expand-icon="mdi-menu-down"
+                  >Price</v-expansion-panel-header
+                >
+  
+                <v-expansion-panel-content
+                  class="px-1 mt-2"
+                  style="overflow: scroll; height: 50vh"
+                >
+                  <div>
+                    <v-checkbox
+                      v-for="(i, index) in priceRange"
+                      :value="i"
+                      v-model="selectedPrice"
+                      @change="getProducts()"
+                      :key="index"
+                      :label="`₦${i.start} to ₦${i.end}`"
+                      class="ma-0 pa-0 small"
+                    >
+                      <template v-slot:label>
+                        <span class="small">{{
+                          `₦${i.start} to ₦${i.end}`
+                        }}</span>
+                      </template>
+                    </v-checkbox>
+                  </div>
+                </v-expansion-panel-content>
+              </v-expansion-panel>
+            </v-expansion-panels> -->
+  
+            <!-- <h4 class="mb-4">Filter by Category</h4>
+            <div class="filter-box pa-4 ">
+             <v-checkbox v-for="(i,index) in categories"  :key="index"  :value="i.id" v-model="category" :label="i.name" @change="getProducts()" class="ma-0 pa-0"></v-checkbox>
+            </div> -->
+  
+            <!-- <h4 class="mb-4 mt-6">Filter by Brand</h4>
+            <div class="filter-box pa-4 ">
+              <v-checkbox v-for="(i,index) in brands" :value="i.id" v-model="brand"  :key="index" :label="i.name" class="ma-0 pa-0"></v-checkbox>
+            </div>
+            <h4 class="mb-2 mt-6">Filter by Price</h4>
+              <v-range-slider
+                v-model="range"
+                @change="filterPrice()"
+                max="10000"
+              ></v-range-slider>
+              <div class="d-flex justify-space-between">
+                <span> &#8358;{{ range[0] | formatPrice }} </span>
+                <span>&#8358;{{ range[1] | formatPrice }}</span>
+              </div> -->
           </div>
         </v-col>
           <v-row class="mt-0">
@@ -151,7 +291,7 @@
       ;(this.category = this.$route.query.categoryId), this.getSubCategories()
       this.getCategories()
       this.getbrands()
-      this.getShopAllProducts()
+      this.getProducts()
   
       this.subCategory = this.$route.query.subCategoryId
     },
@@ -234,7 +374,7 @@
       previous() {
         this.toPage(this.page)
       },
-      async getProducts() {
+      async getProducts_() {
         const data = {
           page: this.page,
           id: this.$route.query.sectionId,
@@ -264,7 +404,7 @@
             // this.filterPrice()
           })
       },
-      async getShopAllProducts() {
+      async getProducts() {
         // const data = {
         //   page: this.page,
         //   category: this.category,
@@ -281,12 +421,16 @@
           price: this.selectedPrice,
           availability: this.availability,
         }
-        await this.$store.dispatch('products/shopall', data).then((response) => {
-          if (Array.isArray(response.data.data)) {
-            this.real_products = response.data.data
+        await this.$store.dispatch('products/offers', data).then((response) => {
+          // this.products = this.real_products = response.data.data
+          // this.length = response.data.last_page
+          // this.loading = false
+          // this.filterPrice()
+          if (Array.isArray(response.data)) {
+            this.real_products = response.data
           } else {
-            if (response.data.data != null) {
-              this.real_products = Object.values(response.data.data)
+            if (response.data != null) {
+              this.real_products = Object.values(response.data)
             }
           }
   
@@ -323,6 +467,11 @@
     height: 400px;
     border: 1px solid #ddd;
     overflow: scroll;
+  }
+  
+  div.v-inputrounded-lg.mr-3.theme--light.v-text-field.v-text-field--is-booted.v-text-field--enclosed.v-text-field--outlined.v-selecti {
+    border: none !important;
+    border-radius: 10px !important;
   }
   </style>
   
