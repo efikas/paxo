@@ -139,7 +139,8 @@
               <span>Add to Wishlist</span>
             </v-tooltip>
             <v-btn
-              :loading="loading"
+              :disabled="badge == 'instock' ? false : true"
+              @click="isAuthenticated ? addToCart() : (loginDialog = true)"
               outlined
               color="primary"
               class="mb-1 br-all-10"
