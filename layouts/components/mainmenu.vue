@@ -6,6 +6,7 @@
     class="
       white
       px-3
+      py-0
       d-lg-flex d-md-flex
       justify-center
       align-center
@@ -20,27 +21,25 @@
       origin="top left"
       open-delay="500"
       max-width="100vw"
-      class="elevation-0"
+      class="elevation-0 my-0"
+     
     >
       <template v-slot:activator="{ attrs, on }">
-        <v-btn class="nav-btn px-3 pt-3 font-weight-500" v-bind="attrs" v-on="on" text>
-          <img src="../../static/assets/shop_cat.png" alt="" />
-          SHOP CATEGORIES</v-btn
+       
+        <v-btn class="nav-btn px-3 pt-3" active-class="no-active" v-bind="attrs" v-on="on" text  style="height: 50px">
+          <svg width="12" height="13" viewBox="0 0 12 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M0 1.4484C0 1.27159 0.0702374 1.10203 0.195262 0.977001C0.320286 0.851977 0.489856 0.781738 0.666667 0.781738H11.3333C11.5101 0.781738 11.6797 0.851977 11.8047 0.977001C11.9298 1.10203 12 1.27159 12 1.4484C12 1.62522 11.9298 1.79478 11.8047 1.91981C11.6797 2.04483 11.5101 2.11507 11.3333 2.11507H0.666667C0.489856 2.11507 0.320286 2.04483 0.195262 1.91981C0.0702374 1.79478 0 1.62522 0 1.4484ZM11.3333 6.11507H3.33333C3.15652 6.11507 2.98695 6.18531 2.86193 6.31033C2.7369 6.43536 2.66667 6.60493 2.66667 6.78174C2.66667 6.95855 2.7369 7.12812 2.86193 7.25314C2.98695 7.37817 3.15652 7.44841 3.33333 7.44841H11.3333C11.5101 7.44841 11.6797 7.37817 11.8047 7.25314C11.9298 7.12812 12 6.95855 12 6.78174C12 6.60493 11.9298 6.43536 11.8047 6.31033C11.6797 6.18531 11.5101 6.11507 11.3333 6.11507ZM11.3333 11.4484H5.77778C5.60097 11.4484 5.4314 11.5186 5.30637 11.6437C5.18135 11.7687 5.11111 11.9383 5.11111 12.1151C5.11111 12.2919 5.18135 12.4615 5.30637 12.5865C5.4314 12.7115 5.60097 12.7817 5.77778 12.7817H11.3333C11.5101 12.7817 11.6797 12.7115 11.8047 12.5865C11.9298 12.4615 12 12.2919 12 12.1151C12 11.9383 11.9298 11.7687 11.8047 11.6437C11.6797 11.5186 11.5101 11.4484 11.3333 11.4484Z" fill="currentColor"/>
+          </svg>
+          SHOP CATEGORIES  
+          </v-btn
         >
       </template>
-      <v-list
-        dense
-        flat
-        style="width: 100vw"
-        height="100px"
-        class="pb-0 pt-8 elevation-0"
-      >
         <div
-          style="width: 100%"
+          style="width: 100vw"
           flat
           class="
             white
-            px-3
+            px-3 py-3
             d-lg-flex d-md-flex
             justify-center
             align-center
@@ -62,6 +61,7 @@
             <template v-slot:activator="{ attrs, on }">
               <v-btn
                 class="nav-btn px-3 pt-3"
+                active-class="no-active"
                 :to="'/section/' + i.name + '?sectionId=' + i.id"
                 v-bind="attrs"
                 v-on="on"
@@ -109,7 +109,6 @@
             </v-list>
           </v-menu>
         </div>
-      </v-list>
     </v-menu>
 
     <!-- BRAND MENU -->
@@ -123,21 +122,34 @@
       open-delay="500"
       max-width="100vw"
       class="elevation-0"
+      content-class="m5m"
     >
       <template v-slot:activator="{ attrs, on }">
-        <v-btn class="nav-btn px-3 pt-3 font-weight-500" v-bind="attrs" v-on="on" text>
+        <v-btn class="nav-btn px-3 pt-3" active-class="no-active" style="height: 50px" v-bind="attrs" v-on="on" text>
           BRANDS</v-btn
         >
       </template>
 
-      <v-list
+      <!-- <v-list
         dense
         flat
         style="width: 100vw; background-color: white; padding: 0px 0px !important;"
         min-height="400px"
         max-height="400px"
         class="py-0 px-0 elevation-0"
-      >
+      > -->
+      <div
+          style="width:80vw; margin-right: 20vw"
+          class="
+            white
+            px-3 py-3
+            d-lg-flex d-md-flex
+            justify-center
+            align-center
+            second-nav
+            hidden-sm-and-down
+          "
+        >
         <v-row class="py-0 px-0">
           <v-col cols="3" class="py-0 px-0">
             <!-- <div class="d-flex justify-space-between">
@@ -225,7 +237,9 @@
             </div>
           </v-col>
         </v-row>
-      </v-list>
+      </div>
+      <!-- </v-list> -->
+   
     </v-menu>
 
     <v-menu
@@ -239,11 +253,13 @@
     >
       <template v-slot:activator="{ attrs, on }">
         <v-btn
-          class="nav-btn px-3 pt-4 font-weight-500"
+          class="nav-btn px-3 pt-6"
+          active-class="no-active"
           v-bind="attrs"
           v-on="on"
           text
           to="/deals"
+          style="height: 50px"
         >
           DEALS</v-btn
         >
@@ -259,7 +275,7 @@
       class="elevation-0"
     >
       <template v-slot:activator="{ attrs, on }">
-        <v-btn class="nav-btn px-3 pt-4 font-weight-500" v-bind="attrs" v-on="on" text to="/shop-all">
+        <v-btn class="nav-btn px-3 pt-6" active-class="no-active" style="height: 50px" v-bind="attrs" v-on="on" text to="/shop-all">
           SHOP ALL</v-btn
         >
       </template>
@@ -275,11 +291,13 @@
     >
       <template v-slot:activator="{ attrs, on }">
         <v-btn
-          class="nav-btn px-3 pt-4 font-weight-500"
+          class="nav-btn px-3 pt-6"
+          active-class="no-active"
           v-bind="attrs"
           v-on="on"
           text
           to="/new"
+          style="height: 50px"
         >
           NEW</v-btn
         >
@@ -296,11 +314,13 @@
     >
       <template v-slot:activator="{ attrs, on }">
         <v-btn
-          class="nav-btn px-3 pt-4 font-weight-500"
+          class="nav-btn px-3 pt-6"
+          active-class="no-active"
           v-bind="attrs"
           v-on="on"
           text
           to="/skin-expert"
+          style="height: 50px"
         >
           SKIN EXPERT</v-btn
         >
@@ -317,11 +337,13 @@
     >
       <template v-slot:activator="{ attrs, on }">
         <v-btn
-          class="nav-btn px-3 pt-4 font-weight-500"
+          class="nav-btn px-3 pt-6"
+          active-class="no-active"
           v-bind="attrs"
           v-on="on"
           text
           to="/paxo-reward"
+          style="height: 50px"
         >
           PAXO BEAUTY REWARD</v-btn
         >
@@ -388,7 +410,11 @@
 
 <script>
 import { mapGetters } from 'vuex'
+import ShopCat from '../../static/assets/svg/shop.svg';
 export default {
+  components: {
+    ShopCat
+  },
   data() {
     return {
       paymentMethodDialog: false,
@@ -589,7 +615,7 @@ export default {
 <style lang="scss" scoped>
 .nav-btn {
   color: #000;
-  background: none;
+  background: none !important;
   display: block;
   font-size: 13px;
   cursor: pointer;
@@ -605,7 +631,18 @@ export default {
   &:hover::before {
     background: transparent !important;
   }
+  // &:active {
+  //   border-bottom: 3px solid #36bdb4;
+  //   color: #36bdb4;
+  //   background: transparent !important;
+  // }
 }
+
+.v-btn--active.no-active::before {
+  opacity: 0 !important;
+  background: none !important;
+}
+
 .nav-btn-small {
   text-decoration: none;
   font-size: 14px;
@@ -617,6 +654,7 @@ export default {
 .v-btn--active {
   border-bottom: 3px solid #36bdb4 !important;
   color: #36bdb4 !important;
+  background: none !important;
 }
 
 .sub-menu a {

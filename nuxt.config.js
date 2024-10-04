@@ -99,6 +99,7 @@ export default {
       },
     ],
     'vue-scrollto/nuxt',
+    'nuxt-svg-loader',
 
     // Or if you have custom options...
     // ['vue-scrollto/nuxt', { duration: 300 }],

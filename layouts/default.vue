@@ -938,6 +938,11 @@ export default {
   padding: 0px 5% !important;
 }
 
+.m5m {
+  margin: 0px 5% !important;
+}
+
+
 .font-weight-500 {
   font-weight: 500 !important;
 }
@@ -982,6 +987,17 @@ body {
 .text-base-color {
   color: #36bdb4 !important;
 }
+
+.v-btn--active {
+  border-bottom: 3px solid #36bdb4 !important;
+  color: #36bdb4 !important;
+  background: white !important;
+}
+
+a.nav-btn.v-btn--active {
+  color: #000;
+  background: none !important;
+}
 </style>
 
 <style lang="scss" scoped>
@@ -1021,6 +1037,7 @@ a {
   .v-btn--active {
     border-bottom: 3px solid #36bdb4;
     color: #36bdb4;
+    background: none !important;
   }
   &:hover {
     border-bottom: 3px solid #36bdb4;

@@ -1,7 +1,6 @@
 <template>
      <v-app-bar app color="" style="" class="top-top hidden-sm-and-down" id="banner">
-        <p style="font-size: 12px">
-          Get a discount on your first order<br />  
+        <p style="font-size: 12px">Get a discount on your first order<br />  
           <span class="hidden-md-and-up">Use Code: <b>FIRSTGIFT</b></span>
         </p>
         <div
@@ -83,8 +82,8 @@
 
 @media only screen and (min-width: 768px) {
   .top-top {
-    padding-left: 3% !important;
-    padding-right: 3% !important;
+    padding-left: 5% !important;
+    padding-right: 5% !important;
   }
 }
   </style>

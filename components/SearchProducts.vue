@@ -76,12 +76,12 @@
           clearable
           return-object
         >
-        <template v-slot:append v-if="(productSearch ?? '').length == 0">
+        <!-- <template v-slot:append v-if="(productSearch ?? '').length == 0">
           <v-divider vertical thickness="6" class="my-2"></v-divider>
           <v-btn icon class="search-btn" :to="'search?str='+productSearch"
           ><v-icon>mdi-filter-variant</v-icon></v-btn
         >
-        </template>
+        </template> -->
         <!-- <template v-slot:selection="{ attr, on, item, selected }">
             <v-chip
               v-bind="attr"
