@@ -283,7 +283,8 @@
           : ''
         ">
         <v-container fluid px-0 :pa-0="$vuetify.breakpoint.mdAndUp" :pt-0="$vuetify.breakpoint.xlAndUp"
-          :pt-120="$vuetify.breakpoint.lgAndDown" :pt-80="$vuetify.breakpoint.smAndDown">
+          :pt-120="$vuetify.breakpoint.lgAndDown" 
+          :pt-100="$vuetify.breakpoint.smAndDown">
           <!-- :pt-120="$vuetify.breakpoint.mdAndUp" -->
           <nuxt />
         </v-container>

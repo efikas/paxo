@@ -149,8 +149,8 @@
             :channels="channels"
             :close="close"
             :embed="false"
-            id="paystack"
-            style="visibility: hidden"
+            id="paystackLib"
+           
           >
             <i class="fas fa-money-bill-alt"></i> Make Payment
           </paystack>
@@ -353,8 +353,8 @@ export default {
       total: 0,
       discount_percent: '',
       discount: '',
-      paystackkey: 'pk_live_7c02e6083d7879d591e497d97392bf4a3e4697f5',
-      // pk_live_7c02e6083d7879d591e497d97392bf4a3e4697f5
+      // paystackkey: 'pk_live_7c02e6083d7879d591e497d97392bf4a3e4697f5',
+      paystackkey: 'pk_test_e88a1928368226327d9382a6c67c82749f30ec13',
       reference: '',
       channels: ['card', 'bank', 'ussd', 'qr', 'mobile_money', 'bank_transfer'],
       code: '',
@@ -423,7 +423,7 @@ export default {
       return this.order.order_balance ?? '0'
     },
     clickPaystack() {
-      document.getElementById('paystack').click()
+      document.getElementById('paystackLib').click();
     },
     clickFlutterwave() {
       this.$payWithFlutterwave(this.getPaymentData())

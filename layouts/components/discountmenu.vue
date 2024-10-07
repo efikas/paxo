@@ -19,15 +19,15 @@
        
         <p class="hidden-sm-and-down">
           <img src="../../static/assets/mail.png"  alt="" />
-          <div class="text-xs">info@paxo.com.ng&emsp;</div>
+          <div class="text-xs mt-1">info@paxo.com.ng&emsp;</div>
         </p>
         <p class="hidden-sm-and-down">
           <img src="../../static/assets/whatsapp.png"  alt="" />
-          <div class="text-xs">08146538456&emsp;</div>
+          <div class="text-xs mt-1">08146538456&emsp;</div>
         </p>
         <p class="hidden-sm-and-down">
           <img src="../../static/assets/track.png"  alt="" />
-          <div class="text-xs">Track Order&emsp;</div>
+          <div class="text-xs mt-1">Track Order&emsp;</div>
         </p>
         <p class="hidden-sm-and-down" style="font-size: 0.9rem">
           DOWNLOAD APP:&emsp;

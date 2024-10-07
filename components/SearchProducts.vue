@@ -56,8 +56,10 @@
             </v-list-item-action>
           </template>
 </v-autocomplete> -->
-        <v-autocomplete v-model="product" :items="[...products.slice(0, 3), { id: 0 }]" :search-input.sync="productSearch"
-          hide-no-data item-text="name" item-value="id" prepend-inner-icon="search" outlined dense
+        <v-autocomplete v-model="product" :items="products" 
+          :search-input.sync="productSearch"
+          hide-no-data item-text="name" 
+          item-value="id" prepend-inner-icon="search" outlined dense
           @change="goToProduct(product.id)" class="pt-6"
           :class="(productSearch ?? '').length == 0 ? 'template-subscribe' : ''" input-class="search-box"
           :input-attrs="{ 'class': 'search-box' }" append-icon="" placeholder="Search for products" clearable
@@ -161,6 +163,7 @@ export default {
       search: '',
       searchDialog: null,
       products: [],
+      listedProducts: [],
       originalProducts: [],
       productSearch: '',
       product: null,
@@ -169,7 +172,13 @@ export default {
   },
   methods: {
     goToProduct(id) {
-      this.$router.push('/single-product?product_id=' + id)
+      if(id == 0){
+        this.$router.push('/search?str=' + product)
+      }
+      else {
+        this.$router.push('/single-product?product_id=' + id)
+      }
+      
     },
     async findProduct() {
       const data = {
@@ -179,7 +188,7 @@ export default {
         .dispatch('products/search', data)
         .then((response) => {
           this.products = response.data
-          console.log(this.products)
+          // console.log(this.products)
         })
         .catch((error) => {
           console.log(error)
@@ -189,6 +198,7 @@ export default {
       // Handle empty value
       if (!value) {
         self.products = []
+        self.listedProducts = []
         self.productSearch = ''
       }
       // Items have already been requested
@@ -209,6 +219,7 @@ export default {
         // .get()
         .then((response) => {
           self.products = response.data
+          self.listedProducts = [...response.data.slice(0, 3), { id: 0, name: ''}];
         })
         .catch((error) => {
           self.error = 'Unknown Error. Please check details and try again.'
