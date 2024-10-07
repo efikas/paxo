@@ -25,7 +25,7 @@
           <v-col md="6" class="py-3"><div class="d-flex align-center">
               <img :src="i.avatar" width="100px" alt="" class="br-all-5" />
               <nuxt-link :to="'/single-product?product_id=' + i.id">
-                <p class="ml-8">{{ i.name }}</p>
+                <p class="ml-8 text-black">{{ i.name }}</p>
               </nuxt-link>
             </div></v-col>
           <v-col md="2" class="d-flex align-center">

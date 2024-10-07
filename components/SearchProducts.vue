@@ -85,7 +85,7 @@
               <v-avatar rounded size="45"> <img :src="item.avatar" alt="" /></v-avatar>
                 <div class="ml-2 text-caption">{{item.name}}</div>
             </div>
-            <div style="width: 250px; background-color: red;" class="d-flex flex-row pt-2 align-center justify-center" v-else>
+            <div style="width: 250px;" class="d-flex flex-row pt-2 align-center justify-center" v-else>
                 <div class="ml-2 text-caption">See all ...</div>
             </div>
           </template>
