@@ -79,7 +79,7 @@
                 >
                   &#8358;{{ i.total | formatPrice }}
                 </v-col>
-                <v-col md="2" class="d-flex align-center body-2">
+                <v-col md="2" class="d-flex flex-column align-center justify-center body-2">
                   <span
                     :class="
                       i.status == 'pending'
@@ -92,6 +92,17 @@
                     "
                     >{{ i.status }}</span
                   >
+                  <v-btn
+                  @click="checkout(i)"
+                      outlined
+                      small
+                      color="primary"
+                      class="br-all-5 text-caption primary-text"
+                    >
+                      
+                      Checkout</v-btn
+                    >
+                  <!-- <span @click="checkout(i)" class="pointer"> Checkout</span> -->
                 </v-col>
               </v-row>
             </div>

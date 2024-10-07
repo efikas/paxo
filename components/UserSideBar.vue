@@ -2,80 +2,76 @@
   <div>
     <v-list class="mt-7 py-0">
       <v-list-item-group v-model="selectedItem" color="primary">
-        <v-list-item
-          :to="item.to"
-          v-for="(item, i) in menus"
-          :key="i"
-          active-class="sidebar-active"
-          outlinedk
-        >
+        <v-list-item :to="item.to" v-for="(item, i) in menus" :key="i" active-class="sidebar-active" outlinedk>
           <v-list-item-icon>
-            <v-icon v-text="item.icon"></v-icon>
+            <template>
+              <component :is="item.icon"></component>
+            </template>
           </v-list-item-icon>
           <v-list-item-content>
             <v-list-item-title v-text="item.text"></v-list-item-title>
-            <v-list-item-title
-              ><span class="text-caption">{{
-                item.subtitle
-              }}</span></v-list-item-title
-            >
+            <v-list-item-title><span class="text-caption">{{
+              item.subtitle
+                }}</span></v-list-item-title>
           </v-list-item-content>
         </v-list-item>
       </v-list-item-group>
     </v-list>
 
-    <v-btn
-      outlined
-      block
-      color="primary"
-      class="br-all-5 primary-text mt-5"
-      to="/logout"
-    >
-      <v-icon small>ri-logout-circle-line</v-icon>
-      &nbsp;&nbsp;Logout</v-btn
-    >
+    <v-hover v-slot="{ hover }">
+    <v-btn :outlined="!hover" block :color="(hover) ? 'error' :'primary'" class="br-all-5 primary-text mt-5" to="/logout">
+      <v-icon small>mdi-logout</v-icon>
+      &nbsp;&nbsp;Logout</v-btn>
+    </v-hover>
+
   </div>
 </template>
 <script>
 import { mapGetters } from 'vuex'
-import axios from 'axios'
+import AccountInfoIcon from './icons/account_info.vue'
+import PendingOrdersIcon from './icons/pending_order.vue'
+import OrdersIcon from './icons/orders.vue'
+import WishlistIcon from './icons/wishlist.vue'
+import AffilateIcon from './icons/affiliate.vue'
+import WholesalerIcon from './icons/wholesaler.vue'
 export default {
   middleware: 'authenticated',
+  components: { AccountInfoIcon, WholesalerIcon, AffilateIcon, WishlistIcon, OrdersIcon, PendingOrdersIcon },
   data() {
     return {
       menus: [
         {
-          icon: 'ri-user-line',
+          icon: AccountInfoIcon,
           text: 'Account Information',
           subtitle: 'Payments, contact info, addresses',
           to: '/dashboard',
         },
         {
-          icon: 'ri-shopping-cart-line',
+          icon: PendingOrdersIcon,
           text: 'Pending Orders',
           subtitle: 'View pending orders',
           to: '/my-pending-orders',
         },
         {
-          icon: 'ri-shopping-cart-line',
+          icon: OrdersIcon,
           text: 'Orders',
           subtitle: 'View & track your online and pickup orders',
           to: '/my-orders',
         },
         {
-          icon: 'ri-heart-line',
+          icon: WishlistIcon,
           text: 'Wishlist',
           subtitle: 'View items you liked and add them to cart',
           to: '/my-wishlist',
         },
         {
-          icon: 'ri-honour-line',
+          icon: AffilateIcon,
           text: 'Become an Affiliate',
           subtitle: 'Earn on referral purchases',
           to: '/become-affiliate',
         },
         {
-          icon: 'ri-briefcase-line',
+          icon: WholesalerIcon,
           text: 'Upgrade to Wholesaler',
           subtitle: 'Buy in bulk at wholesale prices for your stores',
           to: '/upgrade-wholesaler',
@@ -88,7 +84,7 @@ export default {
       ],
     }
   },
-  async mounted() {},
+  async mounted() { },
   methods: {},
   computed: {
     ...mapGetters('auth', ['user']),
@@ -104,6 +100,7 @@ export default {
 <style lang="scss" scoped>
 .sidebar {
   background: transparent !important;
+
   .v-list-item:not(:first-child) {
     border: 1px solid #ddd;
     border-radius: 5px;

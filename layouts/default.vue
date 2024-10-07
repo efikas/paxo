@@ -282,7 +282,8 @@
           ? 'dark-bg'
           : ''
         ">
-        <v-container fluid px-0 :pa-0="$vuetify.breakpoint.mdAndUp" :pt-0="$vuetify.breakpoint.xlAndUp"
+        <v-container fluid px-0 :pa-0="$vuetify.breakpoint.mdAndUp" 
+          :pt-180="$vuetify.breakpoint.xlAndUp"
           :pt-120="$vuetify.breakpoint.lgAndDown" 
           :pt-100="$vuetify.breakpoint.smAndDown">
           <!-- :pt-120="$vuetify.breakpoint.mdAndUp" -->
