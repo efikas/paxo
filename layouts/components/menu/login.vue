@@ -1,5 +1,5 @@
 <template>
-  <v-card flat>
+  <v-card flat> 
     <!-- <p>Log In Your Account</p> -->
     <h3 class="text-center py-4" style="background-color: #14adac33">Log In</h3>
     <v-form lazy-validation v-model="valid" ref="login" class="pa-8">
@@ -41,8 +41,8 @@
       </div>
       <div class="text-center px-2 text-caption">
         By Clicking “Sign in” you certify that you agree to Paxo Beauty’s
-        <span class="font-weight-bold">Terms and Conditions</span> and
-        <span class="font-weight-bold">Privacy Policy.</span>
+        <span class="font-weight-bold"><a href="/terms-condition">Terms and Conditions</a></span> and
+        <span class="font-weight-bold"><a href="/privacy-policy">Privacy Policy.</a></span>
       </div>
       <!-- <v-btn
                   class="red mt-4"
@@ -68,15 +68,13 @@
       style="background-color: #14adac33"
     >
       Don't have an account?
-      <nuxt-link
-        :to="
-          '/register' + ($route.query.next ? '?next=' + $route.query.next : '')
-        "
+      <a
+         @click="clickRegister"
         ><span
           class="font-weight-bold text-caption text-decoration-none"
           style="color: black"
           >Sign Up</span
-        ></nuxt-link
+        ></a
       ><br />
     </div>
   </v-card>
@@ -87,6 +85,7 @@ import mixpanel from 'mixpanel-browser'
 export default {
   transition: 'default',
   middleware: 'isauth',
+  props: ['clickRegister', "closeAllPopUp"],
   data() {
     return {
       emailRules: [
@@ -128,6 +127,8 @@ export default {
           } else {
             this.$router.push('/')
           }
+
+          this.closeAllPopUp();
         })
         .catch((error) => {
           this.$toast.error(error.response.data.message)

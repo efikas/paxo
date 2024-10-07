@@ -392,7 +392,7 @@
         <v-col md="4" v-for="i in adminBrands.slice(0, 6)" :key="i.id">
           <v-img
             @click="$router.push('/brands/' + i.name + '?brandId=' + i.id)"
-            class="brands-img elevation-2"
+            class="brands-img elevation-2 br-all-10"
             :class="{ 'h-200': $vuetify.breakpoint.smAndDown }"
             height="250"
             :src="i.avatar"

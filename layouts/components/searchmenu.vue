@@ -101,7 +101,7 @@
       v-if="isAuthenticated"
       bottom
       left
-      class=""
+      class="hidden-sm-and-down"
       offset-y
       origin="top right"
       transition="scale-transition"
@@ -130,12 +130,19 @@
           </v-tooltip>
         </v-overlay> -->
 
-        <v-btn v-bind="attrs" v-on="on" class="ml-4" icon depressed>
+        <!-- <v-btn v-bind="attrs" v-on="on" class="ml-4" icon depressed>
           <v-icon>mdi-account-circle-outline</v-icon></v-btn
-        >
+        > -->
+        <a class="shopping-icon hidden-sm-and-down mr-4 mt-1" :href="isAuthenticated ? '/dashboard' : '/login'">
+        <svg width="20" height="21" viewBox="0 0 20 21" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path fill-rule="evenodd" clip-rule="evenodd" d="M5.78766 15.474C8.92495 15.0157 11.0851 15.0551 14.2265 15.4901C14.454 15.523 14.6619 15.6372 14.8118 15.8115C14.9616 15.9858 15.0434 16.2085 15.0419 16.4384C15.0419 16.6584 14.9662 16.8719 14.8297 17.0388C14.5916 17.3296 14.3477 17.6157 14.0982 17.8968H15.3086C15.3847 17.806 15.4612 17.7134 15.5387 17.6195C15.8106 17.2861 15.9589 16.869 15.9585 16.4388C15.9585 15.5107 15.2811 14.7109 14.3521 14.5826C11.1364 14.1375 8.88874 14.0949 5.6552 14.5674C4.71654 14.7045 4.04187 15.5166 4.04187 16.4512C4.04187 16.866 4.17708 17.2762 4.43329 17.6085C4.50891 17.7066 4.58362 17.8028 4.65787 17.8972H5.83899C5.60681 17.6193 5.38035 17.3366 5.15975 17.0493C5.02864 16.8774 4.95792 16.667 4.95854 16.4507C4.95854 15.9571 5.31329 15.5432 5.78766 15.474ZM10.0002 11.0218C10.3613 11.0218 10.7189 10.9506 11.0526 10.8124C11.3862 10.6742 11.6894 10.4717 11.9447 10.2163C12.2001 9.96095 12.4027 9.65779 12.5409 9.32415C12.6791 8.9905 12.7502 8.6329 12.7502 8.27177C12.7502 7.91063 12.6791 7.55304 12.5409 7.21939C12.4027 6.88574 12.2001 6.58259 11.9447 6.32723C11.6894 6.07186 11.3862 5.8693 11.0526 5.7311C10.7189 5.5929 10.3613 5.52177 10.0002 5.52177C9.27086 5.52177 8.57138 5.8115 8.05566 6.32723C7.53993 6.84295 7.2502 7.54242 7.2502 8.27177C7.2502 9.00111 7.53993 9.70059 8.05566 10.2163C8.57138 10.732 9.27086 11.0218 10.0002 11.0218ZM10.0002 11.9384C10.9727 11.9384 11.9053 11.5521 12.5929 10.8645C13.2806 10.1769 13.6669 9.24423 13.6669 8.27177C13.6669 7.29931 13.2806 6.36668 12.5929 5.67904C11.9053 4.99141 10.9727 4.6051 10.0002 4.6051C9.02774 4.6051 8.09511 4.99141 7.40748 5.67904C6.71984 6.36668 6.33354 7.29931 6.33354 8.27177C6.33354 9.24423 6.71984 10.1769 7.40748 10.8645C8.09511 11.5521 9.02774 11.9384 10.0002 11.9384Z" fill="currentColor"/>
+          <path fill-rule="evenodd" clip-rule="evenodd" d="M10 18.8135C14.5563 18.8135 18.25 15.1198 18.25 10.5635C18.25 6.00723 14.5563 2.31352 10 2.31352C5.44375 2.31352 1.75004 6.00723 1.75004 10.5635C1.75004 15.1198 5.44375 18.8135 10 18.8135ZM10 19.7302C15.0628 19.7302 19.1667 15.6263 19.1667 10.5635C19.1667 5.50077 15.0628 1.39685 10 1.39685C4.93729 1.39685 0.833374 5.50077 0.833374 10.5635C0.833374 15.6263 4.93729 19.7302 10 19.7302Z" fill="currentColor" />
+        </svg>
+      </a>
+
       </template>
 
-      <v-list dense width="250px" class="py-0">
+      <!-- <v-list dense width="250px" class="py-0">
         <v-list-item dense to="/dashboard" class="py-0 my-0">
           <v-list-item-content class="py-0 my-0">
             <v-list-item-title class="text-right"
@@ -168,13 +175,13 @@
               >Become an Affiliate</v-list-item-title
             >
           </v-list-item-content>
-        </v-list-item>
+        </v-list-item> -->
         <!-- <v-list-item dense to="/change-password" class="py-0 my-0">
           <v-list-item-content class="py-0 my-0">
             <v-list-item-title class="text-right">Change Password </v-list-item-title>
           </v-list-item-content>
         </v-list-item> -->
-        <v-divider></v-divider>
+        <!-- <v-divider></v-divider>
         <v-list-item dense to="/logout">
           <v-list-item-content>
             <v-list-item-title class="text-right red--text"
@@ -182,8 +189,8 @@
             >
           </v-list-item-content>
         </v-list-item>
-      </v-list>
-    </v-menu>
+      </v-list>-->
+    </v-menu> 
 
     <v-badge
       :color="cartItem ? 'error' : 'transparent'"
@@ -275,9 +282,14 @@
   </v-app-bar>
   <v-dialog v-model="loginDialog" width="500px">
       <v-card>
-        <Login />
+        <Login :clickRegister="clickRegister" :closeAllPopUp="closeAllPopUp" />
       </v-card>
-    </v-dialog>
+  </v-dialog>
+  <v-dialog v-model="registerDialog" width="800px">
+      <v-card>
+        <Register :clickLogin="clickLogin" :closeAllPopUp="closeAllPopUp" />
+      </v-card>
+  </v-dialog>
   </div>
 </template>
 
@@ -285,10 +297,12 @@
 import { mapGetters } from 'vuex'
 import ShoppingBag from '../../static/assets/svg/shopping-bag.svg'
 import Login from './menu/login.vue'
+import Register from './menu/register.vue'
 export default {
   components: {
     ShoppingBag,
-    Login
+    Login,
+    Register,
   },
   data() {
     return {
@@ -296,7 +310,20 @@ export default {
       registerDialog: false,
     }
   },
-  methods: {},
+  methods: {
+    clickLogin: function(){
+      this.registerDialog = false;
+      this.loginDialog = true;
+    },
+    clickRegister: function(){
+      this.loginDialog = false;
+      this.registerDialog = true;
+    },
+    closeAllPopUp: function(){
+      this.loginDialog = false;
+      this.registerDialog = false;
+    },
+  },
   watch: {
     isAuthenticated: function () {
       this.isAuthenticated ? null : window.location.reload()

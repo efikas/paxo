@@ -1,4 +1,14 @@
+
 {
+  "name": "paxo",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "build": "export SET NODE_OPTIONS=--openssl-legacy-provider && nuxt build",
+    "dev": "export SET NODE_OPTIONS=--openssl-legacy-provider && nuxt",
+    "generate": "export SET NODE_OPTIONS=--openssl-legacy-provider && nuxt generate",
+    "start": "export SET NODE_OPTIONS=--openssl-legacy-provider && nuxt start"
+  },
   "dependencies": {
     "@blowstack/ckeditor-nuxt": "^0.5.2",
     "@gtm-support/vue2-gtm": "^1.1.0",

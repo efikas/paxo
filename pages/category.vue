@@ -154,7 +154,7 @@
                 {{
                   !loading
                     ? products.length > 0
-                      ? decodeURIComponent(pagename)
+                      ? (pagename != undefined) ? decodeURIComponent(pagename) : "All"
                       : 'No Products Found'
                     : null
                 }}
