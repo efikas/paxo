@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="hidden-md-and-up">
         <v-bottom-navigation fixed color="#36bdb4" :value="selectedTab" grow>
             <v-btn color="#36bdb4 accent-4" text value="Home" to="/">
                 <span>Home</span>
