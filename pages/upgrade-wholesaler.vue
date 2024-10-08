@@ -1,8 +1,12 @@
 <template>
   <v-container pt-16>
-    <v-row>
+    <v-row :class="{
+              'p10p': $vuetify.breakpoint.mdAndUp,
+              'px-4': $vuetify.breakpoint.smAndDown,
+  }">
       <v-col md="4">
-        <div style="display: flex">
+        <UserSideBar />
+        <!-- <div style="display: flex">
           <v-avatar size="60">
             <img src="../static/assets/avatar.jpg" alt="" />
           </v-avatar>
@@ -22,12 +26,12 @@
               </v-list-item-content>
             </v-list-item>
           </v-list-item-group>
-        </v-list>
+        </v-list> -->
       </v-col>
       <v-col md="8">
-        <h2>Become an Wholesaler</h2>
-        <v-divider></v-divider>
-        <h4 class="primary--text mt-8">Wholesale Plan</h4>
+        <h3 class="font-weight-bold">Become an Wholesaler</h3>
+        <v-divider color="#14ADAC99"></v-divider>
+        <h4 class="mt-8 font-weight-bold">Wholesale Plan</h4>
         <p>
           As a wholesaler, the minimum purchase is &#8358;50,000 with a 30 days
           grace to buy at any price, after 30 days you have to re-activate again
@@ -42,7 +46,7 @@
           ability to buy &#8358;5,000 within the month to replace an item but
           once a new month begins she has to buy => &#8358;50,000.
         </p>
-        <h4 class="primary--text">Wholesale Reward System</h4>
+        <h4 class="font-weight-bold">Wholesale Reward System</h4>
         <p>
           There is a reward system for our wholesalers at the end of every year,
           wholesalers are categorized into Gold, Silver, and Bronze
@@ -86,7 +90,7 @@
         </p>
 
         <v-btn
-          class="primary"
+          class="primary br-all-5"
           v-if="user.role != 'wholesaler'"
           large
           text
@@ -102,7 +106,9 @@
 </template>
 <script>
 import { mapGetters } from 'vuex'
+import UserSideBar from '~/components/UserSideBar.vue'
 export default {
+  components: { UserSideBar },
   data() {
     return {
       loading: false,
@@ -110,7 +116,7 @@ export default {
       menus: [
         {
           icon: 'ri-user-line',
-          text: 'Account Information',
+          text: 'Account Information', 
           to: '/dashboard',
         },
         {

@@ -42,7 +42,15 @@
             <v-divider></v-divider>
             <v-row class="mt-8">
               <!-- <v-col md="2" cols="6" v-for="(i, index) in products" :key="index"> -->
-              <v-col md="2" v-if="i.products" cols="6" v-for="(i, index) in products" :key="index">
+              <v-col 
+              v-if="i.products"
+              :class="{
+            custom5cols: $vuetify.breakpoint.mdAndUp,
+              '': $vuetify.breakpoint.smAndDown,
+            }"
+            md="auto"
+              cols="6" 
+              v-for="(i, index) in products" :key="index">
                 <!-- :vendor="i.product.brand.name" -->
                 <product-display
                   :product_name="i.products.name"

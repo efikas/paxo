@@ -141,7 +141,9 @@
     box-shadow: 0 2px 2px 0 rgb(0 0 0 / 10%) !important;
   }
   .top-top {
-    background-color: #36bdb4 !important;
+    background-color: white !important;
+    border-bottom: 6px solid rgba(16, 2, 2, 0.1) !important;
+    // background-color: #36bdb4 !important;
     // opacity: 0.8;
   }
   @media only screen and (max-width: 768px) {

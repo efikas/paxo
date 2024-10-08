@@ -3,8 +3,13 @@
   <v-container v-if="loading">
     <v-skeleton-loader type="image,image,article,article"></v-skeleton-loader>
   </v-container>
-  <v-container v-else pt-8>
-    <v-img :src="content.featured_image" height="450" class="mb-8" width="100%" alt=""> </v-img>
+  <v-container v-else pt-8 
+  :class="{
+      'px-10': $vuetify.breakpoint.mdAndUp,
+      'px-0': $vuetify.breakpoint.mdAndUp,
+    }"
+  >
+    <v-img :src="content.featured_image" height="450" class="mb-8 br-all-5" width="100%" alt=""> </v-img>
 
     <div v-html="content.content">
 
@@ -97,8 +102,8 @@
     <p>For the <b>Gold</b> category, if the wholesaler buys 85k monthly he/she should get to the target.</p> -->
 
     <div class="text-center my-10">
-      <v-btn outlined color="primary" :to="isAuthenticated ? '/dashboard' : '/login'"
-        >{{isAuthenticated ? 'Check your Paxo Points' : 'Login to check your Paxo Points'}}</v-btn
+      <v-btn outlined color="primary" class="br-all-5" :to="isAuthenticated ? '/dashboard' : '/login'"
+        ><span style="color: black; font-size: 0.7rem;" class="mx-10">{{isAuthenticated ? 'Check your Paxo Points' : 'Login to check your Paxo Points'}}</span></v-btn
       >
     </div>
 

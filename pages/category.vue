@@ -15,8 +15,7 @@
 
             <v-expansion-panels focusable flat accordion>
               <v-expansion-panel>
-                <v-expansion-panel-header
-                  expand-icon="mdi-menu-down"
+                <v-expansion-panel-header expand-icon="mdi-menu-down"
                   >Brand
                 </v-expansion-panel-header>
 
@@ -38,8 +37,7 @@
               </v-expansion-panel>
               <v-divider></v-divider>
               <v-expansion-panel>
-                <v-expansion-panel-header
-                  expand-icon="mdi-menu-down"
+                <v-expansion-panel-header expand-icon="mdi-menu-down"
                   >Category</v-expansion-panel-header
                 >
 
@@ -85,8 +83,7 @@
               </v-expansion-panel>
               <v-divider></v-divider>
               <v-expansion-panel>
-                <v-expansion-panel-header
-                  expand-icon="mdi-menu-down"
+                <v-expansion-panel-header expand-icon="mdi-menu-down"
                   >Availability</v-expansion-panel-header
                 >
 
@@ -109,8 +106,7 @@
               </v-expansion-panel>
               <v-divider></v-divider>
               <v-expansion-panel>
-                <v-expansion-panel-header
-                  expand-icon="mdi-menu-down"
+                <v-expansion-panel-header expand-icon="mdi-menu-down"
                   >Price</v-expansion-panel-header
                 >
 
@@ -128,10 +124,12 @@
                       :label="`₦${i.start} to ₦${i.end}`"
                       class="ma-0 pa-0 small"
                     >
-                    <template v-slot:label>
-                      <span class="small">{{ `₦${i.start} to ₦${i.end}` }}</span>
-                    </template>
-                  </v-checkbox>
+                      <template v-slot:label>
+                        <span class="small">{{
+                          `₦${i.start} to ₦${i.end}`
+                        }}</span>
+                      </template>
+                    </v-checkbox>
                   </div>
                 </v-expansion-panel-content>
               </v-expansion-panel>
@@ -156,7 +154,7 @@
                 {{
                   !loading
                     ? products.length > 0
-                      ? decodeURIComponent(pagename)
+                      ? (pagename != undefined) ? decodeURIComponent(pagename) : "All"
                       : 'No Products Found'
                     : null
                 }}
@@ -166,7 +164,12 @@
           <v-divider></v-divider>
           <v-row class="mt-8">
             <v-col
-              md="3"
+              :class="{
+                custom5cols: $vuetify.breakpoint.mdAndUp,
+                '': $vuetify.breakpoint.smAndDown,
+              }"
+              md="auto"
+              cols="6"
               v-for="(i, index) in products"
               :key="index"
             >
@@ -202,7 +205,7 @@
         </v-col>
       </v-row>
       <v-pagination
-      class="mt-16"
+        class="mt-16"
         :length="pageinationLength"
         :total-visible="7"
         v-model="page"
@@ -217,18 +220,19 @@
 export default {
   computed: {
     pagename() {
-       let dBrand = this.categories.filter(item => item.id == this.category);
-       if(dBrand.length > 0){
-        let newUrlIS =  window.location.origin + `/category/${dBrand[0].name}?categoryId=${this.category}`;
-        window.history.pushState({}, null, newUrlIS);
-        return dBrand[0].name;
-       }
+      let dBrand = this.categories.filter((item) => item.id == this.category)
+      if (dBrand.length > 0) {
+        let newUrlIS =
+          window.location.origin +
+          `/category/${dBrand[0].name}?categoryId=${this.category}`
+        window.history.pushState({}, null, newUrlIS)
+        return dBrand[0].name
+      }
       return location.pathname.split('/')[2]
     },
   },
   mounted() {
-    this.category = this.$route.query.categoryId,
-    this.getSubCategories()
+    ;(this.category = this.$route.query.categoryId), this.getSubCategories()
     this.getCategories()
     this.getbrands()
     this.getProducts()
@@ -237,7 +241,6 @@ export default {
   },
   data() {
     return {
-      
       page: 1,
       pageinationLength: 1,
       perPage: 40,
@@ -245,25 +248,23 @@ export default {
       brands: [],
       categories: [],
       subCategories: [],
-      avalabilities: [
-      { id: 'instock', name: 'Exclude out of stock' }
-      ],
-      availability: "",
-      category: "",
+      avalabilities: [{ id: 'instock', name: 'Exclude out of stock' }],
+      availability: '',
+      category: '',
       subCategory: '',
-      brand: "",
+      brand: '',
       selectedPrice: {},
       products: [],
       priceRange: [
-        { start: '1', end: '1000'},
-        { start: '1000', end: '2000'},
-        { start: '2000', end: '3000'},
-        { start: '3000', end: '4000'},
-        { start: '4000', end: '5000'},
-        { start: '5000', end: '10000'},
-        { start: '10000', end: '20000'},
-        { start: '20000', end: '50000'},
-        { start: '50000', end: '100000'},
+        { start: '1', end: '1000' },
+        { start: '1000', end: '2000' },
+        { start: '2000', end: '3000' },
+        { start: '3000', end: '4000' },
+        { start: '4000', end: '5000' },
+        { start: '5000', end: '10000' },
+        { start: '10000', end: '20000' },
+        { start: '20000', end: '50000' },
+        { start: '50000', end: '100000' },
       ],
       real_products: [],
       loading: true,
@@ -292,17 +293,17 @@ export default {
         this.categories = response.data
       })
     },
-    toPage(page){
+    toPage(page) {
       this.page = page
-      let start = (this.perPage * (page - 1))
-      let end = (this.perPage * page)
-      this.products = this.real_products.slice(start, end);
-      window.scrollTo(0, 0);
+      let start = this.perPage * (page - 1)
+      let end = this.perPage * page
+      this.products = this.real_products.slice(start, end)
+      window.scrollTo(0, 0)
     },
-    next(){
+    next() {
       this.toPage(this.page)
     },
-    previous(){
+    previous() {
       this.toPage(this.page)
     },
     async getProducts() {
@@ -319,16 +320,17 @@ export default {
       await this.$store
         .dispatch('products/sectionproducts', data)
         .then((response) => {
-          if(Array.isArray(response.data)){
+          if (Array.isArray(response.data)) {
             this.real_products = response.data
-          }
-          else {
-            if(response.data != null){
-             this.real_products = Object.values(response.data)
+          } else {
+            if (response.data != null) {
+              this.real_products = Object.values(response.data)
             }
           }
-          
-          this.pageinationLength = Math.ceil(this.real_products.length / this.perPage)
+
+          this.pageinationLength = Math.ceil(
+            this.real_products.length / this.perPage
+          )
           this.toPage(1)
           this.loading = false
           // this.filterPrice()
