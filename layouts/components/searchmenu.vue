@@ -4,7 +4,7 @@
       'mt-12': $vuetify.breakpoint.mdAndUp,
       'px-4': $vuetify.breakpoint.mdAndUp,
     }" height="72px">
-      <v-app-bar-nav-icon class="hidden-md-and-up" @click.stop="drawer = !drawer" />
+      <v-app-bar-nav-icon class="hidden-md-and-up" @click.stop="toggleMenu" />
       <div style="width: 45%" class="mt-3 hidden-sm-and-down">
         <search-products />
       </div>
@@ -265,6 +265,7 @@ import ShoppingBag from '../../static/assets/svg/shopping-bag.svg'
 import Login from './menu/login.vue'
 import Register from './menu/register.vue'
 export default {
+  props: ['toggleMenu'],
   components: {
     ShoppingBag,
     Login,

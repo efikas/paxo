@@ -169,7 +169,7 @@
       <!-- Discount bar -->
       <DiscountMenu />
       <!-- Search Menu -->
-      <SearchMenu />
+      <SearchMenu :toggleMenu=toggleMenu />
 
       <!-- Divider -->
       <v-divider light class="black mt-12 hidden-sm-and-down"></v-divider>
@@ -565,7 +565,7 @@ export default {
       is1MinuteDue: false,
       showBrand: false,
       fab: false,
-      drawer: null,
+      drawer: false,
       fixed: false,
       sticky: false,
       searchDialog: null,
@@ -628,6 +628,9 @@ export default {
     }
   },
   methods: {
+    toggleMenu(){
+      this.drawer = !this.drawer
+    },
     manageTemplateComponent() {
       let newPages = [
         '/',
