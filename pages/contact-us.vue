@@ -32,7 +32,7 @@
     <v-col md="3" class="text-center">
       <h3>Call Us </h3>
       <!-- <p>08146907099</p> -->
-      <p>08018891758</p>
+      <p>02018891758</p>
     </v-col>
     <v-col md="3" class="text-center">
       <h3>Email Us</h3>

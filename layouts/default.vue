@@ -785,7 +785,7 @@
             <h4 class="mb-4">Contact Us</h4>
             <p>Call us 24/7</p>
             <a href="tel:2348146907099">
-              <h3 class="primary--text">234 814 690 7099</h3>
+              <h3 class="primary--text">234 201 889 1758</h3>
             </a>
             <a href="mailto:info@paxo.com.ng">info@paxo.com.ng</a>
 

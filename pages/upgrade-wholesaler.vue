@@ -29,18 +29,18 @@
         <v-divider></v-divider>
         <h4 class="primary--text mt-8">Wholesale Plan</h4>
         <p>
-          As a wholesaler, the minimum purchase is &#8358;25,000 with a 30 days
+          As a wholesaler, the minimum purchase is &#8358;50,000 with a 30 days
           grace to buy at any price, after 30 days you have to re-activate again
-          with &#8358;25,000 to have access to another 30 days to shop at any
+          with &#8358;50,000 to have access to another 30 days to shop at any
           price.
         </p>
         <p>
           <b> Example </b>
         </p>
         <p>
-          Mrs Johnson's initial order must be =>&#8358;25,000 but has the
+          Mrs Johnson's initial order must be =>&#8358;50,000 but has the
           ability to buy &#8358;5,000 within the month to replace an item but
-          once a new month begins she has to buy => &#8358;25,000.
+          once a new month begins she has to buy => &#8358;50,000.
         </p>
         <h4 class="primary--text">Wholesale Reward System</h4>
         <p>
@@ -57,9 +57,9 @@
           </thead>
           <tbody>
             <tr>
-              <td>300k - 600k Annually</td>
-              <td>600k - 1m Annually</td>
-              <td>1m and above Annually</td>
+              <td>600k - 1.1m Annually</td>
+              <td>1.2m - 5.9m Annually</td>
+              <td>6m and above Annually</td>
             </tr>
           </tbody>
         </v-simple-table>
@@ -70,15 +70,15 @@
       reward system as the table above
     </p> -->
         <p>
-          For the <b>bronze</b> category if a customer is able to buy 25k
-          monthly it would meet up with 300k at the end of the year.
+          For the <b>bronze</b> category if a customer is able to buy 50k
+          monthly it would meet up with 600k at the end of the year.
         </p>
         <p>
-          For the <b>Sliver</b> category, if the customer buys 50k monthly he
+          For the <b>Sliver</b> category, if the customer buys 100k monthly he
           should get to the target.
         </p>
         <p>
-          For the <b>Gold</b> category, if the wholesaler buys 85k monthly
+          For the <b>Gold</b> category, if the wholesaler buys 500k monthly
           he/she should get to the target.
         </p>
         <p class="mt-8" v-if="user.role != 'wholesaler'">
