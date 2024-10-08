@@ -73,16 +73,25 @@
             <v-list width="250px" class="py-0" v-if="isAuthenticated">
               <v-list-item to="/dashboard" class="py-0 my-0">
                 <v-list-item-action>
-                  <v-icon>person</v-icon>
+                  <AccountInfoIcon style="color: black" />
                 </v-list-item-action>
                 <v-list-item-content class="py-0 my-0">
                   <v-list-item-title>Account Information
                   </v-list-item-title>
                 </v-list-item-content>
               </v-list-item>
+              <v-list-item to="/my-pending-orders" class="py-0 my-0">
+                <v-list-item-action>
+                  <PendingOrdersIcon style="color: black" />
+                </v-list-item-action>
+                <v-list-item-content class="py-0 my-0">
+                  <v-list-item-title>My Orders
+                  </v-list-item-title>
+                </v-list-item-content>
+              </v-list-item>
               <v-list-item to="/my-orders" class="py-0 my-0">
                 <v-list-item-action>
-                  <v-icon>favorite_border</v-icon>
+                  <OrdersIcon style="color: black" />
                 </v-list-item-action>
                 <v-list-item-content class="py-0 my-0">
                   <v-list-item-title>My Orders
@@ -91,7 +100,7 @@
               </v-list-item>
               <v-list-item to="/my-wishlist" class="py-0 my-0">
                 <v-list-item-action>
-                  <v-icon>favorite_border</v-icon>
+                  <WishlistIcon style="color: black" />
                 </v-list-item-action>
                 <v-list-item-content class="py-0 my-0">
                   <v-list-item-title>My Wishlist </v-list-item-title>
@@ -99,7 +108,7 @@
               </v-list-item>
               <v-list-item to="/become-affiliate" class="py-0 my-0">
                 <v-list-item-action>
-                  <v-icon>group_work</v-icon>
+                  <AffilateIcon style="color: black" />
                 </v-list-item-action>
                 <v-list-item-content class="py-0 my-0">
                   <v-list-item-title>Become an Affiliate </v-list-item-title>
@@ -107,7 +116,7 @@
               </v-list-item>
               <v-list-item to="/upgrade-wholesaler" class="py-0 my-0">
                 <v-list-item-action>
-                  <v-icon>receipt</v-icon>
+                  <WholesalerIcon style="color: black" />
                 </v-list-item-action>
                 <v-list-item-content class="py-0 my-0">
                   <v-list-item-title>Upgrade to Wholesaler </v-list-item-title>
@@ -554,8 +563,14 @@ import DiscountMenu from './components/discountmenu.vue'
 import SearchMenu from './components/searchmenu.vue'
 import MainMenu from './components/mainmenu.vue'
 import BottomNav from './components/bottomnav.vue'
+import AccountInfoIcon from '../components/icons/account_info.vue'
+import PendingOrdersIcon from '../components/icons/pending_order.vue'
+import OrdersIcon from '../components/icons/orders.vue'
+import WishlistIcon from '../components/icons/wishlist.vue'
+import AffilateIcon from '../components/icons/affiliate.vue'
+import WholesalerIcon from '../components/icons/wholesaler.vue'
 export default {
-  components: { SearchProducts, DiscountMenu, SearchMenu, MainMenu, BottomNav },
+  components: { SearchProducts, DiscountMenu, SearchMenu, MainMenu, BottomNav, AccountInfoIcon, WholesalerIcon, AffilateIcon, WishlistIcon, OrdersIcon, PendingOrdersIcon },
   data() {
     return {
       showGetGlowing: false,

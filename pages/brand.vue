@@ -3,20 +3,20 @@
     <!-- <home-page-slider></home-page-slider> -->
     <v-container fluid>
       <v-row class="mt-4" :class="{ 'px-4': $vuetify.breakpoint.smAndDown }">
-        <v-col md="12 p3p">
+        <v-col md="12 p5p">
           <!-- <h1 class="font-weight-medium">{{ !loading ? ((products.length > 0) ? 'Brand: '+ products[0].brand.name : 'No Products Found') : null}}</h1> -->
           <h1 class="font-weight-bold">
             {{
               !loading
                 ? products.length > 0
-                  ? decodeURI(pagename != undefinded ? pagename : '')
+                  ? decodeURI(pagename != undefinded ? pagename : 'All')
                   : 'No Products Found'
                 : null
             }}
           </h1>
           <v-divider color="#00C3B7"></v-divider>
 
-          <div class="d-flex mt-6" :class="{ 'flex-column': $vuetify.breakpoint.smAndDown, 'flex-row': $vuetify.breakpoint.mdAndUp }">
+          <div class="d-flex mt-8" :class="{ 'flex-column': $vuetify.breakpoint.smAndDown, 'flex-row': $vuetify.breakpoint.mdAndUp }">
           <div class="py-0 mt-2"> 
             <h4 class="mb-8 mr-2" style="width: 120px;">
                 FILTER BY <v-icon>mdi-filter-variant</v-icon>

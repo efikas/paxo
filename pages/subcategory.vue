@@ -25,7 +25,7 @@
           </v-row>
           <v-divider color="#00C3B7"></v-divider>
 
-          <div class="d-flex mt-6" :class="{ 'flex-column': $vuetify.breakpoint.smAndDown, 'flex-row': $vuetify.breakpoint.mdAndUp }">
+          <div class="d-flex mt-8" :class="{ 'flex-column': $vuetify.breakpoint.smAndDown, 'flex-row': $vuetify.breakpoint.mdAndUp }">
           <div class="py-0 mt-2"> 
             <h4 class="mb-8 mr-2" style="width: 120px;">
                 FILTER BY <v-icon>mdi-filter-variant</v-icon>
