@@ -28,130 +28,56 @@
 
           <v-divider color="#00C3B7"></v-divider>
 
-          <v-col md="12" class="hidden-sm-and-down pl-6 mt-6">
-            <div
-              class="
-                category
-                pa-0
-                d-flex
-                flex-row
-                justify-content-center
-                align-center
-              "
-            >
-              <h4 class="mb-6 ma- mr-2" style="width: 120px">
+          <div class="d-flex mt-6" :class="{ 'flex-column': $vuetify.breakpoint.smAndDown, 'flex-row': $vuetify.breakpoint.mdAndUp }">
+          <div class="py-0 mt-2"> 
+            <h4 class="mb-8 mr-2" style="width: 120px;">
                 FILTER BY <v-icon>mdi-filter-variant</v-icon>
               </h4>
-              <v-select
-                id="mySelect"
-                :items="brands"
-                label="Brands"
-                item-text="name"
-                item-value="id"
-                class="rounded-lg mr-3"
-                v-model="brand"
-                @change="getProducts()"
-                rounded
-                outlined
-                shaped
-                color="primary"
-                clearable
-              ></v-select>
-              <v-select
-                :items="categories"
-                label="Category"
-                item-text="name"
-                item-value="id"
-                v-model="category"
-                @change="getProducts()"
-                class="rounded-lg mr-3"
-                outlined
-                clearable
-              ></v-select>
-              <v-select
-                :items="subCategories"
-                label="Sub-category"
-                item-text="name"
-                item-value="id"
-                v-model="subCategory"
-                @change="getProducts()"
-                class="rounded-lg mr-3"
-                outlined
-                clearable
-              ></v-select>
-              <v-select
-                :items="priceRange"
-                label="Price"
-                v-model="selectedPrice"
-                @change="getProducts()"
-                :item-text="(i) => `₦${i.start} to ₦${i.end}`"
-                :item-value="(i) => i"
-                class="rounded-lg mr-3"
-                outlined
-                clearable
-              ></v-select>
-              <v-select
-                :items="avalabilities"
-                v-model="availability"
-                label="Availability"
-                item-text="name"
-                item-value="id"
-                @change="getProducts()"
-                class="rounded-lg mr-3"
-                outlined
-                clearable
-              ></v-select>
-              <v-select
-                :items="[]"
-                label="Sort By"
-                item-text="name"
-                @change="getProducts()"
-                item-value="id"
-                class="rounded-lg mr-3"
-                outlined
-                clearable
-              ></v-select>
-            </div>
-            <div></div>
+          </div>
+          <v-row>
+            <v-col md="2" sm="12" cols="12" class="py-0">
+            <v-select id="mySelect" :items="brands" label="Brands" item-text="name" item-value="id"
+              class="rounded-lg mr-3" v-model="brand" @change="getProducts()" rounded outlined shaped color="primary"
+              clearable></v-select>
           </v-col>
+          <v-col md="2" sm="12" cols="12" class="py-0">
+            <v-select :items="categories" label="Category" item-text="name" item-value="id" v-model="category"
+              @change="getProducts()" class="rounded-lg mr-3" outlined clearable></v-select>
+          </v-col>
+          <v-col md="2" sm="12" cols="12" class="py-0">
+            <v-select :items="subCategories" label="Sub-category" item-text="name" item-value="id" v-model="subCategory"
+              @change="getProducts()" class="rounded-lg mr-3" outlined clearable></v-select>
+          </v-col>
+          <v-col md="2" sm="12" cols="12" class="py-0">
+            <v-select :items="priceRange" label="Price" v-model="selectedPrice" @change="getProducts()"
+              :item-text="(i) => `₦${i.start} to ₦${i.end}`" :item-value="(i) => i" class="rounded-lg mr-3" outlined
+              clearable></v-select>
+          </v-col>
+          <v-col md="2" sm="12" cols="12" class="py-0">
+            <v-select :items="avalabilities" v-model="availability" label="Availability" item-text="name"
+              item-value="id" @change="getProducts()" class="rounded-lg mr-3" outlined clearable></v-select>
+          </v-col>
+          <v-col md="2" sm="12" cols="12" class="py-0">
+            <v-select :items="[]" label="Sort By" item-text="name" @change="getProducts()" item-value="id"
+              class="rounded-lg mr-3" outlined clearable></v-select>
+          </v-col>
+          </v-row>
+        </div>
           <v-row class="mt-0">
-            <v-col
-              :class="{
-                custom5cols: $vuetify.breakpoint.mdAndUp,
-                '': $vuetify.breakpoint.smAndDown,
-              }"
-              md="auto"
-              sm="6"
-              cols="6"
-              v-for="(i, index) in products"
-              :key="index"
-            >
-              <product-display
-                :product_name="i.name"
-                rating="5"
-                :price="i.price"
-                :regular_price="i.regular_price"
-                :wholesale_price="i.wholesale_price"
-                :image="i.avatar"
-                :badge="i.stock_status"
-                :description="i.description"
-                :short_description="i.short_description"
-                :product_object="i"
-                :product_id="i.id"
-              />
+            <v-col :class="{
+              custom5cols: $vuetify.breakpoint.mdAndUp,
+              '': $vuetify.breakpoint.smAndDown,
+            }" md="auto" sm="6" cols="6" v-for="(i, index) in products" :key="index">
+              <product-display :product_name="i.name" rating="5" :price="i.price" :regular_price="i.regular_price"
+                :wholesale_price="i.wholesale_price" :image="i.avatar" :badge="i.stock_status"
+                :description="i.description" :short_description="i.short_description" :product_object="i"
+                :product_id="i.id" />
             </v-col>
           </v-row>
         </v-col>
       </v-row>
-      <v-pagination
-        class="mt-16"
-        :length="pageinationLength"
-        :total-visible="7"
-        v-model="page"
-        @input="toPage"
-        @next="next"
-        @previous="previous"
-      ></v-pagination>
+      <v-pagination class="mt-16" :length="pageinationLength" :total-visible="7" v-model="page" @input="toPage"
+        @next="next" @previous="previous"></v-pagination>
     </v-container>
   </div>
 </template>
@@ -276,11 +202,13 @@ export default {
 </script>
 <style lang="scss" scoped>
 .category {
+
   // background-color: #f5f5f5;
   h4 {
     font-size: 18px;
     font-weight: 400;
   }
+
   a {
     font-size: 14px;
     color: #000000de;

@@ -11,7 +11,7 @@
       second-nav
       hidden-sm-and-down
     ">
-    <v-menu open-on-hover bottom offset-y origin="top left" open-delay="500" max-width="100vw" class="elevation-0 my-0">
+    <v-menu open-on-click  bottom offset-y origin="top left" open-delay="500" max-width="100vw" class="elevation-0 my-0">
       <template v-slot:activator="{ attrs, on }">
 
         <v-btn class="nav-btn px-3 pt-3" active-class="no-active" v-bind="attrs" v-on="on" text style="height: 50px">
@@ -32,7 +32,7 @@
             second-nav
             hidden-sm-and-down another
           ">
-        <v-menu v-for="(i, index) in sections.slice(0, 12)" :key="index" open-on-hover bottom offset-y
+        <v-menu v-for="(i, index) in sections.slice(0, 12)" :key="index" open-on-hover  bottom offset-y
           :close-on-content-click="false" origin="top left" open-delay="500" max-width="100vw" nudge-left="0px"
           class="elevation-0" content-class="m5m menu-content">
           <template v-slot:activator="{ attrs, on }">
@@ -120,7 +120,7 @@
     </v-menu>
 
     <!-- BRAND MENU -->
-    <v-menu open-on-hover bottom v-model="showBrand" offset-y :close-on-content-click="false" origin="top left"
+    <v-menu open-on-click bottom v-model="showBrand" offset-y :close-on-content-click="false" origin="top left"
       open-delay="500" max-width="100vw" nudge-left="0px" class="elevation-0" content-class="m5m menu-content">
       <template v-slot:activator="{ attrs, on }">
         <v-btn class="nav-btn px-3 pt-3" active-class="no-active" style="height: 50px" v-bind="attrs" v-on="on" text>
@@ -211,9 +211,13 @@
             </div>
           </v-col>
 
-          <v-col cols="9" class="">
-            <div class="search-container">
-              <img src="../../static/assets/brands.png" width="100%" alt="">
+          <v-col cols="9" class="menu-side">
+            <div class="d-flex flex-row justify-center align-center" style="height: 400px; width: 100%">
+              <v-btn outlined large color="primary" @click="navigateToAllBrands"
+                    :class="'primary-text'"
+                    class="br-all-5" style="background-color: white">
+                    &nbsp;&nbsp;View all Brands</v-btn>
+              <!-- <img src="../../static/assets/brands.png" width="100%" height="100%"> -->
             </div>
           </v-col>
         </v-row>
@@ -389,6 +393,9 @@ export default {
     }
   },
   methods: {
+    navigateToAllBrands(){
+      window.location ='/all-brands';
+    },
     close1MinuteDialog() {
       this.is1MinuteDue = false
       this.open1MinuteDialog = false
@@ -605,5 +612,13 @@ export default {
   margin-right: 10% !important;
   margin-left: 10% !important;
   left: 0px !important;
+}
+
+.menu-side {
+  height: 400px;
+  width: 100%;
+  background-image: url('../../static/assets/brands.png');
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 </style>
