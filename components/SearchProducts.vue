@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-row>
-      <v-col md="6" cols="10" :class="{'py-0' : $vuetify.breakpoint.smAndDown}" class="px-0 pt-1">
+      <v-col md="6" cols="12" :class="{ 'py-0': $vuetify.breakpoint.smAndDown }" class="px-0 pt-1">
         <!-- {{ productSearch }} -->
         <!-- <v-text-field v-model="productSearch" dense outlined placeholder="Search for your choice products" ></v-text-field> -->
         <!-- <v-autocomplete
@@ -27,7 +27,7 @@
               </v-list-item-title>
             </v-list-item>
           </template>
-          <template v-slot:selection="{ attr, on, item, selected }">
+<template v-slot:selection="{ attr, on, item, selected }">
             <v-chip
               v-bind="attr"
               :input-value="selected"
@@ -39,7 +39,7 @@
               <span v-text="item.billername"></span>
             </v-chip>
           </template>
-          <template v-slot:item="{ item }">
+<template v-slot:item="{ item }">
             <v-list-item-avatar
               @click="loadPage(item.billerid)"
               color="indigo"
@@ -55,30 +55,65 @@
               <v-icon>mdi-coin</v-icon>
             </v-list-item-action>
           </template>
-        </v-autocomplete> -->
-        <v-autocomplete
-          v-model="product"
-          :items="products"
-
+</v-autocomplete> -->
+        <v-autocomplete v-model="product" :items="products" 
           :search-input.sync="productSearch"
-          hide-no-data
-          item-text="name"
-          item-value="id"
-          prepend-inner-icon="search"
-          outlined
-          dense @change="goToProduct(product.id)"
-          class="pt-6"
-          append-icon=""
-          placeholder="Search for your products"
-          clearable
-          return-object
-        ></v-autocomplete>
+          hide-no-data item-text="name" 
+          item-value="id" prepend-inner-icon="search" outlined dense
+          @change="goToProduct(product.id)" class="pt-6"
+          :class="(productSearch ?? '').length == 0 ? 'template-subscribe' : ''" input-class="search-box"
+          :input-attrs="{ 'class': 'search-box' }" append-icon="" placeholder="Search for products" clearable
+          return-object>
+          <!-- <template v-slot:append v-if="(productSearch ?? '').length == 0">
+          <v-divider vertical thickness="6" class="my-2"></v-divider>
+          <v-btn icon class="search-btn" :to="'search?str='+productSearch"
+          ><v-icon>mdi-filter-variant</v-icon></v-btn
+        >
+        </template> -->
+          <!-- <template v-slot:selection="{ attr, on, item, selected }">
+            <v-chip
+              v-bind="attr"
+              :input-value="selected"
+              color="blue-grey"
+              class="white--text"
+              v-on="on"
+            >
+              <v-icon left>mdi-coin</v-icon>
+              <span v-text="item.billername"></span>
+            </v-chip>
+          </template> -->
+          <template v-slot:item="{ item }">
+            <div style="width: 250px;" class="d-flex flex-row py-2 align-center" v-if="item.id != 0">
+              <v-avatar rounded size="45"> <img :src="item.avatar" alt="" /></v-avatar>
+                <div class="ml-2 text-caption">{{item.name}}</div>
+            </div>
+            <div style="width: 250px;" class="d-flex flex-row pt-2 align-center justify-center" v-else>
+                <div class="ml-2 text-caption">See all ...</div>
+            </div>
+          </template>
+          <!-- <template #item="data" class="py-0 px-0">
+            <template class="py-0 px-0">
+              <v-list-item-avatar>
+                <img v-if="data.item.avatar" :src="data.item.avatar">
+                <v-icon v-else>
+                  mdi-account-circle
+                </v-icon>
+              </v-list-item-avatar>
+              <v-list-item-content>
+                <v-list-item-title v-html="data.item.name" />
+                <v-list-item-subtitle>
+                  {{ data.item.name }}
+                </v-list-item-subtitle>
+              </v-list-item-content>
+            </template>
+          </template> -->
+        </v-autocomplete>
       </v-col>
-      <v-col md="4" cols="2" class="px-0 pt-7" :class="{'py-0' : $vuetify.breakpoint.smAndDown}">
-        <v-btn class="primary search-btn" :to="'search?str='+productSearch" text
+      <!-- <v-col md="4" cols="2" class="px-0 pt-7" :class="{'py-0' : $vuetify.breakpoint.smAndDown}">
+        <v-btn class="primary search-btn" :to="'search?str='+productSearch" 
           ><v-icon>search</v-icon></v-btn
         >
-      </v-col>
+      </v-col> -->
     </v-row>
     <!-- <v-dialog
       transition="scroll-y-transition"
@@ -128,6 +163,7 @@ export default {
       search: '',
       searchDialog: null,
       products: [],
+      listedProducts: [],
       originalProducts: [],
       productSearch: '',
       product: null,
@@ -135,8 +171,14 @@ export default {
     }
   },
   methods: {
-    goToProduct (id) {
-      this.$router.push('/single-product?product_id='+id)
+    goToProduct(id) {
+      if(id == 0){
+        this.$router.push('/search?str=' + product)
+      }
+      else {
+        this.$router.push('/single-product?product_id=' + id)
+      }
+      
     },
     async findProduct() {
       const data = {
@@ -146,7 +188,7 @@ export default {
         .dispatch('products/search', data)
         .then((response) => {
           this.products = response.data
-          console.log(this.products)
+          // console.log(this.products)
         })
         .catch((error) => {
           console.log(error)
@@ -156,6 +198,7 @@ export default {
       // Handle empty value
       if (!value) {
         self.products = []
+        self.listedProducts = []
         self.productSearch = ''
       }
       // Items have already been requested
@@ -176,6 +219,7 @@ export default {
         // .get()
         .then((response) => {
           self.products = response.data
+          self.listedProducts = [...response.data.slice(0, 3), { id: 0, name: ''}];
         })
         .catch((error) => {
           self.error = 'Unknown Error. Please check details and try again.'
@@ -209,21 +253,27 @@ export default {
     //   })
     // },
   },
-   watch: {
-      productSearch(value) {
-        if (!value) {
-          return
-        }
-        // Debounce the input and wait for a pause of at
-        // least 200 milliseconds. This can be changed to
-        // suit your needs.
-        debounce(this.makeSearch, 200)(value, this)
+  watch: {
+    productSearch(value) {
+      if (!value) {
+        return
       }
+      // Debounce the input and wait for a pause of at
+      // least 200 milliseconds. This can be changed to
+      // suit your needs.
+      debounce(this.makeSearch, 200)(value, this)
     }
+  }
 }
 </script>
 <style lang="scss" scoped>
 .search-btn {
   height: 40px !important;
+}
+
+.search-box {
+  border: none;
+  border: solid 1px #33333333 !important;
+  border-radius: 40px !important;
 }
 </style>

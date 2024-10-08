@@ -1,147 +1,116 @@
 <template>
   <v-container pt-16>
-    <v-row>
+    <v-row
+      :class="{
+        'p10p': $vuetify.breakpoint.mdAndUp,
+        'px-4': $vuetify.breakpoint.smAndDown,
+      }"
+    >
       <v-col md="4">
-        <div style="display: flex">
-          <v-avatar size="60">
-            <img src="../static/assets/avatar.jpg" alt="" />
-          </v-avatar>
-          <div class="ml-6">
-            <p class="mb-0 pb-0">Hello</p>
-            <h4>{{ user.first_name }} {{ user.last_name }}</h4>
-          </div>
-        </div>
-        <v-list class="mt-7 sidebar py-0" outlined>
-          <v-list-item-group v-model="selectedItem" color="primary">
-            <v-list-item :to="item.to" v-for="(item, i) in menus" :key="i">
-              <v-list-item-icon>
-                <v-icon v-text="item.icon"></v-icon>
-              </v-list-item-icon>
-              <v-list-item-content>
-                <v-list-item-title v-text="item.text"></v-list-item-title>
-              </v-list-item-content>
-            </v-list-item>
-          </v-list-item-group>
-        </v-list>
+        <UserSideBar />
       </v-col>
       <v-col md="8">
-        <h2>My Wishlist</h2>
-        <v-divider></v-divider>
-        <v-simple-table>
-          <thead>
-            <tr>
-              <th>PRODUCT</th>
-              <th>PRICE</th>
-              <!-- <th>QUANTITY</th>
-          <th>TOTAL</th> -->
-              <th>ACTION</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="(i, index) in wishlist" :key="index">
-              <td class="py-5">
-                <div class="d-flex align-center">
-                  <img :src="i.product.avatar" width="100px" alt="" />
-                  <nuxt-link :to="'/single-product?product_id=' + i.product.id">
-                    <p class="ml-8">{{ i.product.name }}</p>
-                  </nuxt-link>
-                </div>
-              </td>
-              <td>
-                &#8358;{{
-                  (isAuthenticated
-                    ? user.role == 'wholesaler' || user.role == 'next_champ'
-                      ? i.product.wholesale_price
-                      : i.product.price
-                    : i.product.price) | formatPrice
-                }}
-              </td>
-              <!-- <td>
-            <div class="qty-box pa-2">
-              <v-btn
-                icon
-                small
-                @click="i.quantity > 1 ? (i.quantity -= 1) : null, calculateSubtotal()"
-                ><v-icon>ri-subtract-fill</v-icon></v-btn
-              >
-              <p class="ma-0">{{ i.quantity }}</p>
-              <v-btn @click="i.quantity += 1 , calculateSubtotal()" icon small
-                ><v-icon>ri-add-fill</v-icon></v-btn
+        <h3 class="font-weight-bold">Wishlist</h3>
+        <v-divider color="#14ADAC99"></v-divider>
+        <div class="mt-5" id="shopTable">
+          <v-row class="body-2">
+            <v-col md="7">Product</v-col>
+            <v-col md="2">Total</v-col>
+            <v-col md="3">Add to cart</v-col>
+          </v-row>
+          <!-- <v-divider></v-divider> -->
+
+          <v-row v-if="wishlist.length == 0">
+            <v-col md="12" class="d-flex align-center text-center pa-10">
+              <p>Your wishlist is empty!</p>
+            </v-col>
+          </v-row>
+
+          <div v-for="(i, index) in wishlist" :key="index" class="d-flex" :class="{'half-faded': isOutOfStock(i) == 'outofstock'}">
+            <div style="width: 100%">
+              <v-row class="table-row">
+                <v-col md="7" class="py-3">
+                  <div class="d-flex align-center">
+                    <img
+                      :src="i.product.avatar"
+                      width="100px"
+                      alt=""
+                      class="br-all-5"
+                    />
+                    <div class="ml-8">
+                      <nuxt-link
+                        :to="'/single-product?product_id=' + i.product.id"
+                      >
+                        <p class="body-2" style="color: black">
+                          {{ i.product.name }}
+                        </p>
+                      </nuxt-link>
+
+                      <v-btn
+                        v-if="isOutOfStock(i.product) == 'outofstock'"
+                        outlined
+                        small
+                        color="error"
+                        class="br-all-5 text-caption error-text"
+                      >
+                      </v-btn>
+                      <v-btn
+                        v-else
+                        outlined
+                        small
+                        color="primary"
+                        class="br-all-5 text-caption primary-text"
+                      >
+                        <v-icon small> mdi-check-circle-outline</v-icon>
+                        &nbsp;&nbsp;In Stock</v-btn
+                      >
+                    </div>
+                  </div>
+                </v-col>
+                <v-col
+                  md="2"
+                  class="d-flex align-center body-2 font-weight-bold"
+                >
+                  &#8358;{{
+                    (isAuthenticated
+                      ? user.role == 'wholesaler' || user.role == 'next_champ'
+                        ? i.product.wholesale_price
+                        : i.product.price
+                      : i.product.price) | formatPrice
+                  }}
+                </v-col>
+                <v-col md="3" class="d-flex align-center body-2">
+                  <v-btn color="primary" class="br-all-5" 
+                   :disabled="(isOutOfStock(i.product) == 'outofstock') || (loading && loadingID != i.id)"
+                    :loading="(loading && loadingID == i.id)"
+                     @click="buyNow(i)"
+                  >Buy Now</v-btn
+                  >
+                </v-col>
+              </v-row>
+            </div>
+            <div class="ml-3 d-flex align-center body-2">
+              <v-icon color="error" @click="deleteWishlist(i.id)"
+                >mdi-delete-outline</v-icon
               >
             </div>
-          </td>
-          <td>
-            &#8358;{{
-              (parseInt(i.price) * parseInt(i.quantity)) | formatPrice
-            }}
-          </td> -->
-              <td class="text-">
-                <v-icon @click="deleteWishlist(i.id)"
-                  >ri-delete-bin-line</v-icon
-                >
-              </td>
-            </tr>
-            <tr v-if="wishlist.length == 0">
-              <td colspan="5" class="text-center pa-10">
-                <p>Your wishlist is empty!</p>
-              </td>
-            </tr>
-          </tbody>
-        </v-simple-table>
+          </div>
+        </div>
       </v-col>
     </v-row>
   </v-container>
 </template>
 <script>
 import { mapGetters } from 'vuex'
+import UserSideBar from '~/components/UserSideBar.vue'
 export default {
+  components: { UserSideBar },
   data() {
     return {
       loading: false,
+      loadingId: 0,
       selectedItem: '',
       wishlist: [],
-      menus: [
-        {
-          icon: 'ri-user-line',
-          text: 'Account Information',
-          to: '/dashboard',
-        },
-        {
-          icon: 'ri-shopping-cart-line',
-          text: 'My Pending Orders',
-          to: '/my-pending-orders',
-        },
-        {
-          icon: 'ri-shopping-cart-line',
-          text: 'My Orders / Transactions',
-          to: '/my-orders',
-        },
-        {
-          icon: 'ri-heart-line',
-          text: 'My Wishlist',
-          to: '/my-wishlist',
-        },
-        {
-          icon: 'ri-honour-line',
-          text: 'Become an Affiliate',
-          to: '/become-affiliate',
-        },
-        {
-          icon: 'ri-briefcase-line',
-          text: 'Upgrade to Wholesaler',
-          to: '/upgrade-wholesaler',
-        },
-        {
-          icon: 'ri-lock-line',
-          text: 'Change Password',
-          to: '/change-password',
-        },
-        {
-          icon: 'ri-logout-circle-line',
-          text: 'Logout',
-          to: '/logout',
-        },
-      ],
     }
   },
   computed: {
@@ -151,6 +120,17 @@ export default {
     this.getWishList()
   },
   methods: {
+    isOutOfStock(item) {
+      if (item.stock_status == 'outofstock') {
+        return 'outofstock'
+      }
+
+      if (item.stock_quantity < item.quantity) {
+        return 'outofstock'
+      }
+
+      return ''
+    },
     async getWishList() {
       await this.$store
         .dispatch('products/wishlist')
@@ -176,6 +156,32 @@ export default {
             this.$toast.success(response.message)
             this.getWishList()
           }))
+    },
+    async buyNow(item) {
+      if (this.isAuthenticated) {
+        this.loading = true;
+        this.loadingID = item.id;
+        const data = {
+          product: { ...item.product, cart_id: null, quantity: 1 },
+        }
+        await this.$store
+          .dispatch('products/savecart', data)
+          .then((response) => {
+            if (response.status == true) {
+              //  this.$store.dispatch('products/addToCart', this.product)
+              // this.$toast.success('Product added to cart successfully!')
+              this.$router.push('/shopping-cart')
+            }
+          })
+          .catch((error) => {
+            this.$toast.error(error.response.data.error.message)
+          })
+
+          this.loading = false;
+          this.loadingID = 0;
+       
+      } else {
+      }
     },
   },
 }
@@ -204,6 +210,13 @@ td {
   color: #8193a5;
 }
 
+.table-row {
+  border: 2px solid #66666633 !important;
+  margin-top: 20px !important;
+  margin-bottom: 10px !important;
+  border-radius: 0.4rem !important;
+}
+
 .qty-box {
   border: 0.5px solid #666;
   display: flex;
@@ -212,6 +225,10 @@ td {
   p {
     color: #000 !important;
   }
+}
+
+.half-faded * {
+  opacity: .7;
 }
 
 a {

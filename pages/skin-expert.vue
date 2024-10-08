@@ -2,7 +2,7 @@
   <v-container fluid>
     <v-row justify="center">
       <v-col md="10">
-        <v-stepper v-model="e1">
+        <v-stepper v-model="e1" elevation="0">
           <v-stepper-header>
             <v-stepper-step step="1"> Introduction </v-stepper-step>
             <v-divider></v-divider>
@@ -12,32 +12,32 @@
             <v-divider></v-divider>
             <v-stepper-step step="4">Results & Recommendations</v-stepper-step>
           </v-stepper-header>
+          <div class="px-0"><v-divider color="#00C3B7"></v-divider></div>
           <v-stepper-content step="1" class="text-center">
-           <img src="../static/assets/Skin Expert today 2.jpg" width="100%" alt="">
+           <img src="../static/assets/Skin Expert today 2.jpg" width="100%" alt="" class="step1-img">
             <v-btn
-              class="primary mt-3"
+              class="primary mt-3 br-all-5"
               @click="e1 = 2"
               text
-              x-large
-              >Start Now</v-btn
+              > &nbsp;&nbsp; Start Now <v-icon small> mdi-arrow-right &nbsp;</v-icon>&nbsp;&nbsp;</v-btn
             >
           </v-stepper-content>
           <v-stepper-content step="2">
             <div class="d-md-flex" :class="{'text-center':$vuetify.breakpoint.smAndDown}">
               <div>
-                <img src="../static/assets/question.jpeg" height="130" alt="" />
+                <img src="../static/assets/question.jpeg" height="130" alt="" class="br-all-5" />
               </div>
               <div class="ml-4">
                 <h2 class="primary--text">Answer a few questions</h2>
-                <p>
+                <p class="text-body-2">
                   Here you will answer some questions about your skin health to
                   help us determine the nature of your skin and to make proper
                   decisions and recommendations.
                 </p>
-                <p>Please fill the form below correctly!</p>
+                <p class="text-body-2">Please fill the form below correctly!</p>
               </div>
             </div>
-            <v-divider></v-divider>
+            <v-divider color="#00C3B7"></v-divider>
             <v-form class="mt-8" lazy-validation v-model="valid" ref="skin">
               <v-row justify="center">
                 <v-col md="7">
@@ -58,7 +58,7 @@
                     dense
                   >
                   </v-select>
-                  <p style="font-size: 13px" class="mt-0 pt-0">
+                  <p style="font-size: 0.8rem" class="mt-0 pt-0">
                     You can take a quick
                     <a href="javascript:void(0)" @click="skinTestDialog = true"
                       >Skin Type Test</a
@@ -105,14 +105,13 @@
                     dense
                   >
                   </v-select>
-                  <v-btn
-                    class="primary"
+                  <div class="text-center"><v-btn
+                    class="primary br-all-5"
                     :loading="loading"
                     @click="$refs.skin.validate() ? getRecommendation() : null"
                     text
-                    block
-                    >Continue</v-btn
-                  >
+                    >&nbsp;&nbsp;Continue <v-icon small> mdi-arrow-right &nbsp;</v-icon>&nbsp;&nbsp;</v-btn
+                  ></div>
                 </v-col>
               </v-row>
             </v-form>
@@ -176,6 +175,7 @@
             </div> -->
           </v-stepper-content>
         </v-stepper>
+        
       </v-col>
     </v-row>
     <v-dialog v-model="skinTestDialog" width="900">
@@ -477,3 +477,8 @@ export default {
   },
 }
 </script>
+<style lang="scss" scoped>
+.step1-img {
+ border-radius: 10px !important;
+}
+</style>

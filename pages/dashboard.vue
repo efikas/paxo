@@ -1,8 +1,14 @@
 <template>
   <v-container pt-16>
-    <v-row>
+    <v-row
+      :class="{
+        p10p: $vuetify.breakpoint.mdAndUp,
+        'px-4': $vuetify.breakpoint.smAndDown,
+      }"
+    >
       <v-col md="4">
-        <div style="display: flex">
+        <UserSideBar />
+        <!-- <div style="display: flex">
           <v-avatar size="60">
             <img src="../static/assets/avatar.jpg" alt="" />
           </v-avatar>
@@ -24,9 +30,9 @@
             </v-tooltip>
           </div>
         </div>
-        <v-list class="mt-7 sidebar py-0" outlined>
-          <v-list-item-group v-model="selectedItem" color="primary">
-            <v-list-item :to="item.to" v-for="(item, i) in menus" :key="i">
+        <v-list class="mt-7 py-0" >
+          <v-list-item-group v-model="selectedItem"  color="primary">
+            <v-list-item :to="item.to" v-for="(item, i) in menus" :key="i" active-class="sidebar-active" outlinedk>
               <v-list-item-icon>
                 <v-icon v-text="item.icon"></v-icon>
               </v-list-item-icon>
@@ -35,12 +41,12 @@
               </v-list-item-content>
             </v-list-item>
           </v-list-item-group>
-        </v-list>
+        </v-list> -->
       </v-col>
       <v-col md="8">
         <div class="d-flex justify-space-between">
-          <h2>Account Information</h2>
-          <v-tooltip top>
+          <h2 class="font-weight-bold">Account Information</h2>
+          <!-- <v-tooltip top>
             <template v-slot:activator="{ on, attrs }">
               <v-chip
                 v-bind="attrs"
@@ -52,35 +58,59 @@
               >
             </template>
             <span>Logged in as:</span>
-          </v-tooltip>
+          </v-tooltip> -->
         </div>
-        <v-divider></v-divider>
-
-        <v-form class="mt-12" lazy-validation v-model="valid" ref="form">
+        <v-divider color="#14ADAC99"></v-divider>
+        <div style="display: flex" class="mt-8">
+          <v-avatar size="50">
+            <img src="../static/assets/user-profile.png" alt="" />
+          </v-avatar>
+          <div class="ml-4">
+            <h3 class="mb-0 pb-0 font-weight-bold">
+              {{ form.first_name }} {{ form.last_name }} &nbsp;
+            </h3>
+            <h4 class="mb-0 text-caption">{{ form.email ?? 'example@paxo.com' }}</h4>
+            <v-tooltip top>
+              <template v-slot:activator="{ on, attrs }">
+                <v-chip
+                  v-bind="attrs"
+                  v-on="on"
+                  color="secondary"
+                  class="hidden-md-and-up mt-0"
+                  x-small
+                  >{{ form.role | capitalize }}</v-chip
+                >
+              </template>
+              <span>Logged in as:</span>
+            </v-tooltip>
+          </div>
+        </div>
+        <v-form class="mt-6" lazy-validation v-model="valid" ref="form">
           <v-row>
             <v-col>
-              <p>Wallet Balance</p>
-              <v-chip style="border-radius: 0" dark color="primary" large
+              <p>Wallet Balance: &#8358;{{ form.balance | formatPrice }}</p>
+              <!-- <v-chip style="border-radius: 0" dark color="primary" large
                 >&#8358;{{ form.balance | formatPrice }}</v-chip
-              >
+              > -->
               <v-btn
-                text
+                outlined
+                color="primary"
                 :disabled="parseInt(form.balance) < 1000"
-                class="primary"
+                class="br-all-5 black-text"
                 @click="withdrawDialog = true"
               >
                 <v-icon class="mr-2">payments</v-icon> Withdraw</v-btn
               >
             </v-col>
             <v-col>
-              <p>Bonus Points</p>
-              <v-chip style="border-radius: 0" dark color="primary" large
+              <p>Bonus Points: {{ form.points }}</p>
+              <!-- <v-chip style="border-radius: 0" dark color="primary" large
                 >{{ form.points }} Points</v-chip
-              >
+              > -->
             </v-col>
           </v-row>
-          <v-divider class="my-8"></v-divider>
-          <v-row>
+          <!-- <v-divider class="my-8"></v-divider> -->
+          <v-row class="mt-10">
             <v-col class="py-0" cols="12" md="6">
               <v-text-field
                 v-model="form.first_name"
@@ -161,15 +191,21 @@
           ></v-text-field>
           <v-row>
             <v-col class="py-0">
-              <p class="mb-0">City</p>
-              <v-text-field
-                placeholder="City"
-                v-model="form.city"
+              <p class="mb-0 hidden-sm-and-up">State</p>
+              <v-select
+                class="hidden-sm-and-up"
+                placeholder="State"
+                item-text="name"
+                item-value="id"
+                @change="getlga(form.state_id), (form.lga = '')"
+                :items="states"
+                v-model="form.state_id"
                 required
                 :rules="[(v) => !!v || 'This field is required']"
                 outlined
               >
-              </v-text-field>
+              </v-select>
+
               <p class="mb-0 hidden-xs-only">State</p>
               <v-select
                 class="hidden-xs-only"
@@ -185,16 +221,7 @@
               >
               </v-select>
             </v-col>
-
-            <v-col class="py-0">
-              <p class="mb-0">Nearest Bus-stop</p>
-              <v-text-field
-                placeholder="Nearest Bus-stop"
-                v-model="form.post_code"
-                outlined
-              >
-              </v-text-field>
-
+            <v-col class="py-0" v-if="lgas.length > 0">
               <p class="mb-0" v-if="lgas.length > 0">Local Government</p>
               <v-select
                 placeholder="LGA"
@@ -209,25 +236,32 @@
               >
               </v-select>
             </v-col>
-            <v-col cols="12" class="py-0 mt-0">
-              <p class="mb-0 hidden-sm-and-up">State</p>
-              <v-select
-                class="hidden-sm-and-up"
-                placeholder="State"
-                item-text="name"
-                item-value="id"
-                @change="getlga(form.state_id), (form.lga = '')"
-                :items="states"
-                v-model="form.state_id"
+          </v-row>
+          <v-row>
+            <v-col class="py-0">
+              <p class="mb-0">City</p>
+              <v-text-field
+                placeholder="City"
+                v-model="form.city"
                 required
                 :rules="[(v) => !!v || 'This field is required']"
                 outlined
               >
-              </v-select>
+              </v-text-field>
+            </v-col>
+
+            <v-col class="py-0">
+              <p class="mb-0">Nearest Bus-stop</p>
+              <v-text-field
+                placeholder="Nearest Bus-stop"
+                v-model="form.post_code"
+                outlined
+              >
+              </v-text-field>
             </v-col>
           </v-row>
           <!-- {{banks}} -->
-          <h4 class="mt-6">Bank Account Details</h4>
+          <!-- <h4 class="mt-6">Bank Account Details</h4>
           <v-divider class="mb-5"></v-divider>
           <v-text-field
             v-model="form.account_number"
@@ -249,10 +283,10 @@
             label="Account Name"
             outlined
           >
-          </v-text-field>
+          </v-text-field> -->
 
           <v-btn
-            class="primary"
+            class="primary br-all-5"
             large
             text
             block
@@ -314,8 +348,10 @@
 </template>
 <script>
 import { mapGetters } from 'vuex'
+import UserSideBar from '~/components/UserSideBar.vue'
 import axios from 'axios'
 export default {
+  components: { UserSideBar },
   middleware: 'authenticated',
   data() {
     return {
@@ -387,7 +423,7 @@ export default {
   },
   async mounted() {
     await this.getStates()
-    await this.getBanks()
+    // await this.getBanks()
     await this.getProfile()
     this.form = JSON.parse(JSON.stringify(this.user))
   },
@@ -487,7 +523,14 @@ export default {
 .sidebar {
   background: transparent !important;
   .v-list-item:not(:first-child) {
-    border-top: 1px solid #ddd;
+    border: 1px solid #ddd;
+    border-radius: 5px;
   }
+}
+
+.sidebar-active {
+  background: white !important;
+  border: 1px solid #14adac99;
+  border-radius: 5px;
 }
 </style>
