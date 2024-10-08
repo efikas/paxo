@@ -44,7 +44,7 @@
       <p>
         You can update your personal information at any time by accessing your
         account on Paxobeauty.com’s website. You can call our hotline on
-        081-3611-7075 weekdays from 8am – 8pm or email our Customer Services
+        080-1889-1758 weekdays from 8am – 8pm or email our Customer Services
         team anytime on sales@Paxobeauty.com We are here to support you! Security
         of your personal information.
       </p>

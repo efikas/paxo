@@ -57,17 +57,17 @@
 
     <h4 class="primary--text">Wholesale Plan</h4>
     <p>
-      As a wholesaler, the minimum purchase is &#8358;25,000 with a 30 days grace to
-      buy at any price, after 30 days you have to re-activate again with &#8358;25,000
+      As a wholesaler, the minimum purchase is &#8358;50,000 with a 30 days grace to
+      buy at any price, after 30 days you have to re-activate again with &#8358;50,000
       to have access to another 30 days to shop at any price.
     </p>
     <p>
       <b> Example </b>
     </p>
     <p>
-      Mrs Johnson's initial order must be =>&#8358;25,000 but has the ability to buy
+      Mrs Johnson's initial order must be =>&#8358;50,000 but has the ability to buy
       &#8358;5,000 within the month to replace an item but once a new month begins she
-      has to buy => &#8358;25,000.
+      has to buy => &#8358;50,000.
     </p>
     <h4 class="primary--text">Wholesale Reward System</h4>
     <p>

@@ -454,7 +454,7 @@
           <v-col cols="12" md="3">
             <h4 class="mb-4">Contact Us</h4>
             <p>Call us 24/7</p>
-            <a href="tel:2348146907099" class="mb-3">
+            <a href="tel:02018891758" class="mb-3">
               <h5 class="black--text" style="font-size: 1.2rem; font-weight: 500">
                 02018891758
               </h5>

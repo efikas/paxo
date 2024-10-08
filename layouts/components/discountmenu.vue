@@ -23,7 +23,7 @@
         </p>
         <p class="hidden-sm-and-down">
           <img src="../../static/assets/whatsapp.png"  alt="" />
-          <div class="text-xs mt-1">08146538456&emsp;</div>
+          <div class="text-xs mt-1">02018891758&emsp;</div>
         </p>
         <p class="hidden-sm-and-down">
           <img src="../../static/assets/track.png"  alt="" />
