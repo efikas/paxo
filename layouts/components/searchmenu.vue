@@ -246,15 +246,11 @@
         </v-row> -->
       <!-- tested -->
     </v-app-bar>
-    <v-dialog v-model="loginDialog" width="500px">
-      <v-card>
-        <Login :clickRegister="clickRegister" :closeAllPopUp="closeAllPopUp" />
-      </v-card>
+    <v-dialog v-model="loginDialog" width="600px">
+      <Login :clickRegister="clickRegister" :closeAllPopUp="closeAllPopUp" />
     </v-dialog>
-    <v-dialog v-model="registerDialog" width="800px">
-      <v-card>
-        <Register :clickLogin="clickLogin" :closeAllPopUp="closeAllPopUp" />
-      </v-card>
+    <v-dialog v-model="registerDialog" width="900px">
+      <Register :clickLogin="clickLogin" :closeAllPopUp="closeAllPopUp" />
     </v-dialog>
   </div>
 </template>
@@ -320,6 +316,15 @@ export default {
   created() { },
 }
 </script>
+<style lang="scss">
+.v-dialog {
+  background-color: transparent !important;
+  box-shadow: none !important;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
+}
+</style>
 <style lang="scss" scoped>
 a.sign-in,
 a.sign-up,
@@ -338,6 +343,8 @@ a.shopping-icon {
   background-color: white !important;
 }
 
+
+
 @media only screen and (min-width: 768px) {
   .search-bar {
     padding-left: 5% !important;
@@ -345,3 +352,4 @@ a.shopping-icon {
   }
 }
 </style>
+

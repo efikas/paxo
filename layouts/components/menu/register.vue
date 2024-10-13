@@ -1,36 +1,37 @@
 <template>
+    <div class="d-flex">
     <v-card flat>
-        <h3 class="text-center py-4" style="background-color: #14adac33">
+        <h3 class="text-center py-4 font-weight-bold" style="background-color: #14adac33">
             Sign Up
         </h3>
         <v-form lazy-validation v-model="valid" ref="register" class="pa-8">
             <v-row justify="center" align="center">
                 <v-col cols="12" md="6">
                     <v-text-field outlined required v-model="form.first_name"
-                        :rules="(v) => !!v || 'This field is required'" placeholder="Jane" label="First Name"
+                        :rules="(v) => !!v || 'This field is required'" placeholder="Jane" label="First Name" persistent-placeholder
                         color="green" base-color="purple" rounded tile="false" shaped></v-text-field>
                 </v-col>
                 <v-col cols="12" md="6">
-                    <v-text-field outlined required v-model="form.last_name"
+                    <v-text-field outlined required v-model="form.last_name" persistent-placeholder
                         :rules="(v) => !!v || 'This field is required'" placeholder="Thomas"
                         label="Last Name"></v-text-field>
                 </v-col>
                 <v-col cols="12" md="6">
-                    <v-text-field outlined required @input="emailerror = ''" :error-messages="emailerror"
-                        v-model="form.email" :rules="emailRules" placeholder="Email address"
+                    <v-text-field outlined required @input="emailerror = ''" :error-messages="emailerror" persistent-placeholder
+                        v-model="form.email" :rules="emailRules" placeholder="janedoe@gmail.com"
                         label="Email Address"></v-text-field>
                 </v-col>
                 <v-col cols="12" md="6">
-                    <v-text-field outlined required @input="phoneerror = ''" :error-messages="phoneerror"
-                        v-model="form.mobile" :rules="(v) => !!v || 'This field is required'" placeholder="Mobile"
+                    <v-text-field outlined required @input="phoneerror = ''" :error-messages="phoneerror" persistent-placeholder
+                        v-model="form.mobile" :rules="(v) => !!v || 'This field is required'" placeholder="08067556447"
                         label="Phone Number"></v-text-field>
                 </v-col>
                 <v-col cols="12" md="6">
                     <v-menu v-model="menu1" :close-on-content-click="false" max-width="290">
                         <template v-slot:activator="{ on }">
                             <v-text-field outlined required :rules="[(v) => !!v || 'Date of birth  is required']"
-                                :value="form.dob" clearable placeholder="Date of Birth" label="Date of Birth" readonly
-                                v-on="on"></v-text-field>
+                                :value="form.dob" clearable placeholder="1996-10-23" label="Date of Birth" readonly
+                                v-on="on" persistent-placeholder></v-text-field>
                         </template>
                         <v-date-picker light v-model="form.dob" @change="menu1 = false"></v-date-picker>
                     </v-menu>
@@ -40,30 +41,28 @@
                         { text: 'Male', value: 'male' },
                         { text: 'Female', value: 'female' },
                         { text: 'Others', value: 'others' },
-                    ]" v-model="form.sex" placeholder="Gender" label="Gender" required
+                    ]" v-model="form.sex" placeholder="Female" label="Gender" required persistent-placeholder
                         :rules="[(v) => !!v || 'This field is required']"></v-select>
                 </v-col>
                 <v-col cols="12" md="6">
-                    <v-text-field type="password" placeholder="Password" label="Password" outlined
-                        v-model="form.password" required :rules="passwordRules"></v-text-field>
+                    <v-text-field :type="showPass ? 'text' : 'password'" placeholder="Password" label="Password" outlined persistent-placeholder
+                        v-model="form.password" required :rules="passwordRules" :append-icon="showPass ? 'mdi-eye' : 'mdi-eye-off'" @click:append="showPass = !showPass"></v-text-field>
                 </v-col>
                 <v-col cols="12" md="6">
-                    <v-text-field outlined required v-model="form.password_confirmation" :rules="passwordConfirmRules"
-                        placeholder="Confirm Password" label="Confirm Password" type="password"></v-text-field>
+                    <v-text-field outlined required v-model="form.password_confirmation" :rules="passwordConfirmRules" persistent-placeholder
+                        placeholder="Confirm Password" label="Confirm Password" :type="showConfPass ? 'text' : 'password'" @click:append="showConfPass = !showConfPass" :append-icon="showConfPass ? 'mdi-eye' : 'mdi-eye-off'"></v-text-field>
                 </v-col>
             </v-row>
 
             <div class="text-center px-12 text-caption">
                 <v-btn :loading="loading" @click="$refs.register.validate() ? register() : null" large text
-                    class="primary mb-4 br-all-5">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;Sign Up&nbsp; &nbsp; &nbsp;
-                    &nbsp; &nbsp;</v-btn>
+                    class="primary mb-4 br-all-10" style="width: 250px !important">Sign Up</v-btn>
             </div>
 
             <div class="text-center px-4 text-caption">
-                By Clicking “Sign Up” you certify that you agree to Paxo
-                Beauty’s
-                <span class="font-weight-bold"><a href="/terms-condition">Terms and Conditions</a></span> and
-                <span class="font-weight-bold"><a href="/privacy-policy">Privacy Policy.</a></span>
+                By Clicking “Sign Up” you certify that you agree to Paxo Beauty’s <br />
+                <span class="font-weight-bold"><a href="/terms-condition" class="text-black">Terms and Conditions</a></span> and
+                <span class="font-weight-bold"><a href="/privacy-policy" class="text-black">Privacy Policy.</a></span>
             </div>
         </v-form>
         <div class="text-center py-4 text-caption" style="background-color: #14adac33">
@@ -72,13 +71,17 @@
                     In</span></a><br />
         </div>
     </v-card>
+    <span @click="closeAllPopUp()" class="cursor-pointer"><CloseIcon  class="ml-5" /></span>
+  </div>
 </template>
 <script>
 import mixpanel from "mixpanel-browser";
 import { mapGetters } from 'vuex'
+import CloseIcon from '../../../components/icons/close.vue'
 export default {
     transition: 'default',
     props: ["clickLogin", "closeAllPopUp"],
+    components: { CloseIcon },
     data() {
         return {
             menu1: false,
@@ -87,7 +90,7 @@ export default {
                 (v) => /.+@.+\..+/.test(v) || 'E-mail must be valid',
             ],
             passwordRules: [
-                (v) => !!v || 'Password number is required',
+                (v) => !!v || 'Password is required',
                 (v) => v.length >= 8 || 'Password must be at least eight characters',
             ],
             passwordConfirmRules: [
@@ -96,6 +99,8 @@ export default {
             ],
             loading: false,
             valid: true,
+            showPass: false,
+            showConfPass: false,
             emailerror: '',
             phoneerror: '',
             form: {

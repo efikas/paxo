@@ -1,91 +1,52 @@
 <template>
-  <v-card flat> 
-    <!-- <p>Log In Your Account</p> -->
-    <h3 class="text-center py-4" style="background-color: #14adac33">Log In</h3>
+  <div class="d-flex">
+  <v-card flat>
+    <h3 class="text-center py-4 font-weight-bold" style="background-color: #14adac33">Log In</h3>
     <v-form lazy-validation v-model="valid" ref="login" class="pa-8">
-      <v-text-field
-        v-model="form.email"
-        outlined
-        @keypress.native.enter="$refs.login.validate() ? login() : null"
-        required
-        :rules="emailRules"
-        placeholder="Phone or email"
-      ></v-text-field>
-      <v-text-field
-        type="password"
-        v-model="form.password"
-        @keypress.native.enter="$refs.login.validate() ? login() : null"
-        required
-        :rules="passwordRules"
-        placeholder="Please enter your password"
-        outlined
-      ></v-text-field>
-      <div class="d-flex justify-space-between">
-        <v-checkbox label="Remember me" class="my-0 text-caption"></v-checkbox>
-        <nuxt-link
-          to="/forgot-password"
-          class="text-caption my-1 text-decoration-none text-danger"
-          >Forgot Password?</nuxt-link
-        >
+      <v-text-field v-model="form.email" outlined @keypress.native.enter="$refs.login.validate() ? login() : null"
+        required :rules="emailRules" placeholder="Phone or email"></v-text-field>
+      <v-text-field :type="showPass ? 'text' : 'password'" :append-icon="showPass ? 'mdi-eye' : 'mdi-eye-off'" @click:append="showPass = !showPass" v-model="form.password"
+        @keypress.native.enter="$refs.login.validate() ? login() : null" required :rules="passwordRules"
+        placeholder="Please enter your password" outlined>
+      </v-text-field>
+        
+      <div class="d-flex justify-space-between py-0">
+        <v-checkbox>
+          <template v-slot:label>
+            <span class="my-0 text-caption">Remember me</span>
+          </template>
+        </v-checkbox>
+        <nuxt-link to="/forgot-password" class="text-caption mt-4 text-decoration-none" style="color: red">Forgot
+          Password?</nuxt-link>
       </div>
-      <div class="text-center px-12 text-caption">
-        <v-btn
-          block
-          :loading="loading"
-          @click="$refs.login.validate() ? login() : null"
-          large
-          text
-          class="primary mb-4 br-all-5"
-          >Login</v-btn
-        >
+      <div class="text-center px-12 text-caption mb-4">
+        <v-btn :loading="loading" @click="$refs.login.validate() ? login() : null" large text
+          class="primary br-all-10" style="width: 200px !important">Sign In</v-btn>
       </div>
       <div class="text-center px-2 text-caption">
-        By Clicking “Sign in” you certify that you agree to Paxo Beauty’s
-        <span class="font-weight-bold"><a href="/terms-condition">Terms and Conditions</a></span> and
-        <span class="font-weight-bold"><a href="/privacy-policy">Privacy Policy.</a></span>
+        By Clicking “Sign in” you certify that you agree to Paxo Beauty’s <br />
+        <span class="font-weight-bold"><a href="/terms-condition" class="text-decoration-none text-black">Terms and Conditions</a></span> and
+        <span class="font-weight-bold"><a href="/privacy-policy" class="text-decoration-none text-black">Privacy Policy.</a></span>
       </div>
-      <!-- <v-btn
-                  class="red mt-4"
-                  @click="loginWithGoogle()"
-                  dark
-                  text
-                  large
-                  block
-                  ><v-icon small>fab fa-google</v-icon>&nbsp;Login with
-                  Google</v-btn
-                >
-                <v-btn @click="loginWithFacebook()" class="mt-4 btn-fb" dark text large block
-                  ><v-icon small>fab fa-facebook-f</v-icon>&nbsp;Login with
-                  Facebook</v-btn
-                >
-                <v-btn class="btn-twitter mt-4" dark text large block
-                  ><v-icon small>fab fa-twitter</v-icon>&nbsp;Login with
-                  Twitter</v-btn
-                > -->
     </v-form>
-    <div
-      class="text-center py-4 text-caption"
-      style="background-color: #14adac33"
-    >
+    <div class="text-center py-4 text-caption" style="background-color: #14adac33">
       Don't have an account?
-      <a
-         @click="clickRegister"
-        ><span
-          class="font-weight-bold text-caption text-decoration-none"
-          style="color: black"
-          >Sign Up</span
-        ></a
-      ><br />
+      <a @click="clickRegister"><span class="font-weight-bold text-caption text-decoration-none"
+          style="color: black">Sign
+          Up</span></a><br />
     </div>
   </v-card>
+    <span @click="closeAllPopUp()" class="cursor-pointer"><CloseIcon  class="ml-5" /></span>
+  </div>
 </template>
 <script>
 import mixpanel from 'mixpanel-browser'
-
+import CloseIcon from '../../../components/icons/close.vue'
 export default {
   transition: 'default',
   middleware: 'isauth',
   props: ['clickRegister', "closeAllPopUp"],
+  components: { CloseIcon },
   data() {
     return {
       emailRules: [
@@ -96,6 +57,7 @@ export default {
         (v) => !!v || 'Password number is required',
         (v) => v.length >= 8 || 'Password must be at least eight characters',
       ],
+      showPass: false,
       loading: false,
       valid: true,
       form: { password: '' },
@@ -155,10 +117,20 @@ p {
     text-decoration: none;
   }
 }
+
 .btn-fb {
   background: #1877f2;
 }
+
 .btn-twitter {
   background: #1da1f2;
+}
+</style>
+<style lang="scss">
+.v-sheet.v-card {
+  border-radius: 10px;
+}
+.cursor-pointer {
+  cursor: pointer !important;
 }
 </style>

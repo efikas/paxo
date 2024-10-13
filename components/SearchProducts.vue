@@ -61,13 +61,15 @@
           hide-no-data item-text="name" 
           item-value="id" prepend-inner-icon="search" outlined dense
           @change="goToProduct(product.id)" class="pt-6"
-          :class="(productSearch ?? '').length == 0 ? 'template-subscribe' : ''" input-class="search-box"
-          :input-attrs="{ 'class': 'search-box' }" append-icon="" placeholder="Search for products" clearable
+          :class="(productSearch ?? '').length == 0 ? 'template-subscribe' : ''" 
+          input-class="search-box"
+          :input-attrs="{ 'class': 'search-box' }" append-icon="" 
+          placeholder="Search for products" clearable
           return-object>
           <!-- <template v-slot:append v-if="(productSearch ?? '').length == 0">
           <v-divider vertical thickness="6" class="my-2"></v-divider>
           <v-btn icon class="search-btn" :to="'search?str='+productSearch"
-          ><v-icon>mdi-filter-variant</v-icon></v-btn
+          ><v-icon>mdi-filter-variant</v-icon></v-btn 
         >
         </template> -->
           <!-- <template v-slot:selection="{ attr, on, item, selected }">
@@ -83,7 +85,7 @@
             </v-chip>
           </template> -->
           <template v-slot:item="{ item }">
-            <div style="width: 250px;" class="d-flex flex-row py-2 align-center" v-if="item.id != 0">
+            <div style="width: 250px;" class="d-flex flex-row py-2 align-center search-itemm" v-if="item.id != 0">
               <v-avatar rounded size="45"> <img :src="item.avatar" alt="" /></v-avatar>
                 <div class="ml-2 text-caption">{{item.name}}</div>
             </div>
@@ -275,5 +277,14 @@ export default {
   border: none;
   border: solid 1px #33333333 !important;
   border-radius: 40px !important;
+}
+.search-item {
+  &:hover{
+    background: #36bdb4;
+  }
+}
+
+.autocomplete {
+
 }
 </style>

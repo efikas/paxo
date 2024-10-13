@@ -178,7 +178,7 @@
       <!-- Discount bar -->
       <DiscountMenu />
       <!-- Search Menu -->
-      <SearchMenu :toggleMenu=toggleMenu />
+      <SearchMenu :toggleMenu="toggleMenu" />
 
       <!-- Divider -->
       <v-divider light class="black mt-12 hidden-sm-and-down"></v-divider>
@@ -859,6 +859,14 @@ export default {
   width: 20% !important;
   max-width: 20% !important;
   flex-basis: 20% !important;
+}
+
+.dropdown-toggle-150 {
+  font-size: 0.8rem !important;
+  width: 100px !important;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 </style>
 <style lang="scss">

@@ -23,39 +23,59 @@
           }}
         </h1>
         <v-divider color="#00C3B7"></v-divider>
-        <div class="d-flex mt-8" :class="{ 'flex-column': $vuetify.breakpoint.smAndDown, 'flex-row': $vuetify.breakpoint.mdAndUp }">
-          <div class="py-0 mt-2"> 
-            <h4 class="mb-8 mr-2" style="width: 120px;">
-                FILTER BY <v-icon>mdi-filter-variant</v-icon>
-              </h4>
+        <div class="d-flex mt-8"
+          :class="{ 'flex-column': $vuetify.breakpoint.smAndDown, 'flex-row pr-16': $vuetify.breakpoint.mdAndUp }">
+          <div class="py-0">
+            <h4 class="mb-0 mr-2" style="width: 120px;">
+              FILTER BY <v-icon>mdi-filter-variant</v-icon>
+            </h4>
           </div>
           <v-row>
-            <v-col md="2" sm="12" cols="12" class="py-0">
-            <v-select id="mySelect" :items="brands" label="Brands" item-text="name" item-value="id"
-              class="rounded-lg mr-3" v-model="brand" @change="getProducts()" rounded outlined shaped color="primary"
-              clearable></v-select>
-          </v-col>
-          <v-col md="2" sm="12" cols="12" class="py-0">
-            <v-select :items="categories" label="Category" item-text="name" item-value="id" v-model="category"
-              @change="getProducts()" class="rounded-lg mr-3" outlined clearable></v-select>
-          </v-col>
-          <v-col md="2" sm="12" cols="12" class="py-0">
-            <v-select :items="subCategories" label="Sub-category" item-text="name" item-value="id" v-model="subCategory"
-              @change="getProducts()" class="rounded-lg mr-3" outlined clearable></v-select>
-          </v-col>
-          <v-col md="2" sm="12" cols="12" class="py-0">
-            <v-select :items="priceRange" label="Price" v-model="selectedPrice" @change="getProducts()"
-              :item-text="(i) => `₦${i.start} to ₦${i.end}`" :item-value="(i) => i" class="rounded-lg mr-3" outlined
-              clearable></v-select>
-          </v-col>
-          <v-col md="2" sm="12" cols="12" class="py-0">
-            <v-select :items="avalabilities" v-model="availability" label="Availability" item-text="name"
-              item-value="id" @change="getProducts()" class="rounded-lg mr-3" outlined clearable></v-select>
-          </v-col>
-          <v-col md="2" sm="12" cols="12" class="py-0">
-            <v-select :items="[]" label="Sort By" item-text="name" @change="getProducts()" item-value="id"
-              class="rounded-lg mr-3" outlined clearable></v-select>
-          </v-col>
+            <v-col md="2" sm="12" cols="12" class="py-0 px-0">
+              <v-autocomplete id="mySelect" :items="brands" label="Brands" item-text="name" item-value="id"
+                class="rounded-lg mr-3" v-model="brand" @change="getProducts()" dense outlined clearable>
+                <template v-slot:selection="{ item }">
+                  <span class="dropdown-toggle-150">{{ item.name }}</span>
+                </template>
+              </v-autocomplete>
+            </v-col>
+            <v-col md="2" sm="12" cols="12" class="py-0 px-0">
+              <v-autocomplete :items="categories" label="Category" item-text="name" item-value="id" v-model="category"
+                @change="getProducts()" class="rounded-lg mr-3" outlined dense clearable>
+                <template v-slot:selection="{ item }">
+                  <span class="dropdown-toggle-150">{{ item.name }}</span>
+                </template>
+              </v-autocomplete>
+            </v-col>
+            <v-col md="2" sm="12" cols="12" class="py-0 px-0">
+              <v-autocomplete :items="subCategories" label="Sub-category" item-text="name" item-value="id"
+                v-model="subCategory" @change="getProducts()" class="rounded-lg mr-3" outlined dense clearable>
+                <template v-slot:selection="{ item }">
+                  <span class="dropdown-toggle-150">{{ item.name }}</span>
+                </template></v-autocomplete>
+            </v-col>
+            <v-col md="2" sm="12" cols="12" class="py-0 px-0">
+              <v-autocomplete :items="priceRange" label="Price" v-model="selectedPrice" @change="getProducts()"
+                :item-text="(i) => `₦${i.start} to ₦${i.end}`" :item-value="(i) => i" class="rounded-lg mr-3" outlined
+                dense clearable>
+                <template v-slot:selection="{ item }">
+                  <span class="dropdown-toggle-150">{{ `₦${item.start} to ₦${item.end}` }}</span>
+                </template></v-autocomplete>
+            </v-col>
+            <v-col md="2" sm="12" cols="12" class="py-0 px-0">
+              <v-autocomplete :items="avalabilities" v-model="availability" label="Availability" item-text="name"
+                item-value="id" @change="getProducts()" class="rounded-lg mr-3" outlined dense clearable>
+                <template v-slot:selection="{ item }">
+                  <span class="dropdown-toggle-150">{{ item.name }}</span>
+                </template></v-autocomplete>
+            </v-col>
+            <v-col md="2" sm="12" cols="12" class="py-0 px-0">
+              <v-autocomplete :items="sortBy" v-model="sortByValue" label="Sort By" item-text="name"
+                @change="getProducts()" item-value="id" class="rounded-lg mr-3" outlined dense clearable>
+                <template v-slot:selection="{ item }">
+                  <span class="dropdown-toggle-150">{{ item.name }}</span>
+                </template></v-autocomplete>
+            </v-col>
           </v-row>
         </div>
         <v-row class="mt-0">
@@ -155,6 +175,12 @@ export default {
         { start: '20000', end: '50000' },
         { start: '50000', end: '100000' },
       ],
+      sortBy: [
+        { id: 'relevance', name: 'Relevance' },
+        { id: 'lth', name: 'Lowest to Highest Price' },
+        { id: 'htl', name: 'Highest to Lowest Price' },
+      ],
+      sortByValue: '',
       real_products: [],
       loading: true,
     }
@@ -195,7 +221,23 @@ export default {
     previous() {
       this.toPage(this.page)
     },
-    async getProducts() {
+    sortItems(items) {
+      if (this.sortByValue == "lth") {
+        return items.sort(
+        (a, b) =>
+          a.price - b.price
+      );
+
+      }
+      if (this.sortByValue == "htl") {
+        return items.sort(
+        (a, b) =>
+          b.price - a.price
+      );
+      }
+      return items;
+    },
+    async getProducts_() {
       const data = {
         page: this.page,
         id: this.$route.query.sectionId,
@@ -216,6 +258,7 @@ export default {
               this.real_products = Object.values(response.data)
             }
           }
+          this.real_products = this.sortItems(this.real_products);
 
           this.pageinationLength = Math.ceil(
             this.real_products.length / this.perPage
@@ -254,6 +297,8 @@ export default {
             this.real_products = Object.values(response.data)
           }
         }
+
+        this.real_products = this.sortItems(this.real_products);
 
         this.pageinationLength = Math.ceil(
           this.real_products.length / this.perPage
